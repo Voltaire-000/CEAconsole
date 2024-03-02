@@ -1,0 +1,2161 @@
+[
+		{
+			"name(s)": [ "Ar" ],
+			"description": "V3C3  BICH ET AL (1990)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 200.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.61205763e+00, -0.67714354e+02, -0.19040660e+03, 0.21588272e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.69357334e+00, 0.70953943e+02, -0.28386007e+05, 0.14856447e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.76608935e+00, 0.67867215e+03, -0.84991417e+06, 0.77935167e+00 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 200.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.60968928e+00, -0.70892249e+02, 0.58420624e+03, 0.19337152e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.69075463e+00, 0.62676058e+02, -0.25667413e+05, 0.12664189e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 5000.0, 15000.0 ],
+					"thermal_conductivity_coefficients": [ 0.76269502e+00, 0.62341752e+03, -0.71899552e+06, 0.56927918e+00 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "BCL3" ],
+			"description": "V2C2  SVEHLA (1962)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.52572590e+00, -0.27803504e+03, 0.19159256e+05, 0.24373790e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.62929553e+00, -0.60723560e+02, -0.37711618e+05, 0.15615047e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.41518585e+00, -0.48149960e+03, 0.30788060e+05, 0.33168239e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.61148589e+00, -0.18167042e+03, -0.20976969e+05, 0.17127671e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "BF3" ],
+			"description": "V2C2  SVEHLA (1962,1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.58778079e+00, -0.96213686e+02, -0.37660007e+03, 0.21035273e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.64430285e+00, 0.73362845e+01, -0.23890605e+05, 0.16330508e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.39288181e+00, -0.53781426e+03, 0.39023491e+05, 0.42287006e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.60695214e+00, -0.19889031e+03, -0.23403767e+05, 0.24734586e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "Br2" ],
+			"description": "V2C2  SVEHLA (1962,1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.45241871e+00, -0.52542766e+03, 0.61354230e+05, 0.35322870e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.60111079e+00, -0.22499274e+03, -0.14517179e+05, 0.22805949e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.13579199e+00, -0.80137295e+03, 0.83046621e+05, 0.48052172e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.13602376e+00, -0.21904601e+04, 0.77769913e+06, 0.54980508e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "C" ],
+			"description": "V2C2  BIOLSI (1982)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.80124735e+00, 0.17261643e+03, -0.69940019e+05, 0.88364870e-01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.10344416e+01, 0.31310924e+04, -0.45512020e+07, -0.23102402e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.80224051e+00, 0.17739617e+03, -0.72350849e+05, 0.10329911e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 5000.0, 15000.0 ],
+					"thermal_conductivity_coefficients": [ 0.10355137e+01, 0.31489830e+04, -0.45854028e+07, -0.13676372e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "C", "O" ],
+			"description": "V1C0  CAPITELLI & FICOCELLI (1973)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 4000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.12635466e+01, 0.46866528e+04, -0.59789292e+07, -0.43066246e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "CCLF3" ],
+			"description": "V2C2  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.57775962e+00, -0.11595656e+03, 0.13894846e+04, 0.20719367e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.64278913e+00, 0.18533422e+01, -0.25000775e+05, 0.15313091e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.30701673e+00, -0.58621120e+03, 0.37562739e+05, 0.45977739e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.59447897e+00, -0.25405493e+03, 0.15214514e+05, 0.23022470e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "CCL2F2" ],
+			"description": "V2C2  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.55188576e+00, -0.18084616e+03, 0.74399094e+04, 0.22089157e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.63820813e+00, -0.16395245e+02, -0.31624406e+05, 0.14872353e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.37505967e+00, -0.45975338e+03, 0.13246268e+05, 0.38355232e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.59226968e+00, -0.25988712e+03, 0.21916978e+05, 0.21265525e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "CCL3F" ],
+			"description": "V2C2  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.52599241e+00, -0.27466441e+03, 0.18699061e+05, 0.23965367e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.62963969e+00, -0.58775545e+02, -0.37421689e+05, 0.15207986e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.25082525e+00, -0.69236016e+03, 0.58465610e+05, 0.46480202e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.58847038e+00, -0.29613903e+03, 0.29176214e+05, 0.19487185e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "CCL4" ],
+			"description": "V2C2  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.52914726e+00, -0.26173707e+03, 0.16983586e+05, 0.22508228e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.63117223e+00, -0.50873987e+02, -0.37435436e+05, 0.13896152e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.39796301e+00, -0.45970713e+03, 0.25887539e+05, 0.32182809e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.60345477e+00, -0.22665258e+03, 0.12105253e+05, 0.15795218e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "CF4" ],
+			"description": "V2C2  BOUSHEHRI ET AL (1987)  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.62364242e+00, -0.15734540e+02, -0.11268526e+05, 0.17826560e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.52895824e+00, -0.34441290e+03, 0.10572786e+06, 0.26483931e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.29102001e+00, -0.62544847e+03, 0.40137545e+05, 0.50559989e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.46958735e+00, -0.71864138e+03, 0.17601542e+06, 0.37798145e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "CHCLF2" ],
+			"description": "V2C2  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.55518512e+00, -0.19151112e+03, 0.92302454e+04, 0.22465942e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.63832814e+00, -0.18642363e+02, -0.35632589e+05, 0.15442566e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.57111784e+00, -0.40344356e+03, 0.76841854e+04, 0.26855196e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.57237181e+00, -0.42144805e+03, 0.17313314e+05, 0.26852328e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "CHCL2F" ],
+			"description": "V2C2  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.54261029e+00, -0.23693132e+03, 0.14722387e+05, 0.22950603e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.63322050e+00, -0.43091499e+02, -0.36892355e+05, 0.15269221e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.64554399e+00, -0.29614334e+03, -0.34305973e+04, 0.18524599e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.58133799e+00, -0.38461009e+03, 0.86999769e+04, 0.23723154e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "CHCL3" ],
+			"description": "V2C2  SVEHLA (1962,1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.52563815e+00, -0.28025371e+03, 0.19479241e+05, 0.23475804e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.62913497e+00, -0.61794789e+02, -0.38001753e+05, 0.14716717e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.43704658e+00, -0.53648192e+03, 0.29187663e+05, 0.32672103e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.55383193e+00, -0.51059645e+03, 0.74636570e+05, 0.23891512e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "CHF3" ],
+			"description": "V2C2  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.58092199e+00, -0.11862927e+03, 0.25039931e+04, 0.20948315e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.64363521e+00, -0.70920001e+00, -0.25099472e+05, 0.15713073e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.73882642e+00, -0.17058713e+03, -0.32698111e+05, 0.16126977e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.58787951e+00, -0.35203256e+03, -0.17448254e+05, 0.28215977e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "CH2CL2" ],
+			"description": "V2C2  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.57185884e+00, -0.34599168e+03, 0.32975791e+05, 0.21786059e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.60922943e+00, -0.18784625e+03, -0.27411214e+05, 0.18227006e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.25979341e+00, -0.10510041e+04, 0.11078850e+06, 0.51956543e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.48080771e+00, -0.95120530e+03, 0.17139452e+06, 0.35085367e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "CH3CL" ],
+			"description": "V2C2  MONCHICK & MASON (1961)  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.58181268e+00, -0.30714376e+03, 0.27516618e+05, 0.20941516e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.61479454e+00, -0.16327574e+03, -0.27926072e+05, 0.17778956e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.43048390e+00, -0.96586387e+03, 0.91616260e+05, 0.44424192e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.44418462e+00, -0.11573896e+04, 0.19422838e+06, 0.44366915e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "CH4" ],
+			"description": "V2C2  BOUSHEHRI ET AL (1987)  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 200.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.57643622e+00, -0.93704079e+02, 0.86992395e+03, 0.17333347e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.66400044e+00, 0.10860843e+02, -0.76307841e+04, 0.10323984e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 200.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.10238177e+01, -0.31092375e+03, 0.32944309e+05, 0.67787437e+00 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.77485028e+00, -0.40089627e+03, -0.46551082e+05, 0.25671481e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "CH4", "O2" ],
+			"description": "V2C0  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.68971658e+00, -0.82884483e+00, -0.47557575e+04, 0.11497470e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.69426262e+00, -0.17685146e+02, 0.59452784e+04, 0.11244994e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "CH3OH" ],
+			"description": "V2C2  MONCHICK & MASON (1961)  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.58408390e+00, -0.30677174e+03, 0.27569892e+05, 0.19794348e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.61454903e+00, -0.16540203e+03, -0.27881995e+05, 0.16830713e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.33374512e+00, -0.11617154e+04, 0.10894211e+06, 0.57684124e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.42733576e+00, -0.12682528e+04, 0.20900463e+06, 0.51283860e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "CO" ],
+			"description": "V3C3  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 200.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.62526577e+00, -0.31779652e+02, -0.16407983e+04, 0.17454992e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.87395209e+00, 0.56152222e+03, -0.17394809e+06, -0.39335958e+00 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.88503551e+00, 0.90902171e+03, -0.73129061e+06, -0.53503838e+00 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 200.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.85439436e+00, 0.10573224e+03, -0.12347848e+05, 0.47793128e+00 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.88407146e+00, 0.13357293e+03, -0.11429640e+05, 0.24417019e+00 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 5000.0, 15000.0 ],
+					"thermal_conductivity_coefficients": [ 0.24175411e+01, 0.80462671e+04, 0.31090740e+07, -0.14516932e+02 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "CO", "CO2" ],
+			"description": "V3C0  SVEHLA (1995)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.68926185e+00, -0.13796096e+01, -0.46847568e+04, 0.13060681e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.69417954e+00, -0.18021840e+02, 0.60950694e+04, 0.12779603e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 10000.0 ],
+					"viscosity_coefficients": [ 0.61979004e+00, -0.79830067e+03, 0.11130858e+07, 0.20233248e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "CO", "N2" ],
+			"description": "V3C0  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 200.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.62526577e+00, -0.31779652e+02, -0.16407983e+04, 0.17454992e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.87395209e+00, 0.56152222e+03, -0.17394809e+06, -0.39335958e+00 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.88503551e+00, 0.90902171e+03, -0.73129061e+06, -0.53503838e+00 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "CO", "O2" ],
+			"description": "V3C0  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.70122551e+00, 0.51717887e+01, -0.14240838e+04, 0.12895991e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.66744478e+00, -0.86348036e+02, 0.27445341e+05, 0.15855986e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.21151565e+00, -0.91881544e+04, 0.18253525e+08, 0.65600002e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "COS" ],
+			"description": "V2C2  SVEHLA (1962)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.52573161e+00, -0.27668290e+03, 0.18982511e+05, 0.25359860e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.62947137e+00, -0.59744762e+02, -0.37616630e+05, 0.16590382e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.56172985e+00, -0.42167958e+03, 0.28198920e+05, 0.26921796e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.65503267e+00, -0.17103349e+03, -0.50472397e+05, 0.18756918e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "CO2" ],
+			"description": "V3C3  BOUSHEHRI ET AL (1987)  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 200.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.51137258e+00, -0.22951321e+03, 0.13710678e+05, 0.27075538e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.63978285e+00, -0.42637076e+02, -0.15522605e+05, 0.16628843e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 10000.0 ],
+					"viscosity_coefficients": [ 0.72150912e+00, 0.75012895e+03, -0.11825507e+07, 0.85493645e+00 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 200.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.48056568e+00, -0.50786720e+03, 0.35088811e+05, 0.36747794e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.69857277e+00, -0.11830477e+03, -0.50688859e+05, 0.18650551e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 5000.0, 10000.0 ],
+					"thermal_conductivity_coefficients": [ 0.10518358e+01, -0.42555944e+04, 0.14288688e+08, -0.88950473e+00 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "CO2", "H2" ],
+			"description": "V3C0  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.66101867e+00, -0.40651732e+02, -0.42877325e+04, 0.74444661e+00 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.70351908e+00, 0.19946369e+02, -0.13336698e+05, 0.39931502e+00 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 10000.0 ],
+					"viscosity_coefficients": [ 0.66401272e+00, -0.33671205e+03, 0.41670634e+06, 0.78993145e+00 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "CO2", "H2O" ],
+			"description": "V3C0  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.56499100e+00, -0.32219550e+03, 0.26301733e+05, 0.26351165e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.68455483e+00, -0.33114757e+02, -0.58456473e+05, 0.16048763e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 10000.0 ],
+					"viscosity_coefficients": [ 0.70748069e+00, 0.11586070e+03, -0.22772841e+06, 0.13865863e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "CO2", "N2" ],
+			"description": "V3C0  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.68926185e+00, -0.13796096e+01, -0.46847568e+04, 0.13060681e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.69417954e+00, -0.18021840e+02, 0.60950694e+04, 0.12779603e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 10000.0 ],
+					"viscosity_coefficients": [ 0.61979004e+00, -0.79830067e+03, 0.11130858e+07, 0.20233248e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "CO2", "O2" ],
+			"description": "V3C0  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.55753165e+00, -0.17140020e+03, 0.72594450e+04, 0.24603725e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.66011947e+00, 0.25362441e+02, -0.39828007e+05, 0.16020458e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 10000.0 ],
+					"viscosity_coefficients": [ 0.66564107e+00, 0.13062608e+03, -0.27519463e+06, 0.15433736e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "CS2" ],
+			"description": "V2C2  SVEHLA (1962)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.54573740e+00, -0.36042852e+03, 0.33177885e+05, 0.23235206e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.61427787e+00, -0.15337427e+03, -0.36078656e+05, 0.17122621e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.52603181e+00, -0.50780062e+03, 0.41502601e+05, 0.26684257e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.66331137e+00, -0.15058989e+03, -0.68462565e+05, 0.14728865e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "C2H2,acetylene" ],
+			"description": "V2C2  SVEHLA (1962,1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.56299896e+00, -0.15304865e+03, 0.46019734e+04, 0.18854528e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.64038318e+00, -0.72360229e+01, -0.29612277e+05, 0.12393032e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.84030505e+00, -0.10051610e+03, -0.26171483e+05, 0.11926036e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.62672572e+00, -0.58147342e+03, 0.10751724e+06, 0.30152260e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "C2H4" ],
+			"description": "V2C2  BOUSHEHRI ET AL (1987)  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 200.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.59136053e+00, -0.14088938e+03, 0.30012800e+04, 0.17018932e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.66000894e+00, 0.39114999e+02, -0.52676489e+05, 0.11033601e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 200.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.24736650e+00, -0.10589987e+04, 0.89911568e+05, 0.64456092e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.51616035e+00, -0.92486351e+03, 0.15723887e+06, 0.43873845e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "C2H6" ],
+			"description": "V2C2  BOUSHEHRI ET AL (1987)  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 200.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.59089348e+00, -0.13994405e+03, 0.29868374e+04, 0.15988866e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.66061323e+00, 0.41062220e+02, -0.52656212e+05, 0.99191640e+00 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 200.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.70867490e+00, -0.63016563e+03, 0.50951026e+05, 0.29508724e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.57947247e+00, -0.64990228e+03, -0.37806714e+04, 0.39178395e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "C2H5OH" ],
+			"description": "V2C2  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.54586031e+00, -0.31382676e+03, 0.26089200e+05, 0.21078504e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.61957901e+00, -0.11935847e+03, -0.34285357e+05, 0.14645259e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.22185435e+00, -0.12251941e+04, 0.11716632e+06, 0.65571580e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.42915840e+00, -0.12128199e+04, 0.21462928e+06, 0.50153152e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "C2N2" ],
+			"description": "V2C2  SVEHLA (1962)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.52471007e+00, -0.28839713e+03, 0.20625913e+05, 0.23625791e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.62832879e+00, -0.66440897e+02, -0.38542772e+05, 0.14840188e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.76361743e+00, -0.24078764e+03, 0.11152243e+05, 0.13726624e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.66495585e+00, -0.19733792e+03, -0.59902201e+05, 0.20817971e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "CL2" ],
+			"description": "V2C2  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.53516134e+00, -0.23624735e+03, 0.13738454e+05, 0.24970463e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.63348430e+00, -0.38786240e+02, -0.35830615e+05, 0.16699633e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.34156262e+00, -0.46059166e+03, 0.34712872e+05, 0.37412367e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.87392526e+00, 0.19876120e+03, -0.28784264e+05, -0.53204988e+00 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "D2" ],
+			"description": "V2C2  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 200.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.74566381e+00, 0.43611949e+02, -0.32396252e+04, 0.48064872e+00 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.96835229e+00, 0.68241861e+03, -0.21129775e+06, -0.14883773e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 200.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.11180891e+01, 0.29771761e+03, -0.23323095e+05, 0.94208300e-01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.10670411e+01, 0.49811245e+03, -0.14904299e+06, 0.37216028e+00 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "D2O" ],
+			"description": "V2C2  MATSUNAGA & NAGASHIMA(1983) SVEHLA(1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.51773336e+00, -0.66413680e+03, 0.82973607e+05, 0.29575078e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.58703537e+00, -0.55101540e+03, 0.61063786e+05, 0.23875750e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.74656939e+00, -0.10592831e+04, 0.17838377e+06, 0.26602773e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.50642285e+00, -0.16925317e+04, 0.37493403e+06, 0.47558493e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "e-" ],
+			"description": "V1C1  MASON ET AL (1967)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 2000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.59319174e+01, 0.56594215e+04, -0.22576125e+07, -0.53458874e+02 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 2000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.59320964e+01, 0.56601476e+04, -0.22577332e+07, -0.42512600e+02 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "e-", "H" ],
+			"description": "V2C0  CAPITELLI ET AL (1976)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 2000.0, 8000.0 ],
+					"viscosity_coefficients": [ 0.12996657e+01, 0.29049200e+04, -0.19315880e+07, -0.96081497e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 8000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.13439163e+01, 0.62981265e+04, -0.14088393e+08, -0.10240040e+02 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "e-", "H2" ],
+			"description": "V2C0  CAPITELLI ET AL (1976)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 1000.0, 8000.0 ],
+					"viscosity_coefficients": [ 0.13682927e+01, 0.70665102e+04, -0.56748561e+07, -0.10480386e+02 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 8000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.20875514e+01, 0.27345700e+05, -0.63775336e+08, -0.18571585e+02 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "e-", "N" ],
+			"description": "V2C0  CAPITELLI & DEVOTO (1973)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 5000.0, 10000.0 ],
+					"viscosity_coefficients": [ 0.14373966e+01, 0.18230345e+05, -0.27492090e+08, -0.96279246e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 10000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.22566004e+01, 0.48916050e+05, -0.13996043e+09, -0.19116958e+02 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "e-", "NO" ],
+			"description": "V2C0  GUPTA ET AL (1990)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 2000.0, 6000.0 ],
+					"viscosity_coefficients": [ 0.61252493e+00, 0.46768585e+04, -0.30292080e+07, -0.30467956e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 6000.0, 15000.0 ],
+					"viscosity_coefficients": [ -0.31058569e+01, -0.69841116e+05, 0.15359384e+09, 0.37370344e+02 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "e-", "N2" ],
+			"description": "V2C0  CAPITELLI & DEVOTO (1973)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 5000.0, 10000.0 ],
+					"viscosity_coefficients": [ 0.22167522e+01, 0.22078280e+05, -0.26142843e+08, -0.18975334e+02 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 10000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.14276153e+01, 0.81306835e+04, 0.41382925e+07, -0.10615166e+02 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "e-", "O" ],
+			"description": "V2C0  GUPTA ET AL (1990)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 2000.0, 6000.0 ],
+					"viscosity_coefficients": [ -0.36876460e+00, -0.19261587e+04, 0.72235159e+06, 0.82699294e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 6000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.12858415e+00, 0.88173340e+04, -0.22555849e+08, 0.27992711e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "e-", "O2" ],
+			"description": "V2C0  GUPTA ET AL (1990)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 2000.0, 6000.0 ],
+					"viscosity_coefficients": [ -0.12686144e+01, -0.64961158e+04, 0.37615998e+07, 0.15676996e+02 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 6000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.44642126e+01, 0.65553833e+05, -0.10919736e+09, -0.43066392e+02 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "F2" ],
+			"description": "V2C2  SVEHLA (1962,1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 200.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.61198519e+00, -0.39647960e+02, -0.17294474e+04, 0.21237710e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.64406091e+00, -0.58273377e+00, -0.52243255e+04, 0.18666294e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 200.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.46767823e+00, -0.26624115e+03, 0.18169657e+05, 0.36165585e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ -0.19981248e+00, -0.25129092e+04, 0.80775379e+06, 0.96845049e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "H" ],
+			"description": "V2C2  VANDERSLICE ET AL (1962)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.74226149e+00, -0.40132865e+03, 0.18554165e+06, 0.46741844e-01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.87486623e+00, -0.25022902e+04, 0.70955048e+07, -0.93888455e+00 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.74166119e+00, -0.40487203e+03, 0.18775642e+06, 0.34843121e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 5000.0, 15000.0 ],
+					"thermal_conductivity_coefficients": [ 0.87447639e+00, -0.25089452e+04, 0.71081294e+07, 0.24970991e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "H", "H+" ],
+			"description": "V2C0  CAPITELLI ET AL (1976)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 2000.0, 8000.0 ],
+					"viscosity_coefficients": [ 0.65497943e+00, 0.43620326e+03, -0.20032290e+06, -0.15933989e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 8000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.35775595e+00, -0.56298406e+04, 0.14552701e+08, 0.16055465e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "H", "H2" ],
+			"description": "V2C0  TANG & WEI (1974)  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.91735768e+00, 0.22052887e+03, -0.57464994e+05, -0.93741490e+00 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.94056210e+00, -0.17266834e+02, 0.82707957e+06, -0.11228741e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "H", "Li" ],
+			"description": "V2C0  KRUPENIE ET AL (1963)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.88870800e+00, 0.25460216e+03, -0.71635951e+05, -0.24355021e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 10000.0 ],
+					"viscosity_coefficients": [ 0.96451195e+00, 0.78151762e+03, -0.44137515e+06, -0.31717326e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "H", "N" ],
+			"description": "V2C0  STALLCOP ET AL (1992b)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 1000.0, 6000.0 ],
+					"viscosity_coefficients": [ 0.75455738e+00, -0.15697085e+03, 0.97258456e+05, -0.48331565e-01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 6000.0, 16000.0 ],
+					"viscosity_coefficients": [ 0.15653364e+01, 0.87404680e+04, -0.12001036e+08, -0.82485581e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "H", "N2" ],
+			"description": "V2C0  STALLCOP ET AL (1992a)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 600.0, 3000.0 ],
+					"viscosity_coefficients": [ 0.10228384e+01, 0.53349114e+03, -0.11365313e+06, -0.23880331e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 3000.0, 10000.0 ],
+					"viscosity_coefficients": [ 0.13275932e+01, 0.14701554e+04, -0.14725296e+06, -0.51365002e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "H", "O" ],
+			"description": "V2C0  KRUPENIE ET AL (1963)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.85479480e+00, 0.18680077e+03, -0.46790687e+05, -0.11272657e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 10000.0 ],
+					"viscosity_coefficients": [ 0.88515794e+00, 0.64127280e+02, 0.63943230e+06, -0.13887887e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "HBr" ],
+			"description": "V2C2  ZELEZNIK & SVEHLA (1970)  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.54286515e+00, -0.32909036e+03, 0.28143861e+05, 0.29266732e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.61904039e+00, -0.12370443e+03, -0.36461217e+05, 0.22596924e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.91269760e+00, -0.15456150e+03, 0.21177636e+05, -0.43914664e+00 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.63722827e+00, -0.35434488e+03, -0.16663585e+05, 0.17013527e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "HCN" ],
+			"description": "V2C2  ZELEZNIK & SVEHLA (1970)  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.94863717e+00, -0.14891490e+03, 0.15258721e+05, -0.72592817e+00 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.57370725e+00, -0.85239973e+03, 0.17953641e+06, 0.24032031e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.11749061e+01, -0.19100307e+03, 0.15714065e+05, -0.13488014e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.50543688e+00, -0.13891056e+04, 0.28003144e+06, 0.42095130e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "HCL" ],
+			"description": "V2C2  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.54302009e+00, -0.27882979e+03, 0.20927618e+05, 0.25895500e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.62673906e+00, -0.81516979e+02, -0.35869154e+05, 0.18707238e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.90670645e+00, -0.13561693e+03, 0.18563886e+05, 0.60312859e-01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.62521138e+00, -0.43742347e+03, 0.28720932e+05, 0.22964614e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "HF" ],
+			"description": "V2C2  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.81674828e+00, -0.23635428e+03, 0.22759084e+05, 0.70625888e+00 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.58742532e+00, -0.55543347e+03, 0.67637899e+05, 0.25645661e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.12590294e+01, 0.11896441e+01, -0.47558763e+03, -0.19367617e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.51518587e+00, -0.14932469e+04, 0.37482086e+06, 0.43206676e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "HF", "H6F6" ],
+			"description": "V2C0  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.52633473e+00, -0.32896634e+03, 0.26842682e+05, 0.22132195e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.62213454e+00, -0.10239431e+03, -0.38543254e+05, 0.13902717e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "HI" ],
+			"description": "V2C2  SVEHLA (1962)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.53718504e+00, -0.22504609e+03, 0.12416876e+05, 0.27888146e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.63448421e+00, -0.33714923e+02, -0.34599137e+05, 0.19723806e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.83653272e+00, -0.10434645e+03, 0.90075923e+04, -0.38982280e+00 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.65866010e+00, -0.18846822e+03, -0.37866478e+05, 0.96987360e+00 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "H2" ],
+			"description": "V3C3  ASSAEL ET AL (1986)  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 200.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.74553182e+00, 0.43555109e+02, -0.32579340e+04, 0.13556243e+00 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.96730605e+00, 0.67931897e+03, -0.21025179e+06, -0.18251697e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.10126129e+01, 0.14973739e+04, -0.14428484e+07, -0.23254928e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 200.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.10059461e+01, 0.27951262e+03, -0.29792018e+05, 0.11996252e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.10582450e+01, 0.24875372e+03, 0.11736907e+05, 0.82758695e+00 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 5000.0, 15000.0 ],
+					"thermal_conductivity_coefficients": [ -0.22364420e+00, -0.69650442e+04, -0.77771313e+05, 0.13189369e+02 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "H2", "H2O" ],
+			"description": "V3C0  SVEHLA (1964)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.60085490e+00, -0.67691161e+02, -0.21319326e+04, 0.14199776e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.64550551e+00, 0.10165601e+02, -0.18735061e+05, 0.10502885e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 10000.0 ],
+					"viscosity_coefficients": [ 0.66153255e+00, 0.22389456e+03, -0.37073622e+06, 0.88511419e+00 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "H2", "N2" ],
+			"description": "V3C0  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.66038264e+00, 0.35574798e+01, -0.95778014e+03, 0.70536614e+00 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.62938039e+00, -0.69072207e+02, 0.19855881e+05, 0.97133819e+00 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 8000.0 ],
+					"viscosity_coefficients": [ -0.77818660e-01, -0.82764842e+04, 0.11699769e+08, 0.81689807e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "H2", "O2" ],
+			"description": "V3C0  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.69018087e+00, -0.23876092e+00, -0.48432502e+04, 0.66856355e+00 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.69427291e+00, -0.17583177e+02, 0.58748504e+04, 0.64692305e+00 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 10000.0 ],
+					"viscosity_coefficients": [ 0.62089983e+00, -0.78264233e+03, 0.10864044e+07, 0.13816401e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "H2O" ],
+			"description": "V3C3  SENGERS & WATSON (1986)  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 373.2, 1073.2 ],
+					"viscosity_coefficients": [ 0.50019557e+00, -0.69712796e+03, 0.88163892e+05, 0.30836508e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1073.2, 5000.0 ],
+					"viscosity_coefficients": [ 0.58988538e+00, -0.53769814e+03, 0.54263513e+05, 0.23386375e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.64330087e+00, -0.95668913e+02, -0.37742283e+06, 0.18125190e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 373.2, 1073.2 ],
+					"thermal_conductivity_coefficients": [ 0.10966389e+01, -0.55513429e+03, 0.10623408e+06, -0.24664550e+00 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1073.2, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.39367933e+00, -0.22524226e+04, 0.61217458e+06, 0.58011317e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 5000.0, 15000.0 ],
+					"thermal_conductivity_coefficients": [ -0.41858737e+00, -0.14096649e+05, 0.19179190e+08, 0.14345613e+02 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "H2O", "N2" ],
+			"description": "V3C0  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.57304553e+00, -0.14853813e+03, 0.39029324e+04, 0.23462780e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.64243064e+00, 0.25018380e+01, -0.36924430e+05, 0.17567700e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 10000.0 ],
+					"viscosity_coefficients": [ 0.64420052e+00, 0.10592615e+01, -0.34300588e+05, 0.17418827e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "H2O", "O2" ],
+			"description": "V3C0  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.64727375e+00, -0.42110733e+01, -0.45255490e+04, 0.16510807e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.65299406e+00, -0.17723412e+02, 0.50906530e+04, 0.16154623e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 10000.0 ],
+					"viscosity_coefficients": [ 0.60614671e+00, -0.45218012e+03, 0.56149352e+06, 0.20791053e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "H2S" ],
+			"description": "V2C2  ZELEZNIK & SVEHLA (1970)  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.54078516e+00, -0.30304377e+03, 0.24073168e+05, 0.24952022e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.62320319e+00, -0.98355396e+02, -0.37061803e+05, 0.17823252e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.99442135e+00, -0.19849376e+03, 0.18380943e+05, -0.19947763e+00 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.60597875e+00, -0.56357581e+03, 0.67027311e+04, 0.28605490e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "H6F6" ],
+			"description": "V2C2  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.59712969e+00, -0.36775006e+03, 0.38256100e+05, 0.15811495e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.60263706e+00, -0.23619918e+03, -0.24765049e+05, 0.14745761e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.82019209e+00, -0.29783007e+03, 0.17372752e+05, 0.94706680e+00 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.53249125e+00, -0.75921725e+03, 0.10421649e+06, 0.33089772e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "He" ],
+			"description": "V3C3  BICH ET AL (1990)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 200.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.75015944e+00, 0.35763243e+02, -0.22121291e+04, 0.92126352e+00 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.83394166e+00, 0.22082656e+03, -0.52852591e+05, 0.20809361e+00 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.86316349e+00, 0.96205176e+03, -0.12498705e+07, -0.14115714e+00 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 200.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.75007833e+00, 0.36577987e+02, -0.23636600e+04, 0.29766475e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.83319259e+00, 0.22157417e+03, -0.53304530e+05, 0.22684592e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 5000.0, 15000.0 ],
+					"thermal_conductivity_coefficients": [ 0.85920953e+00, 0.89873206e+03, -0.11069262e+07, 0.19535742e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "He", "N2" ],
+			"description": "V3C0  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.70332377e+00, 0.77412205e+01, -0.17715400e+04, 0.11440787e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.66785742e+00, -0.84659628e+02, 0.26695708e+05, 0.14530051e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.16804077e+01, 0.15615203e+05, -0.28112833e+08, -0.91877596e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "I2" ],
+			"description": "V2C2  SVEHLA (1962)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.54929498e+00, -0.36186119e+03, 0.33655931e+05, 0.26154108e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.61338027e+00, -0.15938416e+03, -0.35539572e+05, 0.20394438e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.29817264e+00, -0.62470054e+03, 0.63289228e+05, 0.30234067e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ -0.15544742e+00, -0.28843448e+04, 0.96629457e+06, 0.75135419e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "Kr" ],
+			"description": "V3C3  BICH ET AL (1990)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 200.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.58597795e+00, -0.12924832e+03, 0.47495759e+04, 0.25793650e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.68985845e+00, 0.56296306e+02, -0.36082600e+05, 0.17170715e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.76582939e+00, 0.68610377e+03, -0.82537190e+06, 0.97565128e+00 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 200.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.58008139e+00, -0.13792556e+03, 0.60771460e+04, 0.16420039e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.68859431e+00, 0.51765647e+02, -0.34512131e+05, 0.74332130e+00 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 5000.0, 15000.0 ],
+					"thermal_conductivity_coefficients": [ 0.76365443e+00, 0.65175847e+03, -0.73589800e+06, 0.12112126e-01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "Li" ],
+			"description": "V2C2  HOLLAND ET AL (1986)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 1000.0, 3000.0 ],
+					"viscosity_coefficients": [ 0.11808900e+01, 0.10427008e+04, -0.42642819e+06, -0.40060038e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 3000.0, 10000.0 ],
+					"viscosity_coefficients": [ 0.13061758e+01, 0.10446775e+04, 0.13439272e+06, -0.50720601e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 3000.0 ],
+					"thermal_conductivity_coefficients": [ 0.11802957e+01, 0.10408710e+04, -0.42655445e+06, -0.24982084e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 3000.0, 10000.0 ],
+					"thermal_conductivity_coefficients": [ 0.13086032e+01, 0.10695497e+04, 0.10781083e+06, -0.35944181e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "N" ],
+			"description": "V2C2  LEVIN ET AL (1990)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.83724737e+00, 0.43997150e+03, -0.17450753e+06, 0.10365689e+00 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.89986588e+00, 0.14112801e+04, -0.18200478e+07, -0.55811716e+00 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.83771661e+00, 0.44243270e+03, -0.17578446e+06, 0.89942915e+00 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 5000.0, 15000.0 ],
+					"thermal_conductivity_coefficients": [ 0.90001710e+00, 0.14141175e+04, -0.18262403e+07, 0.24048513e+00 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "N", "N+" ],
+			"description": "V2C0  STALLCOP ET AL (1991)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.81904143e+00, -0.59239089e+02, 0.21722555e+05, -0.14759287e+00 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.14065434e+01, 0.52447258e+04, -0.58944155e+07, -0.59756079e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "N", "NO" ],
+			"description": "V2C0  CUBLEY & MASON (1975)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.79891098e+00, 0.16929386e+03, -0.49068896e+05, 0.47986716e+00 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.85695322e+00, 0.70223546e+03, -0.65589491e+06, -0.96805084e-01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "N", "N2" ],
+			"description": "V2C0  CUBLEY & MASON (1975)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.84730498e+00, 0.22158858e+03, -0.65003723e+05, 0.51991532e-01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.92821273e+00, 0.97122155e+03, -0.92773923e+06, -0.75253261e+00 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "N", "O" ],
+			"description": "V2C0  LEVIN ET AL (1990)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.70857405e+00, -0.14025530e+03, 0.76739975e+05, 0.13001914e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.98622236e+00, 0.23653200e+04, -0.27165945e+07, -0.14539746e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "N", "O+" ],
+			"description": "V2C0  PARTRIDGE ET AL (1991)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.71806621e+00, -0.22692123e+03, 0.63051343e+03, 0.88739853e+00 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.12913413e+01, 0.49522731e+04, -0.57814165e+07, -0.47998532e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "N", "O2" ],
+			"description": "V2C0  CUBLEY & MASON (1975)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.76538325e+00, 0.13624746e+03, -0.39083438e+05, 0.80110069e+00 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.81011289e+00, 0.54373468e+03, -0.49868094e+06, 0.35701613e+00 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "N+", "O" ],
+			"description": "V2C0  PARTRIDGE ET AL (1991)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.11462863e+01, 0.12410378e+04, -0.56794094e+06, -0.29071183e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.10155522e+01, -0.32731184e+03, 0.17187573e+07, -0.15714289e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "NH3" ],
+			"description": "V2C2  ZELEZNIK & SVEHLA (1970)  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 200.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.56652403e+00, -0.36718083e+03, 0.31663844e+05, 0.22647443e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.59761003e+00, -0.28027339e+03, 0.37532457e+04, 0.19910129e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 200.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.17498387e+01, 0.29195254e+03, -0.33033738e+05, -0.50944985e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.64477673e+00, -0.91294723e+03, 0.16890182e+05, 0.36939751e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "NO" ],
+			"description": "V3C3  BOUSHEHRI ET AL (1987)  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 200.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.60262029e+00, -0.62017783e+02, -0.13954524e+03, 0.20268332e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.78009050e+00, 0.30486891e+03, -0.94847722e+05, 0.52873381e+00 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.80580582e+00, 0.62427878e+03, -0.57879210e+06, 0.26516450e+00 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 200.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.95028758e+00, 0.76667058e+02, -0.99894764e+04, -0.62776717e-02 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.86215238e+00, 0.44568223e+03, -0.23856466e+06, 0.46209876e+00 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 5000.0, 15000.0 ],
+					"thermal_conductivity_coefficients": [ -0.10377865e+01, -0.34486864e+05, 0.67451187e+08, 0.20928749e+02 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "NO", "O" ],
+			"description": "V2C0  CUBLEY & MASON (1975)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.75990752e+00, 0.13133851e+03, -0.37679635e+05, 0.87807540e+00 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.80259080e+00, 0.51991196e+03, -0.47557226e+06, 0.45433467e+00 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "NOCL" ],
+			"description": "V2C2  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.60503640e+00, -0.30599542e+03, 0.28616290e+05, 0.20637208e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.60958727e+00, -0.19972327e+03, -0.22243863e+05, 0.19768724e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.52036442e+00, -0.53758642e+03, 0.52600561e+05, 0.29380096e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.92835992e+00, 0.13511240e+03, -0.79751817e+05, -0.42066992e+00 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "NO2" ],
+			"description": "V2C2  SVEHLA (1966)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.57379100e+00, -0.12636034e+03, 0.21566823e+04, 0.22287492e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.64239645e+00, 0.60012144e+00, -0.27020876e+05, 0.16570566e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.48574998e+00, -0.50702110e+03, 0.46605820e+05, 0.36444556e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.97660465e+00, 0.72760751e+03, -0.32527989e+06, -0.60899123e+00 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "N2" ],
+			"description": "V3C3  BOUSHEHRI ET AL (1987)  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 200.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.62526577e+00, -0.31779652e+02, -0.16407983e+04, 0.17454992e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.87395209e+00, 0.56152222e+03, -0.17394809e+06, -0.39335958e+00 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.88503551e+00, 0.90902171e+03, -0.73129061e+06, -0.53503838e+00 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 200.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.85439436e+00, 0.10573224e+03, -0.12347848e+05, 0.47793128e+00 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.88407146e+00, 0.13357293e+03, -0.11429640e+05, 0.24417019e+00 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 5000.0, 15000.0 ],
+					"thermal_conductivity_coefficients": [ 0.24176185e+01, 0.80477749e+04, 0.31055802e+07, -0.14517761e+02 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "N2", "O" ],
+			"description": "V2C0  CUBLEY & MASON (1975)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.79176378e+00, 0.16226176e+03, -0.47001647e+05, 0.58989646e+00 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.84676036e+00, 0.66685159e+03, -0.62101896e+06, 0.43522696e-01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "N2", "O2" ],
+			"description": "V3C0  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.70122551e+00, 0.51717887e+01, -0.14240838e+04, 0.12895991e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.66744478e+00, -0.86348036e+02, 0.27445341e+05, 0.15855986e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.21151565e+00, -0.91881544e+04, 0.18253525e+08, 0.65600002e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "N2O" ],
+			"description": "V2C2  BOUSHEHRI ET AL(1987)  URIBE ET AL(1990)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 200.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.58959112e+00, -0.15565178e+03, 0.37630431e+04, 0.21223853e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.64571469e+00, -0.88806585e+01, -0.41560559e+05, 0.16332498e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 200.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.65165376e+00, -0.34373058e+03, 0.15090399e+05, 0.24242359e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.64720604e+00, -0.78680195e+02, -0.11965729e+06, 0.23246569e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "N2O4" ],
+			"description": "V2C2  SVEHLA (1966)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.52508683e+00, -0.28652689e+03, 0.20354406e+05, 0.25287873e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.62841605e+00, -0.65798081e+02, -0.38345315e+05, 0.16529852e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.33364942e+00, -0.68702644e+03, 0.52625318e+05, 0.47685793e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.59441359e+00, -0.26239268e+03, -0.29309960e+05, 0.26245858e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "Na" ],
+			"description": "V2C2  HOLLAND & BIOLSI (1987)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 500.0, 2000.0 ],
+					"viscosity_coefficients": [ 0.91803855e+00, 0.22790517e+03, -0.63721828e+05, -0.12813410e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 2000.0, 10000.0 ],
+					"viscosity_coefficients": [ 0.11882599e+01, 0.48628768e+03, 0.21833835e+06, -0.35349734e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 500.0, 2000.0 ],
+					"thermal_conductivity_coefficients": [ 0.91834808e+00, 0.22837346e+03, -0.63906051e+05, -0.97901956e+00 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 2000.0, 10000.0 ],
+					"thermal_conductivity_coefficients": [ 0.11900946e+01, 0.49842922e+03, 0.20953120e+06, -0.32479254e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "Ne" ],
+			"description": "V3C3  BICH ET AL (1990)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 200.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.68398511e+00, 0.18732366e+02, -0.23663189e+04, 0.18284755e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.72333495e+00, 0.10420872e+03, -0.25429545e+05, 0.14942434e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.77549350e+00, 0.59414850e+03, -0.69670786e+06, 0.97885712e+00 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 200.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.68509965e+00, 0.19794924e+02, -0.24525539e+04, 0.22586136e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.72278122e+00, 0.10528290e+03, -0.26355706e+05, 0.19367337e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 5000.0, 15000.0 ],
+					"thermal_conductivity_coefficients": [ 0.77589413e+00, 0.61283778e+03, -0.74015705e+06, 0.14114011e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "O" ],
+			"description": "V2C2  LEVIN ET AL (1990)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.77269241e+00, 0.83842977e+02, -0.58502098e+05, 0.85100827e+00 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.87669586e+00, 0.10158420e+04, -0.10884566e+07, -0.18001077e+00 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.77271664e+00, 0.83989100e+02, -0.58580966e+05, 0.15179900e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 5000.0, 15000.0 ],
+					"thermal_conductivity_coefficients": [ 0.87676666e+00, 0.10170744e+04, -0.10906690e+07, 0.48644232e+00 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "O", "O+" ],
+			"description": "V2C0  STALLCOP ET AL (1991)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.96270522e+00, 0.57916036e+03, -0.28549938e+06, -0.12297154e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.99113919e+00, -0.80815595e+02, 0.17198651e+07, -0.14201124e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "O", "O2" ],
+			"description": "V2C0  CUBLEY & MASON (1975)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.73493993e+00, 0.10911663e+03, -0.31057767e+05, 0.10998186e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.76924754e+00, 0.42004937e+03, -0.37954441e+06, 0.75936688e+00 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "OH" ],
+			"description": "V2C2  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.59711536e+00, -0.46100678e+03, 0.37606286e+05, 0.24041761e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.64287721e+00, -0.18173747e+03, -0.88543767e+05, 0.19636057e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.68627561e+00, -0.74033274e+03, 0.27559033e+05, 0.28308741e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 5000.0, 15000.0 ],
+					"thermal_conductivity_coefficients": [ -0.47918112e+00, -0.93769908e+04, 0.70509952e+07, 0.14203688e+02 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "O2" ],
+			"description": "V3C3  BOUSHEHRI ET AL (1987)  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 200.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.60916180e+00, -0.52244847e+02, -0.59974009e+03, 0.20410801e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.72216486e+00, 0.17550839e+03, -0.57974816e+05, 0.10901044e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.73981127e+00, 0.39194906e+03, -0.37833168e+06, 0.90931780e+00 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 200.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.77229167e+00, 0.68463210e+01, -0.58933377e+04, 0.12210365e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.90917351e+00, 0.29124182e+03, -0.79650171e+05, 0.64851631e-01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 5000.0, 15000.0 ],
+					"thermal_conductivity_coefficients": [ -0.11218262e+01, -0.19286378e+05, 0.23295011e+08, 0.20342043e+02 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "SF6" ],
+			"description": "V2C2  BOUSHEHRI ET AL (1987)  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.49748474e+00, -0.21864084e+03, 0.14509989e+05, 0.27631958e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.60769589e+00, -0.14230978e+03, 0.31449312e+05, 0.19086137e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.41857258e+00, -0.19733612e+03, -0.25661949e+05, 0.34555207e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.60633905e+00, 0.44458129e+02, -0.52676509e+05, 0.19436963e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "SO2" ],
+			"description": "V2C2  ZELEZNIK & SVEHLA (1970)  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.53157084e+00, -0.29589873e+03, 0.21224840e+05, 0.25975549e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.60783098e+00, -0.19283581e+03, 0.78232002e+04, 0.19811072e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.61476551e+00, -0.56409295e+03, 0.49580787e+05, 0.23940064e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.53617558e+00, -0.69413085e+03, 0.75304908e+05, 0.30412002e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "SiCL4" ],
+			"description": "V2C2  SVEHLA (1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.52724861e+00, -0.26992512e+03, 0.18062726e+05, 0.22413435e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.63025696e+00, -0.55616232e+02, -0.37587506e+05, 0.13711284e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.48928637e+00, -0.34031669e+03, 0.15336652e+05, 0.23608171e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.62189282e+00, -0.14644974e+03, -0.15293955e+05, 0.12815679e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "SiF4" ],
+			"description": "V2C2  SVEHLA (1962,1994)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.59609697e+00, -0.79178529e+02, -0.15915012e+04, 0.19580540e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.64527457e+00, 0.10348180e+02, -0.21766101e+05, 0.15489951e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.44281914e+00, -0.38082561e+03, 0.16794039e+05, 0.35456135e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.62544021e+00, -0.11192686e+03, -0.26345285e+05, 0.20583524e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "SiH4" ],
+			"description": "V2C2  SVEHLA (1962)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.57519423e+00, -0.12326162e+03, 0.18824028e+04, 0.18761319e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.64257687e+00, 0.12846016e+01, -0.26699436e+05, 0.13147047e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 300.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.55408670e+00, -0.64339630e+03, 0.55747611e+05, 0.37641386e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.56234379e+00, -0.44931035e+03, -0.37165926e+05, 0.36059282e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "UF6" ],
+			"description": "V2C0  SVEHLA (1962)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 300.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.56019928e+00, -0.15978215e+03, 0.52866529e+04, 0.24249812e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.63981806e+00, -0.95366264e+01, -0.30026765e+05, 0.17600620e+01 ]
+				}
+			]
+		},
+		{
+			"name(s)": [ "Xe" ],
+			"description": "V3C3  BICH ET AL (1990)",
+			"RecordData": [
+				{
+					"viscosity_temperatureRange": [ 200.0, 1000.0 ],
+					"viscosity_coefficients": [ 0.57988418e+00, -0.18806666e+03, 0.10508723e+05, 0.26502107e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 1000.0, 5000.0 ],
+					"viscosity_coefficients": [ 0.68506945e+00, 0.47671749e+02, -0.54767718e+05, 0.17531546e+01 ]
+				},
+				{
+					"viscosity_temperatureRange": [ 5000.0, 15000.0 ],
+					"viscosity_coefficients": [ 0.75436414e+00, 0.69100248e+03, -0.75140593e+06, 0.10621747e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 200.0, 1000.0 ],
+					"thermal_conductivity_coefficients": [ 0.57308328e+00, -0.19991432e+03, 0.12872027e+05, 0.12718931e+01 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 1000.0, 5000.0 ],
+					"thermal_conductivity_coefficients": [ 0.68319650e+00, 0.40020092e+02, -0.52038474e+05, 0.33623407e+00 ]
+				},
+				{
+					"conductivity_temperatureRange": [ 5000.0, 15000.0 ],
+					"thermal_conductivity_coefficients": [ 0.75593640e+00, 0.72923858e+03, -0.82407834e+06, -0.39025477e+00 ]
+				}
+			]
+		}
+	]
+
