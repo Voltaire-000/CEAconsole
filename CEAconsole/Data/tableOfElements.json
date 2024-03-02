@@ -1,504 +1,502 @@
-{
-	"TableOfElements": [
+[
 		{
-			"symbol": "H",
-			"atomic_weight": 1.00794e0,
-			"valence": 1
+			"Symbol": "H",
+			"AtomicWeight": 1.00794e0,
+			"Valence": 1
 		},
 		{
-			"symbol": "D",
-			"atomic_weight": 2.014102e0,
-			"valence": 1
+			"Symbol": "D",
+			"AtomicWeight": 2.014102e0,
+			"Valence": 1
 		},
 		{
-			"symbol": "He",
-			"atomic_weight": 4.002602e0,
-			"valence": 0
+			"Symbol": "He",
+			"AtomicWeight": 4.002602e0,
+			"Valence": 0
 		},
 		{
-			"symbol": "Li",
-			"atomic_weight": 6.941e0,
-			"valence": 1
+			"Symbol": "Li",
+			"AtomicWeight": 6.941e0,
+			"Valence": 1
 		},
 		{
-			"symbol": "Be",
-			"atomic_weight": 9.012182e0,
-			"valence": 2
+			"Symbol": "Be",
+			"AtomicWeight": 9.012182e0,
+			"Valence": 2
 		},
 		{
-			"symbol": "B",
-			"atomic_weight": 10.811e0,
-			"valence": 3
+			"Symbol": "B",
+			"AtomicWeight": 10.811e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "C",
-			"atomic_weight": 12.0107e0,
-			"valence": 4
+			"Symbol": "C",
+			"AtomicWeight": 12.0107e0,
+			"Valence": 4
 		},
 		{
-			"symbol": "N",
-			"atomic_weight": 14.0067e0,
-			"valence": 0
+			"Symbol": "N",
+			"AtomicWeight": 14.0067e0,
+			"Valence": 0
 		},
 		{
-			"symbol": "O",
-			"atomic_weight": 15.9994e0,
-			"valence": -2
+			"Symbol": "O",
+			"AtomicWeight": 15.9994e0,
+			"Valence": -2
 		},
 		{
-			"symbol": "F",
-			"atomic_weight": 18.9984032e0,
-			"valence": -1
+			"Symbol": "F",
+			"AtomicWeight": 18.9984032e0,
+			"Valence": -1
 		},
 		{
-			"symbol": "Ne",
-			"atomic_weight": 20.1797e0,
-			"valence": 0
+			"Symbol": "Ne",
+			"AtomicWeight": 20.1797e0,
+			"Valence": 0
 		},
 		{
-			"symbol": "Na",
-			"atomic_weight": 22.989770e0,
-			"valence": 1
+			"Symbol": "Na",
+			"AtomicWeight": 22.989770e0,
+			"Valence": 1
 		},
 		{
-			"symbol": "Mg",
-			"atomic_weight": 24.305e0,
-			"valence": 2
+			"Symbol": "Mg",
+			"AtomicWeight": 24.305e0,
+			"Valence": 2
 		},
 		{
-			"symbol": "Al",
-			"atomic_weight": 26.981538e0,
-			"valence": 3
+			"Symbol": "Al",
+			"AtomicWeight": 26.981538e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Si",
-			"atomic_weight": 28.0855e0,
-			"valence": 4
+			"Symbol": "Si",
+			"AtomicWeight": 28.0855e0,
+			"Valence": 4
 		},
 		{
-			"symbol": "P",
-			"atomic_weight": 30.973761e0,
-			"valence": 5
+			"Symbol": "P",
+			"AtomicWeight": 30.973761e0,
+			"Valence": 5
 		},
 		{
-			"symbol": "S",
-			"atomic_weight": 32.065e0,
-			"valence": 4
+			"Symbol": "S",
+			"AtomicWeight": 32.065e0,
+			"Valence": 4
 		},
 		{
-			"symbol": "Cl",
-			"atomic_weight": 35.453e0,
-			"valence": -1
+			"Symbol": "Cl",
+			"AtomicWeight": 35.453e0,
+			"Valence": -1
 		},
 		{
-			"symbol": "Ar",
-			"atomic_weight": 39.948e0,
-			"valence": 0
+			"Symbol": "Ar",
+			"AtomicWeight": 39.948e0,
+			"Valence": 0
 		},
 		{
-			"symbol": "K",
-			"atomic_weight": 39.0983e0,
-			"valence": 1
+			"Symbol": "K",
+			"AtomicWeight": 39.0983e0,
+			"Valence": 1
 		},
 		{
-			"symbol": "Ca",
-			"atomic_weight": 40.078e0,
-			"valence": 2
+			"Symbol": "Ca",
+			"AtomicWeight": 40.078e0,
+			"Valence": 2
 		},
 		{
-			"symbol": "Sc",
-			"atomic_weight": 44.95591e0,
-			"valence": 3
+			"Symbol": "Sc",
+			"AtomicWeight": 44.95591e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Ti",
-			"atomic_weight": 47.867e0,
-			"valence": 4
+			"Symbol": "Ti",
+			"AtomicWeight": 47.867e0,
+			"Valence": 4
 		},
 		{
-			"symbol": "V",
-			"atomic_weight": 50.9415e0,
-			"valence": 5
+			"Symbol": "V",
+			"AtomicWeight": 50.9415e0,
+			"Valence": 5
 		},
 		{
-			"symbol": "Cr",
-			"atomic_weight": 51.9961e0,
-			"valence": 3
+			"Symbol": "Cr",
+			"AtomicWeight": 51.9961e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Mn",
-			"atomic_weight": 54.938049e0,
-			"valence": 2
+			"Symbol": "Mn",
+			"AtomicWeight": 54.938049e0,
+			"Valence": 2
 		},
 		{
-			"symbol": "Fe",
-			"atomic_weight": 55.845e0,
-			"valence": 3
+			"Symbol": "Fe",
+			"AtomicWeight": 55.845e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Co",
-			"atomic_weight": 58.933200e0,
-			"valence": 2
+			"Symbol": "Co",
+			"AtomicWeight": 58.933200e0,
+			"Valence": 2
 		},
 		{
-			"symbol": "Ni",
-			"atomic_weight": 58.6934e0,
-			"valence": 2
+			"Symbol": "Ni",
+			"AtomicWeight": 58.6934e0,
+			"Valence": 2
 		},
 		{
-			"symbol": "Cu",
-			"atomic_weight": 63.546e0,
-			"valence": 2
+			"Symbol": "Cu",
+			"AtomicWeight": 63.546e0,
+			"Valence": 2
 		},
 		{
-			"symbol": "Zn",
-			"atomic_weight": 65.39e0,
-			"valence": 2
+			"Symbol": "Zn",
+			"AtomicWeight": 65.39e0,
+			"Valence": 2
 		},
 		{
-			"symbol": "Ga",
-			"atomic_weight": 69.723e0,
-			"valence": 3
+			"Symbol": "Ga",
+			"AtomicWeight": 69.723e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Ge",
-			"atomic_weight": 72.64e0,
-			"valence": 4
+			"Symbol": "Ge",
+			"AtomicWeight": 72.64e0,
+			"Valence": 4
 		},
 		{
-			"symbol": "As",
-			"atomic_weight": 74.92160e0,
-			"valence": 3
+			"Symbol": "As",
+			"AtomicWeight": 74.92160e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Se",
-			"atomic_weight": 78.96e0,
-			"valence": 4
+			"Symbol": "Se",
+			"AtomicWeight": 78.96e0,
+			"Valence": 4
 		},
 		{
-			"symbol": "Br",
-			"atomic_weight": 79.904e0,
-			"valence": -1
+			"Symbol": "Br",
+			"AtomicWeight": 79.904e0,
+			"Valence": -1
 		},
 		{
-			"symbol": "Kr",
-			"atomic_weight": 83.80e0,
-			"valence": 0
+			"Symbol": "Kr",
+			"AtomicWeight": 83.80e0,
+			"Valence": 0
 		},
 		{
-			"symbol": "Rb",
-			"atomic_weight": 85.4678e0,
-			"valence": 1
+			"Symbol": "Rb",
+			"AtomicWeight": 85.4678e0,
+			"Valence": 1
 		},
 		{
-			"symbol": "Sr",
-			"atomic_weight": 87.62e0,
-			"valence": 2
+			"Symbol": "Sr",
+			"AtomicWeight": 87.62e0,
+			"Valence": 2
 		},
 		{
-			"symbol": "Y",
-			"atomic_weight": 88.90585e0,
-			"valence": 3
+			"Symbol": "Y",
+			"AtomicWeight": 88.90585e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Zr",
-			"atomic_weight": 91.224e0,
-			"valence": 4
+			"Symbol": "Zr",
+			"AtomicWeight": 91.224e0,
+			"Valence": 4
 		},
 		{
-			"symbol": "Nb",
-			"atomic_weight": 92.90638e0,
-			"valence": 5
+			"Symbol": "Nb",
+			"AtomicWeight": 92.90638e0,
+			"Valence": 5
 		},
 		{
-			"symbol": "Mo",
-			"atomic_weight": 95.94e0,
-			"valence": 6
+			"Symbol": "Mo",
+			"AtomicWeight": 95.94e0,
+			"Valence": 6
 		},
 		{
-			"symbol": "Tc",
-			"atomic_weight": 97.9072e0,
-			"valence": 7
+			"Symbol": "Tc",
+			"AtomicWeight": 97.9072e0,
+			"Valence": 7
 		},
 		{
-			"symbol": "Ru",
-			"atomic_weight": 101.07e0,
-			"valence": 3
+			"Symbol": "Ru",
+			"AtomicWeight": 101.07e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Rh",
-			"atomic_weight": 102.9055e0,
-			"valence": 3
+			"Symbol": "Rh",
+			"AtomicWeight": 102.9055e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Pd",
-			"atomic_weight": 106.42e0,
-			"valence": 2
+			"Symbol": "Pd",
+			"AtomicWeight": 106.42e0,
+			"Valence": 2
 		},
 		{
-			"symbol": "Ag",
-			"atomic_weight": 107.8682e0,
-			"valence": 1
+			"Symbol": "Ag",
+			"AtomicWeight": 107.8682e0,
+			"Valence": 1
 		},
 		{
-			"symbol": "Cd",
-			"atomic_weight": 112.411e0,
-			"valence": 2
+			"Symbol": "Cd",
+			"AtomicWeight": 112.411e0,
+			"Valence": 2
 		},
 		{
-			"symbol": "In",
-			"atomic_weight": 114.818e0,
-			"valence": 3
+			"Symbol": "In",
+			"AtomicWeight": 114.818e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Sn",
-			"atomic_weight": 118.710e0,
-			"valence": 4
+			"Symbol": "Sn",
+			"AtomicWeight": 118.710e0,
+			"Valence": 4
 		},
 		{
-			"symbol": "Sb",
-			"atomic_weight": 121.760e0,
-			"valence": 3
+			"Symbol": "Sb",
+			"AtomicWeight": 121.760e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Te",
-			"atomic_weight": 127.6e0,
-			"valence": 4
+			"Symbol": "Te",
+			"AtomicWeight": 127.6e0,
+			"Valence": 4
 		},
 		{
-			"symbol": "I",
-			"atomic_weight": 126.90447e0,
-			"valence": -1
+			"Symbol": "I",
+			"AtomicWeight": 126.90447e0,
+			"Valence": -1
 		},
 		{
-			"symbol": "Xe",
-			"atomic_weight": 131.293e0,
-			"valence": 0
+			"Symbol": "Xe",
+			"AtomicWeight": 131.293e0,
+			"Valence": 0
 		},
 		{
-			"symbol": "Cs",
-			"atomic_weight": 132.90545e0,
-			"valence": 1
+			"Symbol": "Cs",
+			"AtomicWeight": 132.90545e0,
+			"Valence": 1
 		},
 		{
-			"symbol": "Ba",
-			"atomic_weight": 137.327e0,
-			"valence": 2
+			"Symbol": "Ba",
+			"AtomicWeight": 137.327e0,
+			"Valence": 2
 		},
 		{
-			"symbol": "La",
-			"atomic_weight": 138.9055e0,
-			"valence": 3
+			"Symbol": "La",
+			"AtomicWeight": 138.9055e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Ce",
-			"atomic_weight": 140.116e0,
-			"valence": 3
+			"Symbol": "Ce",
+			"AtomicWeight": 140.116e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Pr",
-			"atomic_weight": 140.90765e0,
-			"valence": 3
+			"Symbol": "Pr",
+			"AtomicWeight": 140.90765e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Nd",
-			"atomic_weight": 144.9127e0,
-			"valence": 3
+			"Symbol": "Nd",
+			"AtomicWeight": 144.9127e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Pm",
-			"atomic_weight": 145.0,
-			"valence": 3
+			"Symbol": "Pm",
+			"AtomicWeight": 145.0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Sm",
-			"atomic_weight": 150.36e0,
-			"valence": 3
+			"Symbol": "Sm",
+			"AtomicWeight": 150.36e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Eu",
-			"atomic_weight": 151.964e0,
-			"valence": 3
+			"Symbol": "Eu",
+			"AtomicWeight": 151.964e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Gd",
-			"atomic_weight": 157.25e0,
-			"valence": 3
+			"Symbol": "Gd",
+			"AtomicWeight": 157.25e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Tb",
-			"atomic_weight": 158.92534e0,
-			"valence": 3
+			"Symbol": "Tb",
+			"AtomicWeight": 158.92534e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Dy",
-			"atomic_weight": 162.50e0,
-			"valence": 3
+			"Symbol": "Dy",
+			"AtomicWeight": 162.50e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Ho",
-			"atomic_weight": 164.93032e0,
-			"valence": 3
+			"Symbol": "Ho",
+			"AtomicWeight": 164.93032e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Er",
-			"atomic_weight": 167.259e0,
-			"valence": 3
+			"Symbol": "Er",
+			"AtomicWeight": 167.259e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Tm",
-			"atomic_weight": 168.93421e0,
-			"valence": 3
+			"Symbol": "Tm",
+			"AtomicWeight": 168.93421e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Yb",
-			"atomic_weight": 173.04e0,
-			"valence": 3
+			"Symbol": "Yb",
+			"AtomicWeight": 173.04e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Lu",
-			"atomic_weight": 174.967e0,
-			"valence": 3
+			"Symbol": "Lu",
+			"AtomicWeight": 174.967e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Hf",
-			"atomic_weight": 178.49e0,
-			"valence": 4
+			"Symbol": "Hf",
+			"AtomicWeight": 178.49e0,
+			"Valence": 4
 		},
 		{
-			"symbol": "Ta",
-			"atomic_weight": 180.9479e0,
-			"valence": 5
+			"Symbol": "Ta",
+			"AtomicWeight": 180.9479e0,
+			"Valence": 5
 		},
 		{
-			"symbol": "W",
-			"atomic_weight": 183.84e0,
-			"valence": 6
+			"Symbol": "W",
+			"AtomicWeight": 183.84e0,
+			"Valence": 6
 		},
 		{
-			"symbol": "Re",
-			"atomic_weight": 186.207e0,
-			"valence": 7
+			"Symbol": "Re",
+			"AtomicWeight": 186.207e0,
+			"Valence": 7
 		},
 		{
-			"symbol": "Os",
-			"atomic_weight": 190.23e0,
-			"valence": 4
+			"Symbol": "Os",
+			"AtomicWeight": 190.23e0,
+			"Valence": 4
 		},
 		{
-			"symbol": "Ir",
-			"atomic_weight": 192.217e0,
-			"valence": 4
+			"Symbol": "Ir",
+			"AtomicWeight": 192.217e0,
+			"Valence": 4
 		},
 		{
-			"symbol": "Pt",
-			"atomic_weight": 195.078e0,
-			"valence": 4
+			"Symbol": "Pt",
+			"AtomicWeight": 195.078e0,
+			"Valence": 4
 		},
 		{
-			"symbol": "Au",
-			"atomic_weight": 196.96655e0,
-			"valence": 3
+			"Symbol": "Au",
+			"AtomicWeight": 196.96655e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Hg",
-			"atomic_weight": 200.59e0,
-			"valence": 2
+			"Symbol": "Hg",
+			"AtomicWeight": 200.59e0,
+			"Valence": 2
 		},
 		{
-			"symbol": "Tl",
-			"atomic_weight": 204.3833e0,
-			"valence": 1
+			"Symbol": "Tl",
+			"AtomicWeight": 204.3833e0,
+			"Valence": 1
 		},
 		{
-			"symbol": "Pb",
-			"atomic_weight": 207.2e0,
-			"valence": 2
+			"Symbol": "Pb",
+			"AtomicWeight": 207.2e0,
+			"Valence": 2
 		},
 		{
-			"symbol": "Bi",
-			"atomic_weight": 208.98038e0,
-			"valence": 3
+			"Symbol": "Bi",
+			"AtomicWeight": 208.98038e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Po",
-			"atomic_weight": 208.9824e0,
-			"valence": 2
+			"Symbol": "Po",
+			"AtomicWeight": 208.9824e0,
+			"Valence": 2
 		},
 		{
-			"symbol": "At",
-			"atomic_weight": 209.9871e0,
-			"valence": -1
+			"Symbol": "At",
+			"AtomicWeight": 209.9871e0,
+			"Valence": -1
 		},
 		{
-			"symbol": "Rn",
-			"atomic_weight": 222.0176e0,
-			"valence": 0
+			"Symbol": "Rn",
+			"AtomicWeight": 222.0176e0,
+			"Valence": 0
 		},
 		{
-			"symbol": "Fr",
-			"atomic_weight": 223.0197e0,
-			"valence": 1
+			"Symbol": "Fr",
+			"AtomicWeight": 223.0197e0,
+			"Valence": 1
 		},
 		{
-			"symbol": "Ra",
-			"atomic_weight": 226.0254e0,
-			"valence": 2
+			"Symbol": "Ra",
+			"AtomicWeight": 226.0254e0,
+			"Valence": 2
 		},
 		{
-			"symbol": "Ac",
-			"atomic_weight": 227.0278e0,
-			"valence": 3
+			"Symbol": "Ac",
+			"AtomicWeight": 227.0278e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Th",
-			"atomic_weight": 232.0381e0,
-			"valence": 4
+			"Symbol": "Th",
+			"AtomicWeight": 232.0381e0,
+			"Valence": 4
 		},
 		{
-			"symbol": "Pa",
-			"atomic_weight": 231.03588e0,
-			"valence": 5
+			"Symbol": "Pa",
+			"AtomicWeight": 231.03588e0,
+			"Valence": 5
 		},
 		{
-			"symbol": "U",
-			"atomic_weight": 238.02891e0,
-			"valence": 6
+			"Symbol": "U",
+			"AtomicWeight": 238.02891e0,
+			"Valence": 6
 		},
 		{
-			"symbol": "Np",
-			"atomic_weight": 237.0482e0,
-			"valence": 5
+			"Symbol": "Np",
+			"AtomicWeight": 237.0482e0,
+			"Valence": 5
 		},
 		{
-			"symbol": "Pu",
-			"atomic_weight": 244.0642e0,
-			"valence": 4
+			"Symbol": "Pu",
+			"AtomicWeight": 244.0642e0,
+			"Valence": 4
 		},
 		{
-			"symbol": "Am",
-			"atomic_weight": 243.0614e0,
-			"valence": 3
+			"Symbol": "Am",
+			"AtomicWeight": 243.0614e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Cm",
-			"atomic_weight": 247.0703e0,
-			"valence": 3
+			"Symbol": "Cm",
+			"AtomicWeight": 247.0703e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Bk",
-			"atomic_weight": 247.0703e0,
-			"valence": 3
+			"Symbol": "Bk",
+			"AtomicWeight": 247.0703e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Cf",
-			"atomic_weight": 251.0587e0,
-			"valence": 3
+			"Symbol": "Cf",
+			"AtomicWeight": 251.0587e0,
+			"Valence": 3
 		},
 		{
-			"symbol": "Es",
-			"atomic_weight": 252.083e0,
-			"valence": 3
+			"Symbol": "Es",
+			"AtomicWeight": 252.083e0,
+			"Valence": 3
 		}
-	]
-}
+]
