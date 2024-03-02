@@ -14,7 +14,7 @@ namespace CEAconsole.Services
         {
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/tableOfElements.json");
             string json = File.ReadAllText(path);
-            JsonSerializerSettings serializerSettings = new JsonSerializerSettings()
+            JsonSerializerSettings serializerSettings = new()
             {
                 TraceWriter = new ConsoleTraceWriter()
             };
