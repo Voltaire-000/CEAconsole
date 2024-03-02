@@ -4,7 +4,7 @@
     {
         public required string Name { get; set; }
         public required string Description { get; set; }
-        public int t_intervals { get; set; }
+        public int T_intervals { get; set; }
         public required string Id_Code { get; set; }
         public required Dictionary<string, double> ChemicalFormula { get; set; }
         public bool Gaseous { get; set; }

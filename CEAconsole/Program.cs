@@ -9,11 +9,11 @@ using System.Collections.ObjectModel;
 ThermoService thermoService = new();
 ElementsService elementsService = new();
 
-//List<Reactant>? reactants = new(thermoService.GetReactants());
-//string json = JsonConvert.SerializeObject(reactants, Formatting.Indented);
+List<Reactant>? reactants = new(thermoService.GetReactants());
+string json = JsonConvert.SerializeObject(reactants, Formatting.Indented);
 
-List<Element>? elements = new(elementsService.GetElements());
-string json = JsonConvert.SerializeObject(elements, Formatting.Indented);
+//List<Element>? elements = new(elementsService.GetElements());
+//string json = JsonConvert.SerializeObject(elements, Formatting.Indented);
 
 Console.WriteLine(json);
 
