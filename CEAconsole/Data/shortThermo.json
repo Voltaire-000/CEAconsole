@@ -1,206 +1,237 @@
 [
-        {
-            "Name": "ALBr3",
-            "description": "Gurvich,1996a pt1 p188 pt2 p151.",
-            "t_intervals": 2,
-            "id_code": "tpis96",
-            "chemicalFormula": {
-                "AL": 1.00,
-                "BR": 3.00
-            },
-            "gaseous": false,
-            "molecularWeight": 266.6935380,
-            "heatOfFormation": -410476.664,
-            "temperatureRange": {
-                "range_1": {
-                    "temperatureRange": [ 200.000, 1000.000 ],
-                    "numberOfCoefficients": 7,
-                    "tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
-                    "H_Jmol": 17943.336,
-                    "coefficients": [ 4.718948840e+04, -1.053853163e+03, 1.350747168e+01, -6.639869930e-03, 7.269276830e-06, -4.278049490e-09, 1.045573281e-12 ],
-                    "integrationConstants": [ -4.699440330e+04, -3.667936780e+01 ]
-                },
-                "range_2": {
-                    "temperatureRange": [ 1000.000, 6000.000 ],
-                    "numberOfCoefficients": 7,
-                    "tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
-                    "H_Jmol": 17943.336,
-                    "coefficients": [ -8.935527440e+04, -2.678035134e+01, 1.002063997e+01, -8.458764400e-06, 1.904243317e-09, -2.215195785e-13, 1.038219389e-17 ],
-                    "integrationConstants": [ -5.249247640e+04, -1.579666403e+01 ]
-                }
-            }
+    {
+        "Name": "ALBr3",
+        "description": "Gurvich,1996a pt1 p188 pt2 p151.",
+        "t_intervals": 2,
+        "id_code": "tpis96",
+        "chemicalFormula": {
+            "AL": 1.00,
+            "BR": 3.00
         },
-
-        {
-            "Name": "ALC",
-            "description": "Gurvich,1996a pt1 p205 pt2 p165.",
-            "t_intervals": 2,
-            "id_code": "tpis96",
-            "chemicalFormula": {
-                "AL": 1.00,
-                "C": 1.00
+        "gaseous": false,
+        "molecularWeight": 266.6935380,
+        "heatOfFormation": -410476.664,
+        "temperatureRange": {
+            "range_1": {
+                "temperatureRange": [ 200.000, 1000.000 ],
+                "numberOfCoefficients": 7,
+                "tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
+                "H_Jmol": 17943.336,
+                "coefficients": [ 4.718948840e+04, -1.053853163e+03, 1.350747168e+01, -6.639869930e-03, 7.269276830e-06, -4.278049490e-09, 1.045573281e-12 ],
+                "integrationConstants": [ -4.699440330e+04, -3.667936780e+01 ]
             },
-            "gaseous": false,
-            "molecularWeight": 38.9922380,
-            "heatOfFormation": 682283.509,
-            "temperatureRange": {
-                "range_1": {
-                    "temperatureRange": [ 200.000, 1000.000 ],
-                    "numberOfCoefficients": 7,
-                    "tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
-                    "H_Jmol": 9058.109,
-                    "coefficients": [ 4.139921880e+04, -5.858677890e+02, 5.962445720e+00, -2.006064322e-03, 1.665566136e-06, -7.121649210e-10, 1.271188744e-13 ],
-                    "integrationConstants": [ 8.383436110e+04, -8.002165050e+00 ]
-                },
-                "range_2": {
-                    "temperatureRange": [ 1000.000, 6000.000 ],
-                    "numberOfCoefficients": 7,
-                    "tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
-                    "H_Jmol": 9058.109,
-                    "coefficients": [ 1.937001487e+06, -6.749117790e+03, 1.347525643e+01, -5.850802650e-03, 1.926461091e-06, -2.585922351e-10, 1.222659806e-14 ],
-                    "integrationConstants": [ 1.225363649e+05, -6.152244872e+01 ]
-                }
-            }
-        },
-
-        {
-            "Name": "Air",
-            "description": "Mole % :N2 78.084, O2 20.9476, Ar .9365, CO2 .0319. Gordon,1982.Reac",
-            "t_intervals": 2,
-            "id_code": "g 9/95",
-            "chemicalFormula": {
-                "N  ": 1.5617,
-                "O  ": 0.41959,
-                "AR ": 0.00937,
-                "C  ": 0.00032
-            },
-            "gaseous": true,
-            "molecularWeight": 28.9651159,
-            "heatOfFormation": -125.530,
-            "temperatureRange": {
-                "range_1": {
-                    "temperatureRange": [ 200.000, 1000.000 ],
-                    "numberOfCoefficients": 7,
-                    "tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
-                    "H_Jmol": 8649.264,
-                    "coefficients": [ 1.009950160e+04, -1.968275610e+02, 5.009155110e+00, -5.761013730e-03, 1.066859930e-05, -7.940297970e-09, 2.185231910e-12 ],
-                    "integrationConstants": [ -1.767967310e+02, -3.921504225e+00 ]
-                },
-                "range_2": {
-                    "temperatureRange": [ 1000.000, 6000.000 ],
-                    "numberOfCoefficients": 7,
-                    "tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
-                    "H_Jmol": 8649.264,
-                    "coefficients": [ 2.415214430e+05, -1.257874600e+03, 5.144558670e+00, -2.138541790e-04, 7.065227840e-08, -1.071483490e-11, 6.577800150e-16 ],
-                    "integrationConstants": [ 6.462263190e+03, -8.147411905e+00 ]
-                }
-            }
-        },
-
-        {
-            "Name": "B2H6(L)",
-            "description": "Diborane. McBride,1996 pp84,92.",
-            "t_intervals": 0,
-            "id_code": "g 6/96",
-            "chemicalFormula": {
-                "B": 2.00,
-                "H": 6.00
-            },
-            "gaseous": false,
-            "molecularWeight": 27.6696400,
-            "heatOfFormation": 16445.000,
-            "temperatureRange": {
-                "range_1": {
-                    "temperatureRange": [ 180.590, 0.000 ],
-                    "numberOfCoefficients": 0,
-                    "H_Jmol": 0.000
-                }
-            }
-        },
-
-        {
-            "Name": "B5H9(L)",
-            "description": "Pentaborane. Chase,1998 p302.",
-            "t_intervals": 0,
-            "id_code": "j 3/65",
-            "chemicalFormula": {
-                "B": 5.00,
-                "H": 9.00
-            },
-            "gaseous": false,
-            "molecularWeight": 63.1264600,
-            "heatOfFormation": 42840.000,
-            "temperatureRange": {
-                "range_1": {
-                    "temperatureRange": [ 298.150, 0.000 ],
-                    "numberOfCoefficients": 0,
-                    "H_Jmol": 0.000
-                }
-            }
-        },
-
-        {
-            "Name": "(CH2)x(cr)",
-            "description": "Ethylene polymer. McBride,1996 pp84,92.",
-            "t_intervals": 0,
-            "id_code": "g 6/96",
-            "chemicalFormula": {
-                "C": 1.00,
-                "H": 2.00
-            },
-            "gaseous": false,
-            "molecularWeight": 14.0265800,
-            "heatOfFormation": -25600.000,
-            "temperatureRange": {
-                "range_1": {
-                    "temperatureRange": [ 298.150, 0.000 ],
-                    "numberOfCoefficients": 0,
-                    "H_Jmol": 0.000
-                }
-            }
-        },
-
-        {
-            "Name": "CH3NO2(L)",
-            "description": "Nitromethane. McBride,1996 pp85,93.",
-            "t_intervals": 0,
-            "id_code": "g 6/96",
-            "chemicalFormula": {
-                "C": 1.00,
-                "H": 3.00,
-                "N": 1.00,
-                "O": 2.00
-            },
-            "gaseous": false,
-            "molecularWeight": 61.0400200,
-            "heatOfFormation": -113100.000,
-            "temperatureRange": {
-                "range_1": {
-                    "temperatureRange": [ 298.150, 0.000 ],
-                    "numberOfCoefficients": 0,
-                    "H_Jmol": 0.000
-                }
-            }
-        },
-
-        {
-            "Name": "CH4(L)",
-            "description": "Methane. McBride,1996 pp85,93.",
-            "t_intervals": 0,
-            "id_code": "g 6/96",
-            "chemicalFormula": {
-                "C": 1.00,
-                "H": 4.00
-            },
-            "gaseous": false,
-            "molecularWeight": 16.0424600,
-            "heatOfFormation": -89233.000,
-            "temperatureRange": {
-                "range_1": {
-                    "temperatureRange": [ 111.643, 0.000 ],
-                    "numberOfCoefficients": 0,
-                    "H_Jmol": 0.000
-                }
+            "range_2": {
+                "temperatureRange": [ 1000.000, 6000.000 ],
+                "numberOfCoefficients": 7,
+                "tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
+                "H_Jmol": 17943.336,
+                "coefficients": [ -8.935527440e+04, -2.678035134e+01, 1.002063997e+01, -8.458764400e-06, 1.904243317e-09, -2.215195785e-13, 1.038219389e-17 ],
+                "integrationConstants": [ -5.249247640e+04, -1.579666403e+01 ]
             }
         }
+    },
+
+    {
+        "Name": "ALC",
+        "description": "Gurvich,1996a pt1 p205 pt2 p165.",
+        "t_intervals": 2,
+        "id_code": "tpis96",
+        "chemicalFormula": {
+            "AL": 1.00,
+            "C": 1.00
+        },
+        "gaseous": false,
+        "molecularWeight": 38.9922380,
+        "heatOfFormation": 682283.509,
+        "temperatureRange": {
+            "range_1": {
+                "temperatureRange": [ 200.000, 1000.000 ],
+                "numberOfCoefficients": 7,
+                "tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
+                "H_Jmol": 9058.109,
+                "coefficients": [ 4.139921880e+04, -5.858677890e+02, 5.962445720e+00, -2.006064322e-03, 1.665566136e-06, -7.121649210e-10, 1.271188744e-13 ],
+                "integrationConstants": [ 8.383436110e+04, -8.002165050e+00 ]
+            },
+            "range_2": {
+                "temperatureRange": [ 1000.000, 6000.000 ],
+                "numberOfCoefficients": 7,
+                "tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
+                "H_Jmol": 9058.109,
+                "coefficients": [ 1.937001487e+06, -6.749117790e+03, 1.347525643e+01, -5.850802650e-03, 1.926461091e-06, -2.585922351e-10, 1.222659806e-14 ],
+                "integrationConstants": [ 1.225363649e+05, -6.152244872e+01 ]
+            }
+        }
+    },
+
+    {
+        "Name": "Air",
+        "description": "Mole % :N2 78.084, O2 20.9476, Ar .9365, CO2 .0319. Gordon,1982.Reac",
+        "t_intervals": 2,
+        "id_code": "g 9/95",
+        "chemicalFormula": {
+            "N  ": 1.5617,
+            "O  ": 0.41959,
+            "AR ": 0.00937,
+            "C  ": 0.00032
+        },
+        "gaseous": true,
+        "molecularWeight": 28.9651159,
+        "heatOfFormation": -125.530,
+        "temperatureRange": {
+            "range_1": {
+                "temperatureRange": [ 200.000, 1000.000 ],
+                "numberOfCoefficients": 7,
+                "tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
+                "H_Jmol": 8649.264,
+                "coefficients": [ 1.009950160e+04, -1.968275610e+02, 5.009155110e+00, -5.761013730e-03, 1.066859930e-05, -7.940297970e-09, 2.185231910e-12 ],
+                "integrationConstants": [ -1.767967310e+02, -3.921504225e+00 ]
+            },
+            "range_2": {
+                "temperatureRange": [ 1000.000, 6000.000 ],
+                "numberOfCoefficients": 7,
+                "tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
+                "H_Jmol": 8649.264,
+                "coefficients": [ 2.415214430e+05, -1.257874600e+03, 5.144558670e+00, -2.138541790e-04, 7.065227840e-08, -1.071483490e-11, 6.577800150e-16 ],
+                "integrationConstants": [ 6.462263190e+03, -8.147411905e+00 ]
+            }
+        }
+    },
+
+    {
+        "Name": "B2H6(L)",
+        "description": "Diborane. McBride,1996 pp84,92.",
+        "t_intervals": 0,
+        "id_code": "g 6/96",
+        "chemicalFormula": {
+            "B": 2.00,
+            "H": 6.00
+        },
+        "gaseous": false,
+        "molecularWeight": 27.6696400,
+        "heatOfFormation": 16445.000,
+        "temperatureRange": {
+            "range_1": {
+                "temperatureRange": [ 180.590, 0.000 ],
+                "numberOfCoefficients": 0,
+                "H_Jmol": 0.000
+            }
+        }
+    },
+
+    {
+        "Name": "B5H9(L)",
+        "description": "Pentaborane. Chase,1998 p302.",
+        "t_intervals": 0,
+        "id_code": "j 3/65",
+        "chemicalFormula": {
+            "B": 5.00,
+            "H": 9.00
+        },
+        "gaseous": false,
+        "molecularWeight": 63.1264600,
+        "heatOfFormation": 42840.000,
+        "temperatureRange": {
+            "range_1": {
+                "temperatureRange": [ 298.150, 0.000 ],
+                "numberOfCoefficients": 0,
+                "H_Jmol": 0.000
+            }
+        }
+    },
+
+    {
+        "Name": "(CH2)x(cr)",
+        "description": "Ethylene polymer. McBride,1996 pp84,92.",
+        "t_intervals": 0,
+        "id_code": "g 6/96",
+        "chemicalFormula": {
+            "C": 1.00,
+            "H": 2.00
+        },
+        "gaseous": false,
+        "molecularWeight": 14.0265800,
+        "heatOfFormation": -25600.000,
+        "temperatureRange": {
+            "range_1": {
+                "temperatureRange": [ 298.150, 0.000 ],
+                "numberOfCoefficients": 0,
+                "H_Jmol": 0.000
+            }
+        }
+    },
+
+    {
+        "Name": "CH3NO2(L)",
+        "description": "Nitromethane. McBride,1996 pp85,93.",
+        "t_intervals": 0,
+        "id_code": "g 6/96",
+        "chemicalFormula": {
+            "C": 1.00,
+            "H": 3.00,
+            "N": 1.00,
+            "O": 2.00
+        },
+        "gaseous": false,
+        "molecularWeight": 61.0400200,
+        "heatOfFormation": -113100.000,
+        "temperatureRange": {
+            "range_1": {
+                "temperatureRange": [ 298.150, 0.000 ],
+                "numberOfCoefficients": 0,
+                "H_Jmol": 0.000
+            }
+        }
+    },
+    {
+        "Name": "CH4",
+        "description": "Gurvich,1991 pt1 p44 pt2 p36.",
+        "t_intervals": 2,
+        "id_code": "g 8/99",
+        "chemicalFormula": {
+            "C": 1.00,
+            "H": 4.00
+        },
+        "gaseous": false,
+        "molecularWeight": 16.0424600,
+        "heatOfFormation": -74600.000,
+        "temperatureRange": {
+            "range_1": {
+                "temperatureRange": [ 200.000, 1000.000 ],
+                "numberOfCoefficients": 7,
+                "tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
+                "H^(298.15)-H^(0) J/mol": 10016.202,
+                "coefficients": [ -1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12 ],
+                "integrationConstants": [ -2.331314360e+04, 8.904322750e+01 ]
+            },
+            "range_2": {
+                "temperatureRange": [ 1000.000, 6000.000 ],
+                "numberOfCoefficients": 7,
+                "tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
+                "H^(298.15)-H^(0) J/mol": 10016.202,
+                "coefficients": [ 3.730042760e+06, -1.383501485e+04, 2.049107091e+01, -1.961974759e-03, 4.727313040e-07, -3.728814690e-11, 1.623737207e-15 ],
+                "integrationConstants": [ 7.532066910e+04, -1.219124889e+02 ]
+            }
+        }
+    },
+
+    {
+        "Name": "CH4(L)",
+        "description": "Methane. McBride,1996 pp85,93.",
+        "t_intervals": 0,
+        "id_code": "g 6/96",
+        "chemicalFormula": {
+            "C": 1.00,
+            "H": 4.00
+        },
+        "gaseous": false,
+        "molecularWeight": 16.0424600,
+        "heatOfFormation": -89233.000,
+        "temperatureRange": {
+            "range_1": {
+                "temperatureRange": [ 111.643, 0.000 ],
+                "numberOfCoefficients": 0,
+                "H_Jmol": 0.000
+            }
+        }
+    }
 ]
