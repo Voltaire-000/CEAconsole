@@ -183,6 +183,125 @@
         }
     },
     {
+        "reactant": "CO2",
+        "description": "Gurvich,1991 pt1 p27 pt2 p24.",
+        "t_intervals": 3,
+        "id_code": "g 9/99",
+        "chemicalFormula": {
+            "C": 1.00,
+            "O": 2.00
+        },
+        "gaseous": false,
+        "molecularWeight": 44.0095000,
+        "heatOfFormation": -393510.000,
+        "temperatureRange": {
+            "range_1": {
+                "temperatureRange": [ 200.000, 1000.000 ],
+                "numberOfCoefficients": 7,
+                "tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
+                "H^(298.15)-H^(0) J/mol": 9365.469,
+                "coefficients": [ 4.943650540e+04, -6.264116010e+02, 5.301725240e+00, 2.503813816e-03, -2.127308728e-07, -7.689988780e-10, 2.849677801e-13 ],
+                "integrationConstants": [ -4.528198460e+04, -7.048279440e+00 ]
+            },
+            "range_2": {
+                "temperatureRange": [ 1000.000, 6000.000 ],
+                "numberOfCoefficients": 7,
+                "tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
+                "H^(298.15)-H^(0) J/mol": 9365.469,
+                "coefficients": [ 1.176962419e+05, -1.788791477e+03, 8.291523190e+00, -9.223156780e-05, 4.863676880e-09, -1.891053312e-12, 6.330036590e-16 ],
+                "integrationConstants": [ -3.908350590e+04, -2.652669281e+01 ]
+            },
+            "range_3": {
+                "temperatureRange": [ 6000.000, 20000.000 ],
+                "numberOfCoefficients": 7,
+                "tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
+                "H^(298.15)-H^(0) J/mol": 9365.469,
+                "coefficients": [ -1.544423287e+09, 1.016847056e+06, -2.561405230e+02, 3.369401080e-02, -2.181184337e-06, 6.991420840e-11, -8.842351500e-16 ],
+                "integrationConstants": [ -8.043214510e+06, 2.254177493e+03 ]
+            }
+        }
+    },
+    {
+        "reactant": "O2(L)",
+        "description": "Oxygen. McBride,1996 pp85,93.",
+        "t_intervals": 0,
+        "id_code": "g 6/96",
+        "chemicalFormula": {
+            "O": 2.00
+        },
+        "gaseous": false,
+        "molecularWeight": 31.9988000,
+        "heatOfFormation": -12979.000,
+        "temperatureRange": {
+            "range_1": {
+                "temperatureRange": [ 90.170, 0.000 ],
+                "numberOfCoefficients": 0,
+                "H^(298.15)-H^(0) J/mol": 0.000
+            }
+        }
+    },
+    {
+        "reactant": "O",
+        "description": "D0(O2):Brix,1954. Moore,1976. Gordon,1999.",
+        "t_intervals": 3,
+        "id_code": "g 5/97",
+        "chemicalFormula": {
+            "O": 1.00
+        },
+        "gaseous": false,
+        "molecularWeight": 15.9994000,
+        "heatOfFormation": 249175.003,
+        "temperatureRange": {
+            "range_1": {
+                "temperatureRange": [ 200.000, 1000.000 ],
+                "numberOfCoefficients": 7,
+                "tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
+                "H^(298.15)-H^(0) J/mol": 6725.403,
+                "coefficients": [ -7.953611300e+03, 1.607177787e+02, 1.966226438e+00, 1.013670310e-03, -1.110415423e-06, 6.517507500e-10, -1.584779251e-13 ],
+                "integrationConstants": [ 2.840362437e+04, 8.404241820e+00 ]
+            },
+            "range_2": {
+                "temperatureRange": [ 1000.000, 6000.000 ],
+                "numberOfCoefficients": 7,
+                "tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
+                "H^(298.15)-H^(0) J/mol": 6725.403,
+                "coefficients": [ 2.619020262e+05, -7.298722030e+02, 3.317177270e+00, -4.281334360e-04, 1.036104594e-07, -9.438304330e-12, 2.725038297e-16 ],
+                "integrationConstants": [ 3.392428060e+04, -6.679585350e-01 ]
+            },
+            "range_3": {
+                "temperatureRange": [ 6000.000, 20000.000 ],
+                "numberOfCoefficients": 7,
+                "tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
+                "H^(298.15)-H^(0) J/mol": 6725.403,
+                "coefficients": [ 1.779004264e+08, -1.082328257e+05, 2.810778365e+01, -2.975232262e-03, 1.854997534e-07, -5.796231540e-12, 7.191720164e-17 ],
+                "integrationConstants": [ 8.890942630e+05, -2.181728151e+02 ]
+            }
+        }
+    },
+    {
+        "reactant": "H2O2(L)",
+        "description": "Gurvich, 1989 v1 pt1 p126 pt2 p303.                     React.",
+        "t_intervals": 1,
+        "id_code": "tpis89",
+        "chemicalFormula": {
+            "H": 2.00,
+            "O": 2.00
+        },
+        "gaseous": false,
+        "molecularWeight": 34.0146800,
+        "heatOfFormation": -187780.000,
+        "temperatureRange": {
+            "range_1": {
+                "temperatureRange": [ 272.740, 6000.000 ],
+                "numberOfCoefficients": 7,
+                "tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
+                "H^(298.15)-H^(0) J/mol": 22949.000,
+                "coefficients": [ 0.000000000e+00, 0.000000000e+00, 1.074386825e+01, 0.000000000e+00, 0.000000000e+00, 0.000000000e+00, 0.000000000e+00 ],
+                "integrationConstants": [ -2.578789845e+04, -4.803221291e+01 ]
+            }
+        }
+    },
+    {
         "Name": "CH4",
         "description": "Gurvich,1991 pt1 p44 pt2 p36.",
         "t_intervals": 2,
