@@ -6,6 +6,7 @@ using System.Numerics;
 using MathNet.Symbolics;
 using MathNet.Numerics;
 
+// TODO derivatives, initial guess
 
 double result = SimpsonRule.IntegrateComposite(x => x * x, 0.0, 10.0, 4);
 
