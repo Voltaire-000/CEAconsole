@@ -58,7 +58,8 @@ static void ParseEquation(string equation)
         // Now you can use these coefficients with MathNet as needed
         // For example, to create a symbolic expression:
         var x = SymbolicExpression.Variable("x");
-        var cubicExpression = SymbolicExpression.Parse($"{a} *x ^ 3 + {b}" + $" *x ^ 2 + {c} *x + {d}");
+        //var cubicExpression = SymbolicExpression.Parse($"{a} *x ^ 3 + {b}" + $" *x ^ 2 + {c} *x + {d}");
+        var cubicExpression = a  + "x^3" + " + " + b + "x^2" + " + " + c + "*x" + " + " + d;
         Console.WriteLine($"Expression: {cubicExpression}");
     }
     else
