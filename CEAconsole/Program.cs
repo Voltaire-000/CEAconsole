@@ -24,13 +24,13 @@ JArray filteredReactants = new(parsedJson.Where(r => r["Name"].ToString() == "CH
 string propertiesOfInputFilter = JsonConvert.SerializeObject(filteredReactants, Formatting.Indented);
 
 JArray reactantProperties = JArray.Parse(propertiesOfInputFilter);
-string name = reactantProperties[0].SelectToken("Name").ToString();
+string? name = reactantProperties[0]?.SelectToken("Name")?.ToString();
 
 JObject chemicalFormula = (JObject)reactantProperties[0].SelectToken("ChemicalFormula");
 foreach (var element in chemicalFormula)
 {
     string elementName = element.Key;
-    int elementValue = element.Value.ToObject<int>();
+    int? elementValue = element.Value?.ToObject<int>();
     Console.WriteLine($"Element: {elementName}, Value: {elementValue}");
 }
 
@@ -40,12 +40,14 @@ dynamic parsedT_Intervals = JsonConvert.DeserializeObject(mT_Intervals);
 int mNumberOfTempIntervals = (int)parsedT_Intervals;
 
 // get temperature range_1
-List<JToken> temperatureRange = reactantProperties[0].SelectToken("TemperatureRange").ToList();
+List<JToken>? temperatureRange = reactantProperties[0]?.SelectToken("TemperatureRange")?.ToList();
 List<JToken> tempRange_1 = temperatureRange[0].ToList();
 List<JToken> mChildren = tempRange_1.Children().ToList();
 var childTempRange = mChildren[0].ToList();
+// number of coefficients
 var childNumberOfCoefficients = mChildren[1];
 int numberOfCoefficients = childNumberOfCoefficients.ToObject<int>();
+
 var TExponents = mChildren[2].ToList();
 var tempExponentsList = TExponents[0];
 double? t_1 = tempExponentsList[0]?.ToObject<double>();
@@ -59,7 +61,15 @@ double t_8 = tempExponentsList[7].ToObject<double>();
 
 for (int i = 0; i < tempExponentsList.Count(); i++)
 {
-    double? mxTest = tempExponentsList[i]?.ToObject<double>();
+    double? tExp = tempExponentsList[i]?.ToObject<double>();
+}
+
+// list of coefficients
+var Coefficients = mChildren[4].ToList();
+var coefficientsList = Coefficients[0].ToList();
+for (int i = 0; i < coefficientsList.Count(); i++)
+{
+    double? coefficient = coefficientsList[i]?.ToObject<double>();
 }
 
 
@@ -71,8 +81,6 @@ for (int i = 0; i < tempExponentsList.Count(); i++)
 // this needs fixing thru the class
 //List<TransportProperty>? transportProperties = new(transportService.GetTransportProperties());
 //string json = JsonConvert.SerializeObject(transportProperties, Formatting.Indented);
-
-
 
 
 Console.WriteLine(propertiesOfInputFilter);
