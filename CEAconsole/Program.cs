@@ -44,7 +44,24 @@ List<JToken> temperatureRange = reactantProperties[0].SelectToken("TemperatureRa
 List<JToken> tempRange_1 = temperatureRange[0].ToList();
 List<JToken> mChildren = tempRange_1.Children().ToList();
 var childTempRange = mChildren[0].ToList();
-var childNumberOfCoefficients = mChildren[1].ToList();
+var childNumberOfCoefficients = mChildren[1];
+int numberOfCoefficients = childNumberOfCoefficients.ToObject<int>();
+var TExponents = mChildren[2].ToList();
+var tempExponentsList = TExponents[0];
+double? t_1 = tempExponentsList[0]?.ToObject<double>();
+double t_2 = tempExponentsList[1].ToObject<double>();
+double t_3 = tempExponentsList[2].ToObject<double>();
+double t_4 = tempExponentsList[3].ToObject<double>();
+double t_5 = tempExponentsList[4].ToObject<double>();
+double t_6 = tempExponentsList[5].ToObject<double>();
+double t_7 = tempExponentsList[6].ToObject<double>();
+double t_8 = tempExponentsList[7].ToObject<double>();
+
+for (int i = 0; i < tempExponentsList.Count(); i++)
+{
+    double? mxTest = tempExponentsList[i]?.ToObject<double>();
+}
+
 
 //var filterResult = reactants.Where(d => d.Name == "CH4");
 //var mtest = reactants.Where(d => d.Name == "CH4");
@@ -61,6 +78,7 @@ var childNumberOfCoefficients = mChildren[1].ToList();
 Console.WriteLine(propertiesOfInputFilter);
 
 
+int mtxet = 99;
 
 //Console.WriteLine(BalancedEquation(1, 4)); // CH4 + 2O2 -> CO2 + 2H2O
 //Combustion combustion = new(1, 4);
@@ -70,25 +88,25 @@ Console.WriteLine(propertiesOfInputFilter);
 //Console.WriteLine(BalancedEquation(4, 10)); // C4H10 + 13/2O2 -> 4CO2 + 5H2O
 
 //Console.WriteLine(json);
-static string BalancedEquation(int X, int Y)
-{
-    // calculate the coefficients of oxygen, carbon dioxide, and water
-    int O2 = (X + Y) / 4;
-    int CO2 = X;
-    int H2O = Y / 2;
+//static string BalancedEquation(int X, int Y)
+//{
+//    // calculate the coefficients of oxygen, carbon dioxide, and water
+//    int O2 = (X + Y) / 4;
+//    int CO2 = X;
+//    int H2O = Y / 2;
 
-    // check if the coefficients are integers, if not multiply them by 2
-    //if ((X + Y) % 4 != 0)
-    //{
-    //    O2 = O2 * 2;
-    //    CO2 = CO2 * 2;
-    //    H2O = H2O * 2;
-    //}
+//    // check if the coefficients are integers, if not multiply them by 2
+//    //if ((X + Y) % 4 != 0)
+//    //{
+//    //    O2 = O2 * 2;
+//    //    CO2 = CO2 * 2;
+//    //    H2O = H2O * 2;
+//    //}
 
-    // format the equation as a string
-    string equation = $"C{X}H{Y} + {O2}O2 -> {CO2}CO2 + {H2O}H2O";
-    // return the equation
-    return equation;
-}
+//    // format the equation as a string
+//    string equation = $"C{X}H{Y} + {O2}O2 -> {CO2}CO2 + {H2O}H2O";
+//    // return the equation
+//    return equation;
+////}
 
 
