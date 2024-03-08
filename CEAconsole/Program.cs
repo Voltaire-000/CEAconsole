@@ -51,6 +51,7 @@ var childTempRange = mChildren[0].ToList();
 var childNumberOfCoefficients = mChildren[1];
 int numberOfCoefficients = childNumberOfCoefficients.ToObject<int>();
 
+// list of temperature exponents : 8 exponents
 var TExponents = mChildren[2].ToList();
 var tempExponentsList = TExponents[0];
 double texp_1 = tempExponentsList[0].ToObject<double>();
@@ -60,7 +61,7 @@ double texp_4 = tempExponentsList[3].ToObject<double>();
 double texp_5 = tempExponentsList[4].ToObject<double>();
 double texp_6 = tempExponentsList[5].ToObject<double>();
 double texp_7 = tempExponentsList[6].ToObject<double>();
-double text_8 = tempExponentsList[7].ToObject<double>();
+double texp_8 = tempExponentsList[7].ToObject<double>();
 
 SymbolicExpression a_1 = SymbolicExpression.Variable("a_1");
 SymbolicExpression a_2 = SymbolicExpression.Variable("a_2");
@@ -69,24 +70,16 @@ SymbolicExpression a_4 = SymbolicExpression.Variable("a_4");
 SymbolicExpression a_5 = SymbolicExpression.Variable("a_5");
 SymbolicExpression a_6 = SymbolicExpression.Variable("a_6");
 SymbolicExpression a_7 = SymbolicExpression.Variable("a_7");
-SymbolicExpression a_8 = SymbolicExpression.Variable("a_8");
+//SymbolicExpression a_8 = SymbolicExpression.Variable("a_8");
 SymbolicExpression T = SymbolicExpression.Variable("T");
 SymbolicExpression Cp = SymbolicExpression.Variable("Cp");
 SymbolicExpression R = SymbolicExpression.Variable("R");
-
-//for (int i = 0; i < tempExponentsList.Count(); i++)
-//{
-//    double? tExp = tempExponentsList[i]?.ToObject<double>();
-////}
+SymbolicExpression H = SymbolicExpression.Variable("H");
+SymbolicExpression S = SymbolicExpression.Variable("S");
 
 // list of coefficients
 var Coefficients = mChildren[4].ToList();
 var coefficientsList = Coefficients[0].ToList();
-
-//for (int i = 0; i < coefficientsList.Count; i++)
-//{
-//    double? coefficient = coefficientsList[i]?.ToObject<double>();
-//}
 
 a_1 = coefficientsList[0].ToObject<double>();
 a_2 = coefficientsList[1].ToObject<double>();
@@ -96,6 +89,11 @@ a_5 = coefficientsList[4].ToObject<double>();
 a_6 = coefficientsList[5].ToObject<double>();
 a_7 = coefficientsList[6].ToObject<double>();
 
+// list of integration constants
+var integrationConstants = mChildren[5].ToList();
+var integrationConstantList = integrationConstants[0].ToList();
+double a_8 = integrationConstantList[0].ToObject<double>();
+double a_9 = integrationConstantList[1].ToObject<double>();
 
 //var filterResult = reactants.Where(d => d.Name == "CH4");
 //var mtest = reactants.Where(d => d.Name == "CH4");
@@ -107,12 +105,70 @@ a_7 = coefficientsList[6].ToObject<double>();
 //string json = JsonConvert.SerializeObject(transportProperties, Formatting.Indented);
 
 T = 1000;
-R = 8.3144626;
+R = 8.31446261815324;
 
-Cp = R*(a_1 * T.Pow(texp_1) + a_2 * T.Pow(texp_2) + a_3 + a_4 * T + a_5 * T.Pow(texp_5) + a_6 * T.Pow(texp_6) + a_7 * T.Pow(texp_7));
+Cp = R * (a_1
+          * T.Pow(texp_1)
+          + a_2
+          * T.Pow(texp_2)
+          + a_3
+          + a_4
+          * T
+          + a_5
+          * T.Pow(texp_5)
+          + a_6
+          * T.Pow(texp_6)
+          + a_7
+          * T.Pow(texp_7));
+// Cp = 73.67604083
+//      73.676040830041
 
+var nxnx = Math.Log(T.RealNumberValue);
 
-Console.WriteLine(propertiesOfInputFilter);
+H = R * T * (-a_1
+             * T.Pow(texp_1)
+             + a_2
+             * T.Pow(texp_2)
+             * Math.Log(1000)
+             + a_3
+             + a_4
+             * T.Divide(2)
+             + a_5
+             * T.Pow(texp_5).Divide(3)
+             + a_6
+             * T.Pow(texp_6).Divide(4)
+             + a_7
+             * T.Pow(texp_7).Divide(5)
+             + a_8
+             / T);
+H = H / 1000;
+// H = 38.685
+// -35.915
+// -35915.212164060285
+
+S = R * (-a_1
+         * T.Pow(texp_1)
+         - a_2
+         * T.Pow(texp_2)
+         + a_3
+         * Math.Log(1000)
+         + a_4
+         * T
+         + a_5
+         * T.Pow(texp_5).Divide(2)
+         + a_6
+         * T.Pow(texp_6).Divide(3)
+         + a_7
+         * T.Pow(texp_7).Divide(4)
+         + a_9);
+// 248.331
+// 249.06403282791564
+
+Console.WriteLine("\nHeat capacity : " + Cp.RealNumberValue);
+Console.WriteLine("\nEnthalpy : " + H.RealNumberValue);
+Console.WriteLine("\nEntropy : " + S.RealNumberValue);
+
+//Console.WriteLine(propertiesOfInputFilter);
 
 
 int mtxet = 99;

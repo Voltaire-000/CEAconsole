@@ -85,16 +85,4 @@ static void ParseEquation(string equation)
     }
 }
 
-SymbolicExpression a_1 = SymbolicExpression.Variable("a_1");
-SymbolicExpression a_2 = SymbolicExpression.Variable("a_2");
-SymbolicExpression a_3 = SymbolicExpression.Variable("a_3");
-SymbolicExpression a_4 = SymbolicExpression.Variable("a_4");
-SymbolicExpression a_5 = SymbolicExpression.Variable("a_5");
-SymbolicExpression a_6 = SymbolicExpression.Variable("a_6");
-SymbolicExpression a_7 = SymbolicExpression.Variable("a_7");
-SymbolicExpression a_8 = SymbolicExpression.Variable("a_8");
-SymbolicExpression T = SymbolicExpression.Variable("T");
-SymbolicExpression Cp = SymbolicExpression.Variable("Cp");
-SymbolicExpression R = SymbolicExpression.Variable("R");
-
 Console.WriteLine("\nThe Integral of x^2 from 0 to 10 is : " + result);
