@@ -164,6 +164,13 @@ S = R * (-a_1
 // 248.331
 // 249.06403282791564
 
+//"temperatureRange": [ 200.000, 1000.000 ],
+//                "numberOfCoefficients": 7,
+//                "tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
+//                "H^(298.15)-H^(0) J/mol": 10016.202,
+//                "coefficients": [ -1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12 ],
+//                "integrationConstants": [ -2.331314360e+04, 8.904322750e+01 ]
+
 Console.WriteLine("\nHeat capacity : " + Cp.RealNumberValue);
 Console.WriteLine("\nEnthalpy : " + H.RealNumberValue);
 Console.WriteLine("\nEntropy : " + S.RealNumberValue);
