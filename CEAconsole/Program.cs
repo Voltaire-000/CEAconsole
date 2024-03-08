@@ -9,6 +9,9 @@ using Newtonsoft.Json.Linq;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Text.Json.Nodes;
+using MathNet.Numerics;
+using MathNet.Symbolics;
+
 
 ThermoService thermoService = new();
 //ElementsService elementsService = new();
@@ -50,27 +53,48 @@ int numberOfCoefficients = childNumberOfCoefficients.ToObject<int>();
 
 var TExponents = mChildren[2].ToList();
 var tempExponentsList = TExponents[0];
-double? t_1 = tempExponentsList[0]?.ToObject<double>();
-double t_2 = tempExponentsList[1].ToObject<double>();
-double t_3 = tempExponentsList[2].ToObject<double>();
-double t_4 = tempExponentsList[3].ToObject<double>();
-double t_5 = tempExponentsList[4].ToObject<double>();
-double t_6 = tempExponentsList[5].ToObject<double>();
-double t_7 = tempExponentsList[6].ToObject<double>();
-double t_8 = tempExponentsList[7].ToObject<double>();
+double texp_1 = tempExponentsList[0].ToObject<double>();
+double texp_2 = tempExponentsList[1].ToObject<double>();
+double texp_3 = tempExponentsList[2].ToObject<double>();
+double texp_4 = tempExponentsList[3].ToObject<double>();
+double texp_5 = tempExponentsList[4].ToObject<double>();
+double texp_6 = tempExponentsList[5].ToObject<double>();
+double texp_7 = tempExponentsList[6].ToObject<double>();
+double text_8 = tempExponentsList[7].ToObject<double>();
 
-for (int i = 0; i < tempExponentsList.Count(); i++)
-{
-    double? tExp = tempExponentsList[i]?.ToObject<double>();
-}
+SymbolicExpression a_1 = SymbolicExpression.Variable("a_1");
+SymbolicExpression a_2 = SymbolicExpression.Variable("a_2");
+SymbolicExpression a_3 = SymbolicExpression.Variable("a_3");
+SymbolicExpression a_4 = SymbolicExpression.Variable("a_4");
+SymbolicExpression a_5 = SymbolicExpression.Variable("a_5");
+SymbolicExpression a_6 = SymbolicExpression.Variable("a_6");
+SymbolicExpression a_7 = SymbolicExpression.Variable("a_7");
+SymbolicExpression a_8 = SymbolicExpression.Variable("a_8");
+SymbolicExpression T = SymbolicExpression.Variable("T");
+SymbolicExpression Cp = SymbolicExpression.Variable("Cp");
+SymbolicExpression R = SymbolicExpression.Variable("R");
+
+//for (int i = 0; i < tempExponentsList.Count(); i++)
+//{
+//    double? tExp = tempExponentsList[i]?.ToObject<double>();
+////}
 
 // list of coefficients
 var Coefficients = mChildren[4].ToList();
 var coefficientsList = Coefficients[0].ToList();
-for (int i = 0; i < coefficientsList.Count(); i++)
-{
-    double? coefficient = coefficientsList[i]?.ToObject<double>();
-}
+
+//for (int i = 0; i < coefficientsList.Count; i++)
+//{
+//    double? coefficient = coefficientsList[i]?.ToObject<double>();
+//}
+
+a_1 = coefficientsList[0].ToObject<double>();
+a_2 = coefficientsList[1].ToObject<double>();
+a_3 = coefficientsList[2].ToObject<double>();
+a_4 = coefficientsList[3].ToObject<double>();
+a_5 = coefficientsList[4].ToObject<double>();
+a_6 = coefficientsList[5].ToObject<double>();
+a_7 = coefficientsList[6].ToObject<double>();
 
 
 //var filterResult = reactants.Where(d => d.Name == "CH4");
@@ -81,6 +105,11 @@ for (int i = 0; i < coefficientsList.Count(); i++)
 // this needs fixing thru the class
 //List<TransportProperty>? transportProperties = new(transportService.GetTransportProperties());
 //string json = JsonConvert.SerializeObject(transportProperties, Formatting.Indented);
+
+T = 1000;
+R = 8.3144626;
+
+Cp = R*(a_1 * T.Pow(texp_1) + a_2 * T.Pow(texp_2) + a_3 + a_4 * T + a_5 * T.Pow(texp_5) + a_6 * T.Pow(texp_6) + a_7 * T.Pow(texp_7));
 
 
 Console.WriteLine(propertiesOfInputFilter);
