@@ -125,7 +125,7 @@ Cp = R * (a_1
 
 var nxnx = Math.Log(T.RealNumberValue);
 
-H = R * T * (-a_1
+H = R * T * -(a_1
              * T.Pow(texp_1)
              + a_2
              * T.Pow(texp_2)
@@ -141,7 +141,7 @@ H = R * T * (-a_1
              * T.Pow(texp_7).Divide(5)
              + a_8
              / T);
-H = H / 1000;
+H /= 1000;
 // H = 38.685
 // -35.915
 // -35915.212164060285
