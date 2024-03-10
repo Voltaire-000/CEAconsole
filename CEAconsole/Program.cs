@@ -109,24 +109,53 @@ double a_9 = integrationConstantList[1].ToObject<double>();
 double start = 298.15;
 double end = 1000;
 double increment = 100;
+double mNaturalLog = Math.Log(1000);
+double temperature = 0;
 T = 0;
 R = 8.31446261815324;
+List<double> kelvins = new List<double>();
 List<double> cpData = new List<double>();
 List<double> hData = new List<double>();
 List<double> sData = new List<double>();
-Console.WriteLine("{0, -16} {1, -5} {2, -10} {3, -10}" , "\tTemp Kelvin", "\tCp", "H", "S");
-for (double temperature = start; temperature <= end; temperature += increment)
+Console.WriteLine("{0, -16} {1, -10} {2, -10} {3, -10}" , "\tTemp Kelvin", "Cp", "H", "S");
+for (temperature = start; temperature <= end; temperature += increment)
 {
+    kelvins.Add(temperature);
     double loopCp = GetCp(temperature);
     double loopH = GetH(temperature);
     double loopS = GetS(temperature);
     cpData.Add(Math.Round(loopCp, 3));
+    if (temperature == 998.15)
+    {
+        double lastValue = GetCp(end);
+        cpData.Add(Math.Round(lastValue, 3));
+
+    }
     hData.Add(Math.Round(loopH, 3));
+    if (temperature == 998.15)
+    {
+        double lastValue = GetH(end);
+        hData.Add(Math.Round(lastValue, 3));
+
+    }
     sData.Add(Math.Round(loopS, 3));
+    if (temperature == 998.15)
+    {
+        double lastValue = GetS(end);
+        sData.Add(Math.Round(lastValue, 3));
+
+    }
+
 
     
-    Console.WriteLine("{0, -10} {1, -10} {2, -10} {3, -10}" , "\t" + temperature + " :", "\t"+ cpData.Last(), hData.Last(), sData.Last());
+    //Console.WriteLine("{0, -10} {1, -10} {2, -10} {3, -10}" , "\t" + temperature + " :", "\t"+ cpData.Last(), hData.Last(), sData.Last());
 }
+    kelvins.Add(end);
+    for (int i = 0; i < 9; i++)
+    {
+        Console.WriteLine("{0, -10} {1, -10} {2, -10} {3, -10}", "\t" + kelvins.ElementAt(i) + " :", "\t" + cpData.ElementAt(i), hData.ElementAt(i), sData.ElementAt(i));
+    }
+
 
 double GetS(double temperature)
 {
