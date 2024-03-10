@@ -23,10 +23,10 @@ double c = 11;
 double d = -6;
 
 var roots = Cubic.RealRoots(d, c, b);
-Console.WriteLine("\nusing Cubic.RealRoots :" + roots); // 3,2,1
+//Console.WriteLine("\nusing Cubic.RealRoots :" + roots); // 3,2,1
 
 (Complex root1, Complex root2, Complex root3) = Cubic.Roots(d, c, b, a);
-Console.WriteLine("\nusing complex root : " + root1.Real + " " + root2.Real + " " + root3.Real); // 1,3,2
+//Console.WriteLine("\nusing complex root : " + root1.Real + " " + root2.Real + " " + root3.Real); // 1,3,2
 
 //var roots = System.Numerics.Complex.
 //Func<double, double> f = x => Math.Exp(-x) - x;
@@ -42,18 +42,18 @@ double upperBound = 11;
 double accuracy = 1e-6;
 int maxIterations = 100;
 double root = Bisection.FindRoot(f, lowerBound, upperBound, accuracy, maxIterations);
-Console.WriteLine("\nBisection.FindRoot : " + root.Round(1)); // 3
+//Console.WriteLine("\nBisection.FindRoot : " + root.Round(1)); // 3
 
 double expandFactor = 1.6;
 double expandRoot = Bisection.FindRootExpand(f, lowerBound, upperBound, accuracy, maxIterations, expandFactor);
-Console.WriteLine("\nBisection.FindRootExpand : " + expandRoot.Round(1)); // 3
+//Console.WriteLine("\nBisection.FindRootExpand : " + expandRoot.Round(1)); // 3
 
 double mTryRoot;
 bool tryRoot = Bisection.TryFindRoot(f, lowerBound, upperBound, accuracy, maxIterations, out mTryRoot);
-Console.WriteLine("\nTryFindRoot : " + mTryRoot.Round(1)); // 3
+//Console.WriteLine("\nTryFindRoot : " + mTryRoot.Round(1)); // 3
 
 double mNewton = NewtonRaphson.FindRoot(f, df, lowerBound, upperBound, accuracy, maxIterations);
-Console.WriteLine("\nNewtonRaphson : " + mNewton.Round(1)); // 1
+//Console.WriteLine("\nNewtonRaphson : " + mNewton.Round(1)); // 1
 
 string equation = "f(x) = ax^3 + bx^2 + cx + d";
 ParseEquation(equation);
@@ -70,19 +70,39 @@ static void ParseEquation(string equation)
         string c = match.Groups["c"].Value;
         string d = match.Groups["d"].Value;
 
-        Console.WriteLine($"\na: { a}, b: { b}, c: { c}, d: { d}");
+        //Console.WriteLine($"\na: { a}, b: { b}, c: { c}, d: { d}");
 
         // Now you can use these coefficients with MathNet as needed
         // For example, to create a symbolic expression:
         var x = SymbolicExpression.Variable("x");
         //var cubicExpression = SymbolicExpression.Parse($"{a} *x ^ 3 + {b}" + $" *x ^ 2 + {c} *x + {d}");
         var cubicExpression = a  + "x^3" + " + " + b + "x^2" + " + " + c + "*x" + " + " + d;
-        Console.WriteLine($"\nExpression: {cubicExpression}");
+        //Console.WriteLine($"\nExpression: {cubicExpression}");
     }
     else
     {
-        Console.WriteLine("\nThe equation format is incorrect.");
+        //Console.WriteLine("\nThe equation format is incorrect.");
     }
 }
 
-Console.WriteLine("\nThe Integral of x^2 from 0 to 10 is : " + result);
+//Console.WriteLine("\nThe Integral of x^2 from 0 to 10 is : " + result);
+
+double heatCapacity = 46.471;
+double threePoint = SimpsonRule.IntegrateThreePoint(x => x * x, 0.0, 10.0);
+
+double initialTemp = 298.15;
+double finalTemp = 598.15;
+
+//double c_p = CEAconsole.Models.GetHeatCapacity(initialTemp);
+
+double xresult = CalcEnthalpyChange(initialTemp, finalTemp);
+
+double CalcEnthalpyChange(double initialTemp, double finalTemp)
+{
+    double enthalpyChange = Integrate.OnClosedInterval(x => heatCapacity/1000 , initialTemp, finalTemp, 1e-8);
+    return enthalpyChange;
+}
+
+//Console.WriteLine(threePoint);
+Console.WriteLine(xresult);
+//Console.WriteLine("Test");

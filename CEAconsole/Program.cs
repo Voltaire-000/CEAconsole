@@ -3,6 +3,7 @@
 // See https://aka.ms/new-console-template for more information
 using CEAconsole.Models;
 using CEAconsole.Services;
+using MathNet.Numerics;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -79,36 +80,41 @@ List<double> entropyList = [];
 
 Console.WriteLine("{0, -16} {1, -10} {2, -10} {3, -10}", "\tTemp Kelvin", "Cp", "H", "S");
 
-heatCapacityList.Add(GetHeatCapacity(Kelvin));
+
+heatCapacityList.Add(0.0);
+
+//heatCapacityList.Add(GetHeatCapacity(Kelvin));
 enthalpyList.Add(GetEnthalpy(Kelvin));
 entropyList.Add(GetEntropy(Kelvin));
 temperatureList.Add(Kelvin);
-double start = 298.15;
-double end = 1000;
+double startTemp = 298.15;
+double endTemp = 1000;
 double increment = 100;
 
-for (Kelvin = start; Kelvin <= end; Kelvin += increment)
+for (Kelvin = startTemp; Kelvin <= endTemp; Kelvin += increment)
 {
     temperatureList.Add(Kelvin);
     double cp_value = GetHeatCapacity(Kelvin);
-    double enthalpy_value = GetEnthalpy(Kelvin);
-    double entropy_value = GetEntropy(Kelvin);
     heatCapacityList.Add(Math.Round(cp_value, 3));
+    //double enthalpy_value = GetEnthalpy(Kelvin);
+    double enthalpy_value = CalcEnthalpyChange(startTemp, temperatureList.Last<double>());
+    double entropy_value = GetEntropy(Kelvin);
+    
     if (Kelvin == 998.15)
     {
-        double lastCp_value = GetHeatCapacity(end);
+        double lastCp_value = GetHeatCapacity(endTemp);
         heatCapacityList.Add(Math.Round(lastCp_value, 3));
     }
     enthalpyList.Add(Math.Round(enthalpy_value, 3));
     if (Kelvin == 998.15)
     {
-        double lastEnthalpy_value = GetEnthalpy(end);
+        double lastEnthalpy_value = GetEnthalpy(endTemp);
         enthalpyList.Add(Math.Round(lastEnthalpy_value, 3));
     }
     entropyList.Add(Math.Round(entropy_value, 3));
     if (Kelvin == 998.15)
     {
-        double lastEntropy_value = GetEntropy(end);
+        double lastEntropy_value = GetEntropy(endTemp);
         entropyList.Add(Math.Round(lastEntropy_value, 3));
     }
 }
@@ -167,7 +173,15 @@ double GetHeatCapacity(double Kelvin)
     return heat_capacity;
 }
 
-temperatureList.Add(end);
+double CalcEnthalpyChange(double initialTemp, double finalTemp)
+{
+    int listCount = heatCapacityList.Count;
+    double mIndex = heatCapacityList[listCount - 2];
+    double enthalpyChange = Integrate.OnClosedInterval(x => heatCapacityList[listCount - 2] / 1000, initialTemp, finalTemp, 1e-8);
+    return enthalpyChange;
+}
+
+temperatureList.Add(endTemp);
 
 for (int i = 0; i < 10; i++)
 {
