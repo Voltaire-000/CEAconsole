@@ -104,8 +104,92 @@ double a_9 = integrationConstantList[1].ToObject<double>();
 //List<TransportProperty>? transportProperties = new(transportService.GetTransportProperties());
 //string json = JsonConvert.SerializeObject(transportProperties, Formatting.Indented);
 
-T = 1000;
+
+
+double start = 298.15;
+double end = 1000;
+double increment = 100;
+T = 0;
 R = 8.31446261815324;
+List<double> cpData = new List<double>();
+List<double> hData = new List<double>();
+List<double> sData = new List<double>();
+Console.WriteLine("{0, -16} {1, -5} {2, -10} {3, -10}" , "\tTemp Kelvin", "\tCp", "H", "S");
+for (double temperature = start; temperature <= end; temperature += increment)
+{
+    double loopCp = GetCp(temperature);
+    double loopH = GetH(temperature);
+    double loopS = GetS(temperature);
+    cpData.Add(Math.Round(loopCp, 3));
+    hData.Add(Math.Round(loopH, 3));
+    sData.Add(Math.Round(loopS, 3));
+
+    
+    Console.WriteLine("{0, -10} {1, -10} {2, -10} {3, -10}" , "\t" + temperature + " :", "\t"+ cpData.Last(), hData.Last(), sData.Last());
+}
+
+double GetS(double temperature)
+{
+    T = temperature;
+    S = R * (-a_1
+         * T.Pow(texp_1)
+         - a_2
+         * T.Pow(texp_2)
+         + a_3
+         * Math.Log(1000)
+         + a_4
+         * T
+         + a_5
+         * T.Pow(texp_5).Divide(2)
+         + a_6
+         * T.Pow(texp_6).Divide(3)
+         + a_7
+         * T.Pow(texp_7).Divide(4)
+         + a_9);
+    return S.RealNumberValue;
+}
+
+double GetH(double temperature)
+{
+    T = temperature;
+    H = R * T * -(a_1
+             * T.Pow(texp_1)
+             + a_2
+             * T.Pow(texp_2)
+             * Math.Log(1000)
+             + a_3
+             + a_4
+             * T.Divide(2)
+             + a_5
+             * T.Pow(texp_5).Divide(3)
+             + a_6
+             * T.Pow(texp_6).Divide(4)
+             + a_7
+             * T.Pow(texp_7).Divide(5)
+             + a_8
+             / T);
+    H /= 1000;
+    return H.RealNumberValue;
+}
+
+double GetCp(double temperature)
+{
+    T = temperature;
+    Cp = R * (a_1
+          * T.Pow(texp_1)
+          + a_2
+          * T.Pow(texp_2)
+          + a_3
+          + a_4
+          * T
+          + a_5
+          * T.Pow(texp_5)
+          + a_6
+          * T.Pow(texp_6)
+          + a_7
+          * T.Pow(texp_7));
+    return Cp.RealNumberValue;
+}
 
 Cp = R * (a_1
           * T.Pow(texp_1)
@@ -171,9 +255,15 @@ S = R * (-a_1
 //                "coefficients": [ -1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12 ],
 //                "integrationConstants": [ -2.331314360e+04, 8.904322750e+01 ]
 
-Console.WriteLine("\nHeat capacity : " + Cp.RealNumberValue);
-Console.WriteLine("\nEnthalpy : " + H.RealNumberValue);
-Console.WriteLine("\nEntropy : " + S.RealNumberValue);
+//List<double> cpData = [Cp.RealNumberValue, H.RealNumberValue, S.RealNumberValue];
+
+//Console.WriteLine("\nHeat capacity : " + Cp.RealNumberValue);
+//Console.WriteLine("\nEnthalpy : " + H.RealNumberValue);
+//Console.WriteLine("\nEntropy : " + S.RealNumberValue);
+
+//Console.WriteLine("{0, -16} {1, -16} {2, -16}", "\tCp", "H", "S");
+
+//Console.WriteLine("{0, -16} {1, -16} {2, -16}", cpData[0], cpData[1], cpData[2]);
 
 //Console.WriteLine(propertiesOfInputFilter);
 
