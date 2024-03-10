@@ -89,6 +89,14 @@ a_5 = coefficientsList[4].ToObject<double>();
 a_6 = coefficientsList[5].ToObject<double>();
 a_7 = coefficientsList[6].ToObject<double>();
 
+double a1 = coefficientsList[0].ToObject<double>();
+double a2 = coefficientsList[1].ToObject<double>();
+double a3 = coefficientsList[2].ToObject<double>();
+double a4 = coefficientsList[3].ToObject<double>();
+double a5 = coefficientsList[4].ToObject<double>();
+double a6 = coefficientsList[5].ToObject<double>();
+double a7 = coefficientsList[6].ToObject<double>();
+
 // list of integration constants
 var integrationConstants = mChildren[5].ToList();
 var integrationConstantList = integrationConstants[0].ToList();
@@ -113,28 +121,39 @@ double mNaturalLog = Math.Log(1000);
 double temperature = 0;
 T = 0;
 R = 8.31446261815324;
+double Gas_Constant = 8.31446261815324;
 List<double> kelvins = new List<double>();
 List<double> cpData = new List<double>();
 List<double> hData = new List<double>();
 List<double> sData = new List<double>();
-Console.WriteLine("{0, -16} {1, -10} {2, -10} {3, -10}" , "\tTemp Kelvin", "Cp", "H", "S");
+Console.WriteLine("{0, -16} {1, -10} {2, -10} {3, -10}", "\tTemp Kelvin", "Cp", "H", "S");
+
+//cpData.Add(GetCp(temperature));
+//cpData.Add(GetHeatCapacity(temperature));
+//hData.Add(GetH(temperature));
+//sData.Add(GetS(temperature));
+
 for (temperature = start; temperature <= end; temperature += increment)
 {
     kelvins.Add(temperature);
-    double loopCp = GetCp(temperature);
-    double loopH = GetH(temperature);
+    //double loopCp = GetCp(temperature);
+    double loopCp = GetHeatCapacity(temperature);
+    //double loopH = GetH(temperature);
+    double loopH = GetEnthalpy(temperature);
     double loopS = GetS(temperature);
     cpData.Add(Math.Round(loopCp, 3));
     if (temperature == 998.15)
     {
-        double lastValue = GetCp(end);
+        //double lastValue = GetCp(end);
+        double lastValue = GetHeatCapacity(end);
         cpData.Add(Math.Round(lastValue, 3));
 
     }
     hData.Add(Math.Round(loopH, 3));
     if (temperature == 998.15)
     {
-        double lastValue = GetH(end);
+        //double lastValue = GetH(end);
+        double lastValue = GetEnthalpy(end);
         hData.Add(Math.Round(lastValue, 3));
 
     }
@@ -147,14 +166,50 @@ for (temperature = start; temperature <= end; temperature += increment)
     }
 
 
-    
+
     //Console.WriteLine("{0, -10} {1, -10} {2, -10} {3, -10}" , "\t" + temperature + " :", "\t"+ cpData.Last(), hData.Last(), sData.Last());
 }
-    kelvins.Add(end);
-    for (int i = 0; i < 9; i++)
-    {
-        Console.WriteLine("{0, -10} {1, -10} {2, -10} {3, -10}", "\t" + kelvins.ElementAt(i) + " :", "\t" + cpData.ElementAt(i), hData.ElementAt(i), sData.ElementAt(i));
-    }
+
+double GetEnthalpy(double temperature)
+{
+    double Kelvin = temperature;
+    double Entropy = Gas_Constant * Kelvin * -((a1 * Math.Pow(Kelvin, -2))
+                                            + (a2 * Math.Pow(Kelvin, -1) * Math.Log(Kelvin))
+                                            + a3
+                                            + (a4 * (Kelvin / 2))
+                                            + (a5 * (Math.Pow(Kelvin, 2) / 3))
+                                            + (a6 * (Math.Pow(Kelvin, 3) / 4))
+                                            + (a7  * (Math.Pow(Kelvin, 4) / 5))
+                                            + (a_8 / Kelvin));
+    Entropy /= 1000;
+    return Entropy;
+
+}
+
+double GetHeatCapacity(double temperature)
+{
+    double Kelvin = temperature;
+    double heat_capacity = Gas_Constant * (a1
+                                        * Math.Pow(Kelvin, -2)
+                                        + a2
+                                        * Math.Pow(Kelvin, -1)
+                                        + a3
+                                        + a4
+                                        * Kelvin
+                                        + a5
+                                        * Math.Pow(Kelvin, 2)
+                                        + a6
+                                        * Math.Pow(Kelvin, 3)
+                                        + a7
+                                        * Math.Pow(Kelvin, 4));
+    return heat_capacity;
+}
+
+kelvins.Add(end);
+for (int i = 0; i < 9; i++)
+{
+    Console.WriteLine("{0, -10} {1, -10} {2, -10} {3, -10}", "\t" + kelvins.ElementAt(i) + " :", "\t" + cpData.ElementAt(i), hData.ElementAt(i), sData.ElementAt(i));
+}
 
 
 double GetS(double temperature)
@@ -201,24 +256,24 @@ double GetH(double temperature)
     return H.RealNumberValue;
 }
 
-double GetCp(double temperature)
-{
-    T = temperature;
-    Cp = R * (a_1
-          * T.Pow(texp_1)
-          + a_2
-          * T.Pow(texp_2)
-          + a_3
-          + a_4
-          * T
-          + a_5
-          * T.Pow(texp_5)
-          + a_6
-          * T.Pow(texp_6)
-          + a_7
-          * T.Pow(texp_7));
-    return Cp.RealNumberValue;
-}
+//double GetCp(double temperature)
+//{
+//    T = temperature;
+//    Cp = R * (a_1
+//          * T.Pow(texp_1)
+//          + a_2
+//          * T.Pow(texp_2)
+//          + a_3
+//          + a_4
+//          * T
+//          + a_5
+//          * T.Pow(texp_5)
+//          + a_6
+//          * T.Pow(texp_6)
+//          + a_7
+//          * T.Pow(texp_7));
+//    return Cp.RealNumberValue;
+//}
 
 Cp = R * (a_1
           * T.Pow(texp_1)
@@ -235,8 +290,6 @@ Cp = R * (a_1
           * T.Pow(texp_7));
 // Cp = 73.67604083
 //      73.676040830041
-
-var nxnx = Math.Log(T.RealNumberValue);
 
 H = R * T * -(a_1
              * T.Pow(texp_1)
