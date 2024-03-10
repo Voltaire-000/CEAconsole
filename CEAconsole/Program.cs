@@ -34,22 +34,22 @@ foreach (var element in chemicalFormula)
 List<JToken>? temperatureRange = reactantProperties[0]?.SelectToken("TemperatureRange")?.ToList();
 List<JToken> tempRange_1 = [.. temperatureRange[0]];
 List<JToken> mChildren = [.. tempRange_1.Children()];
-List<JToken> childTempRange = mChildren[0].ToList();
+List<JToken> childTempRange = [.. mChildren[0]];
 // number of coefficients
 JToken childNumberOfCoefficients = mChildren[1];
 int numberOfCoefficients = childNumberOfCoefficients.ToObject<int>();
 
 // list of temperature exponents : 8 exponents
-List<JToken> TExponents = mChildren[2].ToList();
+List<JToken> TExponents = [.. mChildren[2]];
 JToken tempExponentsList = TExponents[0];
-double texp_1 = tempExponentsList[0].ToObject<double>();
-double texp_2 = tempExponentsList[1].ToObject<double>();
-double texp_3 = tempExponentsList[2].ToObject<double>();
-double texp_4 = tempExponentsList[3].ToObject<double>();
-double texp_5 = tempExponentsList[4].ToObject<double>();
-double texp_6 = tempExponentsList[5].ToObject<double>();
-double texp_7 = tempExponentsList[6].ToObject<double>();
-double texp_8 = tempExponentsList[7].ToObject<double>();
+double? texp_1 = tempExponentsList[0]?.ToObject<double>();
+double? texp_2 = tempExponentsList[1]?.ToObject<double>();
+double? texp_3 = tempExponentsList[2]?.ToObject<double>();
+double? texp_4 = tempExponentsList[3]?.ToObject<double>();
+double? texp_5 = tempExponentsList[4]?.ToObject<double>();
+double? texp_6 = tempExponentsList[5]?.ToObject<double>();
+double? texp_7 = tempExponentsList[6]?.ToObject<double>();
+double? texp_8 = tempExponentsList[7]?.ToObject<double>();
 
 // list of coefficients
 List<JToken> Coefficients = mChildren[4].ToList();
