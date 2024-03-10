@@ -128,7 +128,7 @@ double GetEntropy(double Kelvin)
 
 double GetEnthalpy(double Kelvin)
 {
-    double Entropy = Gas_Constant_R * Kelvin * -((a1 * Math.Pow(Kelvin, -2))
+    double Enthalpy = Gas_Constant_R * Kelvin * -((a1 * Math.Pow(Kelvin, -2))
                                             + (a2 * Math.Pow(Kelvin, -1) * Math.Log(Kelvin))
                                             + a3
                                             + (a4 * (Kelvin / 2))
@@ -136,10 +136,18 @@ double GetEnthalpy(double Kelvin)
                                             + (a6 * (Math.Pow(Kelvin, 3) / 4))
                                             + (a7 * (Math.Pow(Kelvin, 4) / 5))
                                             + (a_8 / Kelvin));
-    Entropy /= 1000;
-    return Entropy;
+    Enthalpy /= 1000;
+    return Enthalpy;
 
 }
+
+//double GetEnthalpy(double Kelvin)
+//{
+//    Kelvin = Kelvin - 289.15;
+//    double Enthalpy = Gas_Constant_R * Kelvin * (a1 + a2 * Kelvin / 2 + (a3 * Math.Pow(Kelvin, 2) / 3) + (a4 * Math.Pow(Kelvin, 3) / 4) + (a5 * Math.Pow(Kelvin, 4)/5) + a6/Kelvin);
+//    Enthalpy = Enthalpy / 1000;
+//    return Enthalpy;
+//}
 
 double GetHeatCapacity(double Kelvin)
 {
