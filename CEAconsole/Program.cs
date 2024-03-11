@@ -4,6 +4,7 @@
 using CEAconsole.Models;
 using CEAconsole.Services;
 using MathNet.Numerics;
+using MathNet.Numerics.Integration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -80,7 +81,6 @@ List<double> entropyList = [];
 
 Console.WriteLine("{0, -16} {1, -10} {2, -10} {3, -10}", "\tTemp Kelvin", "Cp", "H", "S");
 
-
 heatCapacityList.Add(0.0);
 
 //heatCapacityList.Add(GetHeatCapacity(Kelvin));
@@ -89,13 +89,14 @@ entropyList.Add(GetEntropy(Kelvin));
 temperatureList.Add(Kelvin);
 double startTemp = 298.15;
 double endTemp = 1000;
-double increment = 100;
+double increment = 25;
+int digits = 3;
 
 for (Kelvin = startTemp; Kelvin <= endTemp; Kelvin += increment)
 {
     temperatureList.Add(Kelvin);
     double cp_value = GetHeatCapacity(Kelvin);
-    heatCapacityList.Add(Math.Round(cp_value, 3));
+    heatCapacityList.Add(cp_value);
     //double enthalpy_value = GetEnthalpy(Kelvin);
     double enthalpy_value = CalcEnthalpyChange(startTemp, temperatureList.Last<double>());
     double entropy_value = GetEntropy(Kelvin);
@@ -103,19 +104,19 @@ for (Kelvin = startTemp; Kelvin <= endTemp; Kelvin += increment)
     if (Kelvin == 998.15)
     {
         double lastCp_value = GetHeatCapacity(endTemp);
-        heatCapacityList.Add(Math.Round(lastCp_value, 3));
+        heatCapacityList.Add(lastCp_value);
     }
-    enthalpyList.Add(Math.Round(enthalpy_value, 3));
+    enthalpyList.Add(Math.Round(enthalpy_value, digits));
     if (Kelvin == 998.15)
     {
         double lastEnthalpy_value = GetEnthalpy(endTemp);
-        enthalpyList.Add(Math.Round(lastEnthalpy_value, 3));
+        enthalpyList.Add(lastEnthalpy_value);
     }
-    entropyList.Add(Math.Round(entropy_value, 3));
+    entropyList.Add(entropy_value);
     if (Kelvin == 998.15)
     {
         double lastEntropy_value = GetEntropy(endTemp);
-        entropyList.Add(Math.Round(lastEntropy_value, 3));
+        entropyList.Add(lastEntropy_value);
     }
 }
 
@@ -177,13 +178,16 @@ double CalcEnthalpyChange(double initialTemp, double finalTemp)
 {
     int listCount = heatCapacityList.Count;
     double mIndex = heatCapacityList[listCount - 2];
-    double enthalpyChange = Integrate.OnClosedInterval(x => heatCapacityList[listCount - 2] / 1000, initialTemp, finalTemp, 1e-8);
+    int numberOfPartitions = 20;
+    //double enthalpyChange = Integrate.OnClosedInterval(x => heatCapacityList[listCount - 2] / 1000, initialTemp, finalTemp, 1e-8);
+    double enthalpyChange = SimpsonRule.IntegrateComposite(x => heatCapacityList[listCount - 2] / 1000, initialTemp,finalTemp, numberOfPartitions);
     return enthalpyChange;
 }
 
 temperatureList.Add(endTemp);
+int recordsLength = temperatureList.Count;
 
-for (int i = 0; i < 10; i++)
+for (int i = 0; i < recordsLength; i++)
 {
-    Console.WriteLine("{0, -10} {1, -10} {2, -10} {3, -10}", "\t" + temperatureList.ElementAt(i) + " :", "\t" + heatCapacityList.ElementAt(i), enthalpyList.ElementAt(i), entropyList.ElementAt(i));
+    Console.WriteLine("{0, -10} {1, -10} {2, -10} {3, -10}", "\t" + temperatureList.ElementAt(i) + " :", "\t" + heatCapacityList.ElementAt(i).Round(digits), enthalpyList.ElementAt(i).Round(digits), entropyList.ElementAt(i).Round(digits));
 }
