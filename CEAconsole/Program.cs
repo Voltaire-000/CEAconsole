@@ -7,6 +7,7 @@ using MathNet.Numerics;
 using MathNet.Numerics.Integration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using ScottPlot;
 
 ThermoService thermoService = new();
 //ElementsService elementsService = new();
@@ -67,7 +68,7 @@ double a7 = coefficientsList[6].ToObject<double>();
 
 // list of integration constants
 List<JToken> integrationConstants = mChildren[5].ToList();
-List<JToken> integrationConstantList = integrationConstants[0].ToList();
+List<JToken> integrationConstantList = [.. integrationConstants[0]];
 double a_8 = integrationConstantList[0].ToObject<double>();
 double a_9 = integrationConstantList[1].ToObject<double>();
 
@@ -176,18 +177,62 @@ double GetHeatCapacity(double Kelvin)
 
 double CalcEnthalpyChange(double initialTemp, double finalTemp)
 {
+    double mIndex = 0;
     int listCount = heatCapacityList.Count;
-    double mIndex = heatCapacityList[listCount - 2];
+
+    if (listCount > 10)
+    {
+        mIndex = heatCapacityList[listCount - 10] / 1000; 
+    }
+    else
+    {
+        mIndex = heatCapacityList[listCount - 2] / 1000;
+    }
+
     int numberOfPartitions = 20;
     //double enthalpyChange = Integrate.OnClosedInterval(x => heatCapacityList[listCount - 2] / 1000, initialTemp, finalTemp, 1e-8);
-    double enthalpyChange = SimpsonRule.IntegrateComposite(x => heatCapacityList[listCount - 2] / 1000, initialTemp,finalTemp, numberOfPartitions);
+    //double enthalpyChange = SimpsonRule.IntegrateComposite(x => mIndex, initialTemp,finalTemp, numberOfPartitions);
+    double enthalpyChange = NewtonCotesTrapeziumRule.IntegrateComposite(x => mIndex, initialTemp, finalTemp, numberOfPartitions);
     return enthalpyChange;
 }
 
 temperatureList.Add(endTemp);
 int recordsLength = temperatureList.Count;
+int skipPrint = 10;
+
+ScottPlot.Plot plot = new();
+double[] dataX = { 1, 2, 3, 4, 5 };
+double[] dataY = { 1, 4, 9, 16, 25 };
+plot.Add.Scatter( dataX, dataY);
+
+
+ScottPlot.Plot lineChart = new();
+Coordinates mstart = new Coordinates();
+mstart.X = temperatureList[0];
+mstart.Y = heatCapacityList[0];
+
+ScottPlot.Plot enthalpyPlot = new();
+double[] KelvinTemps = temperatureList.ToArray();
+double[] EnthalpyValues = enthalpyList.ToArray();
+
+//enthalpyPlot.Add.Scatter(KelvinTemps, EnthalpyValues);
+enthalpyPlot.SavePng("enthalpy.png", 1600, 1200);
+
+//Coordinates mend = new Coordinates();
+//mend.X = temperatureList[30];
+//mend.Y = heatCapacityList[30];
+//lineChart.Add.Line(mstart, mend);
+
+//plot.Add.Line(mstart, mend);
+//lineChart.SavePng("enthalpy.png", 1600, 1200);
+
+//int mtest = 99;
 
 for (int i = 0; i < recordsLength; i++)
 {
-    Console.WriteLine("{0, -10} {1, -10} {2, -10} {3, -10}", "\t" + temperatureList.ElementAt(i) + " :", "\t" + heatCapacityList.ElementAt(i).Round(digits), enthalpyList.ElementAt(i).Round(digits), entropyList.ElementAt(i).Round(digits));
+        Console.WriteLine("{0, -10} {1, -10} {2, -10} {3, -10}", "\t" 
+                + temperatureList.ElementAt(i) + " :", "\t" 
+                + heatCapacityList.ElementAt(i).Round(digits), enthalpyList.ElementAt(i).Round(digits), entropyList.ElementAt(i).Round(digits));
 }
+
+
