@@ -11,26 +11,14 @@ using Newtonsoft.Json.Linq;
 using ScottPlot;
 
 // Services Section
-//ThermoService thermoService = new();
-//ElementsService elementsService = new();
-string ElementsList = ElementsService.GetElements();
-string ReactantsList = ThermoService.GetReactants();
-string TransportPropertiesList = TransportService.GetTransportProperties();
-
-//TransportService transportService = new();
-
-//List<Reactant>? reactants = new(thermoService.GetReactants());
-
-//string json = JsonConvert.SerializeObject(reactants, Formatting.Indented);
-
-//JArray parsedJson = JArray.Parse(json);
-// filter the object based on the conditions
-//JArray filteredReactants = new(parsedJson.Where(r => r[key: "Name"].ToString() == "CH4"));
+string ElementsList = InputServices.GetElements("Data/tableOfElements.json");
+string ReactantsList = InputServices.GetReactants("Data/shortThermo.json");
+string TransportPropertiesList = InputServices.GetTransportProperties("Data/shortTrans.json");
+// filter the data
 string reactantName = "CH4";
 var filteredReactants = ReactantFilter.FilteredReactant(ReactantsList, reactantName);
 // convert back to a JSON string
 string propertiesOfInputFilter = JsonConvert.SerializeObject(filteredReactants, Formatting.Indented);
-
 
 JArray reactantProperties = JArray.Parse(filteredReactants);
 string? name = reactantProperties[0]?.SelectToken("Name")?.ToString();
@@ -128,6 +116,7 @@ for (Kelvin = startTemp; Kelvin <= endTemp; Kelvin += increment)
         entropyList.Add(lastEntropy_value);
     }
 }
+
 
 double GetEntropy(double Kelvin)
 {
