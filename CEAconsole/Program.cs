@@ -36,11 +36,9 @@ JArray reactantProperties = JArray.Parse(filteredReactants);
 string? name = reactantProperties[0]?.SelectToken("Name")?.ToString();
 
 JObject? chemicalFormula = reactantProperties[0].SelectToken("chemicalFormula") as JObject;
-foreach (var element in chemicalFormula)
+foreach (KeyValuePair<string, JToken?> element in chemicalFormula)
 {
-    string elementName = element.Key;
-    int? elementValue = element.Value?.ToObject<int>();
-    Console.WriteLine($"Element: {elementName}, Value: {elementValue}");
+    Console.WriteLine($"Element: {element.Key}, Value: {element.Value?.ToObject<int>()}");
 }
 
 // get temperature range_1
