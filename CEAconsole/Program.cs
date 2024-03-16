@@ -1,6 +1,7 @@
 ﻿
 
 // See https://aka.ms/new-console-template for more information
+using CEAconsole.Filters;
 using CEAconsole.Models;
 using CEAconsole.Services;
 using MathNet.Numerics;
@@ -10,23 +11,31 @@ using Newtonsoft.Json.Linq;
 using ScottPlot;
 
 // Services Section
-ThermoService thermoService = new();
+//ThermoService thermoService = new();
 //ElementsService elementsService = new();
+string ElementsList = ElementsService.GetElements();
+string ReactantsList = ThermoService.GetReactants();
+string TransportPropertiesList = TransportService.GetTransportProperties();
+
 //TransportService transportService = new();
 
-List<Reactant>? reactants = new(thermoService.GetReactants());
-string json = JsonConvert.SerializeObject(reactants, Formatting.Indented);
+//List<Reactant>? reactants = new(thermoService.GetReactants());
 
-JArray parsedJson = JArray.Parse(json);
+//string json = JsonConvert.SerializeObject(reactants, Formatting.Indented);
+
+//JArray parsedJson = JArray.Parse(json);
 // filter the object based on the conditions
-JArray filteredReactants = new(parsedJson.Where(r => r[key: "Name"].ToString() == "CH4"));
+//JArray filteredReactants = new(parsedJson.Where(r => r[key: "Name"].ToString() == "CH4"));
+string reactantName = "CH4";
+var filteredReactants = ReactantFilter.FilteredReactant(ReactantsList, reactantName);
 // convert back to a JSON string
 string propertiesOfInputFilter = JsonConvert.SerializeObject(filteredReactants, Formatting.Indented);
 
-JArray reactantProperties = JArray.Parse(propertiesOfInputFilter);
+
+JArray reactantProperties = JArray.Parse(filteredReactants);
 string? name = reactantProperties[0]?.SelectToken("Name")?.ToString();
 
-JObject? chemicalFormula = reactantProperties[0].SelectToken("ChemicalFormula") as JObject;
+JObject? chemicalFormula = reactantProperties[0].SelectToken("chemicalFormula") as JObject;
 foreach (var element in chemicalFormula)
 {
     string elementName = element.Key;
@@ -35,7 +44,7 @@ foreach (var element in chemicalFormula)
 }
 
 // get temperature range_1
-List<JToken>? temperatureRange = reactantProperties[0]?.SelectToken("TemperatureRange")?.ToList();
+List<JToken>? temperatureRange = reactantProperties[0]?.SelectToken("temperatureRange")?.ToList();
 List<JToken> tempRange_1 = [.. temperatureRange[0]];
 List<JToken> mChildren = [.. tempRange_1.Children()];
 List<JToken> childTempRange = [.. mChildren[0]];

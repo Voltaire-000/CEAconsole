@@ -11,13 +11,11 @@ namespace CEAconsole.Models
     {
         public static string[]? ExtractProducts(string json)
         {
-            using (JsonDocument doc = JsonDocument.Parse(json))
-            {
-                JsonElement root = doc.RootElement;
-                JsonElement onlyItems = root.GetProperty("only");
-                string[]? Prod = JsonSerializer.Deserialize<string[]>(onlyItems.GetRawText());
-                return Prod;
-            }
+            using JsonDocument doc = JsonDocument.Parse(json);
+            JsonElement root = doc.RootElement;
+            JsonElement onlyItems = root.GetProperty("only");
+            string[]? Prod = JsonSerializer.Deserialize<string[]>(onlyItems.GetRawText());
+            return Prod;
         }
     }
 }
