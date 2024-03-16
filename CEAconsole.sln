@@ -5,7 +5,9 @@ VisualStudioVersion = 17.8.34601.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CEAconsole", "CEAconsole\CEAconsole.csproj", "{83436F6A-6610-4200-9264-5962F833FAB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CubicSolver", "CubicSolver\CubicSolver.csproj", "{C2607733-52AF-46D5-A7DB-C227DE79440E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CubicSolver", "CubicSolver\CubicSolver.csproj", "{C2607733-52AF-46D5-A7DB-C227DE79440E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCEAconsole", "TestCEAconsole\TestCEAconsole.csproj", "{EB9D6F07-5635-4150-95B5-D722A3CCE85D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{C2607733-52AF-46D5-A7DB-C227DE79440E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2607733-52AF-46D5-A7DB-C227DE79440E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2607733-52AF-46D5-A7DB-C227DE79440E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB9D6F07-5635-4150-95B5-D722A3CCE85D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB9D6F07-5635-4150-95B5-D722A3CCE85D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB9D6F07-5635-4150-95B5-D722A3CCE85D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB9D6F07-5635-4150-95B5-D722A3CCE85D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

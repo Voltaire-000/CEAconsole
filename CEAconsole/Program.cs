@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ScottPlot;
 
+// Services Section
 ThermoService thermoService = new();
 //ElementsService elementsService = new();
 //TransportService transportService = new();
@@ -233,6 +234,17 @@ for (int i = 0; i < recordsLength; i++)
         Console.WriteLine("{0, -10} {1, -10} {2, -10} {3, -10}", "\t" 
                 + temperatureList.ElementAt(i) + " :", "\t" 
                 + heatCapacityList.ElementAt(i).Round(digits), enthalpyList.ElementAt(i).Round(digits), entropyList.ElementAt(i).Round(digits));
+}
+
+string inputCard = InputCardService.GetInputCard();
+string[]? Prod = ProdFilter.ExtractProducts(inputCard);
+
+Console.WriteLine("\nInput Card : " + inputCard);
+
+Console.WriteLine("\nOnly List :");
+for (int i = 0; i < Prod.Length; i++)
+{
+    Console.WriteLine("\t" + Prod[i]); 
 }
 
 
