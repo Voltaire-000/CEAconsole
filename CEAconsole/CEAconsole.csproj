@@ -22,7 +22,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\shortTrans.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Data\tableOfElements.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

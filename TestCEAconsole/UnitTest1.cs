@@ -83,7 +83,7 @@ namespace TestCEAconsole
             //"temperatureRange": [ 200.000, 1000.000 ],
             //"coefficients": [ -1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12 ]
             //"integrationConstants": [ -2.331314360e+04, 8.904322750e+01 ]
-            double Kelvin_298_15 = 698.15;
+            double Kelvin_298_15 = 298.15;
             double Kelvin_1000 = 1000;
             List<JToken> coefficientsList = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
             List<JToken> integrationConstants = [-2.331314360e+04, 8.904322750e+01];

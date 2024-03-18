@@ -14,7 +14,8 @@ namespace CEAconsole.Filters
             };
             List<JsonElement>? records = JsonSerializer.Deserialize<List<JsonElement>>(json, options);
             List<JsonElement> filteredRecords = (from record in records
-                                                 where record.TryGetProperty("Name", out JsonElement nameElement) && nameElement.GetString() == reactantName
+                                                 where record.TryGetProperty("Name", out JsonElement nameElement) &&
+                                                 nameElement.GetString() == reactantName
                                                  select record).ToList();
             return JsonSerializer.Serialize(filteredRecords, options);
         }

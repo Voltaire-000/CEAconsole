@@ -6,6 +6,7 @@ using CEAconsole.Models;
 using CEAconsole.Services;
 using MathNet.Numerics;
 using MathNet.Numerics.Integration;
+using MathNet.Numerics.LinearAlgebra;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ScottPlot;
@@ -16,9 +17,17 @@ string ReactantsList = InputServices.GetReactants("Data/shortThermo.json");
 string TransportPropertiesList = InputServices.GetTransportProperties("Data/shortTrans.json");
 // filter the data
 string reactantName = "CH4";
-var filteredReactants = ReactantFilter.FilteredReactant(ReactantsList, reactantName);
+string filteredReactants = ReactantFilter.FilteredReactant(ReactantsList, reactantName);
+
+string x_fuelName = "CH4";
+string x_OxidizerName = "O2";
+string equation = BalanceEquation.HydrocarbonAndOxygen(ReactantsList, x_fuelName, x_OxidizerName);
 // convert back to a JSON string
-string propertiesOfInputFilter = JsonConvert.SerializeObject(filteredReactants, Formatting.Indented);
+//string propertiesOfInputFilter = JsonConvert.SerializeObject(filteredReactants, Formatting.Indented);
+
+string chemicalEquation = JsonConvert.SerializeObject(equation, Formatting.Indented);
+//JArray equationProperties = JArray.Parse(chemicalEquation);
+
 
 JArray reactantProperties = JArray.Parse(filteredReactants);
 string? name = reactantProperties[0]?.SelectToken("Name")?.ToString();
@@ -86,7 +95,7 @@ entropyList.Add(GetEntropy(Kelvin));
 temperatureList.Add(Kelvin);
 double startTemp = 298.15;
 double endTemp = 1000;
-double increment = 25;
+double increment = 50;
 int digits = 3;
 
 for (Kelvin = startTemp; Kelvin <= endTemp; Kelvin += increment)
@@ -133,6 +142,21 @@ double GetEntropy(double Kelvin)
 
 double GetEnthalpy(double Kelvin)
 {
+    if (Kelvin == 1000)
+    {
+        Kelvin = 1000;    // , 1000 = 38.853 ( 38.685) , 998.15 = 38.994 (38.548) , 898.15 = 46.455 ( 31.416)
+    }
+
+    // -1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12
+    a1 = -1.766850998e+05;
+    a2 = 2.786181020e+03;
+    a3 = -1.202577850e+01;
+    a4 = 3.917619290e-02;
+    a5 = -3.619054430e-05;
+    a6 = 2.026853043e-08;
+    a7 = -4.976705490e-12;
+    a_8 = -2.331314360e+04;
+
     double Enthalpy = Gas_Constant_R * Kelvin * -((a1 * Math.Pow(Kelvin, -2))
                                             + (a2 * Math.Pow(Kelvin, -1) * Math.Log(Kelvin))
                                             + a3
@@ -215,15 +239,13 @@ double[] EnthalpyValues = enthalpyList.ToArray();
 //enthalpyPlot.Add.Scatter(KelvinTemps, EnthalpyValues);
 enthalpyPlot.SavePng("enthalpy.png", 1600, 1200);
 
-//Coordinates mend = new Coordinates();
-//mend.X = temperatureList[30];
-//mend.Y = heatCapacityList[30];
-//lineChart.Add.Line(mstart, mend);
+//-------------- Matrix Gaussian substitution
+var matrixA = Matrix<double>.Build.DenseOfArray(new[,] { { 1.0, 2.0 }, { 3.0, 4.0 } });
+var vectorB = Vector<double>.Build.DenseOfArray(new[] { 5.0, 11.0 });
 
-//plot.Add.Line(mstart, mend);
-//lineChart.SavePng("enthalpy.png", 1600, 1200);
+var resultX = matrixA.Solve(vectorB);
 
-//int mtest = 99;
+//
 
 for (int i = 0; i < recordsLength; i++)
 {

@@ -183,7 +183,7 @@
         }
     },
     {
-        "reactant": "CO2",
+        "Name": "CO2",
         "description": "Gurvich,1991 pt1 p27 pt2 p24.",
         "t_intervals": 3,
         "id_code": "g 9/99",
@@ -222,7 +222,7 @@
         }
     },
     {
-        "reactant": "O2(L)",
+        "Name": "O2(L)",
         "description": "Oxygen. McBride,1996 pp85,93.",
         "t_intervals": 0,
         "id_code": "g 6/96",
@@ -241,7 +241,7 @@
         }
     },
     {
-        "reactant": "O",
+        "Name": "O",
         "description": "D0(O2):Brix,1954. Moore,1976. Gordon,1999.",
         "t_intervals": 3,
         "id_code": "g 5/97",
@@ -279,7 +279,7 @@
         }
     },
     {
-        "reactant": "H2O2(L)",
+        "Name": "H2O2(L)",
         "description": "Gurvich, 1989 v1 pt1 p126 pt2 p303.                     React.",
         "t_intervals": 1,
         "id_code": "tpis89",
@@ -298,6 +298,75 @@
                 "H^(298.15)-H^(0) J/mol": 22949.000,
                 "coefficients": [ 0.000000000e+00, 0.000000000e+00, 1.074386825e+01, 0.000000000e+00, 0.000000000e+00, 0.000000000e+00, 0.000000000e+00 ],
                 "integrationConstants": [ -2.578789845e+04, -4.803221291e+01 ]
+            }
+        }
+    },
+    {
+        "Name": "H2O",
+        "description": "Hf:Cox,1989. Woolley,1987. TRC(10/88) tuv25.",
+        "t_intervals": 2,
+        "id_code": "g 8/89",
+        "chemicalFormula": {
+            "H": 2.00,
+            "O": 1.00
+        },
+        "gaseous": false,
+        "molecularWeight": 18.0152800,
+        "heatOfFormation": -241826.000,
+        "temperatureRange": {
+            "range_1": {
+                "temperatureRange": [ 200.000, 1000.000 ],
+                "numberOfCoefficients": 7,
+                "tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
+                "H^(298.15)-H^(0) J/mol": 9904.092,
+                "coefficients": [ -3.947960830e+04, 5.755731020e+02, 9.317826530e-01, 7.222712860e-03, -7.342557370e-06, 4.955043490e-09, -1.336933246e-12 ],
+                "integrationConstants": [ -3.303974310e+04, 1.724205775e+01 ]
+            },
+            "range_2": {
+                "temperatureRange": [ 1000.000, 6000.000 ],
+                "numberOfCoefficients": 7,
+                "tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
+                "H^(298.15)-H^(0) J/mol": 9904.092,
+                "coefficients": [ 1.034972096e+06, -2.412698562e+03, 4.646110780e+00, 2.291998307e-03, -6.836830480e-07, 9.426468930e-11, -4.822380530e-15 ],
+                "integrationConstants": [ -1.384286509e+04, -7.978148510e+00 ]
+            }
+        }
+    },
+    {
+        "Name": "O2",
+        "description": "Ref-Elm. Gurvich,1989 pt1 p94 pt2 p9.",
+        "t_intervals": 3,
+        "id_code": "tpis89",
+        "chemicalFormula": {
+            "O": 2.00
+        },
+        "gaseous": false,
+        "molecularWeight": 31.9988000,
+        "heatOfFormation": 0.000,
+        "temperatureRange": {
+            "range_1": {
+                "temperatureRange": [ 200.000, 1000.000 ],
+                "numberOfCoefficients": 7,
+                "tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
+                "H^(298.15)-H^(0) J/mol": 8680.104,
+                "coefficients": [ -3.425563420e+04, 4.847000970e+02, 1.119010961e+00, 4.293889240e-03, -6.836300520e-07, -2.023372700e-09, 1.039040018e-12 ],
+                "integrationConstants": [ -3.391454870e+03, 1.849699470e+01 ]
+            },
+            "range_2": {
+                "temperatureRange": [ 1000.000, 6000.000 ],
+                "numberOfCoefficients": 7,
+                "tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
+                "H^(298.15)-H^(0) J/mol": 8680.104,
+                "coefficients": [ -1.037939022e+06, 2.344830282e+03, 1.819732036e+00, 1.267847582e-03, -2.188067988e-07, 2.053719572e-11, -8.193467050e-16 ],
+                "integrationConstants": [ -1.689010929e+04, 1.738716506e+01 ]
+            },
+            "range_3": {
+                "temperatureRange": [ 6000.000, 20000.000 ],
+                "numberOfCoefficients": 7,
+                "tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
+                "H^(298.15)-H^(0) J/mol": 8680.104,
+                "coefficients": [ 4.975294300e+08, -2.866106874e+05, 6.690352250e+01, -6.169959020e-03, 3.016396027e-07, -7.421416600e-12, 7.278175770e-17 ],
+                "integrationConstants": [ 2.293554027e+06, -5.530621610e+02 ]
             }
         }
     },
