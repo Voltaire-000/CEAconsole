@@ -1,13 +1,14 @@
 using CEAconsole.Models;
 using CEAconsole.Services;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
-using System.Text.Json;
+using System.Diagnostics;
+using MathNet.Numerics.LinearAlgebra;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TestCEAconsole
 {
     [TestClass]
-    public class UnitTest1
+    public class TestFilters
     {
 
         [TestMethod]
@@ -22,6 +23,70 @@ namespace TestCEAconsole
             Assert.AreEqual("Ar", ar);
         }
 
+    }
+
+    [TestClass]
+    public class TestMatrix
+    {
+        //[TestMethod]
+        //public void Test_Matrix_Should_Work()
+        //{
+        //    Matrix4x4 matrix = new Matrix4x4(
+        //        1, 2, 3, 4,
+        //        5, 6, 7, 8,
+        //        9, 10, 11, 12,
+        //        13, 14, 15, 16);
+
+        //    bool isIdenty = matrix.IsIdentity;
+        //    Matrix4x4 invertedMatrix;
+        //    bool isSuccesfull = Matrix4x4.Invert(matrix, out invertedMatrix);
+        //    if (isSuccesfull)
+        //    {
+        //        Console.WriteLine("The inverted matrix is : ");
+        //        Console.WriteLine(invertedMatrix);
+        //    }
+        //    else
+        //    {
+        //        Console.WriteLine("The matrix is not invertable.");
+        //    }
+
+        //    Assert.IsFalse(isIdenty);
+        //    Assert.IsFalse(isSuccesfull);
+        //    Assert.IsFalse(matrix.IsIdentity);
+        //}
+
+        [TestMethod]
+        public void TestMathNetMatrix()
+        {
+            Matrix<double> matrix = Matrix<double>.Build.DenseOfArray(new[,]{
+                {1.0, 0.0, -1.0, 0.0 }, // C balance
+                {4.0, 0.0, 0.0, -2.0 }, // H balance
+                {0.0, 2.0, -2.0, -1.0 }, // O balance
+                {1.0, 0.0, 0.0, 0.0 }   // Setting CH4
+            });
+
+            // set values of matrix
+            //matrix[0, 0] = 1; matrix[0, 1] = 0; matrix[0, 2] = -1; matrix[0, 3] = 0;
+            //matrix[1, 0] = 4; matrix[1, 1] = 0; matrix[1, 2] = 0;  matrix[1, 3] = -2;
+            //matrix[2, 0] = 0; matrix[2, 1] = 2; matrix[2, 2] = -2; matrix[2, 3] = -1;
+            // count matrix columns should equal 4
+            int columnCount = matrix.ColumnCount;
+
+            // create right hand side vector
+            Vector<double> rightHandside = Vector<double>.Build.Dense(new[]
+            {0.0, 0.0, 0.0, 1.0 });
+
+            // solve the system using Gaussian elimination
+            Vector<double> solution = matrix.Solve(rightHandside);
+
+            Assert.AreEqual(4, columnCount);
+            Assert.AreEqual(4, solution.Count);
+            Assert.AreEqual(1, solution[0]);
+            Assert.AreEqual(2, solution[1]);
+            Assert.AreEqual(1, solution[2]);
+            Assert.AreEqual(2, solution[3]);
+
+        }
     }
 
     [TestClass]
