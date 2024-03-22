@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using MathNet.Numerics.LinearAlgebra;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Runtime.CompilerServices;
 
 namespace TestCEAconsole
 {
@@ -155,6 +156,58 @@ namespace TestCEAconsole
             double temp298_15 = ThermoDynamics.GetEnthalpy(coefficientsList, integrationConstants, Kelvin_298_15);
             double delta = 0.005;
             Assert.AreEqual(99, temp298_15, delta);
+        }
+
+        [TestMethod]
+        public void Test_New_HeatCapacity()
+        {
+            double[] temperatureRange = [200.000, 1000.000];
+            double[] t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
+            double[] coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
+            double[] integrationConstants = [-2.331314360e+04, 8.904322750e+01];
+
+            double delta = 0.005;
+
+            double ref_temp = 298.15;
+            double T = 1000;
+            double Cp = ThermoDynamics.HeatCapacity(T, coefficients, t_expnts);
+
+            Assert.AreEqual(73.676, Cp, delta);
+
+        }
+
+        [TestMethod]
+        public void Test_New_Enthalpy()
+        {
+            double[] temperatureRange = [200.000, 1000.000];
+            double[] t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
+            double[] coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
+            double[] integrationConstants = [-2.331314360e+04, 8.904322750e+01];
+
+            double delta = 0.005;
+
+            double ref_temp = 298.15;
+            double T = 0.0;
+
+            double Enthalpy_298 = ThermoDynamics.Enthalpy(298.15, ref_temp, coefficients, t_expnts);
+            double Enthalpy_398 = ThermoDynamics.Enthalpy(398.15, ref_temp, coefficients, t_expnts);
+            double Enthalpy_498 = ThermoDynamics.Enthalpy(498.15, ref_temp, coefficients, t_expnts);
+            double Enthalpy_598 = ThermoDynamics.Enthalpy(598.15, ref_temp, coefficients, t_expnts);
+            double Enthalpy_698 = ThermoDynamics.Enthalpy(698.15, ref_temp, coefficients, t_expnts);
+            double Enthalpy_798 = ThermoDynamics.Enthalpy(798.15, ref_temp, coefficients, t_expnts);
+            double Enthalpy_898 = ThermoDynamics.Enthalpy(898.15, ref_temp, coefficients, t_expnts);
+            double Enthalpy_998 = ThermoDynamics.Enthalpy(998.15, ref_temp, coefficients, t_expnts);
+            double Enthalpy_1000 = ThermoDynamics.Enthalpy(1000.0, ref_temp, coefficients, t_expnts);
+
+            Assert.AreEqual(0, Enthalpy_298, delta);
+            Assert.AreEqual(3.794, Enthalpy_398, delta);
+            Assert.AreEqual(8.139, Enthalpy_498, delta);
+            Assert.AreEqual(13.093, Enthalpy_598, delta);
+            Assert.AreEqual(18.647, Enthalpy_698, delta);
+            Assert.AreEqual(24.768, Enthalpy_798, delta);
+            Assert.AreEqual(31.416, Enthalpy_898, delta);
+            Assert.AreEqual(38.548, Enthalpy_998, delta);
+            Assert.AreEqual(38.685, Enthalpy_1000, delta);
         }
 
     }

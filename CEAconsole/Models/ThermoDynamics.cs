@@ -1,7 +1,10 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using MathNet.Numerics.Differentiation;
+using MathNet.Numerics.Integration;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,7 +12,9 @@ namespace CEAconsole.Models
 {
     public static class ThermoDynamics
     {
+        //private static readonly double[]? coefficients;
         static readonly double Gas_Constant_R = 8.31446261815324;
+
         public static double GetEnthalpy(List<JToken> coefficientsList, List<JToken> integrationConstantList, double Kelvin)
         {
             double a1 = coefficientsList[0].ToObject<double>();
@@ -86,6 +91,24 @@ namespace CEAconsole.Models
                                     + a7
                                     * Math.Pow(Kelvin, 4));
             return heat_capacity;
+        }
+
+        public static double HeatCapacity(double T, double[] coefficients, double[] t_expnts)
+        {
+            double Cp = 0;
+            for (int i = 0; i < coefficients.Length; i++)
+            {
+                Cp += coefficients[i] * Math.Pow(T, t_expnts[i]);
+            }
+            return Cp * Gas_Constant_R;
+        }
+
+        public static double Enthalpy(double T_1, double T_2, double[] coefficients, double[] t_expnts)
+        {
+            Func<double, double> integrand = T => HeatCapacity(T, coefficients, t_expnts) ;
+            double error;
+            double L1Norm;
+            return GaussKronrodRule.Integrate(integrand, T_2, T_1, out error, out L1Norm, 1e-8)/1000;
         }
     }
 }
