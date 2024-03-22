@@ -103,12 +103,25 @@ namespace CEAconsole.Models
             return Cp * Gas_Constant_R;
         }
 
-        public static double Enthalpy(double T_1, double T_2, double[] coefficients, double[] t_expnts)
+        public static double Enthalpy(double ref_Temp, double T_1, double[] coefficients, double[] t_expnts)
         {
-            Func<double, double> integrand = T => HeatCapacity(T, coefficients, t_expnts) ;
+            double integrand(double T) => HeatCapacity(T, coefficients, t_expnts);
             double error;
             double L1Norm;
-            return GaussKronrodRule.Integrate(integrand, T_2, T_1, out error, out L1Norm, 1e-8)/1000;
+            return GaussKronrodRule.Integrate(integrand, ref_Temp, T_1, out error, out L1Norm, 1e-8)/1000;
+        }
+
+        public static double Entropy(double ref_Temp, double T_1 , double[] coefficients, double[] t_expnts)
+        {
+            double integrand(double T) => HeatCapacity(T, coefficients, t_expnts)/T;
+            
+            double error;
+            double L1Norm;
+            
+            // TODO get base entropy at 298.15
+            double integral = GaussKronrodRule.Integrate(integrand, ref_Temp, T_1, out error, out L1Norm, 1e-8);
+            //double delta_T = ref_Temp - T_1;
+            return integral + 186.371;
         }
     }
 }
