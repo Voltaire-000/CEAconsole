@@ -1,0 +1,50 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "title": "ThermoProperties",
+    "type": "object",
+    "properties": {
+        "Species_Name": {
+            "type": "string"
+        },
+        "Molecular_Weight": {
+            "type": "number"
+        },
+        "Enthalpy": {
+			"anyOf":[
+				{"type": "number"},
+				{"type": "string"}
+			]
+        },
+        "Delta_Enthalpy": {
+            "anyOf":[
+				{"type": "number"},
+				{"type": "string"}
+			]
+        },
+        "Delta_Enthalpy_Ref": {
+            "type": "number"
+        },
+        "CP_Ref": {
+            "type": "number"
+        },
+        "Enthalpy_Ref": {
+            "anyOf":[
+				{"type": "number"},
+				{"type": "string"}
+			]
+        },
+        "Entropy_Ref": {
+            "type": "number"
+        }
+    },
+    "required": [
+        "Species_Name",
+        "Molecular_Weight",
+        "Enthalpy",
+        "Delta_Enthalpy",
+        "Delta_Enthalpy_Ref",
+        "CP_Ref",
+        "Enthalpy_Ref",
+        "Entropy_Ref"
+    ]
+}
