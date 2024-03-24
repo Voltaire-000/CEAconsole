@@ -6,38 +6,58 @@ using Newtonsoft.Json.Schema;
 // Load the schema
 var schemaJson = File.ReadAllText("coeffSchema.json");
 var schema = JSchema.Parse(schemaJson);
-
-// Load the data from the text file
-var data = File.ReadAllText("ceaCoeff.txt");
-var lines = data.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
-
-// Parse each line into a dictionary
-var records = new List<Dictionary<string, object>>();
-foreach (var line in lines)
+// Load the JSON file
+string json = File.ReadAllText("output.json");
+JArray jsonObject = JArray.Parse(json);
+// Validate the JSON file against the schema
+bool valid = jsonObject.IsValid(schema, out IList<string> messages);
+// Print the result
+if (valid)
 {
-    var parts = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-    if (parts.Length == 8)
+    Console.WriteLine("The JSON file is valid.");
+}
+else
+{
+    Console.WriteLine("The JSON file is not valid. Errors:");
+    foreach (string message in messages)
     {
-        var record = new Dictionary<string, object>
-                {
-                    { "Species_Name", parts[0] },
-                    { "Molecular_Weight", double.Parse(parts[1]) },
-                    { "Enthalpy", double.Parse(parts[2]) },
-                    { "Delta_Enthalpy", double.Parse(parts[3]) },
-                    { "Delta_Enthalpy_Ref", double.Parse(parts[4]) },
-                    { "CP_Ref", double.Parse(parts[5]) },
-                    { "Enthalpy_Ref", double.Parse(parts[6]) },
-                    { "Entropy_Ref", double.Parse(parts[7]) }
-                };
-        records.Add(record);
+        Console.WriteLine(message);
     }
 }
 
+
+
+// Load the data from the text file
+//var data = File.ReadAllText("ceaCoeff.txt");
+//var lines = data.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+
+// Parse each line into a dictionary
+//var records = new List<Dictionary<string, object>>();
+//foreach (var line in lines)
+//{
+//    var parts = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+//    if (parts.Length == 8)
+//    {
+//        var record = new Dictionary<string, object>
+//                {
+//                    { "Species_Name", parts[0] },
+//                    { "Molecular_Weight", double.Parse(parts[1]) },
+//                    { "Enthalpy", double.Parse(parts[2]) },
+//                    { "Delta_Enthalpy", double.Parse(parts[3]) },
+//                    { "Delta_Enthalpy_Ref", double.Parse(parts[4]) },
+//                    { "CP_Ref", double.Parse(parts[5]) },
+//                    { "Enthalpy_Ref", double.Parse(parts[6]) },
+//                    { "Entropy_Ref", double.Parse(parts[7]) }
+//                };
+//        records.Add(record);
+//    }
+//}
+
 // Convert the list of dictionaries to JSON
-var json = JsonConvert.SerializeObject(records, Formatting.Indented);
+//var json = JsonConvert.SerializeObject(records, Formatting.Indented);
 
 // Write the JSON to a file
-System.IO.File.WriteAllText("output.json", json);
+//System.IO.File.WriteAllText("output.json", json);
 
 
 // Validate the data against the schema
@@ -50,7 +70,7 @@ System.IO.File.WriteAllText("output.json", json);
 
 // If the data is valid, write it to a JSON file
 //File.WriteAllText("output.json", jsonData.ToString());
-Console.WriteLine("The data has been written to output.json.");
+//Console.WriteLine("The data has been written to output.json.");
 
 
 //Console.WriteLine("Hello, World!");
