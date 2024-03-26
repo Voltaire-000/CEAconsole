@@ -5,6 +5,7 @@ using System.Diagnostics;
 using MathNet.Numerics.LinearAlgebra;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Runtime.CompilerServices;
+using Newtonsoft.Json;
 
 namespace TestCEAconsole
 {
@@ -22,6 +23,21 @@ namespace TestCEAconsole
 
             Assert.AreEqual(20, Prod.Length);
             Assert.AreEqual("Ar", ar);
+        }
+
+        [TestMethod]
+        public void TestICollection()
+        {
+            string jsonArrayObject = ThermoService.GetReactants();
+            List<Reactant>? reactantList = JsonConvert.DeserializeObject<List<Reactant>>(jsonArrayObject);
+            ICollection<Reactant>? reactantCollection = reactantList;
+
+            List<Reactant>? filteredCollection = reactantCollection?.Where(item => item.Name == "CH4").ToList();
+            var molecularWeight = (from item in filteredCollection
+                                     select item.MolecularWeight).FirstOrDefault();
+            double expected = 16.0424600;
+            Assert.AreEqual(expected, molecularWeight);
+
         }
 
     }
@@ -220,12 +236,42 @@ namespace TestCEAconsole
 
             double delta = 0.005;
 
+            //double ref_Entropy = 186.371;
             double ref_temp = 298.15;
+            
             double T = 398.15;
 
+            double expected = 197.312;
             double Entropy = ThermoDynamics.Entropy(ref_temp, T, coefficients, t_expnts);
 
-            Assert.AreEqual(99, Entropy, delta);
+            Assert.AreEqual(expected: expected, Entropy, delta);
+        }
+
+        
+        [DataTestMethod]
+        [DataRow(298.15, 186.371)]
+        [DataRow(398.15, 197.312)]
+        [DataRow(498.15, 207.023)]
+        [DataRow(598.15, 216.068)]
+        [DataRow(698.15, 224.642)]
+        [DataRow(798.15, 232.828)]
+        [DataRow(898.15, 240.669)]
+        [DataRow(998.15, 248.195)]
+        [DataRow(1000.00, 248.331)]
+        public void TestMultipleEntropyConditions(double T, double expected)
+        {
+            double[] temperatureRange = [200.000, 1000.000];
+            double[] t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
+            double[] coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
+            double[] integrationConstants = [-2.331314360e+04, 8.904322750e+01];
+
+            double delta = 0.005;
+
+            //double ref_Entropy = 186.371;
+            double ref_temp = 298.15;
+
+            double result = ThermoDynamics.Entropy(ref_temp, T, coefficients, t_expnts);
+            Assert.AreEqual(expected, result, delta);
         }
 
     }
