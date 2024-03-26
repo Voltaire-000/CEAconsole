@@ -1,268 +1,161 @@
 ﻿
 
 // See https://aka.ms/new-console-template for more information
-using CEAconsole.Filters;
 using CEAconsole.Models;
 using CEAconsole.Services;
 using MathNet.Numerics;
-using MathNet.Numerics.Integration;
-using MathNet.Numerics.LinearAlgebra;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using ScottPlot;
 
+// Constants
+double REFERENCE_TEMPERATURE = 298.15;
+double Gas_Constant_R = 8.31446261815324;
+//
 // Services Section
 string ElementsList = InputServices.GetElements("Data/tableOfElements.json");
-string ReactantsList = InputServices.GetReactants("Data/shortThermo.json");
+
+ICollection<Reactant> ReactantsList = InputServices.GetReactants();
+string fuelName = "CH4";
+List<Reactant>? searchedFuel = ReactantsList?.Where(item => item.Name == fuelName).ToList();
+string oxidizerName = "O2";
+Reactant? searchedOxidizer = ReactantsList?.Where(item => item.Name == oxidizerName).FirstOrDefault();
+
 string TransportPropertiesList = InputServices.GetTransportProperties("Data/shortTrans.json");
-// filter the data
-string reactantName = "CH4";
-string filteredReactants = ReactantFilter.FilteredReactant(ReactantsList, reactantName);
 
-string x_fuelName = "CH4";
-string x_OxidizerName = "O2";
-string equation = BalanceEquation.HydrocarbonAndOxygen(ReactantsList, x_fuelName, x_OxidizerName);
-// convert back to a JSON string
-//string propertiesOfInputFilter = JsonConvert.SerializeObject(filteredReactants, Formatting.Indented);
+//string equation = BalanceEquation.HydrocarbonAndOxygen(fuelName, oxidizerName);
 
-string chemicalEquation = JsonConvert.SerializeObject(equation, Formatting.Indented);
-//JArray equationProperties = JArray.Parse(chemicalEquation);
+var chemformula = (from compound in searchedFuel
+                   select compound.ChemicalFormula).FirstOrDefault();
 
-
-JArray reactantProperties = JArray.Parse(filteredReactants);
-string? name = reactantProperties[0]?.SelectToken("Name")?.ToString();
-
-JObject? chemicalFormula = reactantProperties[0].SelectToken("chemicalFormula") as JObject;
-foreach (KeyValuePair<string, JToken?> element in chemicalFormula)
+foreach (var element in chemformula)
 {
-    Console.WriteLine($"Element: {element.Key}, Value: {element.Value?.ToObject<int>()}");
+    Console.WriteLine($"Element : {element.Key}, Value : {element.Value}");
 }
 
-// get temperature range_1
-List<JToken>? temperatureRange = reactantProperties[0]?.SelectToken("temperatureRange")?.ToList();
-List<JToken> tempRange_1 = [.. temperatureRange[0]];
-List<JToken> mChildren = [.. tempRange_1.Children()];
-List<JToken> childTempRange = [.. mChildren[0]];
-// number of coefficients
-JToken childNumberOfCoefficients = mChildren[1];
-int numberOfCoefficients = childNumberOfCoefficients.ToObject<int>();
+// get the temperature ranges
+var tempRange = (from range in searchedFuel
+                 select range.TemperatureRange).FirstOrDefault();
+// get the first temperature range and associated values
+bool hasKeyRange_1 = tempRange.ContainsKey("range_1");
+CEAconsole.Models.Range firstTemperatureRangeObject;
+List<double> temperatureRange = new();
+List<double> coefficients = new();
+List<double> temperatureExponents = new();
+List<double> integrationConstants = new();
+double H_Enthalpy = 0;
 
-// list of temperature exponents : 8 exponents
-List<JToken> TExponents = [.. mChildren[2]];
-JToken tempExponentsList = TExponents[0];
-double? texp_1 = tempExponentsList[0]?.ToObject<double>();
-double? texp_2 = tempExponentsList[1]?.ToObject<double>();
-double? texp_3 = tempExponentsList[2]?.ToObject<double>();
-double? texp_4 = tempExponentsList[3]?.ToObject<double>();
-double? texp_5 = tempExponentsList[4]?.ToObject<double>();
-double? texp_6 = tempExponentsList[5]?.ToObject<double>();
-double? texp_7 = tempExponentsList[6]?.ToObject<double>();
-double? texp_8 = tempExponentsList[7]?.ToObject<double>();
+if (hasKeyRange_1)
+{
+    var range1 = tempRange.TryGetValue("range_1", out firstTemperatureRangeObject);
+    if (firstTemperatureRangeObject != null)
+    {
+        temperatureRange = firstTemperatureRangeObject.TemperatureRange;
+        coefficients = firstTemperatureRangeObject.Coefficients;
+        temperatureExponents = firstTemperatureRangeObject.TExponents;
+        integrationConstants = firstTemperatureRangeObject.IntegrationConstants;
+        H_Enthalpy = firstTemperatureRangeObject.H_Jmol;
+    }
+}
+// list of temperature exponents
+double texp_1 = temperatureExponents[0];
+double texp_2 = temperatureExponents[1];
+double texp_3 = temperatureExponents[2];
+double texp_4 = temperatureExponents[3];
+double texp_5 = temperatureExponents[4];
+double texp_6 = temperatureExponents[5];
+double texp_7 = temperatureExponents[6];
+double texp_8 = temperatureExponents[7];
 
 // list of coefficients
-List<JToken> Coefficients = mChildren[4].ToList();
-List<JToken> coefficientsList = Coefficients[0].ToList();
-
-double a1 = coefficientsList[0].ToObject<double>();
-double a2 = coefficientsList[1].ToObject<double>();
-double a3 = coefficientsList[2].ToObject<double>();
-double a4 = coefficientsList[3].ToObject<double>();
-double a5 = coefficientsList[4].ToObject<double>();
-double a6 = coefficientsList[5].ToObject<double>();
-double a7 = coefficientsList[6].ToObject<double>();
+double a1 = coefficients[0];
+double a2 = coefficients[1];
+double a3 = coefficients[2];
+double a4 = coefficients[3];
+double a5 = coefficients[4];
+double a6 = coefficients[5];
+double a7 = coefficients[6];
 
 // list of integration constants
-List<JToken> integrationConstants = mChildren[5].ToList();
-List<JToken> integrationConstantList = [.. integrationConstants[0]];
-double a_8 = integrationConstantList[0].ToObject<double>();
-double a_9 = integrationConstantList[1].ToObject<double>();
-
-double Kelvin = 0;
-double Gas_Constant_R = 8.31446261815324;
+double a8 = integrationConstants[0];
+double a9 = integrationConstants[1];
 
 List<double> temperatureList = [];
 List<double> heatCapacityList = [];
 List<double> enthalpyList = [];
 List<double> entropyList = [];
 
-Console.WriteLine("{0, -16} {1, -10} {2, -10} {3, -10}", "\tTemp Kelvin", "Cp", "H", "S");
+Console.WriteLine("\n{0, -16} {1, -10} {2, -10} {3, -10}", "\tTemp Kelvin", "Cp", "H", "S");
 
 heatCapacityList.Add(0.0);
-
-//heatCapacityList.Add(GetHeatCapacity(Kelvin));
-enthalpyList.Add(GetEnthalpy(Kelvin));
-entropyList.Add(GetEntropy(Kelvin));
-temperatureList.Add(Kelvin);
-double startTemp = 298.15;
+enthalpyList.Add(-10.016);
+entropyList.Add(0.0);
+temperatureList.Add(0.0);
+temperatureList.Add(298.15);
+double Kelvin = 298.15;
+heatCapacityList.Add(ThermoDynamics.HeatCapacity(Kelvin, coefficients, temperatureExponents));
+enthalpyList.Add(ThermoDynamics.Enthalpy(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents));
+entropyList.Add(ThermoDynamics.Entropy(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents));
+//temperatureList.Add(Kelvin);
+double startTemp = 398.15;
 double endTemp = 1000;
-double increment = 50;
+double increment = 100;
 int digits = 3;
 
 for (Kelvin = startTemp; Kelvin <= endTemp; Kelvin += increment)
 {
     temperatureList.Add(Kelvin);
-    double cp_value = GetHeatCapacity(Kelvin);
+    double cp_value = ThermoDynamics.HeatCapacity(Kelvin, coefficients, temperatureExponents);
     heatCapacityList.Add(cp_value);
-    //double enthalpy_value = GetEnthalpy(Kelvin);
-    double enthalpy_value = CalcEnthalpyChange(startTemp, temperatureList.Last<double>());
-    double entropy_value = GetEntropy(Kelvin);
-    
-    if (Kelvin == 998.15)
+    double enthalpy_value = ThermoDynamics.Enthalpy(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents);
+    //enthalpyList.Add(enthalpy_value);
+    //double enthalpy_value = CalcEnthalpyChange(startTemp, temperatureList.Last<double>());
+    double entropy_value = ThermoDynamics.Entropy(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents);
+    //entropyList.Add(entropy_value);
+
+    if (Kelvin >= 998.15)
     {
-        double lastCp_value = GetHeatCapacity(endTemp);
+        double lastCp_value = ThermoDynamics.HeatCapacity(endTemp, coefficients, temperatureExponents);
         heatCapacityList.Add(lastCp_value);
     }
     enthalpyList.Add(Math.Round(enthalpy_value, digits));
-    if (Kelvin == 998.15)
+    if (Kelvin >= 998.15)
     {
-        double lastEnthalpy_value = GetEnthalpy(endTemp);
+        double lastEnthalpy_value = ThermoDynamics.Enthalpy(REFERENCE_TEMPERATURE, endTemp, coefficients, temperatureExponents);
         enthalpyList.Add(lastEnthalpy_value);
     }
     entropyList.Add(entropy_value);
-    if (Kelvin == 998.15)
+    if (Kelvin >= 998.15)
     {
-        double lastEntropy_value = GetEntropy(endTemp);
+        double lastEntropy_value = ThermoDynamics.Entropy(REFERENCE_TEMPERATURE, endTemp, coefficients, temperatureExponents);
         entropyList.Add(lastEntropy_value);
     }
 }
 
-
-double GetEntropy(double Kelvin)
-{
-    double Entropy = Gas_Constant_R * (-a1 * Math.Pow(Kelvin, -2)
-                                     - (a2 * Math.Pow(Kelvin, -1))
-                                     + (a3 * Math.Log(Kelvin))
-                                     + (a4 * Kelvin)
-                                     + (a5 * Math.Pow(Kelvin, 2) / 2)
-                                     + (a6 * Math.Pow(Kelvin, 3) / 3)
-                                     + (a7 * Math.Pow(Kelvin, 4) / 4)
-                                     + a_9);
-    return Entropy;
-}
-
-double GetEnthalpy(double Kelvin)
-{
-    if (Kelvin == 1000)
-    {
-        Kelvin = 1000;    // , 1000 = 38.853 ( 38.685) , 998.15 = 38.994 (38.548) , 898.15 = 46.455 ( 31.416)
-    }
-
-    // -1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12
-    a1 = -1.766850998e+05;
-    a2 = 2.786181020e+03;
-    a3 = -1.202577850e+01;
-    a4 = 3.917619290e-02;
-    a5 = -3.619054430e-05;
-    a6 = 2.026853043e-08;
-    a7 = -4.976705490e-12;
-    a_8 = -2.331314360e+04;
-
-    double Enthalpy = Gas_Constant_R * Kelvin * -((a1 * Math.Pow(Kelvin, -2))
-                                            + (a2 * Math.Pow(Kelvin, -1) * Math.Log(Kelvin))
-                                            + a3
-                                            + (a4 * (Kelvin / 2))
-                                            + (a5 * (Math.Pow(Kelvin, 2) / 3))
-                                            + (a6 * (Math.Pow(Kelvin, 3) / 4))
-                                            + (a7 * (Math.Pow(Kelvin, 4) / 5))
-                                            + (a_8 / Kelvin));
-    Enthalpy /= 1000;
-    return Enthalpy;
-
-}
-
-//double GetEnthalpy(double Kelvin)
-//{
-//    Kelvin = Kelvin - 289.15;
-//    double Enthalpy = Gas_Constant_R * Kelvin * (a1 + a2 * Kelvin / 2 + (a3 * Math.Pow(Kelvin, 2) / 3) + (a4 * Math.Pow(Kelvin, 3) / 4) + (a5 * Math.Pow(Kelvin, 4)/5) + a6/Kelvin);
-//    Enthalpy = Enthalpy / 1000;
-//    return Enthalpy;
-//}
-
-double GetHeatCapacity(double Kelvin)
-{
-    double heat_capacity = Gas_Constant_R * (a1
-                                        * Math.Pow(Kelvin, -2)
-                                        + a2
-                                        * Math.Pow(Kelvin, -1)
-                                        + a3
-                                        + a4
-                                        * Kelvin
-                                        + a5
-                                        * Math.Pow(Kelvin, 2)
-                                        + a6
-                                        * Math.Pow(Kelvin, 3)
-                                        + a7
-                                        * Math.Pow(Kelvin, 4));
-    return heat_capacity;
-}
-
-double CalcEnthalpyChange(double initialTemp, double finalTemp)
-{
-    double mIndex = 0;
-    int listCount = heatCapacityList.Count;
-
-    if (listCount > 10)
-    {
-        mIndex = heatCapacityList[listCount - 10] / 1000; 
-    }
-    else
-    {
-        mIndex = heatCapacityList[listCount - 2] / 1000;
-    }
-
-    int numberOfPartitions = 20;
-    //double enthalpyChange = Integrate.OnClosedInterval(x => heatCapacityList[listCount - 2] / 1000, initialTemp, finalTemp, 1e-8);
-    //double enthalpyChange = SimpsonRule.IntegrateComposite(x => mIndex, initialTemp,finalTemp, numberOfPartitions);
-    double enthalpyChange = NewtonCotesTrapeziumRule.IntegrateComposite(x => mIndex, initialTemp, finalTemp, numberOfPartitions);
-    return enthalpyChange;
-}
-
 temperatureList.Add(endTemp);
-int recordsLength = temperatureList.Count;
-int skipPrint = 10;
-
-ScottPlot.Plot plot = new();
-double[] dataX = { 1, 2, 3, 4, 5 };
-double[] dataY = { 1, 4, 9, 16, 25 };
-plot.Add.Scatter( dataX, dataY);
 
 
-ScottPlot.Plot lineChart = new();
-Coordinates mstart = new Coordinates();
-mstart.X = temperatureList[0];
-mstart.Y = heatCapacityList[0];
+////-------------- Matrix Gaussian substitution
+//var matrixA = Matrix<double>.Build.DenseOfArray(new[,] { { 1.0, 2.0 }, { 3.0, 4.0 } });
+//var vectorB = Vector<double>.Build.DenseOfArray(new[] { 5.0, 11.0 });
 
-ScottPlot.Plot enthalpyPlot = new();
-double[] KelvinTemps = temperatureList.ToArray();
-double[] EnthalpyValues = enthalpyList.ToArray();
+//var resultX = matrixA.Solve(vectorB);
 
-//enthalpyPlot.Add.Scatter(KelvinTemps, EnthalpyValues);
-enthalpyPlot.SavePng("enthalpy.png", 1600, 1200);
-
-//-------------- Matrix Gaussian substitution
-var matrixA = Matrix<double>.Build.DenseOfArray(new[,] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-var vectorB = Vector<double>.Build.DenseOfArray(new[] { 5.0, 11.0 });
-
-var resultX = matrixA.Solve(vectorB);
-
-//
-
-for (int i = 0; i < recordsLength; i++)
+////
+int round = 3;
+for (int i = 0; i < 10; i++)
 {
-        Console.WriteLine("{0, -10} {1, -10} {2, -10} {3, -10}", "\t" 
-                + temperatureList.ElementAt(i) + " :", "\t" 
-                + heatCapacityList.ElementAt(i).Round(digits), enthalpyList.ElementAt(i).Round(digits), entropyList.ElementAt(i).Round(digits));
+    Console.WriteLine("{0, -10} {1, -10} {2, -10} {3, -10}", "\t"
+            + temperatureList.ElementAt(i) + " :", "\t"
+            + heatCapacityList.ElementAt(i).Round(round), enthalpyList.ElementAt(i).Round(round), entropyList.ElementAt(i).Round(round));
 }
 
-string inputCard = InputCardService.GetInputCard();
-string[]? Prod = ProdFilter.ExtractProducts(inputCard);
+//string inputCard = InputCardService.GetInputCard();
+//string[]? Prod = ProdFilter.ExtractProducts(inputCard);
 
-Console.WriteLine("\nInput Card : " + inputCard);
+//Console.WriteLine("\nInput Card : " + inputCard);
 
-Console.WriteLine("\nOnly List :");
-for (int i = 0; i < Prod.Length; i++)
-{
-    Console.WriteLine("\t" + Prod[i]); 
-}
+//Console.WriteLine("\nOnly List :");
+//for (int i = 0; i < Prod.Length; i++)
+//{
+//    Console.WriteLine("\t" + Prod[i]); 
+//}
 
 

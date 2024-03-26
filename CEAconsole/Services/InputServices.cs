@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CEAconsole.Models;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +10,9 @@ namespace CEAconsole.Services
 {
     public static class InputServices
     {
+        private static readonly string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/shortThermo.json");
+        private static readonly string json = File.ReadAllText(path);
+
         public static string GetInputCard(string caseInp)
         {
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, caseInp);
@@ -22,11 +27,11 @@ namespace CEAconsole.Services
             return json;
         }
 
-        public static string GetReactants(string reactantsJson) 
+        public static ICollection<Reactant> GetReactants() 
         {
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, reactantsJson);
-            string json = File.ReadAllText(path);
-            return json;
+            List<Reactant>? reactantList = JsonConvert.DeserializeObject<List<Reactant>>(json);
+            ICollection<Reactant>? reactantCollection = reactantList;
+            return reactantCollection;
         }
 
         public static string GetTransportProperties(string transportPropertiesJson)

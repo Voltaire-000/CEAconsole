@@ -93,17 +93,17 @@ namespace CEAconsole.Models
             return heat_capacity;
         }
 
-        public static double HeatCapacity(double T, double[] coefficients, double[] t_expnts)
+        public static double HeatCapacity(double T, List<double> coefficients, List<double> t_expnts)
         {
             double Cp = 0;
-            for (int i = 0; i < coefficients.Length; i++)
+            for (int i = 0; i < coefficients.Count; i++)
             {
                 Cp += coefficients[i] * Math.Pow(T, t_expnts[i]);
             }
             return Cp * Gas_Constant_R;
         }
 
-        public static double Enthalpy(double ref_Temp, double T_1, double[] coefficients, double[] t_expnts)
+        public static double Enthalpy(double ref_Temp, double T_1, List<double> coefficients, List<double> t_expnts)
         {
             double integrand(double T) => HeatCapacity(T, coefficients, t_expnts);
             double error;
@@ -111,7 +111,7 @@ namespace CEAconsole.Models
             return GaussKronrodRule.Integrate(integrand, ref_Temp, T_1, out error, out L1Norm, 1e-8)/1000;
         }
 
-        public static double Entropy(double ref_Temp, double T_1 , double[] coefficients, double[] t_expnts)
+        public static double Entropy(double ref_Temp, double T_1 , List<double> coefficients, List<double> t_expnts)
         {
             double integrand(double T) => HeatCapacity(T, coefficients, t_expnts)/T;
             

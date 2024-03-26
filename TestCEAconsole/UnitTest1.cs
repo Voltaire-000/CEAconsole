@@ -6,6 +6,7 @@ using MathNet.Numerics.LinearAlgebra;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
+using CEAconsole.ViewModels;
 
 namespace TestCEAconsole
 {
@@ -28,15 +29,28 @@ namespace TestCEAconsole
         [TestMethod]
         public void TestICollection()
         {
-            string jsonArrayObject = ThermoService.GetReactants();
-            List<Reactant>? reactantList = JsonConvert.DeserializeObject<List<Reactant>>(jsonArrayObject);
-            ICollection<Reactant>? reactantCollection = reactantList;
+            ICollection<Reactant> reactants = ThermoService.GetReactants();
 
-            List<Reactant>? filteredCollection = reactantCollection?.Where(item => item.Name == "CH4").ToList();
+            List<Reactant>? filteredCollection = reactants?.Where(item => item.Name == "CH4").ToList();
             var molecularWeight = (from item in filteredCollection
                                      select item.MolecularWeight).FirstOrDefault();
             double expected = 16.0424600;
+
+            var tempRange = (from item in filteredCollection
+                             select item.TemperatureRange.Values).FirstOrDefault();
+
+            var chemFormula = (from item in filteredCollection
+                               select item.ChemicalFormula).FirstOrDefault();
+            int elementCount = chemFormula.Count;
+            string symbol = chemFormula.ElementAt(0).Key;
+            double atoms = chemFormula.ElementAt(0).Value;
+
+            var mx = tempRange.ElementAt(0);
+
             Assert.AreEqual(expected, molecularWeight);
+
+
+            //Assert.AreEqual(99, tempRange.ElementAt(1));
 
         }
 
@@ -130,10 +144,11 @@ namespace TestCEAconsole
         [TestMethod]
         public void Test_ThermoService()
         {
-            string json = ThermoService.GetReactants();
-            int reactantCount = json.Length;
+            ICollection<Reactant> reactants = ThermoService.GetReactants();
+            int reactantCount = reactants.Count;
 
             Assert.AreNotEqual(0, reactantCount);
+            Assert.AreEqual(15, reactantCount);
         }
 
     }
@@ -177,10 +192,10 @@ namespace TestCEAconsole
         [TestMethod]
         public void Test_New_HeatCapacity()
         {
-            double[] temperatureRange = [200.000, 1000.000];
-            double[] t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
-            double[] coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
-            double[] integrationConstants = [-2.331314360e+04, 8.904322750e+01];
+            List<double> temperatureRange = [200.000, 1000.000];
+            List<double> t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
+            List<double> coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
+            List<double> integrationConstants = [-2.331314360e+04, 8.904322750e+01];
 
             double delta = 0.005;
 
@@ -195,10 +210,10 @@ namespace TestCEAconsole
         [TestMethod]
         public void Test_New_Enthalpy()
         {
-            double[] temperatureRange = [200.000, 1000.000];
-            double[] t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
-            double[] coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
-            double[] integrationConstants = [-2.331314360e+04, 8.904322750e+01];
+            List<double> temperatureRange = [200.000, 1000.000];
+            List<double> t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
+            List<double> coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
+            List<double> integrationConstants = [-2.331314360e+04, 8.904322750e+01];
 
             double delta = 0.005;
 
@@ -229,10 +244,10 @@ namespace TestCEAconsole
         [TestMethod]
         public void Test_New_Entropy()
         {
-            double[] temperatureRange = [200.000, 1000.000];
-            double[] t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
-            double[] coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
-            double[] integrationConstants = [-2.331314360e+04, 8.904322750e+01];
+            List<double> temperatureRange = [200.000, 1000.000];
+            List<double> t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
+            List<double> coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
+            List<double> integrationConstants = [-2.331314360e+04, 8.904322750e+01];
 
             double delta = 0.005;
 
@@ -260,10 +275,10 @@ namespace TestCEAconsole
         [DataRow(1000.00, 248.331)]
         public void TestMultipleEntropyConditions(double T, double expected)
         {
-            double[] temperatureRange = [200.000, 1000.000];
-            double[] t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
-            double[] coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
-            double[] integrationConstants = [-2.331314360e+04, 8.904322750e+01];
+            List<double> temperatureRange = [200.000, 1000.000];
+            List<double> t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
+            List<double> coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
+            List<double> integrationConstants = [-2.331314360e+04, 8.904322750e+01];
 
             double delta = 0.005;
 
@@ -272,6 +287,43 @@ namespace TestCEAconsole
 
             double result = ThermoDynamics.Entropy(ref_temp, T, coefficients, t_expnts);
             Assert.AreEqual(expected, result, delta);
+        }
+
+    }
+
+    [TestClass]
+    public class TestViewModels
+    {
+        [TestMethod]
+        public void TestBaseViewModel()
+        {
+            var viewModel = new ReactantsViewModel();
+            Assert.IsNotNull(viewModel);
+        }
+
+        [TestMethod]
+        public void TestBasePropellantsViewModel()
+        {
+            var viewModel = new PropellantViewModel();
+            Assert.IsNotNull (viewModel);
+        }
+
+        [TestMethod]
+        public void AddItem_ShouldIncreasePropellantsCount()
+        {
+            // Arrange
+            ICollection<Reactant> reactants = ThermoService.GetReactants();
+            Reactant? searchedItem = reactants?.Where(item => item.Name == "CH4").FirstOrDefault();
+
+            var viewModel = new PropellantViewModel();
+            var initialCount = viewModel.ReactantsCollection.Count;
+
+            // Act
+            viewModel.AddItem(searchedItem);
+
+            // Assert
+            Assert.AreEqual(initialCount + 1, viewModel.ReactantsCollection.Count);
+
         }
 
     }
