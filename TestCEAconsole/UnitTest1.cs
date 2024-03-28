@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 using CEAconsole.ViewModels;
+using System.Linq;
 
 namespace TestCEAconsole
 {
@@ -36,20 +37,21 @@ namespace TestCEAconsole
                                      select item.MolecularWeight).FirstOrDefault();
             double expected = 16.0424600;
 
-            var tempRange = (from item in filteredCollection
+            Dictionary<string, CEAconsole.Models.Range>.ValueCollection? tempRange = (from item in filteredCollection
                              select item.TemperatureRange.Values).FirstOrDefault();
 
-            var chemFormula = (from item in filteredCollection
+            Dictionary<string, double>? chemFormula = (from item in filteredCollection
                                select item.ChemicalFormula).FirstOrDefault();
-            int elementCount = chemFormula.Count;
-            string symbol = chemFormula.ElementAt(0).Key;
-            double atoms = chemFormula.ElementAt(0).Value;
+            int? elementCount = chemFormula?.Count;
+            elementCount ??= 0;
+            string? symbol = chemFormula?.ElementAt(0).Key;
+            symbol ??= string.Empty;
+            double? atoms = chemFormula?.ElementAt(0).Value;
+            atoms ??= 0;
 
-            var mx = tempRange.ElementAt(0);
+            CEAconsole.Models.Range? mx = tempRange?.ElementAt(0);
 
             Assert.AreEqual(expected, molecularWeight);
-
-
             //Assert.AreEqual(99, tempRange.ElementAt(1));
 
         }
@@ -118,6 +120,78 @@ namespace TestCEAconsole
             Assert.AreEqual(2, solution[3]);
 
         }
+        [TestMethod]
+        public void TestBalancedEquationSolverWithReactantInput()
+        {
+            // Arrange
+            string fuelName = "CH4";
+            string oxidizerName = "O2";
+            ICollection<Reactant> reactants = ThermoService.GetReactants();
+            List<Reactant>? Fuel = reactants?.Where(item => item.Name == fuelName).ToList();
+            List<Reactant>? Oxidizer = reactants?.Where(item => item.Name == oxidizerName).ToList();
+
+            var fuelElementsList = (from molecule in Fuel
+                                    select molecule.ChemicalFormula).FirstOrDefault();
+            int fuelElementsCount = fuelElementsList.Count;
+
+            var oxidizerElementsList = (from molecule in Oxidizer
+                                        select molecule.ChemicalFormula).FirstOrDefault();
+            int oxidizerElementsCount = fuelElementsList.Count;
+            // make the fuel list
+
+            double fuel_carbon_value = 0.0;
+            double fuel_hydrogen_value = 0.0;
+            double fuel_oxygen_value = 0.0;
+            double oxidizer_carbon_value = 0.0;
+            double oxidizer_hydrogen_value = 0.0;
+            double oxidizer_oxygen_value = 0.0;
+
+            int firstFuelElement = fuelElementsCount - fuelElementsCount;
+            string carbon_key = fuelElementsList.ElementAt(fuelElementsCount - fuelElementsCount).Key;
+            fuel_carbon_value = fuelElementsList.ElementAt(fuelElementsCount - fuelElementsCount).Value;
+            fuel_hydrogen_value = fuelElementsList.ElementAt(fuelElementsCount - 1).Value;
+            oxidizer_oxygen_value = oxidizerElementsList.ElementAt(oxidizerElementsCount - oxidizerElementsCount).Value;
+
+            var fuelKeys = fuelElementsList.Keys;
+            double value = 0.0;
+            double[] fuelArray = [];
+
+
+
+            double[,] matrixValues =
+            {
+                {fuel_carbon_value, oxidizer_carbon_value, -1.0,0.0},
+                {fuel_hydrogen_value, oxidizer_hydrogen_value , 0.0, -2.0},
+                { fuel_oxygen_value,oxidizer_oxygen_value, -2.0, -1.0 },
+                {1.0, 0.0, 0.0, 0.0 }
+            };
+            Matrix<double> matrix = Matrix<double>.Build.DenseOfArray(matrixValues);
+            // create right hand side vector
+            Vector<double> rightHandside = Vector<double>.Build.Dense(new[]
+            {0.0, 0.0, 0.0, 1.0 });
+            // solve the system using Gaussian elimination
+            Vector<double> solution = matrix.Solve(rightHandside);
+
+            Matrix<double> defaultMatrix = Matrix<double>.Build.Dense(4,4,0.0);
+            defaultMatrix[0, 0] = 1.0; defaultMatrix[0, 1] = 0.0; defaultMatrix[0, 2] = -1.0; defaultMatrix[0, 3] = 0.0;
+            defaultMatrix[1, 0] = 4.0; defaultMatrix[1, 1] = 0.0; defaultMatrix[1, 2] = 0.0;  defaultMatrix[1, 3] = -2.0;
+            defaultMatrix[2, 0] = 0.0; defaultMatrix[2, 1] = 2.0; defaultMatrix[2, 2] = -2.0; defaultMatrix[2, 3] = -1.0;
+            defaultMatrix[3, 0] = 1.0; defaultMatrix[3, 1] = 0.0; defaultMatrix[3, 2] = 0.0;  defaultMatrix[3, 3] = 0.0;
+
+            Vector<double> rightside = Vector<double>.Build.Dense(new[]
+            {0.0, 0.0, 0.0, 1.0 });
+            // solve the system using Gaussian elimination
+            Vector<double> m_solution = matrix.Solve(rightside);
+
+            Matrix<double> m_matrix = defaultMatrix.Transpose();
+
+
+
+
+
+            Assert.AreEqual(99, 0);
+
+        }
     }
 
     [TestClass]
@@ -156,38 +230,6 @@ namespace TestCEAconsole
     [TestClass]
     public class TestThermodynamicMethods
     {
-        [TestMethod]
-        public void TestHeatCapacity()
-        {
-            //"temperatureRange": [ 200.000, 1000.000 ],
-            //"coefficients": [ -1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12 ]
-            //"integrationConstants": [ -2.331314360e+04, 8.904322750e+01 ]
-            //List<JToken> Kelvin = [200.000, 1000.000];
-            double Kelvin_298_15 = 298.15;
-            double Kelvin_1000 = 1000;
-            List<JToken> coefficientsList = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
-            List<JToken> integrationConstants = [-2.331314360e+04, 8.904322750e+01];
-            double temp298_15 = ThermoDynamics.GetHeatCapacity(coefficientsList, integrationConstants, Kelvin_298_15);
-            double temp_1000 = ThermoDynamics.GetHeatCapacity(coefficientsList, integrationConstants, Kelvin_1000);
-            double delta = 0.005;
-            Assert.AreEqual(35.6911, temp298_15, delta);
-            Assert.AreEqual(73.676, temp_1000, delta);
-        }
-
-        //[TestMethod]
-        //public void TestEnthalpy()
-        //{
-        //    //"temperatureRange": [ 200.000, 1000.000 ],
-        //    //"coefficients": [ -1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12 ]
-        //    //"integrationConstants": [ -2.331314360e+04, 8.904322750e+01 ]
-        //    double Kelvin_298_15 = 298.15;
-        //    double Kelvin_1000 = 1000;
-        //    List<JToken> coefficientsList = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
-        //    List<JToken> integrationConstants = [-2.331314360e+04, 8.904322750e+01];
-        //    double temp298_15 = ThermoDynamics.GetEnthalpy(coefficientsList, integrationConstants, Kelvin_298_15);
-        //    double delta = 0.005;
-        //    Assert.AreEqual(99, temp298_15, delta);
-        //}
 
         [TestMethod]
         public void Test_New_HeatCapacity()
@@ -261,7 +303,6 @@ namespace TestCEAconsole
 
             Assert.AreEqual(expected: expected, Entropy, delta);
         }
-
         
         [DataTestMethod]
         [DataRow(298.15, 186.371)]
