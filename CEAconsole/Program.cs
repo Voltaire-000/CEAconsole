@@ -23,7 +23,7 @@ string TransportPropertiesList = InputServices.GetTransportProperties("Data/shor
 //string equation = BalanceEquation.HydrocarbonAndOxygen(fuelName, oxidizerName);
 
 var chemformula = (from compound in searchedFuel
-                   select compound.ChemicalFormula).FirstOrDefault();
+                   select compound.Molecule.ChemicalFormula).FirstOrDefault();
 
 foreach (var element in chemformula)
 {

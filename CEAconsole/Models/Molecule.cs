@@ -7,25 +7,10 @@ using System.Threading.Tasks;
 namespace CEAconsole.Models
 {
 
-
-    public class Molecule(List<Element> elements)
+    public class Molecule
     {
-        public List<Element> Elements { get; set; } = elements;
-        public required string MolecularFormula { get; set; }
-        public double MolecularWeight { get; set; }
-        public StateOfMatter State { get; set; }
-        public List<string>? BondTypes { get; set; }
-        public bool IsPolar { get; set; }
-        public double MeltingPoint { get; set; }
-        public double BoilingPoint { get; set; }
-        public Dictionary<string, string>? Solubility { get; set; }
-
-        public enum StateOfMatter
-        {
-            Solid,
-            Liquid,
-            Gas,
-            Crystalline
-        }
+        public double Count { get; set; }
+        public required Dictionary<string, double> ChemicalFormula { get; set; }
     }
+
 }

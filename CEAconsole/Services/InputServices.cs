@@ -10,8 +10,17 @@ namespace CEAconsole.Services
 {
     public static class InputServices
     {
-        private static readonly string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/shortThermo.json");
+        private static readonly string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/moleculeJson.json");
         private static readonly string json = File.ReadAllText(path);
+
+        public static ICollection<Reactant> GetJsonData()
+        {
+            string m_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/moleculeJson.json");
+            string json = File.ReadAllText(m_path);
+            List<Reactant>? reactantList = JsonConvert.DeserializeObject<List<Reactant>>(json);
+            ICollection<Reactant>? reactantCollection = reactantList;
+            return reactantCollection;
+        }
 
         public static string GetInputCard(string caseInp)
         {

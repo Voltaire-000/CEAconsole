@@ -4,9 +4,9 @@
     {
         public required string Name { get; set; }
         public required string Description { get; set; }
-        public int TIntervals { get; set; }
+        public int T_Intervals { get; set; }
         public required string Id_Code { get; set; }
-        public required Dictionary<string, double> ChemicalFormula { get; set; }
+        public Molecule? Molecule { get; set; }
         public bool Gaseous { get; set; }
         public double MolecularWeight { get; set; }
         public double HeatOfFormation { get; set; }
