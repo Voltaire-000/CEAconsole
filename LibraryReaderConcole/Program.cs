@@ -3,27 +3,30 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
 
-// Load the schema
-var schemaJson = File.ReadAllText("coeffSchema.json");
-var schema = JSchema.Parse(schemaJson);
-// Load the JSON file
-string json = File.ReadAllText("output.json");
-JArray jsonObject = JArray.Parse(json);
-// Validate the JSON file against the schema
-bool valid = jsonObject.IsValid(schema, out IList<string> messages);
-// Print the result
-if (valid)
-{
-    Console.WriteLine("The JSON file is valid.");
-}
-else
-{
-    Console.WriteLine("The JSON file is not valid. Errors:");
-    foreach (string message in messages)
-    {
-        Console.WriteLine(message);
-    }
-}
+//// Load the schema
+//var schemaJson = File.ReadAllText("coeffSchema.json");
+//var schema = JSchema.Parse(schemaJson);
+//// Load the JSON file
+//string json = File.ReadAllText("output.json");
+//JArray jsonObject = JArray.Parse(json);
+//// Validate the JSON file against the schema
+//bool valid = jsonObject.IsValid(schema, out IList<string> messages);
+//// Print the result
+//if (valid)
+//{
+//    Console.WriteLine("The JSON file is valid.");
+//}
+//else
+//{
+//    Console.WriteLine("The JSON file is not valid. Errors:");
+//    foreach (string message in messages)
+//    {
+//        Console.WriteLine(message);
+//    }
+
+Console.WriteLine("hello");
+
+
 
 
 

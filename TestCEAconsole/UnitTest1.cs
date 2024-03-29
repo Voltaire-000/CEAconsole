@@ -221,7 +221,7 @@ namespace TestCEAconsole
                 int reactantCount = reactants.Count;
 
                 Assert.AreNotEqual(0, reactantCount);
-                Assert.AreEqual(2, reactantCount);
+                Assert.AreEqual(15, reactantCount);
             }
 
             [TestMethod]
@@ -230,7 +230,7 @@ namespace TestCEAconsole
                 ICollection<Reactant> json = InputServices.GetJsonData();
                 int reactantCount = json.Count;
 
-                Assert.AreEqual(2, reactantCount);
+                Assert.AreEqual(15, reactantCount);
             }
 
         }
@@ -378,5 +378,6 @@ namespace TestCEAconsole
         }
 
     }
+
 }
 

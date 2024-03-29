@@ -5,7 +5,7 @@ namespace CEAconsole.Services
 {
     public static class ThermoService
     {
-        private static readonly string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/moleculeJson.json");
+        private static readonly string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/shortThermo.json");
         private static readonly string json = File.ReadAllText(path);
 
         public static ICollection<Reactant> GetReactants()
