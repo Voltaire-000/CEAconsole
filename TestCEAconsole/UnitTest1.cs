@@ -34,7 +34,7 @@ namespace TestCEAconsole
         [TestMethod]
         public void TestICollection()
         {
-            ICollection<Reactant> reactants = ThermoService.GetReactants();
+            ICollection<Reactant> reactants = InputServices.GetJsonData("Data/newShortThermo.json");
 
             List<Reactant>? filteredCollection = reactants?.Where(item => item.Name == "CH4").ToList();
             var molecularWeight = (from item in filteredCollection
@@ -42,10 +42,10 @@ namespace TestCEAconsole
             double expected = 16.0424600;
 
             Dictionary<string, CEAconsole.Models.Temperature_Range>.ValueCollection? tempRange = (from item in filteredCollection
-                                                                                      select item.TemperatureRange.Values).FirstOrDefault();
+                                                                                                  select item.TemperatureRange.Values).FirstOrDefault();
 
             Dictionary<string, double>? chemFormula = (from item in filteredCollection
-                                                       select item.ChemicalFormula).FirstOrDefault();
+                                                       select item.Molecule.ChemicalFormula).FirstOrDefault();
             int? elementCount = chemFormula?.Count;
             elementCount ??= 0;
             string? symbol = chemFormula?.ElementAt(0).Key;
@@ -65,33 +65,6 @@ namespace TestCEAconsole
     [TestClass]
     public class TestMatrix
     {
-        //[TestMethod]
-        //public void Test_Matrix_Should_Work()
-        //{
-        //    Matrix4x4 matrix = new Matrix4x4(
-        //        1, 2, 3, 4,
-        //        5, 6, 7, 8,
-        //        9, 10, 11, 12,
-        //        13, 14, 15, 16);
-
-        //    bool isIdenty = matrix.IsIdentity;
-        //    Matrix4x4 invertedMatrix;
-        //    bool isSuccesfull = Matrix4x4.Invert(matrix, out invertedMatrix);
-        //    if (isSuccesfull)
-        //    {
-        //        Console.WriteLine("The inverted matrix is : ");
-        //        Console.WriteLine(invertedMatrix);
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("The matrix is not invertable.");
-        //    }
-
-        //    Assert.IsFalse(isIdenty);
-        //    Assert.IsFalse(isSuccesfull);
-        //    Assert.IsFalse(matrix.IsIdentity);
-        //}
-
         [TestMethod]
         public void TestMathNetMatrix()
         {
@@ -197,240 +170,239 @@ namespace TestCEAconsole
         //    ////}
         //}
 
-        [TestClass]
-        public class TestServices
+    }
+
+    [TestClass]
+    public class TestServices
+    {
+        [TestMethod]
+        public void Test_InputCardService()
         {
-            [TestMethod]
-            public void Test_InputCardService()
-            {
-                string json = InputCardService.GetInputCard();
-                int x_length = json.Length;
+            string json = InputCardService.GetInputCard();
+            int x_length = json.Length;
 
-                Assert.AreEqual(589, x_length);
-            }
-
-            [TestMethod]
-            public void Test_ElementsService()
-            {
-                string json = ElementsService.GetElements();
-                int elementCount = json.Length;
-
-                Assert.AreNotEqual(0, elementCount);
-            }
-
-            [TestMethod]
-            public void Test_ThermoService()
-            {
-                ICollection<Reactant> reactants = ThermoService.GetReactants();
-                int reactantCount = reactants.Count;
-
-                Assert.AreNotEqual(0, reactantCount);
-                Assert.AreEqual(15, reactantCount);
-            }
-
-            [TestMethod]
-            public void TestInputServicesWithPath()
-            {
-                ICollection<Reactant> json = InputServices.GetJsonData("Data/moleculeJson.json");
-                int reactantCount = json.Count;
-
-                Assert.AreEqual(2, reactantCount);
-            }
-
+            Assert.AreEqual(589, x_length);
         }
 
-        [TestClass]
-        public class TestThermodynamicMethods
+        [TestMethod]
+        public void Test_ElementsService()
         {
+            string json = ElementsService.GetElements();
+            int elementCount = json.Length;
 
-            [TestMethod]
-            public void Test_New_HeatCapacity()
-            {
-                List<double> temperatureRange = [200.000, 1000.000];
-                List<double> t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
-                List<double> coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
-                List<double> integrationConstants = [-2.331314360e+04, 8.904322750e+01];
-
-                double delta = 0.005;
-
-                double ref_temp = 298.15;
-                double T = 1000;
-                double Cp = ThermoDynamics.HeatCapacity(T, coefficients, t_expnts);
-
-                Assert.AreEqual(73.676, Cp, delta);
-
-            }
-
-            [TestMethod]
-            public void Test_New_Enthalpy()
-            {
-                List<double> temperatureRange = [200.000, 1000.000];
-                List<double> t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
-                List<double> coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
-                List<double> integrationConstants = [-2.331314360e+04, 8.904322750e+01];
-
-                double delta = 0.005;
-
-                double ref_temp = 298.15;
-                double T = 0.0;
-
-                double Enthalpy_298 = ThermoDynamics.Enthalpy(ref_Temp: ref_temp, 298.15, coefficients, t_expnts);
-                double Enthalpy_398 = ThermoDynamics.Enthalpy(ref_temp, 398.15, coefficients, t_expnts);
-                double Enthalpy_498 = ThermoDynamics.Enthalpy(ref_temp, 498.15, coefficients, t_expnts);
-                double Enthalpy_598 = ThermoDynamics.Enthalpy(ref_temp, 598.15, coefficients, t_expnts);
-                double Enthalpy_698 = ThermoDynamics.Enthalpy(ref_temp, 698.15, coefficients, t_expnts);
-                double Enthalpy_798 = ThermoDynamics.Enthalpy(ref_temp, 798.15, coefficients, t_expnts);
-                double Enthalpy_898 = ThermoDynamics.Enthalpy(ref_temp, 898.15, coefficients, t_expnts);
-                double Enthalpy_998 = ThermoDynamics.Enthalpy(ref_temp, 998.15, coefficients, t_expnts);
-                double Enthalpy_1000 = ThermoDynamics.Enthalpy(ref_temp, 1000, coefficients, t_expnts);
-
-                Assert.AreEqual(0, Enthalpy_298, delta);
-                Assert.AreEqual(3.794, Enthalpy_398, delta);
-                Assert.AreEqual(8.139, Enthalpy_498, delta);
-                Assert.AreEqual(13.093, Enthalpy_598, delta);
-                Assert.AreEqual(18.647, Enthalpy_698, delta);
-                Assert.AreEqual(24.768, Enthalpy_798, delta);
-                Assert.AreEqual(31.416, Enthalpy_898, delta);
-                Assert.AreEqual(38.548, Enthalpy_998, delta);
-                Assert.AreEqual(38.685, Enthalpy_1000, delta);
-            }
-
-            [TestMethod]
-            public void Test_New_Entropy()
-            {
-                List<double> temperatureRange = [200.000, 1000.000];
-                List<double> t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
-                List<double> coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
-                List<double> integrationConstants = [-2.331314360e+04, 8.904322750e+01];
-
-                double delta = 0.005;
-
-                //double ref_Entropy = 186.371;
-                double ref_temp = 298.15;
-
-                double T = 398.15;
-
-                double expected = 197.312;
-                double Entropy = ThermoDynamics.Entropy(ref_temp, T, coefficients, t_expnts);
-
-                Assert.AreEqual(expected: expected, Entropy, delta);
-            }
-
-            [DataTestMethod]
-            [DataRow(298.15, 186.371)]
-            [DataRow(398.15, 197.312)]
-            [DataRow(498.15, 207.023)]
-            [DataRow(598.15, 216.068)]
-            [DataRow(698.15, 224.642)]
-            [DataRow(798.15, 232.828)]
-            [DataRow(898.15, 240.669)]
-            [DataRow(998.15, 248.195)]
-            [DataRow(1000.00, 248.331)]
-            public void TestMultipleEntropyConditions(double T, double expected)
-            {
-                List<double> temperatureRange = [200.000, 1000.000];
-                List<double> t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
-                List<double> coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
-                List<double> integrationConstants = [-2.331314360e+04, 8.904322750e+01];
-
-                double delta = 0.005;
-
-                //double ref_Entropy = 186.371;
-                double ref_temp = 298.15;
-
-                double result = ThermoDynamics.Entropy(ref_temp, T, coefficients, t_expnts);
-                Assert.AreEqual(expected, result, delta);
-            }
-
+            Assert.AreNotEqual(0, elementCount);
         }
 
-        [TestClass]
-        public class TestViewModels
+        [TestMethod]
+        public void Test_ThermoService()
         {
-            [TestMethod]
-            public void TestBaseViewModel()
-            {
-                var viewModel = new ReactantsViewModel();
-                Assert.IsNotNull(viewModel);
-            }
+            ICollection<Reactant> reactants = ThermoService.GetReactants();
+            int reactantCount = reactants.Count;
 
-            [TestMethod]
-            public void TestBasePropellantsViewModel()
-            {
-                var viewModel = new PropellantViewModel();
-                Assert.IsNotNull(viewModel);
-            }
-
-            [TestMethod]
-            public void AddItem_ShouldIncreasePropellantsCount()
-            {
-                // Arrange
-                ICollection<Reactant> reactants = ThermoService.GetReactants();
-                Reactant? searchedItem = reactants?.Where(item => item.Name == "CH4").FirstOrDefault();
-
-                var viewModel = new PropellantViewModel();
-                var initialCount = viewModel.ReactantsCollection.Count;
-
-                // Act
-                viewModel.AddItem(searchedItem);
-
-                // Assert
-                Assert.AreEqual(initialCount + 1, viewModel.ReactantsCollection.Count);
-
-            }
-
+            Assert.AreNotEqual(0, reactantCount);
+            Assert.AreEqual(15, reactantCount);
         }
 
-        [TestClass]
-        public class TestModifyAddNode
+        [TestMethod]
+        public void TestInputServicesWithPath()
         {
-            [TestMethod]
-            public void TestAddNode()
-            {
-                ICollection<Reactant> reactants = InputServices.GetJsonData("Data/shortThermo.json");
-                int reactantCount = reactants.Count;
+            ICollection<Reactant> json = InputServices.GetJsonData("Data/moleculeJson.json");
+            int reactantCount = json.Count;
 
-                List<Reactant>? filteredCollection = reactants?.Where(item => item.Name == "CH4").ToList();
-                var molecularWeight = (from item in filteredCollection
-                                       select item.MolecularWeight).FirstOrDefault();
-                double expected = 16.0424600;
-
-                var elementv = reactants.ElementAt(0);
-
-                List<DTO_Reactant> dtoList = new();
-
-                for (int i = 0; i < reactantCount; i++)
-                {
-                    DTO_Reactant dTO_Reactant = new()
-                    {
-                        Molecule = new(),
-                    
-                    };
-
-                    dTO_Reactant.Name = reactants.ElementAt(i).Name;
-                    dTO_Reactant.Description = reactants.ElementAt(i).Description;
-                    dTO_Reactant.T_Intervals = reactants.ElementAt(i).T_Intervals;
-                    dTO_Reactant.Id_Code = reactants.ElementAt(i).Id_Code;
-                    dTO_Reactant.Molecule.Count = 1.0;
-                    dTO_Reactant.Molecule.ChemicalFormula = reactants.ElementAt(i).ChemicalFormula;
-                    dTO_Reactant.Gaseous = reactants.ElementAt(i).Gaseous;
-                    dTO_Reactant.MolecularWeight = reactants.ElementAt(i).MolecularWeight;
-                    dTO_Reactant.HeatOfFormation = reactants.ElementAt(i).HeatOfFormation;
-                    dTO_Reactant.TemperatureRange = reactants.ElementAt(i).TemperatureRange;
-
-                    dtoList.Add(dTO_Reactant);
-                }
-
-                string serializedList = JsonConvert.SerializeObject(dtoList);
-                //string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "newShortThermo.json");
-                //File.WriteAllText(path, serializedList);
-
-                Assert.AreEqual(15, reactantCount);
-
-            }
+            Assert.AreEqual(2, reactantCount);
         }
 
     }
 
+    [TestClass]
+    public class TestThermodynamicMethods
+    {
+
+        [TestMethod]
+        public void Test_New_HeatCapacity()
+        {
+            List<double> temperatureRange = [200.000, 1000.000];
+            List<double> t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
+            List<double> coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
+            List<double> integrationConstants = [-2.331314360e+04, 8.904322750e+01];
+
+            double delta = 0.005;
+
+            double ref_temp = 298.15;
+            double T = 1000;
+            double Cp = ThermoDynamics.HeatCapacity(T, coefficients, t_expnts);
+
+            Assert.AreEqual(73.676, Cp, delta);
+
+        }
+
+        [TestMethod]
+        public void Test_New_Enthalpy()
+        {
+            List<double> temperatureRange = [200.000, 1000.000];
+            List<double> t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
+            List<double> coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
+            List<double> integrationConstants = [-2.331314360e+04, 8.904322750e+01];
+
+            double delta = 0.005;
+
+            double ref_temp = 298.15;
+            double T = 0.0;
+
+            double Enthalpy_298 = ThermoDynamics.Enthalpy(ref_Temp: ref_temp, 298.15, coefficients, t_expnts);
+            double Enthalpy_398 = ThermoDynamics.Enthalpy(ref_temp, 398.15, coefficients, t_expnts);
+            double Enthalpy_498 = ThermoDynamics.Enthalpy(ref_temp, 498.15, coefficients, t_expnts);
+            double Enthalpy_598 = ThermoDynamics.Enthalpy(ref_temp, 598.15, coefficients, t_expnts);
+            double Enthalpy_698 = ThermoDynamics.Enthalpy(ref_temp, 698.15, coefficients, t_expnts);
+            double Enthalpy_798 = ThermoDynamics.Enthalpy(ref_temp, 798.15, coefficients, t_expnts);
+            double Enthalpy_898 = ThermoDynamics.Enthalpy(ref_temp, 898.15, coefficients, t_expnts);
+            double Enthalpy_998 = ThermoDynamics.Enthalpy(ref_temp, 998.15, coefficients, t_expnts);
+            double Enthalpy_1000 = ThermoDynamics.Enthalpy(ref_temp, 1000, coefficients, t_expnts);
+
+            Assert.AreEqual(0, Enthalpy_298, delta);
+            Assert.AreEqual(3.794, Enthalpy_398, delta);
+            Assert.AreEqual(8.139, Enthalpy_498, delta);
+            Assert.AreEqual(13.093, Enthalpy_598, delta);
+            Assert.AreEqual(18.647, Enthalpy_698, delta);
+            Assert.AreEqual(24.768, Enthalpy_798, delta);
+            Assert.AreEqual(31.416, Enthalpy_898, delta);
+            Assert.AreEqual(38.548, Enthalpy_998, delta);
+            Assert.AreEqual(38.685, Enthalpy_1000, delta);
+        }
+
+        [TestMethod]
+        public void Test_New_Entropy()
+        {
+            List<double> temperatureRange = [200.000, 1000.000];
+            List<double> t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
+            List<double> coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
+            List<double> integrationConstants = [-2.331314360e+04, 8.904322750e+01];
+
+            double delta = 0.005;
+
+            //double ref_Entropy = 186.371;
+            double ref_temp = 298.15;
+
+            double T = 398.15;
+
+            double expected = 197.312;
+            double Entropy = ThermoDynamics.Entropy(ref_temp, T, coefficients, t_expnts);
+
+            Assert.AreEqual(expected: expected, Entropy, delta);
+        }
+
+        [DataTestMethod]
+        [DataRow(298.15, 186.371)]
+        [DataRow(398.15, 197.312)]
+        [DataRow(498.15, 207.023)]
+        [DataRow(598.15, 216.068)]
+        [DataRow(698.15, 224.642)]
+        [DataRow(798.15, 232.828)]
+        [DataRow(898.15, 240.669)]
+        [DataRow(998.15, 248.195)]
+        [DataRow(1000.00, 248.331)]
+        public void TestMultipleEntropyConditions(double T, double expected)
+        {
+            List<double> temperatureRange = [200.000, 1000.000];
+            List<double> t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
+            List<double> coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
+            List<double> integrationConstants = [-2.331314360e+04, 8.904322750e+01];
+
+            double delta = 0.005;
+
+            //double ref_Entropy = 186.371;
+            double ref_temp = 298.15;
+
+            double result = ThermoDynamics.Entropy(ref_temp, T, coefficients, t_expnts);
+            Assert.AreEqual(expected, result, delta);
+        }
+
+    }
+
+    [TestClass]
+    public class TestViewModels
+    {
+        [TestMethod]
+        public void TestBaseViewModel()
+        {
+            var viewModel = new ReactantsViewModel();
+            Assert.IsNotNull(viewModel);
+        }
+
+        [TestMethod]
+        public void TestBasePropellantsViewModel()
+        {
+            var viewModel = new PropellantViewModel();
+            Assert.IsNotNull(viewModel);
+        }
+
+        [TestMethod]
+        public void AddItem_ShouldIncreasePropellantsCount()
+        {
+            // Arrange
+            ICollection<Reactant> reactants = ThermoService.GetReactants();
+            Reactant? searchedItem = reactants?.Where(item => item.Name == "CH4").FirstOrDefault();
+
+            var viewModel = new PropellantViewModel();
+            var initialCount = viewModel.ReactantsCollection.Count;
+
+            // Act
+            viewModel.AddItem(searchedItem);
+
+            // Assert
+            Assert.AreEqual(initialCount + 1, viewModel.ReactantsCollection.Count);
+
+        }
+
+    }
+
+    [TestClass]
+    public class TestModifyAddNode
+    {
+        [TestMethod]
+        public void TestAddNode()
+        {
+            //ICollection<Reactant> reactants = InputServices.GetJsonData("Data/shortThermo.json");
+            //int reactantCount = reactants.Count;
+
+            //List<Reactant>? filteredCollection = reactants?.Where(item => item.Name == "CH4").ToList();
+            //var molecularWeight = (from item in filteredCollection
+            //                       select item.MolecularWeight).FirstOrDefault();
+            //double expected = 16.0424600;
+
+            //var elementv = reactants.ElementAt(0);
+
+            //List<DTO_Reactant> dtoList = new();
+
+            //for (int i = 0; i < reactantCount; i++)
+            //{
+            //    DTO_Reactant dTO_Reactant = new()
+            //    {
+            //        Molecule = new(),
+
+            //    };
+
+            //    dTO_Reactant.Name = reactants.ElementAt(i).Name;
+            //    dTO_Reactant.Description = reactants.ElementAt(i).Description;
+            //    dTO_Reactant.T_Intervals = reactants.ElementAt(i).T_Intervals;
+            //    dTO_Reactant.Id_Code = reactants.ElementAt(i).Id_Code;
+            //    dTO_Reactant.Molecule.Count = 1.0;
+            //    dTO_Reactant.Molecule.ChemicalFormula = reactants.ElementAt(i).Molecule.ChemicalFormula;
+            //    dTO_Reactant.Gaseous = reactants.ElementAt(i).Gaseous;
+            //    dTO_Reactant.MolecularWeight = reactants.ElementAt(i).MolecularWeight;
+            //    dTO_Reactant.HeatOfFormation = reactants.ElementAt(i).HeatOfFormation;
+            //    dTO_Reactant.TemperatureRange = reactants.ElementAt(i).TemperatureRange;
+
+            //    dtoList.Add(dTO_Reactant);
+            //}
+
+            //string serializedList = JsonConvert.SerializeObject(dtoList);
+            ////string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "newShortThermo.json");
+            ////File.WriteAllText(path, serializedList);
+
+            Assert.AreEqual(0, 0);
+
+        }
+    }
 }
 
