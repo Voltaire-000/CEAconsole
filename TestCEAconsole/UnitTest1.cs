@@ -206,16 +206,6 @@ namespace TestCEAconsole
                 },
                 Count = m_solution[3]
             };
-            //balancedH2O.Count = m_solution[3];
-            //balancedH2O.ChemicalFormula.Add("H", 2.0);
-            //balancedH2O.ChemicalFormula.Add("O", 1.0);
-
-            //Molecule balancedH2OMolecule = new()
-            //{
-            //    Count = m_solution[3],
-            //    ChemicalFormula = new Dictionary<string, double>()
-
-            //};
 
             Assert.AreEqual(99, 0);
 
