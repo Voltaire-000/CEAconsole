@@ -41,11 +41,11 @@ namespace TestCEAconsole
                                    select item.MolecularWeight).FirstOrDefault();
             double expected = 16.0424600;
 
-            Dictionary<string, CEAconsole.Models.Range>.ValueCollection? tempRange = (from item in filteredCollection
+            Dictionary<string, CEAconsole.Models.Temperature_Range>.ValueCollection? tempRange = (from item in filteredCollection
                                                                                       select item.TemperatureRange.Values).FirstOrDefault();
 
             Dictionary<string, double>? chemFormula = (from item in filteredCollection
-                                                       select item.Molecule.ChemicalFormula).FirstOrDefault();
+                                                       select item.ChemicalFormula).FirstOrDefault();
             int? elementCount = chemFormula?.Count;
             elementCount ??= 0;
             string? symbol = chemFormula?.ElementAt(0).Key;
@@ -53,7 +53,7 @@ namespace TestCEAconsole
             double? atoms = chemFormula?.ElementAt(0).Value;
             atoms ??= 0;
 
-            CEAconsole.Models.Range? mx = tempRange?.ElementAt(0);
+            CEAconsole.Models.Temperature_Range? mx = tempRange?.ElementAt(0);
 
             Assert.AreEqual(expected, molecularWeight);
             //Assert.AreEqual(99, tempRange.ElementAt(1));
@@ -387,10 +387,45 @@ namespace TestCEAconsole
             [TestMethod]
             public void TestAddNode()
             {
-                string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/shortThermo.json");
-                string jsonData = File.ReadAllText(path);
+                ICollection<Reactant> reactants = InputServices.GetJsonData("Data/shortThermo.json");
+                int reactantCount = reactants.Count;
 
-                //Assert.AreEqual(99, 0);
+                List<Reactant>? filteredCollection = reactants?.Where(item => item.Name == "CH4").ToList();
+                var molecularWeight = (from item in filteredCollection
+                                       select item.MolecularWeight).FirstOrDefault();
+                double expected = 16.0424600;
+
+                var elementv = reactants.ElementAt(0);
+
+                List<DTO_Reactant> dtoList = new();
+
+                for (int i = 0; i < reactantCount; i++)
+                {
+                    DTO_Reactant dTO_Reactant = new()
+                    {
+                        Molecule = new(),
+                    
+                    };
+
+                    dTO_Reactant.Name = reactants.ElementAt(i).Name;
+                    dTO_Reactant.Description = reactants.ElementAt(i).Description;
+                    dTO_Reactant.T_Intervals = reactants.ElementAt(i).T_Intervals;
+                    dTO_Reactant.Id_Code = reactants.ElementAt(i).Id_Code;
+                    dTO_Reactant.Molecule.Count = 1.0;
+                    dTO_Reactant.Molecule.ChemicalFormula = reactants.ElementAt(i).ChemicalFormula;
+                    dTO_Reactant.Gaseous = reactants.ElementAt(i).Gaseous;
+                    dTO_Reactant.MolecularWeight = reactants.ElementAt(i).MolecularWeight;
+                    dTO_Reactant.HeatOfFormation = reactants.ElementAt(i).HeatOfFormation;
+                    dTO_Reactant.TemperatureRange = reactants.ElementAt(i).TemperatureRange;
+
+                    dtoList.Add(dTO_Reactant);
+                }
+
+                string serializedList = JsonConvert.SerializeObject(dtoList);
+                //string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "newShortThermo.json");
+                //File.WriteAllText(path, serializedList);
+
+                Assert.AreEqual(15, reactantCount);
 
             }
         }

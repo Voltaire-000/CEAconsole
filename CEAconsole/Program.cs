@@ -12,7 +12,7 @@ double Gas_Constant_R = 8.31446261815324;
 // Services Section
 string ElementsList = InputServices.GetElements("Data/tableOfElements.json");
 
-ICollection<Reactant> ReactantsList = InputServices.GetReactants();
+ICollection<Reactant> ReactantsList = InputServices.GetJsonData("Data/newShortThermo.json");
 string fuelName = "CH4";
 List<Reactant>? searchedFuel = ReactantsList?.Where(item => item.Name == fuelName).ToList();
 string oxidizerName = "O2";
@@ -35,7 +35,7 @@ var tempRange = (from range in searchedFuel
                  select range.TemperatureRange).FirstOrDefault();
 // get the first temperature range and associated values
 bool hasKeyRange_1 = tempRange.ContainsKey("range_1");
-CEAconsole.Models.Range firstTemperatureRangeObject;
+CEAconsole.Models.Temperature_Range firstTemperatureRangeObject;
 List<double> temperatureRange = new();
 List<double> coefficients = new();
 List<double> temperatureExponents = new();
