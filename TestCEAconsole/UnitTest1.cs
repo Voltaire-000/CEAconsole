@@ -8,6 +8,10 @@ using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 using CEAconsole.ViewModels;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace TestCEAconsole
 {
@@ -227,10 +231,10 @@ namespace TestCEAconsole
             [TestMethod]
             public void TestInputServicesWithPath()
             {
-                ICollection<Reactant> json = InputServices.GetJsonData();
+                ICollection<Reactant> json = InputServices.GetJsonData("Data/moleculeJson.json");
                 int reactantCount = json.Count;
 
-                Assert.AreEqual(15, reactantCount);
+                Assert.AreEqual(2, reactantCount);
             }
 
         }
@@ -375,6 +379,20 @@ namespace TestCEAconsole
 
             }
 
+        }
+
+        [TestClass]
+        public class TestModifyAddNode
+        {
+            [TestMethod]
+            public void TestAddNode()
+            {
+                string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/shortThermo.json");
+                string jsonData = File.ReadAllText(path);
+
+                //Assert.AreEqual(99, 0);
+
+            }
         }
 
     }

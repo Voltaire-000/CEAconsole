@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CubicSolver", "CubicSolver\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestCEAconsole", "TestCEAconsole\TestCEAconsole.csproj", "{EB9D6F07-5635-4150-95B5-D722A3CCE85D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryReaderConcole", "LibraryReaderConcole\LibraryReaderConcole.csproj", "{B644E75B-92C1-4AD3-B6AC-F413F6DD53FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryReaderConcole", "LibraryReaderConcole\LibraryReaderConcole.csproj", "{B644E75B-92C1-4AD3-B6AC-F413F6DD53FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAddNode", "ConsoleAddNode\ConsoleAddNode.csproj", "{91B9AF6C-6948-4F6F-A846-F746DD153EB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{B644E75B-92C1-4AD3-B6AC-F413F6DD53FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B644E75B-92C1-4AD3-B6AC-F413F6DD53FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B644E75B-92C1-4AD3-B6AC-F413F6DD53FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91B9AF6C-6948-4F6F-A846-F746DD153EB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91B9AF6C-6948-4F6F-A846-F746DD153EB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91B9AF6C-6948-4F6F-A846-F746DD153EB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91B9AF6C-6948-4F6F-A846-F746DD153EB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

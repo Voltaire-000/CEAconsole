@@ -147,15 +147,5 @@ for (int i = 0; i < 10; i++)
             + heatCapacityList.ElementAt(i).Round(round), enthalpyList.ElementAt(i).Round(round), entropyList.ElementAt(i).Round(round));
 }
 
-//string inputCard = InputCardService.GetInputCard();
-//string[]? Prod = ProdFilter.ExtractProducts(inputCard);
-
-//Console.WriteLine("\nInput Card : " + inputCard);
-
-//Console.WriteLine("\nOnly List :");
-//for (int i = 0; i < Prod.Length; i++)
-//{
-//    Console.WriteLine("\t" + Prod[i]); 
-//}
 
 

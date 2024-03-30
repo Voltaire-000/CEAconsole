@@ -21,6 +21,14 @@ namespace CEAconsole.Services
             ICollection<Reactant>? reactantCollection = reactantList;
             return reactantCollection;
         }
+        public static ICollection<Reactant> GetJsonData(string path)
+        {
+            string m_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);
+            string json = File.ReadAllText(m_path);
+            List<Reactant>? reactantList = JsonConvert.DeserializeObject<List<Reactant>>(json);
+            ICollection<Reactant>? reactantCollection = reactantList;
+            return reactantCollection;
+        }
 
         public static string GetInputCard(string caseInp)
         {
