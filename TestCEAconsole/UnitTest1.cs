@@ -68,11 +68,12 @@ namespace TestCEAconsole
         [TestMethod]
         public void TestMathNetMatrix()
         {
+            // CH4 + O2 = CO2 + H2O
             Matrix<double> matrix = Matrix<double>.Build.DenseOfArray(new[,]{
-                {1.0, 0.0, -1.0, 0.0 }, // C balance
-                {4.0, 0.0, 0.0, -2.0 }, // H balance
+                {1.0, 0.0, -1.0,  0.0 }, // C balance
+                {4.0, 0.0,  0.0, -2.0 }, // H balance
                 {0.0, 2.0, -2.0, -1.0 }, // O balance
-                {1.0, 0.0, 0.0, 0.0 }   // Setting CH4
+                {1.0, 0.0,  0.0,  0.0 }   // Setting CH4
             });
 
             // set values of matrix
@@ -97,80 +98,129 @@ namespace TestCEAconsole
             Assert.AreEqual(2, solution[3]);
 
         }
-        //    [TestMethod]
-        //    //public void TestBalancedEquationSolverWithReactantInput()
-        //    //{
-        //    //    // Arrange
-        //    //    string fuelName = "CH4";
-        //    //    string oxidizerName = "O2";
-        //    //    ICollection<Reactant> reactants = ThermoService.GetReactants();
-        //    //    List<Reactant>? Fuel = reactants?.Where(item => item.Name == fuelName).ToList();
-        //    //    List<Reactant>? Oxidizer = reactants?.Where(item => item.Name == oxidizerName).ToList();
+        [TestMethod]
+        public void TestBalancedEquationSolverWithReactantInput()
+        {
+            // Arrange
+            ICollection<Reactant> reactants = InputServices.GetJsonData("Data/newShortThermo.json");
+            // reactants
+            string fuelName = "CH4";
+            string oxidizerName = "O2";
+            List<Reactant>? Fuel = reactants?.Where(item => item.Name == fuelName).ToList();
+            List<Reactant>? Oxidizer = reactants?.Where(item => item.Name == oxidizerName).ToList();
+            // products
+            string CO2Name = "CO2";
+            string H2OName = "H2O";
+            List<Reactant>? CO2 = reactants?.Where(item => item.Name == CO2Name).ToList();
+            List<Reactant>? H2O = reactants?.Where(item => item.Name == H2OName).ToList();
 
-        //    //    var fuelElementsList = (from molecule in Fuel
-        //    //                            select molecule.ChemicalFormula).FirstOrDefault();
-        //    //    int fuelElementsCount = fuelElementsList.Count;
+            Dictionary<string, double>? fuelElementsList = (from molecule in Fuel
+                                    select molecule.Molecule.ChemicalFormula).FirstOrDefault();
 
-        //    //    var oxidizerElementsList = (from molecule in Oxidizer
-        //    //                                select molecule.ChemicalFormula).FirstOrDefault();
-        //    //    int oxidizerElementsCount = fuelElementsList.Count;
-        //    //    // make the fuel list
+            Dictionary<string, double>? oxidizerElementsList = (from molecule in Oxidizer
+                                        select molecule.Molecule.ChemicalFormula).FirstOrDefault();
 
-        //    //    double fuel_carbon_value = 0.0;
-        //    //    double fuel_hydrogen_value = 0.0;
-        //    //    double fuel_oxygen_value = 0.0;
-        //    //    double oxidizer_carbon_value = 0.0;
-        //    //    double oxidizer_hydrogen_value = 0.0;
-        //    //    double oxidizer_oxygen_value = 0.0;
+            Dictionary<string, double>? co2ElementsList = (from molecule in CO2
+                                   select molecule.Molecule.ChemicalFormula).FirstOrDefault();
 
-        //    //    int firstFuelElement = fuelElementsCount - fuelElementsCount;
-        //    //    string carbon_key = fuelElementsList.ElementAt(fuelElementsCount - fuelElementsCount).Key;
-        //    //    fuel_carbon_value = fuelElementsList.ElementAt(fuelElementsCount - fuelElementsCount).Value;
-        //    //    fuel_hydrogen_value = fuelElementsList.ElementAt(fuelElementsCount - 1).Value;
-        //    //    oxidizer_oxygen_value = oxidizerElementsList.ElementAt(oxidizerElementsCount - oxidizerElementsCount).Value;
+            Dictionary<string, double>? h2oElementsList = (from molecule in H2O
+                                   select molecule.Molecule.ChemicalFormula).FirstOrDefault();
 
-        //    //    var fuelKeys = fuelElementsList.Keys;
-        //    //    double value = 0.0;
-        //    //    double[] fuelArray = [];
+            // Reactants
+            //Fuel
+            fuelElementsList.TryGetValue("C", out double reactant_fuel_carbon_value);
+            fuelElementsList.TryGetValue("H", out double reactant_fuel_hydrogen_value);
+            fuelElementsList.TryGetValue("O", out double reactant_fuel_oxygen_value);
+            // Oxidizer
+            oxidizerElementsList.TryGetValue("C", out double reactant_oxidizer_carbon_value) ;
+            oxidizerElementsList.TryGetValue("H", out double reactant_oxidizer_hydrogen_value);
+            oxidizerElementsList.TryGetValue("O", out double reactant_oxidizer_oxygen_value) ;
 
+            // Products
+            //CO2
+            co2ElementsList.TryGetValue("C", out double product_CO2_carbon_value);
+            co2ElementsList.TryGetValue("H", out double product_CO2_hydrogen_value);
+            co2ElementsList.TryGetValue("O", out double product_CO2_oxygen_value);
+            // H2O
+            h2oElementsList.TryGetValue("C", out double product_H2O_carbon_value);
+            h2oElementsList.TryGetValue("H", out double product_H2O_hydrogen_value);
+            h2oElementsList.TryGetValue("O", out double product_H2O_oxygen_value);
 
-        //    //    double[,] matrixValues =
-        //    //    {
-        //    //        {fuel_carbon_value, oxidizer_carbon_value, -1.0,0.0},
-        //    //        {fuel_hydrogen_value, oxidizer_hydrogen_value , 0.0, -2.0},
-        //    //        { fuel_oxygen_value,oxidizer_oxygen_value, -2.0, -1.0 },
-        //    //        {1.0, 0.0, 0.0, 0.0 }
-        //    //    };
-        //    //    Matrix<double> matrix = Matrix<double>.Build.DenseOfArray(matrixValues);
-        //    //    // create right hand side vector
-        //    //    Vector<double> rightHandside = Vector<double>.Build.Dense(new[]
-        //    //    {0.0, 0.0, 0.0, 1.0 });
-        //    //    // solve the system using Gaussian elimination
-        //    //    Vector<double> solution = matrix.Solve(rightHandside);
+            double[,] matrixValues =
+            {
+                {reactant_fuel_carbon_value, reactant_oxidizer_carbon_value, - product_CO2_carbon_value, - product_H2O_carbon_value},
+                {reactant_fuel_hydrogen_value, reactant_oxidizer_hydrogen_value ,  - product_CO2_hydrogen_value, - product_H2O_hydrogen_value},
+                {reactant_fuel_oxygen_value,reactant_oxidizer_oxygen_value, - product_CO2_oxygen_value,  - product_H2O_oxygen_value },
+                {1.0, 0.0, 0.0, 0.0 }
+            };
+            Matrix<double> matrix = Matrix<double>.Build.DenseOfArray(matrixValues);
+            // create right hand side vector
+            Vector<double> rightHandside = Vector<double>.Build.Dense(new[]
+            {0.0, 0.0, 0.0, 1.0 });
+            // solve the system using Gaussian elimination
+            Vector<double> solution = matrix.Solve(rightHandside);
 
-        //    //    Matrix<double> defaultMatrix = Matrix<double>.Build.Dense(4,4,0.0);
-        //    //    defaultMatrix[0, 0] = 1.0; defaultMatrix[0, 1] = 0.0; defaultMatrix[0, 2] = -1.0; defaultMatrix[0, 3] = 0.0;
-        //    //    defaultMatrix[1, 0] = 4.0; defaultMatrix[1, 1] = 0.0; defaultMatrix[1, 2] = 0.0;  defaultMatrix[1, 3] = -2.0;
-        //    //    defaultMatrix[2, 0] = 0.0; defaultMatrix[2, 1] = 2.0; defaultMatrix[2, 2] = -2.0; defaultMatrix[2, 3] = -1.0;
-        //    //    defaultMatrix[3, 0] = 1.0; defaultMatrix[3, 1] = 0.0; defaultMatrix[3, 2] = 0.0;  defaultMatrix[3, 3] = 0.0;
+            Matrix<double> defaultMatrix = Matrix<double>.Build.Dense(4, 4, 0.0);
+            defaultMatrix[0, 0] = 1.0; defaultMatrix[0, 1] = 0.0; defaultMatrix[0, 2] = -1.0; defaultMatrix[0, 3] = 0.0;
+            defaultMatrix[1, 0] = 4.0; defaultMatrix[1, 1] = 0.0; defaultMatrix[1, 2] = 0.0; defaultMatrix[1, 3] = -2.0;
+            defaultMatrix[2, 0] = 0.0; defaultMatrix[2, 1] = 2.0; defaultMatrix[2, 2] = -2.0; defaultMatrix[2, 3] = -1.0;
+            defaultMatrix[3, 0] = 1.0; defaultMatrix[3, 1] = 0.0; defaultMatrix[3, 2] = 0.0; defaultMatrix[3, 3] = 0.0;
 
-        //    //    Vector<double> rightside = Vector<double>.Build.Dense(new[]
-        //    //    {0.0, 0.0, 0.0, 1.0 });
-        //    //    // solve the system using Gaussian elimination
-        //    //    Vector<double> m_solution = matrix.Solve(rightside);
+            Vector<double> rightside = Vector<double>.Build.Dense(new[]
+            {0.0, 0.0, 0.0, 1.0 });
+            // solve the system using Gaussian elimination
+            Vector<double> m_solution = matrix.Solve(rightside);
 
-        //    //    Matrix<double> m_matrix = defaultMatrix.Transpose();
+            Molecule balancedFuel = new()
+            {
+                ChemicalFormula = new()
+                {
+                    {"C", 1.0 },
+                    {"H", 4.0 }
+                },
+                Count = m_solution[0]
+            };
+            Molecule balancedO2 = new()
+            {
+                ChemicalFormula = new()
+                {
+                    { "O", 2.0 },
+                },
+                Count = m_solution[1]
+            };
+            Molecule balancedCO2 = new()
+            {
+                ChemicalFormula = new()
+                {
+                    {"C", 1.0 },
+                    {"O", 2.0 }
+                },
+                Count = m_solution[2]
+            };
+            Molecule balancedH2O = new()
+            {
+                ChemicalFormula = new()
+                {
+                    { "H", 2.0 },
+                    { "O", 1.0 }
+                },
+                Count = m_solution[3]
+            };
+            //balancedH2O.Count = m_solution[3];
+            //balancedH2O.ChemicalFormula.Add("H", 2.0);
+            //balancedH2O.ChemicalFormula.Add("O", 1.0);
 
+            //Molecule balancedH2OMolecule = new()
+            //{
+            //    Count = m_solution[3],
+            //    ChemicalFormula = new Dictionary<string, double>()
 
+            //};
 
+            Assert.AreEqual(99, 0);
 
-
-        //    //    Assert.AreEqual(99, 0);
-
-        //    ////}
-        //}
-
-    }
+            }
+        }
 
     [TestClass]
     public class TestServices
