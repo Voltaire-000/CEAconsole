@@ -171,6 +171,9 @@ namespace TestCEAconsole
             // solve the system using Gaussian elimination
             Vector<double> m_solution = matrix.Solve(rightside);
 
+            List<Reactant> balancedProductH2O = H2O;
+            balancedProductH2O.ForEach(r => r.Molecule.Count = m_solution[3]);
+
             Molecule balancedFuel = new()
             {
                 ChemicalFormula = new()
