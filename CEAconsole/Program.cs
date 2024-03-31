@@ -82,7 +82,8 @@ List<double> heatCapacityList = [];
 List<double> enthalpyList = [];
 List<double> entropyList = [];
 
-Console.WriteLine("\n{0, -16} {1, -10} {2, -10} {3, -10}", "\tTemp Kelvin", "Cp", "H", "S");
+Console.WriteLine( "\nThermoDynamic Functions Calculated from Coefficients for CH4");
+Console.WriteLine("\n{0, -16} {1, -15} {2, -20} {3, -20} {4, -20}", "\tTemp Kelvin", "Cp J/mol-k", "H-H298.15 kJ/mol", "S J/mol-K", "G-H298.15/T J/mol-K");
 
 heatCapacityList.Add(0.0);
 enthalpyList.Add(-10.016);
@@ -91,7 +92,7 @@ temperatureList.Add(0.0);
 temperatureList.Add(298.15);
 double Kelvin = 298.15;
 heatCapacityList.Add(ThermoDynamics.HeatCapacity(Kelvin, coefficients, temperatureExponents));
-enthalpyList.Add(ThermoDynamics.Enthalpy(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents));
+enthalpyList.Add(ThermoDynamics.DeltaEnthalpyRef(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents));
 entropyList.Add(ThermoDynamics.Entropy(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents));
 //temperatureList.Add(Kelvin);
 double startTemp = 398.15;
@@ -104,7 +105,7 @@ for (Kelvin = startTemp; Kelvin <= endTemp; Kelvin += increment)
     temperatureList.Add(Kelvin);
     double cp_value = ThermoDynamics.HeatCapacity(Kelvin, coefficients, temperatureExponents);
     heatCapacityList.Add(cp_value);
-    double enthalpy_value = ThermoDynamics.Enthalpy(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents);
+    double enthalpy_value = ThermoDynamics.DeltaEnthalpyRef(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents);
     //enthalpyList.Add(enthalpy_value);
     //double enthalpy_value = CalcEnthalpyChange(startTemp, temperatureList.Last<double>());
     double entropy_value = ThermoDynamics.Entropy(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents);
@@ -118,7 +119,7 @@ for (Kelvin = startTemp; Kelvin <= endTemp; Kelvin += increment)
     enthalpyList.Add(Math.Round(enthalpy_value, digits));
     if (Kelvin >= 998.15)
     {
-        double lastEnthalpy_value = ThermoDynamics.Enthalpy(REFERENCE_TEMPERATURE, endTemp, coefficients, temperatureExponents);
+        double lastEnthalpy_value = ThermoDynamics.DeltaEnthalpyRef(REFERENCE_TEMPERATURE, endTemp, coefficients, temperatureExponents);
         enthalpyList.Add(lastEnthalpy_value);
     }
     entropyList.Add(entropy_value);
@@ -142,9 +143,12 @@ temperatureList.Add(endTemp);
 int round = 3;
 for (int i = 0; i < 10; i++)
 {
-    Console.WriteLine("{0, -10} {1, -10} {2, -10} {3, -10}", "\t"
+    Console.WriteLine("{0, -10} {1, -15} {2, -20} {3, -20} {4, -20}", "\t"
             + temperatureList.ElementAt(i) + " :", "\t"
-            + heatCapacityList.ElementAt(i).Round(round), enthalpyList.ElementAt(i).Round(round), entropyList.ElementAt(i).Round(round));
+            + heatCapacityList.ElementAt(i).Round(round), 
+            enthalpyList.ElementAt(i).Round(round), 
+            entropyList.ElementAt(i).Round(round),
+            0.0);
 }
 
 

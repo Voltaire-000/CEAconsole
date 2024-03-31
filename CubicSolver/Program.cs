@@ -6,11 +6,6 @@ using System.Numerics;
 using MathNet.Symbolics;
 using MathNet.Numerics;
 
-// TODO derivatives, initial guess
-// TODO integration constants
-// for loop to create formula
-// fix Hmol line
-
 double result = SimpsonRule.IntegrateComposite(x => x * x, 0.0, 10.0, 4);
 
 // f(x) = ax^3 + bx^2 + cx + d ;

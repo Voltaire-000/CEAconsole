@@ -279,8 +279,17 @@ namespace TestCEAconsole
 
         }
 
-        [TestMethod]
-        public void Test_New_Enthalpy()
+        [DataTestMethod]
+        [DataRow(298.15, 0.0)]
+        [DataRow(398.15, 3.794)]
+        [DataRow(498.15, 8.139)]
+        [DataRow(598.15, 13.093)]
+        [DataRow(698.15, 18.647)]
+        [DataRow(798.15, 24.768)]
+        [DataRow(898.15, 31.416)]
+        [DataRow(998.15, 38.548)]
+        [DataRow(1000.00, 38.685)]
+        public void Test_New_Enthalpy(double T, double expected)
         {
             List<double> temperatureRange = [200.000, 1000.000];
             List<double> t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
@@ -290,27 +299,10 @@ namespace TestCEAconsole
             double delta = 0.005;
 
             double ref_temp = 298.15;
-            double T = 0.0;
+            double enthalpy = ThermoDynamics.DeltaEnthalpyRef(ref_temp, T, coefficients, t_expnts);
 
-            double Enthalpy_298 = ThermoDynamics.Enthalpy(ref_Temp: ref_temp, 298.15, coefficients, t_expnts);
-            double Enthalpy_398 = ThermoDynamics.Enthalpy(ref_temp, 398.15, coefficients, t_expnts);
-            double Enthalpy_498 = ThermoDynamics.Enthalpy(ref_temp, 498.15, coefficients, t_expnts);
-            double Enthalpy_598 = ThermoDynamics.Enthalpy(ref_temp, 598.15, coefficients, t_expnts);
-            double Enthalpy_698 = ThermoDynamics.Enthalpy(ref_temp, 698.15, coefficients, t_expnts);
-            double Enthalpy_798 = ThermoDynamics.Enthalpy(ref_temp, 798.15, coefficients, t_expnts);
-            double Enthalpy_898 = ThermoDynamics.Enthalpy(ref_temp, 898.15, coefficients, t_expnts);
-            double Enthalpy_998 = ThermoDynamics.Enthalpy(ref_temp, 998.15, coefficients, t_expnts);
-            double Enthalpy_1000 = ThermoDynamics.Enthalpy(ref_temp, 1000, coefficients, t_expnts);
+            Assert.AreEqual(expected, enthalpy, delta);
 
-            Assert.AreEqual(0, Enthalpy_298, delta);
-            Assert.AreEqual(3.794, Enthalpy_398, delta);
-            Assert.AreEqual(8.139, Enthalpy_498, delta);
-            Assert.AreEqual(13.093, Enthalpy_598, delta);
-            Assert.AreEqual(18.647, Enthalpy_698, delta);
-            Assert.AreEqual(24.768, Enthalpy_798, delta);
-            Assert.AreEqual(31.416, Enthalpy_898, delta);
-            Assert.AreEqual(38.548, Enthalpy_998, delta);
-            Assert.AreEqual(38.685, Enthalpy_1000, delta);
         }
 
         [TestMethod]
@@ -358,6 +350,90 @@ namespace TestCEAconsole
 
             double result = ThermoDynamics.Entropy(ref_temp, T, coefficients, t_expnts);
             Assert.AreEqual(expected, result, delta);
+        }
+
+        [DataTestMethod]
+        [DataRow(298.15, 186.371)]
+        [DataRow(398.15, 187.782)]
+        [DataRow(498.15, 190.684)]
+        [DataRow(598.15, 194.179)]
+        [DataRow(698.15, 197.933)]
+        [DataRow(798.15, 201.796)]
+        [DataRow(898.15, 205.691)]
+        [DataRow(998.15, 209.575)]
+        [DataRow(1000.00, 209.646)]
+        public void TestGibbs(double T, double expected)
+        {
+            List<double> temperatureRange = [200.000, 1000.000];
+            List<double> t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
+            List<double> coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
+            List<double> integrationConstants = [-2.331314360e+04, 8.904322750e+01];
+
+            double delta = 0.005;
+            double ref_temp = 298.15;
+
+            double enthalpy = ThermoDynamics.DeltaEnthalpyRef(ref_temp, T, coefficients, t_expnts);
+            double entropy = ThermoDynamics.Entropy(ref_temp, T, coefficients, t_expnts);
+
+            double gibbs = -((enthalpy*1000) - T * entropy) / T;
+
+            double thermoGibbs = ThermoDynamics.GibbsRef(ref_temp, T, coefficients, t_expnts);
+
+            Assert.AreEqual(expected, gibbs, delta);
+            Assert.AreEqual(expected, thermoGibbs, delta);
+
+        }
+
+        [DataTestMethod]
+        [DataRow(298.15, -74.600)]
+        [DataRow(398.15, -70.806)]
+        [DataRow(498.15, -66.461)]
+        [DataRow(598.15, -61.507)]
+        [DataRow(698.15, -55.953)]
+        [DataRow(798.15, -49.832)]
+        [DataRow(898.15, -43.184)]
+        [DataRow(998.15, -36.052)]
+        [DataRow(1000.00, -35.915)]
+        public void TestEnthalpyNoRefTemperature(double T, double expected)
+        {
+            List<double> temperatureRange = [200.000, 1000.000];
+            List<double> t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
+            List<double> coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
+            List<double> integrationConstants = [-2.331314360e+04, 8.904322750e+01];
+
+            //double GASCONSTANT = 8.31446;
+            double delta = 0.005;
+            double ref_temp = 298.15;
+            double heatOfFormation = -74600.0;
+            double ref_enthalpy = heatOfFormation/1000.0;
+            double enthalpy = ThermoDynamics.DeltaEnthalpyRef(ref_temp, T, coefficients, t_expnts);
+
+            double H_enthalpy = ref_enthalpy + enthalpy;
+
+            Assert.AreEqual(expected, H_enthalpy, delta);
+        }
+
+        [DataTestMethod]
+        [DataRow(298.15, -74.600)]
+        [DataRow(398.15, -70.806)]
+        [DataRow(498.15, -66.461)]
+        [DataRow(598.15, -61.507)]
+        [DataRow(698.15, -55.953)]
+        [DataRow(798.15, -49.832)]
+        [DataRow(898.15, -43.184)]
+        [DataRow(998.15, -36.052)]
+        [DataRow(1000.00, -35.915)]
+        public void TestThermoEnthalpyMethod(double T, double expected)
+        {
+            List<double> temperatureRange = [200.000, 1000.000];
+            List<double> t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
+            List<double> coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
+            List<double> integrationConstants = [-2.331314360e+04, 8.904322750e+01];
+            double delta = 0.005;
+            double ref_temp = 298.15;
+            double enthalpy = ThermoDynamics.Enthalpy(ref_temp, T, coefficients, t_expnts);
+
+            Assert.AreEqual(expected, enthalpy, delta);
         }
 
     }
