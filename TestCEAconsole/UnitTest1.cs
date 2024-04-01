@@ -292,6 +292,56 @@ namespace TestCEAconsole
         public void Test_HeatCapacity_No_Library(double T, double expected)
         {
 
+            static double GKIntegrate(Func<double, double> f, double a, double b, double targetRelativeError)
+            {
+                // Gauss nodes and weights (lower-order)
+                double[] gaussNodes = { -0.7745966692, 0, 0.7745966692 };
+                double[] gaussWeights = { 0.5555555556, 0.8888888889, 0.5555555556 };
+                // Kronrod nodes and weights (higher-order)
+                double[] kronrodNodes = { -0.8611363116, -0.3399810436, 0.3399810436, 0.8611363116 };
+                double[] kronrodWeights = { 0.3478548451, 0.6521451549, 0.6521451549, 0.3478548451 };
+                double integral = 0;
+                // Combine Gauss and Kronrod contributions
+                for (int i = 0; i < gaussNodes.Length; i++)
+                {
+                    double gaussPoint = 0.5 * (b - a) * gaussNodes[i] + 0.5 * (b + a);
+                    double gaussWeight = 0.5 * (b - a) * gaussWeights[i];
+
+                    double kronrodPoint = 0.5 * (b - a) * kronrodNodes[i] + 0.5 * (b + a);
+                    double kronrodWeight = 0.5 * (b - a) * kronrodWeights[i];
+
+                    double gaussValue = f(gaussPoint);
+                    double kronrodValue = f(kronrodPoint);
+
+                    integral += gaussWeight * gaussValue + kronrodWeight * kronrodValue;
+                }
+                // Estimate error
+                double error = Math.Abs(integral - (kronrodWeights[0] * f(0.5 * (b - a) + 0.5 * (b + a))));
+                // Check if error is within tolerance
+                if (error < targetRelativeError * Math.Abs(integral))
+                    return integral;
+                else
+                {
+                    // Subdivide interval and recursively compute
+                    double mid = 0.5 * (a + b);
+                    double a_mid = GKIntegrate(f, a, mid, targetRelativeError);
+                    double mid_b = GKIntegrate(f, mid, b, targetRelativeError);
+                    return  a_mid + mid_b;
+                }
+            }
+
+            double Temp = 298.15;
+            Func<double, double> heatCapacity = x => Math.Log(Temp);
+            // integration interval [a, b]
+            double a = 0;
+            double b = 0.1;
+            // set the desired reletive error tolerance
+            double targetRelativeError = 0.1;
+            // compute the integral using Gauss-Kronrod quadrature
+            double result = GKIntegrate(heatCapacity, a, b, targetRelativeError);
+
+            Assert.AreEqual(99, 0);
+
         }
 
         [DataTestMethod]
