@@ -37,6 +37,8 @@ namespace CEAconsole.Models
             }
             return Cp * Gas_Constant_R;
         }
+
+
         /// <summary>
         /// 
         /// </summary>

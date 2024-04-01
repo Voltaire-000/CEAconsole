@@ -289,6 +289,21 @@ namespace TestCEAconsole
         [DataRow(898.15, 31.416)]
         [DataRow(998.15, 38.548)]
         [DataRow(1000.00, 38.685)]
+        public void Test_HeatCapacity_No_Library(double T, double expected)
+        {
+
+        }
+
+        [DataTestMethod]
+        [DataRow(298.15, 0.0)]
+        [DataRow(398.15, 3.794)]
+        [DataRow(498.15, 8.139)]
+        [DataRow(598.15, 13.093)]
+        [DataRow(698.15, 18.647)]
+        [DataRow(798.15, 24.768)]
+        [DataRow(898.15, 31.416)]
+        [DataRow(998.15, 38.548)]
+        [DataRow(1000.00, 38.685)]
         public void Test_New_Enthalpy(double T, double expected)
         {
             List<double> temperatureRange = [200.000, 1000.000];
