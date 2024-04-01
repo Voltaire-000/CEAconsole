@@ -60,6 +60,23 @@ namespace TestCEAconsole
 
         }
 
+        [TestMethod]
+        public void TestShouldReturnListOfPropertiesForOneType()
+        {
+            ICollection<CPHSRef> CPHSDefaults = InputServices.GetDefaultCPHS("Data/Ref_Defaults.json");
+            var defList = from item in CPHSDefaults.Where(r => r.Species_Name == "CH4") select item;
+
+            double molecularWeight = (from item in CPHSDefaults.Where(r => r.Species_Name == "CH4")
+                                      select item.Molecular_Weight).FirstOrDefault();
+
+            var enthalpy = (from item in CPHSDefaults.Where(r => r.Species_Name == "CH4")
+                                      select item.Enthalpy).FirstOrDefault();
+
+            Assert.AreEqual(16.04246, molecularWeight);
+            Assert.AreEqual(-84.616, enthalpy);
+            Assert.AreEqual(1, defList.Count<CPHSRef>());
+        }
+
     }
 
     [TestClass]
@@ -253,6 +270,15 @@ namespace TestCEAconsole
             int reactantCount = json.Count;
 
             Assert.AreEqual(2, reactantCount);
+        }
+
+        [TestMethod]
+        public void Test_Ref_DefaultServiceWithPath()
+        {
+            ICollection<CPHSRef> ref_defaults = InputServices.GetDefaultCPHS("Data/Ref_Defaults.json");
+            int ref_defaultsCount = ref_defaults.Count;
+
+            Assert.AreEqual(1258, ref_defaultsCount);
         }
 
     }

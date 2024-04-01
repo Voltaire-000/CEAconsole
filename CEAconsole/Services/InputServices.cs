@@ -17,17 +17,23 @@ namespace CEAconsole.Services
         {
             string m_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/moleculeJson.json");
             string json = File.ReadAllText(m_path);
-            List<Reactant>? reactantList = JsonConvert.DeserializeObject<List<Reactant>>(json);
-            ICollection<Reactant>? reactantCollection = reactantList;
+            ICollection<Reactant>? reactantCollection = JsonConvert.DeserializeObject<ICollection<Reactant>>(json);
             return reactantCollection;
         }
         public static ICollection<Reactant> GetJsonData(string path)
         {
             string m_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);
             string json = File.ReadAllText(m_path);
-            List<Reactant>? reactantList = JsonConvert.DeserializeObject<List<Reactant>>(json);
-            ICollection<Reactant>? reactantCollection = reactantList;
+            ICollection<Reactant>? reactantCollection = JsonConvert.DeserializeObject<ICollection<Reactant>>(json);
             return reactantCollection;
+        }
+
+        public static ICollection<CPHSRef> GetDefaultCPHS(string path)
+        {
+            string m_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);
+            string json = File.ReadAllText(m_path);
+            ICollection<CPHSRef>? defaultsCollection = JsonConvert.DeserializeObject<ICollection<CPHSRef>>(json);
+            return defaultsCollection;
         }
 
         public static string GetInputCard(string caseInp)
@@ -46,8 +52,7 @@ namespace CEAconsole.Services
 
         public static ICollection<Reactant> GetReactants() 
         {
-            List<Reactant>? reactantList = JsonConvert.DeserializeObject<List<Reactant>>(json);
-            ICollection<Reactant>? reactantCollection = reactantList;
+            ICollection<Reactant>? reactantCollection = JsonConvert.DeserializeObject<ICollection<Reactant>>(json);
             return reactantCollection;
         }
 

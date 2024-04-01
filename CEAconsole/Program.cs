@@ -12,8 +12,11 @@ double Gas_Constant_R = 8.31446261815324;
 // Services Section
 string ElementsList = InputServices.GetElements("Data/tableOfElements.json");
 
+ICollection<CPHSRef> cPHSRefs = InputServices.GetDefaultCPHS("Data/Ref_Defaults.json");
 ICollection<Reactant> ReactantsList = InputServices.GetJsonData("Data/newShortThermo.json");
+
 string fuelName = "CH4";
+IEnumerable<CPHSRef> CPHSdefaults = from item in cPHSRefs.Where(r => r.Species_Name == fuelName) select item;
 List<Reactant>? searchedFuel = ReactantsList?.Where(item => item.Name == fuelName).ToList();
 string oxidizerName = "O2";
 Reactant? searchedOxidizer = ReactantsList?.Where(item => item.Name == oxidizerName).FirstOrDefault();
@@ -54,28 +57,6 @@ if (hasKeyRange_1)
         H_Enthalpy = firstTemperatureRangeObject.H_Jmol;
     }
 }
-// list of temperature exponents
-//double texp_1 = temperatureExponents[0];
-//double texp_2 = temperatureExponents[1];
-//double texp_3 = temperatureExponents[2];
-//double texp_4 = temperatureExponents[3];
-//double texp_5 = temperatureExponents[4];
-//double texp_6 = temperatureExponents[5];
-//double texp_7 = temperatureExponents[6];
-//double texp_8 = temperatureExponents[7];
-
-//// list of coefficients
-//double a1 = coefficients[0];
-//double a2 = coefficients[1];
-//double a3 = coefficients[2];
-//double a4 = coefficients[3];
-//double a5 = coefficients[4];
-//double a6 = coefficients[5];
-//double a7 = coefficients[6];
-
-//// list of integration constants
-//double a8 = integrationConstants[0];
-//double a9 = integrationConstants[1];
 
 List<double> temperatureList = [];
 List<double> heatCapacityList = [];
