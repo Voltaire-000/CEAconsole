@@ -527,6 +527,32 @@ namespace TestCEAconsole
             Assert.AreEqual(expected, enthalpy, delta);
         }
 
+        [DataTestMethod]
+        [DataRow(398.15, -74.600)]
+        [DataRow(498.15, -77.635)]
+        [DataRow(598.15, -80.457)]
+        [DataRow(698.15, -82.932)]
+        [DataRow(798.15, -85.023)]
+        [DataRow(898.15, -86.726)]
+        [DataRow(998.15, -88.059)]
+        [DataRow(998.15, -89.053)]
+        [DataRow(1000.00, -89.069)]
+        public void TestDeltaHf(double T, double expected)
+        {
+            List<double> temperatureRange = [200.000, 1000.000];
+            List<double> t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
+            List<double> coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
+            List<double> integrationConstants = [-2.331314360e+04, 8.904322750e+01];
+
+            double delta = 0.005;
+            double ref_temp = 298.15;
+
+            double Hf = ThermoDynamics.EnthalpyFormation(ref_temp, T, coefficients, t_expnts);
+
+            Assert.AreEqual(expected, Hf);
+
+        }
+
     }
 
     [TestClass]

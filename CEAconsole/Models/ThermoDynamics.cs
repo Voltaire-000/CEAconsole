@@ -117,5 +117,19 @@ namespace CEAconsole.Models
             double gibbs = -((enthalpy * 1000) - T_1 * entropy) / T_1;
             return gibbs;
         }
+
+        public static double EnthalpyFormation(double ref_Temp, double T_1, List<double> coefficients, List<double> t_expnts)
+        {
+
+            //Func<double, double> cpFunction = HeatCapacity;
+            double heatCapacityIntegrand(double T) => HeatCapacity(T, coefficients, t_expnts);
+            double error;
+            double L1Norm;
+            //double enthalpyFormation = GaussKronrodRule.Integrate(heatCapacityIntegrand, ref_Temp, T_1, out error, out L1Norm, 1e-8);
+            double changeInHeatCapacity = GaussKronrodRule.Integrate(heatCapacityIntegrand, ref_Temp, T_1, out error, out L1Norm, 1e-8) / 1000;
+            double xv = SimpsonRule.IntegrateComposite(heatCapacityIntegrand, 298.15, 398.15, 4);
+            return xv;
+
+        }
     }
 }
