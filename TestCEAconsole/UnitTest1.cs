@@ -12,6 +12,9 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using System.Collections.ObjectModel;
+using static System.Collections.Generic.Dictionary<TKey, TValue>;
 
 namespace TestCEAconsole
 {
@@ -70,7 +73,7 @@ namespace TestCEAconsole
                                       select item.Molecular_Weight).FirstOrDefault();
 
             var enthalpy = (from item in CPHSDefaults.Where(r => r.Species_Name == "CH4")
-                                      select item.Enthalpy).FirstOrDefault();
+                            select item.Enthalpy).FirstOrDefault();
 
             Assert.AreEqual(16.04246, molecularWeight);
             Assert.AreEqual(-84.616, enthalpy);
@@ -132,16 +135,16 @@ namespace TestCEAconsole
             List<Reactant>? H2O = reactants?.Where(item => item.Name == H2OName).ToList();
 
             Dictionary<string, double>? fuelElementsList = (from molecule in Fuel
-                                    select molecule.Molecule.ChemicalFormula).FirstOrDefault();
+                                                            select molecule.Molecule.ChemicalFormula).FirstOrDefault();
 
             Dictionary<string, double>? oxidizerElementsList = (from molecule in Oxidizer
-                                        select molecule.Molecule.ChemicalFormula).FirstOrDefault();
+                                                                select molecule.Molecule.ChemicalFormula).FirstOrDefault();
 
             Dictionary<string, double>? co2ElementsList = (from molecule in CO2
-                                   select molecule.Molecule.ChemicalFormula).FirstOrDefault();
+                                                           select molecule.Molecule.ChemicalFormula).FirstOrDefault();
 
             Dictionary<string, double>? h2oElementsList = (from molecule in H2O
-                                   select molecule.Molecule.ChemicalFormula).FirstOrDefault();
+                                                           select molecule.Molecule.ChemicalFormula).FirstOrDefault();
 
             // Reactants
             //Fuel
@@ -149,9 +152,9 @@ namespace TestCEAconsole
             fuelElementsList.TryGetValue("H", out double reactant_fuel_hydrogen_value);
             fuelElementsList.TryGetValue("O", out double reactant_fuel_oxygen_value);
             // Oxidizer
-            oxidizerElementsList.TryGetValue("C", out double reactant_oxidizer_carbon_value) ;
+            oxidizerElementsList.TryGetValue("C", out double reactant_oxidizer_carbon_value);
             oxidizerElementsList.TryGetValue("H", out double reactant_oxidizer_hydrogen_value);
-            oxidizerElementsList.TryGetValue("O", out double reactant_oxidizer_oxygen_value) ;
+            oxidizerElementsList.TryGetValue("O", out double reactant_oxidizer_oxygen_value);
 
             // Products
             //CO2
@@ -229,8 +232,155 @@ namespace TestCEAconsole
 
             Assert.AreEqual(99, 0);
 
+        }
+    }
+
+    [TestClass]
+    public class TestRegex
+    {
+        [TestMethod]
+        public void TestShouldReturnMoleculeCountAndFormula()
+        {
+            // Arrange
+            string molecule = "CH4";
+            ICollection<Reactant> reactants = InputServices.GetJsonData("Data/newShortThermo.json");
+            Assert.IsNotNull(reactants);
+            var m_Molecule = from item in reactants
+                             where item.Name == molecule
+                             select item.Molecule;
+
+            var expected = m_Molecule;
+
+            // Act
+            //var result = MoleculeOperations.SplitMolecule(molecule);
+
+            // Assert
+            Assert.IsNotNull(m_Molecule);
+
+        }
+    }
+
+    [TestClass]
+    public class MatrixSolvers
+    {
+        [TestMethod]
+        public void TestShouldBuildMatrixAndLoadChemicalFormula()
+        {
+            // Arrange
+            Matrix<double> defaultMatrix = Matrix<double>.Build.Dense(10, 10, 0.0);
+            Assert.IsNotNull(defaultMatrix);
+            //
+            // create rightHand side vector
+            int m_VectorSize = 10;
+            Vector<double> m_solution = Vector<double>.Build.Dense(m_VectorSize, 0.0);
+            int m_solutionCount = m_solution.Count;
+            m_solution[m_solutionCount - 1] = 1.0;
+            Assert.IsNotNull(m_solution);
+            Assert.AreEqual(m_VectorSize, m_solutionCount);
+            //
+            // Set the first column (column 0) to the values for the first reactant(Species)
+            // Set the number of CH4 molecules to 1 in the last row of the defaultMatrix
+            defaultMatrix[9, 0] = 1.0;
+
+            string m_firstMolecule = "CH4";
+            ICollection<Reactant> reactants = InputServices.GetJsonData("Data/newShortThermo.json");
+            Assert.IsNotNull(reactants);
+
+            IEnumerable<Molecule> m_firstReactant = from item in reactants
+                                                    where item.Name == m_firstMolecule
+                                                    select item.Molecule;
+            Assert.IsNotNull(m_firstReactant);
+
+            Dictionary<string, double>.KeyCollection keyCollection = m_firstReactant.FirstOrDefault().ChemicalFormula.Keys;
+            Dictionary<string, double>.ValueCollection valuesCollection = m_firstReactant.FirstOrDefault().ChemicalFormula.Values;
+            int m_keyCount = keyCollection.Count;
+
+            string m_secondMolecule = "O2";
+            IEnumerable<Molecule> m_secondReactant = from item in reactants
+                                                     where item.Name == m_secondMolecule
+                                                     select item.Molecule;
+            Assert.IsNotNull(m_secondReactant);
+
+            Collection<IEnumerable<Molecule>> reactantsCollection = new Collection<IEnumerable<Molecule>> { m_firstReactant };
+            reactantsCollection.Add(m_secondReactant);
+
+            int matrixColumnCount = 0;
+            int m_reactantCount = reactantsCollection.Count;
+            foreach (var item in reactantsCollection)
+            {
+                KeyCollection c_keys = item.FirstOrDefault().ChemicalFormula.Keys;
+                ValueCollection c_values = item.FirstOrDefault().ChemicalFormula.Values;
+                int c_keycount = c_keys.Count;
+
+                LoadBalancedEquationMatrix(c_keys, c_values, c_keycount, reactantsCollection.Count);
+                matrixColumnCount = matrixColumnCount + 1;
+            }
+            
+            // TODO j is temp variable to reference column in defaultMatrix
+            
+
+            void LoadBalancedEquationMatrix(KeyCollection Keys, ValueCollection Values, int KeysCount, int reactantsCount)
+            {
+                int m_column = 0;
+
+                for (int i = 0; i < KeysCount; i++)
+                {
+                    string elementKey = keyCollection.ElementAt(i);
+                    switch (elementKey)
+                    {
+                        case "H":
+                            // matrix row 0
+                            int row0 = 0;
+                            defaultMatrix[row0, m_column] = Values.ElementAt(i);
+                            break;
+                        case "D":
+                            // matrix row 1
+                            int row1 = 1;
+                            defaultMatrix[row1, m_column] = Values.ElementAt(i);
+                            break;
+                        case "He":
+                            // matrix row 2
+                            int row2 = 2;
+                            defaultMatrix[row2, m_column] = Values.ElementAt(i);
+                            break;
+                        case "Li":
+                            // matrix row 3
+                            int row3 = 3;
+                            defaultMatrix[row3, m_column] = Values.ElementAt(i);
+                            break;
+                        case "Be":
+                            // matrix row 4
+                            int row4 = 4;
+                            defaultMatrix[row4, m_column] = Values.ElementAt(i);
+                            break;
+                        case "B":
+                            // matrix row 5
+                            int row5 = 5;
+                            defaultMatrix[row5, m_column] = Values.ElementAt(i);
+                            break;
+                        case "C":
+                            // matrix row 6
+                            int row6 = 6;
+                            defaultMatrix[row6, m_column] = Values.ElementAt(i);
+                            break;
+                        case "N":
+                            // matrix row 7
+                            int row7 = 7;
+                            defaultMatrix[row7, m_column] = Values.ElementAt(i);
+                            break;
+                        case "O":
+                            // matrix row 8 // row 9 is set previously
+                            int row8 = 8;
+                            defaultMatrix[row8, m_column] = Values.ElementAt(i);
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
             }
         }
+    }
 
     [TestClass]
     public class TestServices
@@ -352,7 +502,7 @@ namespace TestCEAconsole
                     double mid = 0.5 * (a + b);
                     double a_mid = GKIntegrate(f, a, mid, targetRelativeError);
                     double mid_b = GKIntegrate(f, mid, b, targetRelativeError);
-                    return  a_mid + mid_b;
+                    return a_mid + mid_b;
                 }
             }
 
@@ -466,7 +616,7 @@ namespace TestCEAconsole
             double enthalpy = ThermoDynamics.DeltaEnthalpyRef(ref_temp, T, coefficients, t_expnts);
             double entropy = ThermoDynamics.Entropy(ref_temp, T, coefficients, t_expnts);
 
-            double gibbs = -((enthalpy*1000) - T * entropy) / T;
+            double gibbs = -((enthalpy * 1000) - T * entropy) / T;
 
             double thermoGibbs = ThermoDynamics.GibbsRef(ref_temp, T, coefficients, t_expnts);
 
@@ -496,7 +646,7 @@ namespace TestCEAconsole
             double delta = 0.005;
             double ref_temp = 298.15;
             double heatOfFormation = -74600.0;
-            double ref_enthalpy = heatOfFormation/1000.0;
+            double ref_enthalpy = heatOfFormation / 1000.0;
             double enthalpy = ThermoDynamics.DeltaEnthalpyRef(ref_temp, T, coefficients, t_expnts);
 
             double H_enthalpy = ref_enthalpy + enthalpy;
