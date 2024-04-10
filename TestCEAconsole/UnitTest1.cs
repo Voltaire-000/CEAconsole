@@ -14,6 +14,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Collections.ObjectModel;
+using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace TestCEAconsole
 {
@@ -89,12 +90,12 @@ namespace TestCEAconsole
         {
             // CH4 + O2 = CO2 + H2O
             Matrix<double> matrix = Matrix<double>.Build.DenseOfArray(new[,]{
-                {1.0, 0.0, -1.0,  0.0 }, // C balance
-                {4.0, 0.0,  0.0, -2.0 }, // H balance
-                {0.0, 2.0, -2.0, -1.0 }, // O balance
-                {1.0, 0.0,  0.0,  0.0 }   // Setting CH4
+                {1.0, 0.0,  -1.0,  0.0 }, // C balance
+                {4.0, 0.0,   0.0, -2.0 }, // H balance
+                {0.0, 2.0,  -2.0, -1.0 }, // O balance
+                {1.0, 0.0,   0.0,  0.0 }   // Setting CH4
             });
-
+            
             // set values of matrix
             //matrix[0, 0] = 1; matrix[0, 1] = 0; matrix[0, 2] = -1; matrix[0, 3] = 0;
             //matrix[1, 0] = 4; matrix[1, 1] = 0; matrix[1, 2] = 0;  matrix[1, 3] = -2;
@@ -266,42 +267,65 @@ namespace TestCEAconsole
         public void TestShouldBuildMatrixAndLoadChemicalFormula()
         {
             // Arrange
-            Matrix<double> defaultMatrix = Matrix<double>.Build.Dense(10, 10, 0.0);
+            //Matrix<double> defaultMatrix = Matrix<double>.Build.Dense(10, 10, 0.0);
+            var defaultMatrix = SparseMatrix.Create(10, 10, 0.0);
+            double determinate = defaultMatrix.Determinant();
+            bool isSymetric = defaultMatrix.IsSymmetric();
             Assert.IsNotNull(defaultMatrix);
             //
             // create rightHand side vector
             int m_VectorSize = 10;
-            Vector<double> m_solution = Vector<double>.Build.Dense(m_VectorSize, 0.0);
-            int m_solutionCount = m_solution.Count;
-            m_solution[m_solutionCount - 1] = 1.0;
-            Assert.IsNotNull(m_solution);
-            Assert.AreEqual(m_VectorSize, m_solutionCount);
+            //Vector<double> rightHandSide = Vector<double>.Build.Dense(m_VectorSize, 0.0);
+            Vector<double> rightHandside = Vector<double>.Build.Dense(new[]
+            {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0 });
+            int m_rightHandSideCount = rightHandside.Count;
+            rightHandside[m_rightHandSideCount - 1] = 1.0;
+            Assert.IsNotNull(rightHandside);
+            Assert.AreEqual(m_VectorSize, m_rightHandSideCount);
             //
             // Set the first column (column 0) to the values for the first reactant(Species)
             // Set the number of CH4 molecules to 1 in the last row of the defaultMatrix
             defaultMatrix[9, 0] = 1.0;
 
-            string m_firstMolecule = "CH4";
+            // Reactants Section
+            string m_firstReactantMolecule = "CH4";
+            string m_secondReactantMolecule = "O2";
             ICollection<Reactant> reactants = InputServices.GetJsonData("Data/newShortThermo.json");
             Assert.IsNotNull(reactants);
 
             IEnumerable<Molecule> m_firstReactant = from item in reactants
-                                                    where item.Name == m_firstMolecule
+                                                    where item.Name == m_firstReactantMolecule
                                                     select item.Molecule;
             Assert.IsNotNull(m_firstReactant);
 
             Dictionary<string, double>.KeyCollection keyCollection = m_firstReactant.FirstOrDefault().ChemicalFormula.Keys;
             Dictionary<string, double>.ValueCollection valuesCollection = m_firstReactant.FirstOrDefault().ChemicalFormula.Values;
             int m_keyCount = keyCollection.Count;
-
-            string m_secondMolecule = "O2";
             IEnumerable<Molecule> m_secondReactant = from item in reactants
-                                                     where item.Name == m_secondMolecule
+                                                     where item.Name == m_secondReactantMolecule
                                                      select item.Molecule;
             Assert.IsNotNull(m_secondReactant);
-
-            Collection<IEnumerable<Molecule>> reactantsCollection = new Collection<IEnumerable<Molecule>> { m_firstReactant };
+            Collection<IEnumerable<Molecule>> reactantsCollection = new();
+            reactantsCollection.Add(m_firstReactant);
             reactantsCollection.Add(m_secondReactant);
+
+            // Products Section
+            // first product = "CO2
+            // second product = H2O
+            string m_firstProductMolecule =  "CO2";
+            string m_secondProductMolecule = "H2O";
+
+            var m_firstproduct = from item in reactants
+                                 where item.Name == m_firstProductMolecule
+                                 select item.Molecule;
+            Assert.IsNotNull (m_firstproduct);
+            var m_secondProduct = from item in reactants
+                                  where item.Name == m_secondProductMolecule
+                                  select item.Molecule;
+            Assert.IsNotNull(m_secondProduct);
+            Collection<IEnumerable<Molecule>> productsCollection = new();
+            productsCollection.Add(m_firstproduct);
+            productsCollection.Add(m_secondProduct);
 
             int matrixColumnCount = 0;
             int m_reactantCount = reactantsCollection.Count;
@@ -314,9 +338,24 @@ namespace TestCEAconsole
                 LoadBalancedEquationMatrix(c_keys, c_values, c_keycount, matrixColumnCount);
                 matrixColumnCount = matrixColumnCount + 1;
             }
+
+            // since these are the products the values have to be set to negative
+            foreach (var item in productsCollection)
+            {
+                //Dictionary<string, double>.KeyCollection c_keys = item.FirstOrDefault().ChemicalFormula.Keys;
+                Dictionary<string, double>? keyValuePairs = item.FirstOrDefault().ChemicalFormula;
+                //Dictionary<string, double>.ValueCollection c_values = item.FirstOrDefault().ChemicalFormula.Values;
+                foreach (var kvp in keyValuePairs)
+                {
+                    keyValuePairs[kvp.Key] = -kvp.Value;
+                }
+                //int c_keycount = c_keys.Count;
+
+                LoadBalancedEquationMatrix(keyValuePairs.Keys, keyValuePairs.Values, keyValuePairs.Count, matrixColumnCount);
+                matrixColumnCount = matrixColumnCount + 1;
+            }
             
             // TODO j is temp variable to reference column in defaultMatrix
-            
 
             void LoadBalancedEquationMatrix(Dictionary<string, double>.KeyCollection Keys, Dictionary<string, double>.ValueCollection Values, int KeysCount, int ColumnNumber)
             {
@@ -378,6 +417,11 @@ namespace TestCEAconsole
                     }
                 }
             }
+
+            // solve the system using Gaussian elimination
+            Vector<double> m_solution = defaultMatrix.Solve(rightHandside);
+
+            Assert.AreEqual(99, 0);
         }
     }
 
