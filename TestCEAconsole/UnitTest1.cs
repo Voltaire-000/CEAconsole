@@ -14,7 +14,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Collections.ObjectModel;
-using static System.Collections.Generic.Dictionary<TKey, TValue>;
 
 namespace TestCEAconsole
 {
@@ -308,24 +307,24 @@ namespace TestCEAconsole
             int m_reactantCount = reactantsCollection.Count;
             foreach (var item in reactantsCollection)
             {
-                KeyCollection c_keys = item.FirstOrDefault().ChemicalFormula.Keys;
-                ValueCollection c_values = item.FirstOrDefault().ChemicalFormula.Values;
+                Dictionary<string, double>.KeyCollection c_keys = item.FirstOrDefault().ChemicalFormula.Keys;
+                Dictionary<string, double>.ValueCollection c_values = item.FirstOrDefault().ChemicalFormula.Values;
                 int c_keycount = c_keys.Count;
 
-                LoadBalancedEquationMatrix(c_keys, c_values, c_keycount, reactantsCollection.Count);
+                LoadBalancedEquationMatrix(c_keys, c_values, c_keycount, matrixColumnCount);
                 matrixColumnCount = matrixColumnCount + 1;
             }
             
             // TODO j is temp variable to reference column in defaultMatrix
             
 
-            void LoadBalancedEquationMatrix(KeyCollection Keys, ValueCollection Values, int KeysCount, int reactantsCount)
+            void LoadBalancedEquationMatrix(Dictionary<string, double>.KeyCollection Keys, Dictionary<string, double>.ValueCollection Values, int KeysCount, int ColumnNumber)
             {
-                int m_column = 0;
+                int m_column = ColumnNumber;
 
                 for (int i = 0; i < KeysCount; i++)
                 {
-                    string elementKey = keyCollection.ElementAt(i);
+                    string elementKey = Keys.ElementAt(i);
                     switch (elementKey)
                     {
                         case "H":
