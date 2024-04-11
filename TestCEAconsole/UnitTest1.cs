@@ -1,20 +1,11 @@
 using CEAconsole.Models;
 using CEAconsole.Services;
-using Newtonsoft.Json.Linq;
-using System.Diagnostics;
-using MathNet.Numerics.LinearAlgebra;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Runtime.CompilerServices;
-using Newtonsoft.Json;
 using CEAconsole.ViewModels;
-using System.Linq;
-using System.Text.Json;
-using System.Text.Json.Nodes;
-using System.ComponentModel.DataAnnotations;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using System.Collections.ObjectModel;
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
+using MathNet.Numerics.LinearAlgebra.Solvers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.ObjectModel;
 
 namespace TestCEAconsole
 {
@@ -95,7 +86,15 @@ namespace TestCEAconsole
                 {0.0, 2.0,  -2.0, -1.0 }, // O balance
                 {1.0, 0.0,   0.0,  0.0 }   // Setting CH4
             });
-            
+
+            var spm = SparseMatrix.Create(12, 12, 0.0);
+// empty row
+            spm[1, 0] = 1.0; spm[1, 1] = 0.0;                  spm[1, 3] = -1.0; spm[1, 4] =  0.0;
+            spm[2, 0] = 4.0; spm[2, 1] = 0.0;                  spm[2, 3] =  0.0; spm[2, 4] = -2.0;
+            spm[3, 0] = 0.0; spm[3, 1] = 2.0;                  spm[3, 3] = -2.0; spm[3, 4] = -1.0;
+//*/// empty row
+            spm[5, 0] = 1.0; spm[5, 1] = 1.0;                  spm[4, 3] = 1.0;  spm[4, 4] =  1.0; // set compound counts
+                                              // empty column
             // set values of matrix
             //matrix[0, 0] = 1; matrix[0, 1] = 0; matrix[0, 2] = -1; matrix[0, 3] = 0;
             //matrix[1, 0] = 4; matrix[1, 1] = 0; matrix[1, 2] = 0;  matrix[1, 3] = -2;
@@ -107,8 +106,21 @@ namespace TestCEAconsole
             Vector<double> rightHandside = Vector<double>.Build.Dense(new[]
             {0.0, 0.0, 0.0, 1.0 });
 
+            // number of columns
+            Vector<double> spmRight = Vector<double>.Build.Dense(new[]
+            {0.0,0.0,0.0,0.0,1.0,0.0,0.0, 0.0, 0.0, 0.0, 0.0,0.0});
+            var spmSparceColumn = SparseVector.Create(12, 0.0);
+
             // solve the system using Gaussian elimination
             Vector<double> solution = matrix.Solve(rightHandside);
+            //Vector<double> spmSolution = spm.Solve(spmSparceColumn);
+            IIterativeSolver<double> m_solver;
+            Iterator<double> m_iterator = new();
+            Vector<double> m_result = spm.Solve(spmSparceColumn);
+            //IPreconditioner<double> m_preconditioner;
+            //m_solver.Solve(spm, spmSparceColumn, m_result, m_iterator, m_preconditioner.Initialize(spm));
+            Vector<double> spmSolutionIterate = spm.SolveIterative(input: spmSparceColumn, solver: m_solver.); 
+            spmSparceColumn[4] = 1.0;
 
             Assert.AreEqual(4, columnCount);
             Assert.AreEqual(4, solution.Count);
@@ -264,28 +276,85 @@ namespace TestCEAconsole
     public class MatrixSolvers
     {
         [TestMethod]
+        public void TestSmallExample()
+        {
+            string unBalancedEquation = "H2 + O2 -> H2O";
+            string[] tableOfElements = { "H", "O" };
+            // coefficientsMatrix
+            Matrix<double> coeffMatrix = new DenseMatrix(3, 3);
+            coeffMatrix[0, 0] = 2;
+            coeffMatrix[0, 2] = -1;
+            coeffMatrix[1, 1] = 2;
+            coeffMatrix[1, 2] = -1;
+            coeffMatrix[2, 0] = 1;
+            coeffMatrix[2, 1] = 1;
+            coeffMatrix[2, 2] = 1;
+
+            // define matrix of variables
+            Matrix<double> variableMatrix = Matrix<double>.Build.DenseIdentity(3,3);
+            // constants matrix
+            Matrix<double> constantMatrix = new DenseMatrix(3,3);
+            constantMatrix[0,0] = 0;
+            constantMatrix[1, 0] = 0;
+            constantMatrix[2, 0] = 1;
+            // solve matrix equation
+            var m_solution = coeffMatrix.Solve(variableMatrix);
+
+            Assert.AreEqual(99, 0);
+
+        }
+        [TestMethod]
         public void TestShouldBuildMatrixAndLoadChemicalFormula()
         {
             // Arrange
-            //Matrix<double> defaultMatrix = Matrix<double>.Build.Dense(10, 10, 0.0);
-            var defaultMatrix = SparseMatrix.Create(10, 10, 0.0);
-            double determinate = defaultMatrix.Determinant();
-            bool isSymetric = defaultMatrix.IsSymmetric();
-            Assert.IsNotNull(defaultMatrix);
+            Matrix<double> coefficientMatrix = Matrix<double>.Build.Dense(11, 11, 0.0);
+            double determinate = coefficientMatrix.Determinant();
+            bool isSymetric = coefficientMatrix.IsSymmetric();
+            Assert.IsNotNull(coefficientMatrix);
             //
+
+            Matrix<double> variableMatrix = Matrix<double>.Build.DenseIdentity(11, 11);
+            Assert.IsNotNull(variableMatrix);
+            
+            // constants matrix
+            Matrix<double> constantMatrix = new DenseMatrix(11, 1);
+            constantMatrix[0, 0] = 0;
+            constantMatrix[1,0] = 0;
+            constantMatrix[2,0] = 0;
+            constantMatrix[3,0] = 0;
+            constantMatrix[4,0] = 0;
+            constantMatrix[5,0] = 0;
+            constantMatrix[6,0] = 0;
+            constantMatrix[7,0] = 0;
+            constantMatrix[8,0] = 0;
+            constantMatrix[9,0] = 0;
+            constantMatrix[10, 0] = 1.0;
+            Assert.IsNotNull(constantMatrix);
+
             // create rightHand side vector
-            int m_VectorSize = 10;
+            int m_VectorSize = 11;
             //Vector<double> rightHandSide = Vector<double>.Build.Dense(m_VectorSize, 0.0);
             Vector<double> rightHandside = Vector<double>.Build.Dense(new[]
-            {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0 });
+            {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0 });
             int m_rightHandSideCount = rightHandside.Count;
             rightHandside[m_rightHandSideCount - 1] = 1.0;
             Assert.IsNotNull(rightHandside);
             Assert.AreEqual(m_VectorSize, m_rightHandSideCount);
+
             //
             // Set the first column (column 0) to the values for the first reactant(Species)
             // Set the number of CH4 molecules to 1 in the last row of the defaultMatrix
-            defaultMatrix[9, 0] = 1.0;
+            coefficientMatrix[10, 0] = 1.0;
+            coefficientMatrix[10, 1] = 1.0;
+            coefficientMatrix[10, 2] = 1.0;
+            coefficientMatrix[10, 3] = 1.0;
+            coefficientMatrix[10, 4] = 1.0;
+            coefficientMatrix[10, 5] = 1.0;
+            coefficientMatrix[10, 6] = 1.0;
+            coefficientMatrix[10, 7] = 1.0;
+            coefficientMatrix[10, 8] = 1.0;
+            coefficientMatrix[10, 9] = 1.0;
+            coefficientMatrix[10, 10] = 1.0;
 
             // Reactants Section
             string m_firstReactantMolecule = "CH4";
@@ -354,8 +423,10 @@ namespace TestCEAconsole
                 LoadBalancedEquationMatrix(keyValuePairs.Keys, keyValuePairs.Values, keyValuePairs.Count, matrixColumnCount);
                 matrixColumnCount = matrixColumnCount + 1;
             }
-            
+
             // TODO j is temp variable to reference column in defaultMatrix
+
+            //(Matrix<double> solutionMatrix, Matrix<double> pivotMatrix) = coefficientMatrix.Solve(input: variableMatrix, constantMatrix);
 
             void LoadBalancedEquationMatrix(Dictionary<string, double>.KeyCollection Keys, Dictionary<string, double>.ValueCollection Values, int KeysCount, int ColumnNumber)
             {
@@ -369,47 +440,52 @@ namespace TestCEAconsole
                         case "H":
                             // matrix row 0
                             int row0 = 0;
-                            defaultMatrix[row0, m_column] = Values.ElementAt(i);
+                            coefficientMatrix[row0, m_column] = Values.ElementAt(i);
                             break;
                         case "D":
                             // matrix row 1
                             int row1 = 1;
-                            defaultMatrix[row1, m_column] = Values.ElementAt(i);
+                            coefficientMatrix[row1, m_column] = Values.ElementAt(i);
                             break;
                         case "He":
                             // matrix row 2
                             int row2 = 2;
-                            defaultMatrix[row2, m_column] = Values.ElementAt(i);
+                            coefficientMatrix[row2, m_column] = Values.ElementAt(i);
                             break;
                         case "Li":
                             // matrix row 3
                             int row3 = 3;
-                            defaultMatrix[row3, m_column] = Values.ElementAt(i);
+                            coefficientMatrix[row3, m_column] = Values.ElementAt(i);
                             break;
                         case "Be":
                             // matrix row 4
                             int row4 = 4;
-                            defaultMatrix[row4, m_column] = Values.ElementAt(i);
+                            coefficientMatrix[row4, m_column] = Values.ElementAt(i);
                             break;
                         case "B":
                             // matrix row 5
                             int row5 = 5;
-                            defaultMatrix[row5, m_column] = Values.ElementAt(i);
+                            coefficientMatrix[row5, m_column] = Values.ElementAt(i);
                             break;
                         case "C":
                             // matrix row 6
                             int row6 = 6;
-                            defaultMatrix[row6, m_column] = Values.ElementAt(i);
+                            coefficientMatrix[row6, m_column] = Values.ElementAt(i);
                             break;
                         case "N":
                             // matrix row 7
                             int row7 = 7;
-                            defaultMatrix[row7, m_column] = Values.ElementAt(i);
+                            coefficientMatrix[row7, m_column] = Values.ElementAt(i);
                             break;
                         case "O":
-                            // matrix row 8 // row 9 is set previously
+                            // matrix row 8 
                             int row8 = 8;
-                            defaultMatrix[row8, m_column] = Values.ElementAt(i);
+                            coefficientMatrix[row8, m_column] = Values.ElementAt(i);
+                            break;
+                        case "F":
+                            // matrix row 9
+                            int row9 = 9;
+                            coefficientMatrix[row9, m_column] = Values.ElementAt(i);
                             break;
 
                         default:
@@ -419,7 +495,7 @@ namespace TestCEAconsole
             }
 
             // solve the system using Gaussian elimination
-            Vector<double> m_solution = defaultMatrix.Solve(rightHandside);
+            Vector<double> m_solution = coefficientMatrix.Solve(rightHandside);
 
             Assert.AreEqual(99, 0);
         }
