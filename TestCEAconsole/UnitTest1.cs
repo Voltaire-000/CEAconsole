@@ -79,7 +79,8 @@ namespace TestCEAconsole
         [TestMethod]
         public void TestMathNetMatrix()
         {
-            // CH4 + O2 = CO2 + H2O
+            // CH4 + O2 =  CO2 + H2O
+            // CH4 + 2O2 = CO2 + 2H2O
             Matrix<double> matrix = Matrix<double>.Build.DenseOfArray(new[,]{
                 {1.0, 0.0,  -1.0,  0.0 }, // C balance
                 {4.0, 0.0,   0.0, -2.0 }, // H balance
@@ -87,14 +88,28 @@ namespace TestCEAconsole
                 {1.0, 0.0,   0.0,  0.0 }   // Setting CH4
             });
 
-            var spm = SparseMatrix.Create(12, 12, 0.0);
+            var spm = SparseMatrix.Create(6, 6, 0.0);
+
 // empty row
-            spm[1, 0] = 1.0; spm[1, 1] = 0.0;                  spm[1, 3] = -1.0; spm[1, 4] =  0.0;
-            spm[2, 0] = 4.0; spm[2, 1] = 0.0;                  spm[2, 3] =  0.0; spm[2, 4] = -2.0;
-            spm[3, 0] = 0.0; spm[3, 1] = 2.0;                  spm[3, 3] = -2.0; spm[3, 4] = -1.0;
+            spm[1, 0] = 1.0; /*spm[1, 1] = 0.0;*/              spm[1, 3] = -1.0; /*spm[1, 4] =  0.0;*/
+            spm[2, 0] = 4.0; /*spm[2, 1] = 0.0;*/              /*spm[2, 3] =  0.0;*/ spm[2, 4] = -2.0;
+            /*spm[3, 0] = 0.0;*/ spm[3, 1] = 2.0;                  spm[3, 3] = -2.0; spm[3, 4] = -1.0;
 //*/// empty row
-            spm[5, 0] = 1.0; spm[5, 1] = 1.0;                  spm[4, 3] = 1.0;  spm[4, 4] =  1.0; // set compound counts
-                                              // empty column
+            spm[5, 0] = 1.0; /*spm[5, 1] = 0.0;                  spm[5, 3] = 0.0;  spm[5, 4] = 0.0;*/ // set compound counts
+                                                                                                   // empty column
+
+            int non_zero = spm.NonZerosCount;
+            Vector<double> rowAbsSums = spm.RowAbsoluteSums();
+            Vector<double> rowSums = spm.RowSums();
+            Vector<double> columnAbsSums = spm.ColumnAbsoluteSums();
+            Vector<double> columnSums = spm.ColumnSums();
+            double[] columnMajor = spm.ToColumnMajorArray();
+            double[] rowMajor = spm.ToRowMajorArray();
+            Matrix<double> lowerTri = spm.LowerTriangle();
+            Matrix<double> lowerTriStrict = spm.StrictlyLowerTriangle();
+            Matrix<double> upperTri = spm.UpperTriangle();
+            Matrix<double> upperTriStrict = spm.StrictlyUpperTriangle();
+            var transMul = lowerTriStrict.TransposeAndMultiply(lowerTri);
             // set values of matrix
             //matrix[0, 0] = 1; matrix[0, 1] = 0; matrix[0, 2] = -1; matrix[0, 3] = 0;
             //matrix[1, 0] = 4; matrix[1, 1] = 0; matrix[1, 2] = 0;  matrix[1, 3] = -2;
@@ -107,20 +122,11 @@ namespace TestCEAconsole
             {0.0, 0.0, 0.0, 1.0 });
 
             // number of columns
-            Vector<double> spmRight = Vector<double>.Build.Dense(new[]
-            {0.0,0.0,0.0,0.0,1.0,0.0,0.0, 0.0, 0.0, 0.0, 0.0,0.0});
-            var spmSparceColumn = SparseVector.Create(12, 0.0);
-
+            var spmSparceVector = SparseVector.Create(6, 0.0);
+            spmSparceVector[5] = 1.0;
             // solve the system using Gaussian elimination
-            Vector<double> solution = matrix.Solve(rightHandside);
-            //Vector<double> spmSolution = spm.Solve(spmSparceColumn);
-            IIterativeSolver<double> m_solver;
-            Iterator<double> m_iterator = new();
-            Vector<double> m_result = spm.Solve(spmSparceColumn);
-            //IPreconditioner<double> m_preconditioner;
-            //m_solver.Solve(spm, spmSparceColumn, m_result, m_iterator, m_preconditioner.Initialize(spm));
-            Vector<double> spmSolutionIterate = spm.SolveIterative(input: spmSparceColumn, solver: m_solver.); 
-            spmSparceColumn[4] = 1.0;
+            Vector<double> solution = matrix.Solve(rightHandside); // 1,2,1,2
+            Vector<double> m_result = spm.Solve(spmSparceVector);
 
             Assert.AreEqual(4, columnCount);
             Assert.AreEqual(4, solution.Count);
