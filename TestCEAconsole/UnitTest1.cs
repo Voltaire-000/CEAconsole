@@ -4,11 +4,61 @@ using CEAconsole.ViewModels;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Solvers;
+using Microsoft.VisualStudio.TestPlatform.CrossPlatEngine;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.ObjectModel;
 
 namespace TestCEAconsole
 {
+    [TestClass]
+    public class TestGaussianEliminationMethods
+    {
+        [TestMethod]
+        public void TestAugmentedMatrixRowOperations()
+        {
+            Matrix<double> matrix = Matrix<double>.Build.DenseOfArray(new[,]{
+                { 2.0, 1.0, -1.0, 5.0},
+                { 4.0, -3.0, 2.0, 3.0},
+                { 1.0, 2.0, 3.0, 10.0}
+               });
+            Assert.IsNotNull(matrix);
+
+            Matrix<double> matrix2 = Matrix<double>.Build.DenseOfArray(new[,]{
+                { 2.0, 1.0, -1.0},
+                { 4.0, -3.0, 2.0},
+                { 1.0, 2.0, 3.0}
+               });
+
+            var Row1 = matrix.Row(0);
+            var Row2 = matrix.Row(1);
+            var Row3 = matrix.Row(2);
+            Row2 = Row2 - matrix.At(1, 0) / matrix.At(0, 0) * Row1;
+            matrix.SetRow(1, Row2);
+            Row3 = Row3 - matrix.At(2, 0) / matrix.At(0,0) * Row1;
+            matrix.SetRow(2, Row3);
+            // diagonal
+            var diagonal = matrix.Diagonal();
+            // make pivot element
+            Row2 = Row2 / -5;
+            matrix.SetRow(1, Row2);
+            diagonal = matrix.Diagonal();
+            var lowerTriangleStrict = matrix.StrictlyLowerTriangle();
+            Row3 = Row3 - 1.5 * Row2;
+            matrix.SetRow(2, Row3);
+            lowerTriangleStrict = matrix.StrictlyLowerTriangle();
+            diagonal = matrix.Diagonal();
+
+            double m_z = matrix.At(2, 3) / matrix.At(2, 2);
+            double m_y = matrix.At(1, 3) + Math.Abs( matrix.At(1,2)) * m_z;
+            double m_x = (5 - (m_y - m_z)) / 2;
+            Vector<double> result = Vector<double>.Build.Dense(3, 0.0);
+            Vector<double> input = Vector<double>.Build.Dense([5.0, 3.0, 10.0]);
+            var m_test = matrix2.Solve(input);
+
+            Assert.IsNotNull(result);
+
+        }
+    }
     [TestClass]
     public class TestFilters
     {
