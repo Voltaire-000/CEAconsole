@@ -4,9 +4,12 @@ using CEAconsole.ViewModels;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Solvers;
+using MathNet.Numerics.LinearAlgebra.Double.Solvers;
 using Microsoft.VisualStudio.TestPlatform.CrossPlatEngine;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.ObjectModel;
+using MathNet.Numerics.Providers.SparseSolver;
+using MathNet.Numerics.LinearAlgebra.Factorization;
 
 namespace TestCEAconsole
 {
@@ -126,6 +129,111 @@ namespace TestCEAconsole
     [TestClass]
     public class TestMatrix
     {
+        [TestMethod]
+        public void TestPerplexity_Compressed_SparseColumn_Method()
+        {
+            // create a sparse matrix
+            //double[,] xvalues = new double[,]
+            //{
+            //    {1, 0, 3 },
+            //    {0, 2, 0},
+            //    {4, 0, 5 }
+            //};
+
+            // Compressed Sparse Column format
+            // column major
+            double[] values = new double[]      { 1, 3, 4, 2, 5 };
+            int[] rowIndices = new int[]        { 0, 0, 2, 1, 2 };
+            int[] columnPointers = new int[]    { 0, 2, 3, 5 };
+            
+            Matrix<double> A = Matrix.Build.SparseFromCompressedSparseColumnFormat(3, 3, values.Length, rowIndices, columnPointers, values);
+            // define the right hand side
+            Vector<double> b = Vector.Build.Dense(new double[] { 6, 4, 10 });
+            // solve the equation
+            Vector<double> solution = A.Solve(b);   // 1.5, 0, 2
+            Vector<double> expected = Vector.Build.Dense(new double[] { 1.5, 0.0, 2.0 });
+
+            Assert.AreEqual(expected, solution);
+
+            Assert.AreEqual(2, solution[2]);
+
+        }
+        [TestMethod]
+        public void TestSparseMatrix_Compressed_Sparse_Row_Method()
+        {
+            double[] nonZeroValues = new double[]   { 1, 3, 2, 4, 5 };
+            // IA vector has a size of m + 1, where m is the number of rows in the matrix
+            // it stores the cumulative number of non-zero elements up to ( but not including) the i-th row
+            // IA[0] = 0, IA[i] = IA[i-1] + number of non-zero elements in the (i-1)-th row in the matrix
+            int[] IA_rowPointers = new int[]        { 0, 2, 3, 5};
+            int[] JA_columnIndices = new int[]      { 0, 2, 1, 0, 2 }; // the column that holds value
+            
+
+            Matrix<double> A = Matrix.Build.SparseFromCompressedSparseRowFormat(3,3,nonZeroValues.Length,IA_rowPointers, JA_columnIndices, nonZeroValues);
+            // define the right hand side
+            Vector<double> b = Vector.Build.Dense(new double[] {6, 4, 10});
+            // solve the problem
+            Vector<double> solution = A.Solve(b);
+
+            Assert.AreEqual(2, solution[1]);
+        }
+
+        [TestMethod]
+        public void TestFromSolutionByHand()
+        {
+            //{ 2,3},
+            //{ 4,5}
+
+            double[] values = new double[]  { 2, 3, 4, 5 };
+            // IA
+            int[] IA = new int[]            { 0, 2, 4 };
+            int[] JA = new int[]            { 0, 1, 0, 1 };
+            Matrix<double> A = Matrix.Build.SparseFromCompressedSparseRowFormat(2,2, values.Length,IA, JA, values);
+            // define the right side
+            Vector<double> b = Vector.Build.Dense(new double[] { 7, 11 });
+            // expected
+
+            // solve
+            Vector<double> solution = A.Solve(b);
+
+            Assert.AreEqual(99, 0);
+        }
+
+        [TestMethod]
+        public void Test_Should_Balance_Equation()
+        {
+            //    { 1.0, 0.0,  -1.0,  0.0 }, // C balance
+            //    { 4.0, 0.0,   0.0, -2.0 }, // H balance
+            //    { 0.0, 2.0,  -2.0, -1.0 }, // O balance
+            //    { 1.0, 0.0,   0.0,  0.0 }   // Setting CH4
+            int rows = 12;
+            int columns = 12;
+            var spm = new SparseMatrix(rows, columns);
+            Assert.IsNotNull(spm);
+
+            // CH4          O2                              CO2                 H2O
+            // column 0     column 1        column 2        column 3            column 4
+            // empty row
+            spm[1, 0] = 1.0;                                spm[1, 3] = -1.0;                       // Carbon
+            spm[2, 0] = 4.0;                                                    spm[2, 4] = -2.0;   // Hydrogen
+                            spm[3, 1] = 2.0;                spm[3, 3] = -2.0;   spm[3, 4] = -1.0;   // Oxygen
+            //*/// empty row
+            spm[5, 0] = 1.0;
+            double[] values = new double[]  { 1.0, -1.0, 4.0, -2.0, 2.0, -2.0, -1.0, 1.0 };
+            int[] IA = new int[] { 0, 2, 4, 7, 8 };
+            int[] IJ = new int[]            { 0, 2, 0, 3, 1, 2, 3, 0 };
+            Matrix<double> A = Matrix.Build.SparseFromCompressedSparseRowFormat(4,4,values.Length, IA, IJ, values);
+            // define the right hand side
+            Vector<double> b = Vector.Build.Dense(new double[] { 0, 0, 0, 1.0 });
+            // expected
+            Vector<double> expected = Vector<double>.Build.Dense(new double[] { 1, 2, 1, 2 });
+
+            // solution
+            Vector<double> solution = A.Solve(b);
+
+            Assert.AreEqual(expected, solution);
+
+        }
         [TestMethod]
         public void TestMathNetMatrix()
         {
