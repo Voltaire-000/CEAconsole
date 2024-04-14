@@ -10,6 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.ObjectModel;
 using MathNet.Numerics.Providers.SparseSolver;
 using MathNet.Numerics.LinearAlgebra.Factorization;
+using MathNet.Symbolics;
 
 namespace TestCEAconsole
 {
@@ -179,6 +180,117 @@ namespace TestCEAconsole
         }
 
         [TestMethod]
+        public void Test_Thermodynamic_BalanceHydrocarbonEquation_Method()
+        {
+            // CH4 + O2 =  CO2 + H2O
+            // CH4 + 2O2 = CO2 + 2H2O
+            Matrix<double> matrix = Matrix<double>.Build.DenseOfArray(new[,]{
+                {1.0, 0.0,  -1.0,  0.0 }, // C balance
+                {4.0, 0.0,   0.0, -2.0 }, // H balance
+                {0.0, 2.0,  -2.0, -1.0 }, // O balance
+                {1.0, 0.0,   0.0,  0.0 }   // Setting CH4
+            });
+
+            Vector<double> expected = Vector<double>.Build.Dense(new double[] { 1, 2, 1, 2 });
+
+            var solution = ThermoDynamics.BalanceHydrocarbonEquation(matrix);
+
+            Assert.AreEqual(expected, solution);
+
+        }
+        [TestMethod]
+        public void TestShouldPutNonZeroValuesInto_ValuesVector()
+        {
+            // CH4 + O2 =  CO2 + H2O
+            // CH4 + 2O2 = CO2 + 2H2O
+            Matrix<double> matrix = Matrix<double>.Build.DenseOfArray(new[,]{
+                {1.0, 0.0,  -1.0,  0.0 }, // C balance
+                {4.0, 0.0,   0.0, -2.0 }, // H balance
+                {0.0, 2.0,  -2.0, -1.0 }, // O balance
+                {1.0, 0.0,   0.0,  0.0 }   // Setting CH4
+            });
+
+            int numRows = matrix.RowCount;
+            int nonZeroValues = 0;
+            int ii = 0;
+
+            IEnumerable<(int, Vector<double>)> m_enumeratedRows = matrix.EnumerateRowsIndexed();
+            for (int i = 0; i < numRows; i++)
+            {
+                var m_elementAtRow = m_enumeratedRows.ElementAt(i);
+                int m_rowNumber = m_elementAtRow.Item1;
+                Vector<double> m_rowVector = m_elementAtRow.Item2;
+
+                foreach (var item in m_rowVector)
+                {
+                    int m_compare = item.CompareTo(0.0);
+                    if (m_compare != 0)
+                    {
+                        nonZeroValues++;
+                    }
+                }
+
+            }
+
+            double[] values = new double[nonZeroValues];
+            //Vector<double> values = Vector<double>.Build.Dense(nonZeroValues);
+            for (int i = 0; i < numRows; i++)
+            {
+                var m_elementAtRow = m_enumeratedRows.ElementAt(i);
+                int m_rowNumber = m_elementAtRow.Item1;
+                Vector<double> m_rowVector = m_elementAtRow.Item2;
+
+                foreach (var item in m_rowVector)
+                {
+                    int m_compare = item.CompareTo(0.0);
+                    if (m_compare != 0)
+                    {
+                        values[ii] = item;
+                        ii++;
+                        //nonZeroValues++;
+                    }
+                }
+
+            }
+            Assert.AreEqual(8, values.Length);
+
+        }
+        [TestMethod]
+        public void TestGetNumberOfNonZeroValuesInMatrix()
+        {
+            // CH4 + O2 =  CO2 + H2O
+            // CH4 + 2O2 = CO2 + 2H2O
+            Matrix<double> matrix = Matrix<double>.Build.DenseOfArray(new[,]{
+                {1.0, 0.0,  -1.0,  0.0 }, // C balance
+                {4.0, 0.0,   0.0, -2.0 }, // H balance
+                {0.0, 2.0,  -2.0, -1.0 }, // O balance
+                {1.0, 0.0,   0.0,  0.0 }   // Setting CH4
+            });
+
+            int numRows = matrix.RowCount;
+            int nonZeroValues = 0;
+
+            IEnumerable<(int, Vector<double>)> m_enumeratedRows = matrix.EnumerateRowsIndexed();
+            for (int i = 0; i < numRows; i++)
+            {
+                var m_elementAtRow = m_enumeratedRows.ElementAt(i);
+                int m_rowNumber = m_elementAtRow.Item1;
+                Vector<double> m_rowVector = m_elementAtRow.Item2;
+
+                foreach (var item in m_rowVector)
+                {
+                    int m_compare = item.CompareTo(0.0);
+                    if (m_compare !=0)
+                    {
+                        nonZeroValues++;
+                    }
+                }
+            }
+
+            Assert.AreEqual(8, nonZeroValues);
+  
+        }
+        [TestMethod]
         public void Test_Should_ProperlySize_IA_JA_vectors()
         {
             // CH4 + O2 =  CO2 + H2O
@@ -190,16 +302,20 @@ namespace TestCEAconsole
                 {1.0, 0.0,   0.0,  0.0 }   // Setting CH4
             });
             Assert.IsNotNull(matrix);
+
             int numRows = matrix.RowCount;
             int numColumns = matrix.ColumnCount;
             Assert.AreEqual((int)numRows, matrix.RowCount);
+
             // Create IA vector = numrows + 1
             Vector<double> IA = Vector.Build.Dense(numRows + 1);
             Assert.AreEqual(IA.Count, matrix.RowCount + 1);
+
             // Create the JA vector = number of reactants + number of products
             // this is set manully here but will get count from input. TODO
             Vector<double> JA = Vector.Build.Dense(8);
             Assert.AreEqual(8, JA.Count);
+
             IEnumerable<(int, Vector<double>)> m_enumeratedRows = matrix.EnumerateRowsIndexed();
             IEnumerable<(int, Vector<double>)> m_enumeratedColumns = matrix.EnumerateColumnsIndexed();
 
@@ -267,6 +383,7 @@ namespace TestCEAconsole
             //*/// empty row
             spm[5, 0] = 1.0;
             double[] values = new double[] { 1.0, -1.0, 4.0, -2.0, 2.0, -2.0, -1.0, 1.0 };
+            
             int[] IA = new int[] { 0, 2, 4, 7, 8 };
             int[] IJ = new int[] { 0, 2, 0, 3, 1, 2, 3, 0 };
             Matrix<double> A = Matrix.Build.SparseFromCompressedSparseRowFormat(4, 4, values.Length, IA, IJ, values);
