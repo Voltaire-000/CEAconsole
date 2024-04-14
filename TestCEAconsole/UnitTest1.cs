@@ -37,7 +37,7 @@ namespace TestCEAconsole
             var Row3 = matrix.Row(2);
             Row2 = Row2 - matrix.At(1, 0) / matrix.At(0, 0) * Row1;
             matrix.SetRow(1, Row2);
-            Row3 = Row3 - matrix.At(2, 0) / matrix.At(0,0) * Row1;
+            Row3 = Row3 - matrix.At(2, 0) / matrix.At(0, 0) * Row1;
             matrix.SetRow(2, Row3);
             // diagonal
             var diagonal = matrix.Diagonal();
@@ -52,7 +52,7 @@ namespace TestCEAconsole
             diagonal = matrix.Diagonal();
 
             double m_z = matrix.At(2, 3) / matrix.At(2, 2);
-            double m_y = matrix.At(1, 3) + Math.Abs( matrix.At(1,2)) * m_z;
+            double m_y = matrix.At(1, 3) + Math.Abs(matrix.At(1, 2)) * m_z;
             double m_x = (5 - (m_y - m_z)) / 2;
             Vector<double> result = Vector<double>.Build.Dense(3, 0.0);
             Vector<double> input = Vector<double>.Build.Dense([5.0, 3.0, 10.0]);
@@ -127,7 +127,7 @@ namespace TestCEAconsole
     }
 
     [TestClass]
-    public class TestMatrix
+    public class Test_Matrix_Methods
     {
         [TestMethod]
         public void TestPerplexity_Compressed_SparseColumn_Method()
@@ -142,10 +142,10 @@ namespace TestCEAconsole
 
             // Compressed Sparse Column format
             // column major
-            double[] values = new double[]      { 1, 3, 4, 2, 5 };
-            int[] rowIndices = new int[]        { 0, 0, 2, 1, 2 };
-            int[] columnPointers = new int[]    { 0, 2, 3, 5 };
-            
+            double[] values = new double[] { 1, 3, 4, 2, 5 };
+            int[] rowIndices = new int[] { 0, 0, 2, 1, 2 };
+            int[] columnPointers = new int[] { 0, 2, 3, 5 };
+
             Matrix<double> A = Matrix.Build.SparseFromCompressedSparseColumnFormat(3, 3, values.Length, rowIndices, columnPointers, values);
             // define the right hand side
             Vector<double> b = Vector.Build.Dense(new double[] { 6, 4, 10 });
@@ -161,17 +161,17 @@ namespace TestCEAconsole
         [TestMethod]
         public void TestSparseMatrix_Compressed_Sparse_Row_Method()
         {
-            double[] nonZeroValues = new double[]   { 1, 3, 2, 4, 5 };
+            double[] nonZeroValues = new double[] { 1, 3, 2, 4, 5 };
             // IA vector has a size of m + 1, where m is the number of rows in the matrix
             // it stores the cumulative number of non-zero elements up to ( but not including) the i-th row
             // IA[0] = 0, IA[i] = IA[i-1] + number of non-zero elements in the (i-1)-th row in the matrix
-            int[] IA_rowPointers = new int[]        { 0, 2, 3, 5};
-            int[] JA_columnIndices = new int[]      { 0, 2, 1, 0, 2 }; // the column that holds value
-            
+            int[] IA_rowPointers = new int[] { 0, 2, 3, 5 };
+            int[] JA_columnIndices = new int[] { 0, 2, 1, 0, 2 }; // the column that holds value
 
-            Matrix<double> A = Matrix.Build.SparseFromCompressedSparseRowFormat(3,3,nonZeroValues.Length,IA_rowPointers, JA_columnIndices, nonZeroValues);
+
+            Matrix<double> A = Matrix.Build.SparseFromCompressedSparseRowFormat(3, 3, nonZeroValues.Length, IA_rowPointers, JA_columnIndices, nonZeroValues);
             // define the right hand side
-            Vector<double> b = Vector.Build.Dense(new double[] {6, 4, 10});
+            Vector<double> b = Vector.Build.Dense(new double[] { 6, 4, 10 });
             // solve the problem
             Vector<double> solution = A.Solve(b);
 
@@ -179,24 +179,71 @@ namespace TestCEAconsole
         }
 
         [TestMethod]
-        public void TestFromSolutionByHand()
+        public void Test_Should_ProperlySize_IA_JA_vectors()
         {
-            //{ 2,3},
-            //{ 4,5}
+            // CH4 + O2 =  CO2 + H2O
+            // CH4 + 2O2 = CO2 + 2H2O
+            Matrix<double> matrix = Matrix<double>.Build.DenseOfArray(new[,]{
+                {1.0, 0.0,  -1.0,  0.0 }, // C balance
+                {4.0, 0.0,   0.0, -2.0 }, // H balance
+                {0.0, 2.0,  -2.0, -1.0 }, // O balance
+                {1.0, 0.0,   0.0,  0.0 }   // Setting CH4
+            });
+            Assert.IsNotNull(matrix);
+            int numRows = matrix.RowCount;
+            int numColumns = matrix.ColumnCount;
+            Assert.AreEqual((int)numRows, matrix.RowCount);
+            // Create IA vector = numrows + 1
+            Vector<double> IA = Vector.Build.Dense(numRows + 1);
+            Assert.AreEqual(IA.Count, matrix.RowCount + 1);
+            // Create the JA vector = number of reactants + number of products
+            // this is set manully here but will get count from input. TODO
+            Vector<double> JA = Vector.Build.Dense(8);
+            Assert.AreEqual(8, JA.Count);
+            IEnumerable<(int, Vector<double>)> m_enumeratedRows = matrix.EnumerateRowsIndexed();
+            IEnumerable<(int, Vector<double>)> m_enumeratedColumns = matrix.EnumerateColumnsIndexed();
 
-            double[] values = new double[]  { 2, 3, 4, 5 };
-            // IA
-            int[] IA = new int[]            { 0, 2, 4 };
-            int[] JA = new int[]            { 0, 1, 0, 1 };
-            Matrix<double> A = Matrix.Build.SparseFromCompressedSparseRowFormat(2,2, values.Length,IA, JA, values);
-            // define the right side
-            Vector<double> b = Vector.Build.Dense(new double[] { 7, 11 });
-            // expected
+            int totalNonZeroValues = 0;
+            //
+            Vector<double> expected_IA = Vector.Build.Dense(new double[] { 0, 2, 4, 7, 8 });
+            Vector<double> expected_JA = Vector.Build.Dense(new double[] { 0, 2, 0, 3, 1, 2, 3, 0 });
+            int jj = 0;
 
-            // solve
-            Vector<double> solution = A.Solve(b);
+            for (int i = 0; i < numRows; i++)
+            {
+                var m_elementAtRow = m_enumeratedRows.ElementAt(i);
+                int m_rowNumber = m_elementAtRow.Item1;
+                Vector<double> m_rowVector = m_elementAtRow.Item2;
+                int Row_non_zero_values = 0;
+                int column_where_value_found = 0;
 
-            Assert.AreEqual(99, 0);
+                foreach (var item in m_rowVector)
+                {
+                    var m_compare = item.CompareTo(0.0);
+                    if (m_compare != 0)
+                    {
+                        // increment valuesCount
+                        Row_non_zero_values++;
+                        // what column was it found in
+                        // { 0, 2, 0, 3, 1, 2, 3, 0 };
+                        //int m_c = column_where_value_found;
+
+                        JA[jj] = column_where_value_found;
+                        jj++;
+
+                    }
+                    column_where_value_found++;
+
+                }
+                IA[i + 1] = IA[i] + Row_non_zero_values;
+                totalNonZeroValues += Row_non_zero_values;
+
+            }
+            Assert.AreEqual(8, totalNonZeroValues);
+            Assert.IsNotNull(m_enumeratedRows);
+            Assert.AreEqual(expected_IA, IA);
+            Assert.AreEqual(expected_JA, JA);
+
         }
 
         [TestMethod]
@@ -214,15 +261,15 @@ namespace TestCEAconsole
             // CH4          O2                              CO2                 H2O
             // column 0     column 1        column 2        column 3            column 4
             // empty row
-            spm[1, 0] = 1.0;                                spm[1, 3] = -1.0;                       // Carbon
-            spm[2, 0] = 4.0;                                                    spm[2, 4] = -2.0;   // Hydrogen
-                            spm[3, 1] = 2.0;                spm[3, 3] = -2.0;   spm[3, 4] = -1.0;   // Oxygen
+            spm[1, 0] = 1.0; spm[1, 3] = -1.0;                       // Carbon
+            spm[2, 0] = 4.0; spm[2, 4] = -2.0;   // Hydrogen
+            spm[3, 1] = 2.0; spm[3, 3] = -2.0; spm[3, 4] = -1.0;   // Oxygen
             //*/// empty row
             spm[5, 0] = 1.0;
-            double[] values = new double[]  { 1.0, -1.0, 4.0, -2.0, 2.0, -2.0, -1.0, 1.0 };
+            double[] values = new double[] { 1.0, -1.0, 4.0, -2.0, 2.0, -2.0, -1.0, 1.0 };
             int[] IA = new int[] { 0, 2, 4, 7, 8 };
-            int[] IJ = new int[]            { 0, 2, 0, 3, 1, 2, 3, 0 };
-            Matrix<double> A = Matrix.Build.SparseFromCompressedSparseRowFormat(4,4,values.Length, IA, IJ, values);
+            int[] IJ = new int[] { 0, 2, 0, 3, 1, 2, 3, 0 };
+            Matrix<double> A = Matrix.Build.SparseFromCompressedSparseRowFormat(4, 4, values.Length, IA, IJ, values);
             // define the right hand side
             Vector<double> b = Vector.Build.Dense(new double[] { 0, 0, 0, 1.0 });
             // expected
@@ -248,13 +295,14 @@ namespace TestCEAconsole
 
             var spm = SparseMatrix.Create(6, 6, 0.0);
 
-// empty row
+            // empty row
             spm[1, 0] = 1.0; /*spm[1, 1] = 0.0;*/              spm[1, 3] = -1.0; /*spm[1, 4] =  0.0;*/
             spm[2, 0] = 4.0; /*spm[2, 1] = 0.0;*/              /*spm[2, 3] =  0.0;*/ spm[2, 4] = -2.0;
-            /*spm[3, 0] = 0.0;*/ spm[3, 1] = 2.0;                  spm[3, 3] = -2.0; spm[3, 4] = -1.0;
-//*/// empty row
+            /*spm[3, 0] = 0.0;*/
+            spm[3, 1] = 2.0; spm[3, 3] = -2.0; spm[3, 4] = -1.0;
+            //*/// empty row
             spm[5, 0] = 1.0; /*spm[5, 1] = 0.0;                  spm[5, 3] = 0.0;  spm[5, 4] = 0.0;*/ // set compound counts
-                                                                                                   // empty column
+                                                                                                      // empty column
 
             int non_zero = spm.NonZerosCount;
             Vector<double> rowAbsSums = spm.RowAbsoluteSums();
@@ -439,34 +487,7 @@ namespace TestCEAconsole
     [TestClass]
     public class MatrixSolvers
     {
-        [TestMethod]
-        public void TestSmallExample()
-        {
-            string unBalancedEquation = "H2 + O2 -> H2O";
-            string[] tableOfElements = { "H", "O" };
-            // coefficientsMatrix
-            Matrix<double> coeffMatrix = new DenseMatrix(3, 3);
-            coeffMatrix[0, 0] = 2;
-            coeffMatrix[0, 2] = -1;
-            coeffMatrix[1, 1] = 2;
-            coeffMatrix[1, 2] = -1;
-            coeffMatrix[2, 0] = 1;
-            coeffMatrix[2, 1] = 1;
-            coeffMatrix[2, 2] = 1;
 
-            // define matrix of variables
-            Matrix<double> variableMatrix = Matrix<double>.Build.DenseIdentity(3,3);
-            // constants matrix
-            Matrix<double> constantMatrix = new DenseMatrix(3,3);
-            constantMatrix[0,0] = 0;
-            constantMatrix[1, 0] = 0;
-            constantMatrix[2, 0] = 1;
-            // solve matrix equation
-            var m_solution = coeffMatrix.Solve(variableMatrix);
-
-            Assert.AreEqual(99, 0);
-
-        }
         [TestMethod]
         public void TestShouldBuildMatrixAndLoadChemicalFormula()
         {
@@ -479,19 +500,19 @@ namespace TestCEAconsole
 
             Matrix<double> variableMatrix = Matrix<double>.Build.DenseIdentity(11, 11);
             Assert.IsNotNull(variableMatrix);
-            
+
             // constants matrix
             Matrix<double> constantMatrix = new DenseMatrix(11, 1);
             constantMatrix[0, 0] = 0;
-            constantMatrix[1,0] = 0;
-            constantMatrix[2,0] = 0;
-            constantMatrix[3,0] = 0;
-            constantMatrix[4,0] = 0;
-            constantMatrix[5,0] = 0;
-            constantMatrix[6,0] = 0;
-            constantMatrix[7,0] = 0;
-            constantMatrix[8,0] = 0;
-            constantMatrix[9,0] = 0;
+            constantMatrix[1, 0] = 0;
+            constantMatrix[2, 0] = 0;
+            constantMatrix[3, 0] = 0;
+            constantMatrix[4, 0] = 0;
+            constantMatrix[5, 0] = 0;
+            constantMatrix[6, 0] = 0;
+            constantMatrix[7, 0] = 0;
+            constantMatrix[8, 0] = 0;
+            constantMatrix[9, 0] = 0;
             constantMatrix[10, 0] = 1.0;
             Assert.IsNotNull(constantMatrix);
 
@@ -545,13 +566,13 @@ namespace TestCEAconsole
             // Products Section
             // first product = "CO2
             // second product = H2O
-            string m_firstProductMolecule =  "CO2";
+            string m_firstProductMolecule = "CO2";
             string m_secondProductMolecule = "H2O";
 
             var m_firstproduct = from item in reactants
                                  where item.Name == m_firstProductMolecule
                                  select item.Molecule;
-            Assert.IsNotNull (m_firstproduct);
+            Assert.IsNotNull(m_firstproduct);
             var m_secondProduct = from item in reactants
                                   where item.Name == m_secondProductMolecule
                                   select item.Molecule;
