@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using MathNet.Numerics.Providers.SparseSolver;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Symbolics;
+using System.Collections.Generic;
 
 namespace TestCEAconsole
 {
@@ -184,18 +185,18 @@ namespace TestCEAconsole
         {
             // CH4 + O2 =  CO2 + H2O
             // CH4 + 2O2 = CO2 + 2H2O
-            Matrix<double> matrix = Matrix<double>.Build.DenseOfArray(new[,]{
+            Matrix<double> matrix_CH4 = Matrix<double>.Build.DenseOfArray(new[,]{
                 {1.0, 0.0,  -1.0,  0.0 }, // C balance
                 {4.0, 0.0,   0.0, -2.0 }, // H balance
                 {0.0, 2.0,  -2.0, -1.0 }, // O balance
                 {1.0, 0.0,   0.0,  0.0 }   // Setting CH4
             });
 
-            Vector<double> expected = Vector<double>.Build.Dense(new double[] { 1, 2, 1, 2 });
+            Vector<double> expected_CH4 = Vector<double>.Build.Dense(new double[] { 1, 2, 1, 2 });
+            var solution = ThermoDynamics.BalanceHydrocarbonEquation(matrix_CH4);
+            Assert.AreEqual(expected_CH4, solution);
 
-            var solution = ThermoDynamics.BalanceHydrocarbonEquation(matrix);
 
-            Assert.AreEqual(expected, solution);
 
         }
         [TestMethod]
@@ -280,7 +281,7 @@ namespace TestCEAconsole
                 foreach (var item in m_rowVector)
                 {
                     int m_compare = item.CompareTo(0.0);
-                    if (m_compare !=0)
+                    if (m_compare != 0)
                     {
                         nonZeroValues++;
                     }
@@ -288,7 +289,7 @@ namespace TestCEAconsole
             }
 
             Assert.AreEqual(8, nonZeroValues);
-  
+
         }
         [TestMethod]
         public void Test_Should_ProperlySize_IA_JA_vectors()
@@ -383,7 +384,7 @@ namespace TestCEAconsole
             //*/// empty row
             spm[5, 0] = 1.0;
             double[] values = new double[] { 1.0, -1.0, 4.0, -2.0, 2.0, -2.0, -1.0, 1.0 };
-            
+
             int[] IA = new int[] { 0, 2, 4, 7, 8 };
             int[] IJ = new int[] { 0, 2, 0, 3, 1, 2, 3, 0 };
             Matrix<double> A = Matrix.Build.SparseFromCompressedSparseRowFormat(4, 4, values.Length, IA, IJ, values);
@@ -604,7 +605,6 @@ namespace TestCEAconsole
     [TestClass]
     public class MatrixSolvers
     {
-
         [TestMethod]
         public void TestShouldBuildMatrixAndLoadChemicalFormula()
         {
@@ -658,21 +658,51 @@ namespace TestCEAconsole
             coefficientMatrix[10, 9] = 1.0;
             coefficientMatrix[10, 10] = 1.0;
 
-            // Reactants Section
+            // Get data for Species, TableOfElements, And Reference Values
+            // Table of elements
+            ICollection<Element> tableOfElements = ElementsService.GetElements("Data/tableOfElements.json");
+            Assert.IsNotNull(tableOfElements);
+            // Get the reference data
+            ICollection<CPHSRef> cphs_reference = InputServices.GetDefaultCPHS("Data/Ref_Defaults.json");
+            Assert.IsNotNull(cphs_reference);
+            // Species data
+            ICollection<Reactant> AllSpecies = InputServices.GetJsonData("Data/newShortThermo.json");
+            Assert.IsNotNull(AllSpecies);
+
+            // Reactants and products section Section
             string m_firstReactantMolecule = "CH4";
             string m_secondReactantMolecule = "O2";
-            ICollection<Reactant> reactants = InputServices.GetJsonData("Data/newShortThermo.json");
-            Assert.IsNotNull(reactants);
 
-            IEnumerable<Molecule> m_firstReactant = from item in reactants
+            // get the key collection of elements in reactants
+            var inputKeyCollection = from item in AllSpecies
+                                     where item.Name == m_firstReactantMolecule | item.Name == m_secondReactantMolecule
+                                     select item.Molecule.ChemicalFormula.Keys;
+
+            Dictionary<string, Element?> dataElement = new();
+            for (int i = 0; i < inputKeyCollection.Count(); i++)
+            {
+                var elementAt = inputKeyCollection.ElementAt(i);
+                foreach (var item in elementAt)
+                {
+                    IEnumerable<Element> elementData = tableOfElements.Where(x => x.Symbol == item);
+                    string key = item;
+                    if (elementData.Any())
+                    {
+                        dataElement.Add(key:key, value: elementData.FirstOrDefault());
+                    };
+
+            }
+
+            IEnumerable<Molecule> m_firstReactant = from item in AllSpecies
                                                     where item.Name == m_firstReactantMolecule
                                                     select item.Molecule;
             Assert.IsNotNull(m_firstReactant);
 
+
             Dictionary<string, double>.KeyCollection keyCollection = m_firstReactant.FirstOrDefault().ChemicalFormula.Keys;
             Dictionary<string, double>.ValueCollection valuesCollection = m_firstReactant.FirstOrDefault().ChemicalFormula.Values;
             int m_keyCount = keyCollection.Count;
-            IEnumerable<Molecule> m_secondReactant = from item in reactants
+            IEnumerable<Molecule> m_secondReactant = from item in AllSpecies
                                                      where item.Name == m_secondReactantMolecule
                                                      select item.Molecule;
             Assert.IsNotNull(m_secondReactant);
@@ -686,11 +716,11 @@ namespace TestCEAconsole
             string m_firstProductMolecule = "CO2";
             string m_secondProductMolecule = "H2O";
 
-            var m_firstproduct = from item in reactants
+            var m_firstproduct = from item in AllSpecies
                                  where item.Name == m_firstProductMolecule
                                  select item.Molecule;
             Assert.IsNotNull(m_firstproduct);
-            var m_secondProduct = from item in reactants
+            var m_secondProduct = from item in AllSpecies
                                   where item.Name == m_secondProductMolecule
                                   select item.Molecule;
             Assert.IsNotNull(m_secondProduct);
@@ -818,8 +848,8 @@ namespace TestCEAconsole
         [TestMethod]
         public void Test_ElementsService()
         {
-            string json = ElementsService.GetElements();
-            int elementCount = json.Length;
+            ICollection<Element> json = ElementsService.GetElements("Data/TableOfElements.json");
+            int elementCount = json.Count;
 
             Assert.AreNotEqual(0, elementCount);
         }

@@ -147,6 +147,11 @@ namespace CEAconsole.Models
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
         public static MathNet.Numerics.LinearAlgebra.Vector<double> BalanceHydrocarbonEquation(Matrix<double> matrix)
         {
             int numRows = matrix.RowCount;
