@@ -676,9 +676,9 @@ namespace TestCEAconsole
             // get the key collection of elements in reactants
             var inputKeyCollection = from item in AllSpecies
                                      where item.Name == m_firstReactantMolecule | item.Name == m_secondReactantMolecule
-                                     select item.Molecule.ChemicalFormula.Keys;
+                                     select item.Molecule.ChemicalFormula?.Keys;
 
-            Dictionary<string, Element?> dataElement = new();
+            Dictionary<string, Element?> elementTableOfElements = new();
             for (int i = 0; i < inputKeyCollection.Count(); i++)
             {
                 var elementAt = inputKeyCollection.ElementAt(i);
@@ -688,19 +688,38 @@ namespace TestCEAconsole
                     string key = item;
                     if (elementData.Any())
                     {
-                        dataElement.Add(key:key, value: elementData.FirstOrDefault());
+                        elementTableOfElements.Add(key: key, value: elementData.FirstOrDefault());
                     };
-
+                }
             }
 
-            IEnumerable<Molecule> m_firstReactant = from item in AllSpecies
-                                                    where item.Name == m_firstReactantMolecule
-                                                    select item.Molecule;
+            //IEnumerable<KeyValuePair<string, Element>> elementProperties = from item in elementTableOfElements
+            //                   where item.Key == "C"
+            //                   select item;
+            //IEnumerable<CPHSRef> element_cphs_reference_defaults = from item in cphs_reference
+            //          where item.Species_Name == "C"
+            //          select item;
+
+            for (int i = 0; i < elementTableOfElements.Count; i++)
+            {
+                string key = elementTableOfElements.ElementAt(i).Key;
+                IEnumerable<KeyValuePair<string, Element>> elementProperties = from item in elementTableOfElements
+                                                                               where item.Key == key
+                                                                               select item;
+
+                IEnumerable<CPHSRef> element_cphs_reference_defaults = from item in cphs_reference
+                                                                       where item.Species_Name == key
+                                                                       select item;
+            }
+
+            IEnumerable < Molecule > m_firstReactant = from item in AllSpecies
+                                                       where item.Name == m_firstReactantMolecule
+                                                       select item.Molecule;
             Assert.IsNotNull(m_firstReactant);
 
 
             Dictionary<string, double>.KeyCollection keyCollection = m_firstReactant.FirstOrDefault().ChemicalFormula.Keys;
-            Dictionary<string, double>.ValueCollection valuesCollection = m_firstReactant.FirstOrDefault().ChemicalFormula.Values;
+            Dictionary<string, double>.ValueCollection valuesCollection = m_firstReactant.FirstOrDefault().ChemicalFormula?.Values;
             int m_keyCount = keyCollection.Count;
             IEnumerable<Molecule> m_secondReactant = from item in AllSpecies
                                                      where item.Name == m_secondReactantMolecule
