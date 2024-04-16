@@ -903,6 +903,12 @@ namespace TestCEAconsole
             Assert.AreEqual(1258, ref_defaultsCount);
         }
 
+        [TestMethod]
+        public void Test_DataService()
+        {
+
+        }
+
     }
 
     [TestClass]
@@ -1173,6 +1179,29 @@ namespace TestCEAconsole
 
             Assert.AreEqual(expected, Hf);
 
+        }
+
+        [TestMethod]
+        public void Test_MU_For_TempRanges()
+        {
+
+            List<double> temperatureRange = [200.000, 1000.000];
+            List<double> t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
+            List<double> coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
+            List<double> integrationConstants = [-2.331314360e+04, 8.904322750e+01];
+
+            // Arrange T = 298.15 = -50.72 kj/mol, 398.15 = -43.95 kj/mol, 498.15 = -37.75 kj/mol
+            // get the Gibbs for CH4
+            double m_Gibbs = ThermoDynamics.GibbsRef(298.15, 298.15, coefficients, t_expnts);
+            double expected_MU = 0.0;
+            double temperature = 298.15;
+            double pressure = 1.0;
+
+            // Act
+            double actual_MU = ThermoDynamics.Calculate_MU(m_Gibbs, temperature, pressure);
+
+            // Assert
+            Assert.AreEqual(expected: expected_MU, actual: actual_MU);
         }
 
     }

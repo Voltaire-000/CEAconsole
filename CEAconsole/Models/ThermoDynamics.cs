@@ -239,5 +239,18 @@ namespace CEAconsole.Models
             MathNet.Numerics.LinearAlgebra.Vector<double> solution = A.Solve(b);
             return solution;
         }
+
+        public static double Calculate_MU(double gibbs, double temperature, double pressure)
+        {
+            // MU = G + 
+            //double standardChemicalPotential = 0.0;
+            double activity = 0.90710;
+            double standardActivity = 1.0;
+
+            double chemicalpotential = gibbs + (Gas_Constant_R * temperature  * Math.Log(activity / standardActivity));
+
+            return chemicalpotential;
+
+        }
     }
 }
