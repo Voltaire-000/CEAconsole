@@ -711,6 +711,8 @@ namespace TestCEAconsole
                                                                        where item.Species_Name == key
                                                                        select item;
             }
+            string mx_key = "C";
+            var keyValuePairsElements = elementTableOfElements.FirstOrDefault(x => x.Key == mx_key);
 
             IEnumerable < Molecule > m_firstReactant = from item in AllSpecies
                                                        where item.Name == m_firstReactantMolecule
