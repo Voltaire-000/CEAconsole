@@ -89,7 +89,7 @@ logKlist.Add(0.0); // should say INFINITE TODO
 temperatureList.Add(298.15);
 double Kelvin = 298.15;
 heatCapacityList.Add(ThermoDynamics.HeatCapacity(Kelvin, coefficients, temperatureExponents));
-enthalpyChangeFromRefList.Add(ThermoDynamics.DeltaEnthalpyRef(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents));
+enthalpyChangeFromRefList.Add(ThermoDynamics.EnthalpyRefH298(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents));
 entropyList.Add(ThermoDynamics.Entropy(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents));
 gibbsList.Add(ThermoDynamics.GibbsRef(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents));
 enthalpyList.Add(ThermoDynamics.Enthalpy(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents));
@@ -104,7 +104,7 @@ for (Kelvin = startTemp; Kelvin <= endTemp; Kelvin += increment)
     temperatureList.Add(Kelvin);
     double cp_value = ThermoDynamics.HeatCapacity(Kelvin, coefficients, temperatureExponents);
     heatCapacityList.Add(cp_value);
-    double enthalpy_change_from_ref_value = ThermoDynamics.DeltaEnthalpyRef(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents);
+    double enthalpy_change_from_ref_value = ThermoDynamics.EnthalpyRefH298(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents);
     double entropy_value = ThermoDynamics.Entropy(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents);
     double gibbs_value = ThermoDynamics.GibbsRef(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents);
     double enthalpy_value = ThermoDynamics.Enthalpy(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents);
@@ -117,7 +117,7 @@ for (Kelvin = startTemp; Kelvin <= endTemp; Kelvin += increment)
     enthalpyChangeFromRefList.Add(Math.Round(enthalpy_change_from_ref_value, digits));
     if (Kelvin >= 998.15)
     {
-        double lastEnthalpy_value = ThermoDynamics.DeltaEnthalpyRef(REFERENCE_TEMPERATURE, endTemp, coefficients, temperatureExponents);
+        double lastEnthalpy_value = ThermoDynamics.EnthalpyRefH298(REFERENCE_TEMPERATURE, endTemp, coefficients, temperatureExponents);
         enthalpyChangeFromRefList.Add(lastEnthalpy_value);
     }
     entropyList.Add(entropy_value);

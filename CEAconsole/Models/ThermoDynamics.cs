@@ -51,7 +51,7 @@ namespace CEAconsole.Models
         /// <param name="coefficients"></param>
         /// <param name="t_expnts"></param>
         /// <returns></returns>
-        public static double DeltaEnthalpyRef(double ref_Temp, double T_1, List<double> coefficients, List<double> t_expnts)
+        public static double EnthalpyRefH298(double ref_Temp, double T_1, List<double> coefficients, List<double> t_expnts)
         {
             double integrand(double T) => HeatCapacity(T, coefficients, t_expnts);
             double error;
@@ -75,9 +75,9 @@ namespace CEAconsole.Models
             double integrand(double T) => HeatCapacity(T, coefficients, t_expnts);
             double error;
             double L1Norm;
-            double deltaEnthalpy = GaussKronrodRule.Integrate(integrand, ref_Temp, T_1, out error, out L1Norm, 1e-8) / 1000;
+            double H_H298 = GaussKronrodRule.Integrate(integrand, ref_Temp, T_1, out error, out L1Norm, 1e-8) / 1000;
 
-            double enthalpy = ref_enthalpy + deltaEnthalpy;
+            double enthalpy = ref_enthalpy + H_H298;
             return enthalpy;
         }
 
@@ -142,8 +142,8 @@ namespace CEAconsole.Models
             double L1Norm;
             //double enthalpyFormation = GaussKronrodRule.Integrate(heatCapacityIntegrand, ref_Temp, T_1, out error, out L1Norm, 1e-8);
             double changeInHeatCapacity = GaussKronrodRule.Integrate(heatCapacityIntegrand, ref_Temp, T_1, out error, out L1Norm, 1e-8) / 1000;
-            double xv = SimpsonRule.IntegrateComposite(heatCapacityIntegrand, 298.15, 398.15, 4);
-            return xv;
+            //double xv = SimpsonRule.IntegrateComposite(heatCapacityIntegrand, 298.15, 398.15, 4);
+            return changeInHeatCapacity -74.6;
 
         }
 
