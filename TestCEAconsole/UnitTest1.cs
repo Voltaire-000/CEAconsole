@@ -12,6 +12,7 @@ using MathNet.Numerics.Providers.SparseSolver;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Symbolics;
 using System.Collections.Generic;
+using MathNet.Numerics.Distributions;
 
 namespace TestCEAconsole
 {
@@ -1173,71 +1174,33 @@ namespace TestCEAconsole
         [TestMethod]
         public void Test_CalculateDeltaHf()
         {
-            // H/RT = a1 + a2*T/2 + a3*T^3/4 + a5*T^4/5 + a6/T  multiply by R 8.314 convert J to kj by dividing by 1000
-            List<double> temperatureRange = [200.000, 1000.000];
-            List<double> t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
-            List<double> coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
-            List<double> integrationConstants = [-2.331314360e+04, 8.904322750e+01];
 
-            double heatOfFormation = -74600.0;
-            double ref_enthalpy = heatOfFormation / 1000.0;
+            //            CH4 Gurvich,1991 pt1 p44 pt2 p36.                                 
+            // 2 g 8 / 99 C   1.00H   4.00    0.00    0.00    0.00 0   16.0424600 - 74600.000
+            //    200.000   1000.0007 - 2.0 - 1.0  0.0  1.0  2.0  3.0  4.0  0.0        10016.202
+            //- 1.766850998D + 05 2.786181020D + 03 - 1.202577850D + 01 3.917619290D - 02 - 3.619054430D - 05
+            // 2.026853043D - 08 - 4.976705490D - 12 - 2.331314360D + 04 8.904322750D + 01
+            //   1000.000   6000.0007 - 2.0 - 1.0  0.0  1.0  2.0  3.0  4.0  0.0        10016.202
+            // 3.730042760D + 06 - 1.383501485D + 04 2.049107091D + 01 - 1.961974759D - 03 4.727313040D - 07
+            //- 3.728814690D - 11 1.623737207D - 15                 7.532066910D + 04 - 1.219124889D + 02
 
-            double ref_temp = 298.15;
+
             double T = 398.15;
-            double a1 = coefficients[0];
-            double a2 = coefficients[1];
-            double a3 = coefficients[2];
-            double a4 = coefficients[3];
-            double a5 = coefficients[4];
-            double a6 = coefficients[5];
-            double a7 = coefficients[6];
-            //double a8 = coefficients[7];
-
-            double HRT = -a1 * Math.Pow(T, -2)
-                            + (a2 * Math.Pow(T, -1) * Math.Log(T))
-                            + (a3)
-                            + (a4 * T / 2)
-                            + (a5 * Math.Pow(T, 2) / 3)
-                            + (a6 * Math.Pow(T, 3) / 4)
-                            + (a7 * Math.Pow(T, 4) / 5)
-                            + integrationConstants[0] / T;
-            double H = HRT * T * 8.314 / 1000;
-            double H_T = HRT * T;
-
-            double deltaHf_298 = -74600.000;
-
-            double deltaHf_T = 0.0;
-
-            double C_298HF = 1053.500;
-            double H_298HF = 8468.102;
-
-            double C_formation = 716680.0;
-            double H_formation = 217998.828 * 4;
+            double deltaHf_298 = -74.600;
+            double C_formation = 716680.0 * 0;
+            double H_formation = 217998.828 * 4 * 0;
             double[] elementDeltaHf_298 = { C_formation, H_formation };
 
-
-            deltaHf_T = H_T - deltaHf_298;
-
-            double HH_RT = CalculateH_RT(T);
+            //double HH_RT = CalculateH_RT(T);
             double deltaHFF = CalculateDeltaHf(T, deltaHf_298, elementDeltaHf_298);
 
-
-            //"H^(298.15)-H^(0) J/mol": 8468.102
-            //"H^(298.15)-H^(0) J/mol": 6535.895,
-
-            double elementsSum = C_298HF + H_298HF;
-
-            double enthalpyRef = ThermoDynamics.EnthalpyRefH298(ref_temp, T, coefficients, t_expnts); // 3.79
-            double enthalpy = ThermoDynamics.Enthalpy(ref_temp, T, coefficients, t_expnts); // -70.80
-            //3.035
             Assert.AreEqual(77.635, 0);
         }
 
         private double CalculateDeltaHf(double t, double deltaHf_298, double[] elementDeltaHf_298)
         {
             double H_RT = CalculateH_RT(t);
-            double H_T = H_RT * t;
-            double deltaHf_T = H_T - deltaHf_298;
+            double deltaHf_T = H_RT - deltaHf_298;
 
             foreach (double elementHf in elementDeltaHf_298)
             {
@@ -1268,7 +1231,7 @@ namespace TestCEAconsole
             double a7 = coefficients[6];
             //double a8 = coefficients[7];
 
-            return -a1 * Math.Pow(T, -2)
+            double coef = -a1 * Math.Pow(T, -2)
                             + (a2 * Math.Pow(T, -1) * Math.Log(T))
                             + (a3)
                             + (a4 * T / 2)
@@ -1276,6 +1239,7 @@ namespace TestCEAconsole
                             + (a6 * Math.Pow(T, 3) / 4)
                             + (a7 * Math.Pow(T, 4) / 5)
                             + integrationConstants[0] / T;
+            return (coef * T * 8.314)/1000;
         }
 
         [TestMethod]
