@@ -10,17 +10,17 @@ namespace CEAconsole.Services
 {
     public static class InputServices
     {
-        private static readonly string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/moleculeJson.json");
-        private static readonly string json = File.ReadAllText(path);
+        //private static readonly string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/moleculeJson.json");
+        //private static readonly string json = File.ReadAllText(path);
 
-        public static ICollection<Reactant> GetJsonData()
-        {
-            string m_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/moleculeJson.json");
-            string json = File.ReadAllText(m_path);
-            ICollection<Reactant>? reactantCollection = JsonConvert.DeserializeObject<ICollection<Reactant>>(json);
-            return reactantCollection;
-        }
-        public static ICollection<Reactant> GetJsonData(string path)
+        //public static ICollection<Reactant> GetJsonData()
+        //{
+        //    string m_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/moleculeJson.json");
+        //    string json = File.ReadAllText(m_path);
+        //    ICollection<Reactant>? reactantCollection = JsonConvert.DeserializeObject<ICollection<Reactant>>(json);
+        //    return reactantCollection;
+        //}
+        public static ICollection<Reactant> GetSpecies(string path)
         {
             string m_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);
             string json = File.ReadAllText(m_path);
@@ -36,31 +36,48 @@ namespace CEAconsole.Services
             return defaultsCollection;
         }
 
-        public static string GetInputCard(string caseInp)
+        public static ICollection<Element> GetTableOfElements(string path)
         {
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, caseInp);
-            string json = File.ReadAllText(path);
-            return json;
+            string m_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);
+            string json = File.ReadAllText(m_path);
+            ICollection<Element>? elements = JsonConvert.DeserializeObject<ICollection<Element>>(json);
+
+            return elements;
         }
 
-        public static string GetElements(string elementsJson) 
+        public static ICollection<ReferenceElements> GetReferenceElements(string path)
         {
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, elementsJson);
-            string json = File.ReadAllText(path);
-            return json;
+            string m_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);
+            string json = File.ReadAllText(m_path);
+            ICollection<ReferenceElements>? referenceElementsCollection = JsonConvert.DeserializeObject<ICollection<ReferenceElements>>(json);
+            return referenceElementsCollection;
         }
 
-        public static ICollection<Reactant> GetReactants() 
-        {
-            ICollection<Reactant>? reactantCollection = JsonConvert.DeserializeObject<ICollection<Reactant>>(json);
-            return reactantCollection;
-        }
+        //public static string GetInputCard(string caseInp)
+        //{
+        //    string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, caseInp);
+        //    string json = File.ReadAllText(path);
+        //    return json;
+        //}
 
-        public static string GetTransportProperties(string transportPropertiesJson)
-        {
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, transportPropertiesJson);
-            string json = File.ReadAllText(path);
-            return json;
-        }
+        //public static string GetElements(string elementsJson) 
+        //{
+        //    string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, elementsJson);
+        //    string json = File.ReadAllText(path);
+        //    return json;
+        //}
+
+        //public static ICollection<Reactant> GetReactants() 
+        //{
+        //    ICollection<Reactant>? reactantCollection = JsonConvert.DeserializeObject<ICollection<Reactant>>(json);
+        //    return reactantCollection;
+        //}
+
+        //public static string GetTransportProperties(string transportPropertiesJson)
+        //{
+        //    string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, transportPropertiesJson);
+        //    string json = File.ReadAllText(path);
+        //    return json;
+        //}
     }
 }

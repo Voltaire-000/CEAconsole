@@ -84,7 +84,7 @@ namespace TestCEAconsole
         [TestMethod]
         public void TestICollection()
         {
-            ICollection<Reactant> reactants = InputServices.GetJsonData("Data/newShortThermo.json");
+            ICollection<Reactant> reactants = InputServices.GetSpecies("Data/newShortThermo.json");
 
             List<Reactant>? filteredCollection = reactants?.Where(item => item.Name == "CH4").ToList();
             var molecularWeight = (from item in filteredCollection
@@ -465,7 +465,7 @@ namespace TestCEAconsole
         public void TestBalancedEquationSolverWithReactantInput()
         {
             // Arrange
-            ICollection<Reactant> reactants = InputServices.GetJsonData("Data/newShortThermo.json");
+            ICollection<Reactant> reactants = InputServices.GetSpecies("Data/newShortThermo.json");
             // reactants
             string fuelName = "CH4";
             string oxidizerName = "O2";
@@ -586,7 +586,7 @@ namespace TestCEAconsole
         {
             // Arrange
             string molecule = "CH4";
-            ICollection<Reactant> reactants = InputServices.GetJsonData("Data/newShortThermo.json");
+            ICollection<Reactant> reactants = InputServices.GetSpecies("Data/newShortThermo.json");
             Assert.IsNotNull(reactants);
             var m_Molecule = from item in reactants
                              where item.Name == molecule
@@ -667,7 +667,7 @@ namespace TestCEAconsole
             ICollection<CPHSRef> cphs_reference = InputServices.GetDefaultCPHS("Data/Ref_Defaults.json");
             Assert.IsNotNull(cphs_reference);
             // Species data
-            ICollection<Reactant> AllSpecies = InputServices.GetJsonData("Data/newShortThermo.json");
+            ICollection<Reactant> AllSpecies = InputServices.GetSpecies("Data/newShortThermo.json");
             Assert.IsNotNull(AllSpecies);
 
             // Reactants and products section Section
@@ -858,41 +858,23 @@ namespace TestCEAconsole
     [TestClass]
     public class TestServices
     {
-        [TestMethod]
-        public void Test_InputCardService()
-        {
-            string json = InputCardService.GetInputCard();
-            int x_length = json.Length;
-
-            Assert.AreEqual(589, x_length);
-        }
 
         [TestMethod]
         public void Test_ElementsService()
         {
-            ICollection<Element> json = ElementsService.GetElements("Data/TableOfElements.json");
+            ICollection<Element> json = InputServices.GetTableOfElements("Data/TableOfElements.json");
             int elementCount = json.Count;
 
             Assert.AreNotEqual(0, elementCount);
         }
 
         [TestMethod]
-        public void Test_ThermoService()
-        {
-            ICollection<Reactant> reactants = ThermoService.GetReactants();
-            int reactantCount = reactants.Count;
-
-            Assert.AreNotEqual(0, reactantCount);
-            Assert.AreEqual(15, reactantCount);
-        }
-
-        [TestMethod]
         public void TestInputServicesWithPath()
         {
-            ICollection<Reactant> json = InputServices.GetJsonData("Data/moleculeJson.json");
+            ICollection<Reactant> json = InputServices.GetSpecies("Data/thermoInp.json");
             int reactantCount = json.Count;
 
-            Assert.AreEqual(2, reactantCount);
+            Assert.AreEqual(2084, reactantCount);
         }
 
         [TestMethod]
@@ -905,11 +887,115 @@ namespace TestCEAconsole
         }
 
         [TestMethod]
-        public void Test_DataService()
+        public void Test_ShouldReturnReferenceElements()
         {
+            ICollection<ReferenceElements> referenceElements = InputServices.GetReferenceElements("Data/refElements.json");
+            int referenceElementsCount = referenceElements.Count;
+            Assert.AreEqual(referenceElementsCount, referenceElements.Count);
+        }
+
+    }
+
+    [TestClass]
+    public class TestReferenceElements
+    {
+        [TestMethod]
+        public void Test_ReferenceElementHeatCapacity()
+        {
+            // Testing for Oxygen
+            //        "temperatureRange": [ 200.000, 1000.000 ],
+            //"numberOfCoefficients": 7,
+            //"tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
+            //"hJmol": 8680.104,
+            //"coefficients": [ -3.425563420e+04, 4.847000970e+02, 1.119010961e+00, 4.293889240e-03, -6.836300520e-07, -2.023372700e-09, 1.039040018e-12, 0.000000000e+00 ],
+            //"integrationConstants": [ -3.391454870e+03, 1.849699470e+01 ]
+            List<double> temperatureRange = [200.0, 1000.0];
+            List<double> t_exp = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0];
+            List<double> coeff = [-3.425563420e+04, 4.847000970e+02, 1.119010961e+00, 4.293889240e-03, -6.836300520e-07, -2.023372700e-09, 1.039040018e-12];
+            List<double> integrationConstants = [-3.391454870e+03, 1.849699470e+01];
+
+            double delta = 0.005;
+            double T = 398.15;
+            double Cp = ThermoDynamics.HeatCapacity(T, coeff, t_exp);
+
+            Assert.AreEqual(99, Cp, delta);
+        }
+
+        [DataTestMethod]
+        [DataRow(298.15, 0.0)]
+        [DataRow(398.15, 3.794)]
+        [DataRow(498.15, 8.139)]
+        [DataRow(598.15, 13.093)]
+        [DataRow(698.15, 18.647)]
+        [DataRow(798.15, 24.768)]
+        [DataRow(898.15, 31.416)]
+        [DataRow(998.15, 38.548)]
+        [DataRow(1000.00, 38.685)]
+        public void Test_ReferenceEnthalpy(double T, double expected)
+        {
+            List<double> temperatureRange = [200.0, 1000.0];
+            List<double> t_exp = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0];
+            List<double> coeff = [-3.425563420e+04, 4.847000970e+02, 1.119010961e+00, 4.293889240e-03, -6.836300520e-07, -2.023372700e-09, 1.039040018e-12];
+            List<double> integrationConstants = [-3.391454870e+03, 1.849699470e+01];
+
+            double delta = 0.005;
+            double ref_temp = 298.15;
+
+            double enthalpy = ThermoDynamics.Enthalpy(ref_temp, T, coeff, t_exp);
+
+            Assert.AreEqual(expected, enthalpy, delta);
+        }
+
+        [DataTestMethod]
+        [DataRow(298.15, 0.0)]
+        [DataRow(398.15, 3.794)]
+        [DataRow(498.15, 8.139)]
+        [DataRow(598.15, 13.093)]
+        [DataRow(698.15, 18.647)]
+        [DataRow(798.15, 24.768)]
+        [DataRow(898.15, 31.416)]
+        [DataRow(998.15, 38.548)]
+        [DataRow(1000.00, 38.685)]
+        public void Test_ReferenceElementEnthalpy(double T, double expected)
+        {
+            List<double> temperatureRange = [200.0, 1000.0];
+            List<double> t_exp = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0];
+            List<double> coeff = [-3.425563420e+04, 4.847000970e+02, 1.119010961e+00, 4.293889240e-03, -6.836300520e-07, -2.023372700e-09, 1.039040018e-12];
+            List<double> integrationConstants = [-3.391454870e+03, 1.849699470e+01];
+
+            double delta = 0.005;
+            double ref_temp = 298.15;
+            //double T = 398.15;
+
+            double enthalpy = ThermoDynamics.EnthalpyFormation(ref_temp, T, coeff, t_exp);
+            Assert.AreEqual(expected, enthalpy, delta);
 
         }
 
+        [DataTestMethod]
+        [DataRow(298.15, 0.0)]
+        [DataRow(398.15, 3.794)]
+        [DataRow(498.15, 8.139)]
+        [DataRow(598.15, 13.093)]
+        [DataRow(698.15, 18.647)]
+        [DataRow(798.15, 24.768)]
+        [DataRow(898.15, 31.416)]
+        [DataRow(998.15, 38.548)]
+        [DataRow(1000.00, 38.685)]
+        public void Test_ReferenceElementH298(double T, double expected)
+        {
+            List<double> temperatureRange = [200.0, 1000.0];
+            List<double> t_exp = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0];
+            List<double> coeff = [-3.425563420e+04, 4.847000970e+02, 1.119010961e+00, 4.293889240e-03, -6.836300520e-07, -2.023372700e-09, 1.039040018e-12];
+            List<double> integrationConstants = [-3.391454870e+03, 1.849699470e+01];
+
+            double delta = 0.005;
+            double ref_temp = 298.15;
+
+            double enthalpy = ThermoDynamics.EnthalpyRefH298(ref_temp, T, coeff, t_exp);
+
+            Assert.AreEqual(expected, enthalpy, delta);
+        }
     }
 
     [TestClass]
@@ -1239,7 +1325,7 @@ namespace TestCEAconsole
                             + (a6 * Math.Pow(T, 3) / 4)
                             + (a7 * Math.Pow(T, 4) / 5)
                             + integrationConstants[0] / T;
-            return (coef * T * 8.314)/1000;
+            return (coef * T * 8.314) / 1000;
         }
 
         [TestMethod]

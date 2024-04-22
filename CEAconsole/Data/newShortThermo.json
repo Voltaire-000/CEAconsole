@@ -19,7 +19,7 @@
 				"TemperatureRange": [ 200.0, 1000.0 ],
 				"NumberOfCoefficients": 7,
 				"TExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
-				"H_Jmol": 17943.336,
+				"hJmol": 17943.336,
 				"Coefficients": [ 47189.4884, -1053.853163, 13.50747168, -0.00663986993, 7.26927683E-06, -4.27804949E-09, 1.045573281E-12 ],
 				"IntegrationConstants": [ -46994.4033, -36.6793678 ]
 			},
@@ -27,7 +27,7 @@
 				"TemperatureRange": [ 1000.0, 6000.0 ],
 				"NumberOfCoefficients": 7,
 				"TExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
-				"H_Jmol": 17943.336,
+				"hJmol": 17943.336,
 				"Coefficients": [ -89355.2744, -26.78035134, 10.02063997, -8.4587644E-06, 1.904243317E-09, -2.215195785E-13, 1.038219389E-17 ],
 				"IntegrationConstants": [ -52492.4764, -15.79666403 ]
 			}
@@ -53,7 +53,7 @@
 				"TemperatureRange": [ 200.0, 1000.0 ],
 				"NumberOfCoefficients": 7,
 				"TExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
-				"H_Jmol": 9058.109,
+				"hJmol": 9058.109,
 				"Coefficients": [ 41399.2188, -585.867789, 5.96244572, -0.002006064322, 1.665566136E-06, -7.12164921E-10, 1.271188744E-13 ],
 				"IntegrationConstants": [ 83834.3611, -8.00216505 ]
 			},
@@ -61,7 +61,7 @@
 				"TemperatureRange": [ 1000.0, 6000.0 ],
 				"NumberOfCoefficients": 7,
 				"TExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
-				"H_Jmol": 9058.109,
+				"hJmol": 9058.109,
 				"Coefficients": [ 1937001.487, -6749.11779, 13.47525643, -0.00585080265, 1.926461091E-06, -2.585922351E-10, 1.222659806E-14 ],
 				"IntegrationConstants": [ 122536.3649, -61.52244872 ]
 			}
@@ -89,7 +89,7 @@
 				"TemperatureRange": [ 200.0, 1000.0 ],
 				"NumberOfCoefficients": 7,
 				"TExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
-				"H_Jmol": 8649.264,
+				"hJmol": 8649.264,
 				"Coefficients": [ 10099.5016, -196.827561, 5.00915511, -0.00576101373, 1.06685993E-05, -7.94029797E-09, 2.18523191E-12 ],
 				"IntegrationConstants": [ -176.796731, -3.921504225 ]
 			},
@@ -97,7 +97,7 @@
 				"TemperatureRange": [ 1000.0, 6000.0 ],
 				"NumberOfCoefficients": 7,
 				"TExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
-				"H_Jmol": 8649.264,
+				"hJmol": 8649.264,
 				"Coefficients": [ 241521.443, -1257.8746, 5.14455867, -0.000213854179, 7.06522784E-08, -1.07148349E-11, 6.57780015E-16 ],
 				"IntegrationConstants": [ 6462.26319, -8.147411905 ]
 			}
@@ -123,7 +123,7 @@
 				"TemperatureRange": [ 180.59, 0.0 ],
 				"NumberOfCoefficients": 0,
 				"TExponents": null,
-				"H_Jmol": 0.0,
+				"hJmol": 0.0,
 				"Coefficients": null,
 				"IntegrationConstants": null
 			}
@@ -149,7 +149,7 @@
 				"TemperatureRange": [ 298.15, 0.0 ],
 				"NumberOfCoefficients": 0,
 				"TExponents": null,
-				"H_Jmol": 0.0,
+				"hJmol": 0.0,
 				"Coefficients": null,
 				"IntegrationConstants": null
 			}
@@ -175,7 +175,7 @@
 				"TemperatureRange": [ 298.15, 0.0 ],
 				"NumberOfCoefficients": 0,
 				"TExponents": null,
-				"H_Jmol": 0.0,
+				"hJmol": 0.0,
 				"Coefficients": null,
 				"IntegrationConstants": null
 			}
@@ -203,7 +203,7 @@
 				"TemperatureRange": [ 298.15, 0.0 ],
 				"NumberOfCoefficients": 0,
 				"TExponents": null,
-				"H_Jmol": 0.0,
+				"hJmol": 0.0,
 				"Coefficients": null,
 				"IntegrationConstants": null
 			}
@@ -229,7 +229,7 @@
 				"TemperatureRange": [ 200.0, 1000.0 ],
 				"NumberOfCoefficients": 7,
 				"TExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
-				"H_Jmol": 0.0,
+				"hJmol": 0.0,
 				"Coefficients": [ 49436.5054, -626.411601, 5.30172524, 0.002503813816, -2.127308728E-07, -7.68998878E-10, 2.849677801E-13 ],
 				"IntegrationConstants": [ -45281.9846, -7.04827944 ]
 			},
@@ -237,7 +237,7 @@
 				"TemperatureRange": [ 1000.0, 6000.0 ],
 				"NumberOfCoefficients": 7,
 				"TExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
-				"H_Jmol": 0.0,
+				"hJmol": 0.0,
 				"Coefficients": [ 117696.2419, -1788.791477, 8.29152319, -9.22315678E-05, 4.86367688E-09, -1.891053312E-12, 6.33003659E-16 ],
 				"IntegrationConstants": [ -39083.5059, -26.52669281 ]
 			},
@@ -245,7 +245,7 @@
 				"TemperatureRange": [ 6000.0, 20000.0 ],
 				"NumberOfCoefficients": 7,
 				"TExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
-				"H_Jmol": 0.0,
+				"hJmol": 0.0,
 				"Coefficients": [ -1544423287.0, 1016847.056, -256.140523, 0.0336940108, -2.181184337E-06, 6.99142084E-11, -8.8423515E-16 ],
 				"IntegrationConstants": [ -8043214.51, 2254.177493 ]
 			}
@@ -268,7 +268,7 @@
 				"TemperatureRange": [ 90.17, 0.0 ],
 				"NumberOfCoefficients": 0,
 				"TExponents": null,
-				"H_Jmol": 0.0,
+				"hJmol": 0.0,
 				"Coefficients": null,
 				"IntegrationConstants": null
 			}
@@ -291,7 +291,7 @@
 				"TemperatureRange": [ 200.0, 1000.0 ],
 				"NumberOfCoefficients": 7,
 				"TExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
-				"H_Jmol": 0.0,
+				"hJmol": 0.0,
 				"Coefficients": [ -7953.6113, 160.7177787, 1.966226438, 0.00101367031, -1.110415423E-06, 6.5175075E-10, -1.584779251E-13 ],
 				"IntegrationConstants": [ 28403.62437, 8.40424182 ]
 			},
@@ -299,7 +299,7 @@
 				"TemperatureRange": [ 1000.0, 6000.0 ],
 				"NumberOfCoefficients": 7,
 				"TExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
-				"H_Jmol": 0.0,
+				"hJmol": 0.0,
 				"Coefficients": [ 261902.0262, -729.872203, 3.31717727, -0.000428133436, 1.036104594E-07, -9.43830433E-12, 2.725038297E-16 ],
 				"IntegrationConstants": [ 33924.2806, -0.667958535 ]
 			},
@@ -307,7 +307,7 @@
 				"TemperatureRange": [ 6000.0, 20000.0 ],
 				"NumberOfCoefficients": 7,
 				"TExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
-				"H_Jmol": 0.0,
+				"hJmol": 0.0,
 				"Coefficients": [ 177900426.4, -108232.8257, 28.10778365, -0.002975232262, 1.854997534E-07, -5.79623154E-12, 7.191720164E-17 ],
 				"IntegrationConstants": [ 889094.263, -218.1728151 ]
 			}
@@ -333,7 +333,7 @@
 				"TemperatureRange": [ 272.74, 6000.0 ],
 				"NumberOfCoefficients": 7,
 				"TExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
-				"H_Jmol": 0.0,
+				"hJmol": 0.0,
 				"Coefficients": [ 0.0, 0.0, 10.74386825, 0.0, 0.0, 0.0, 0.0 ],
 				"IntegrationConstants": [ -25787.89845, -48.03221291 ]
 			}
@@ -359,7 +359,7 @@
 				"TemperatureRange": [ 200.0, 1000.0 ],
 				"NumberOfCoefficients": 7,
 				"TExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
-				"H_Jmol": 0.0,
+				"hJmol": 0.0,
 				"Coefficients": [ -39479.6083, 575.573102, 0.931782653, 0.00722271286, -7.34255737E-06, 4.95504349E-09, -1.336933246E-12 ],
 				"IntegrationConstants": [ -33039.7431, 17.24205775 ]
 			},
@@ -367,7 +367,7 @@
 				"TemperatureRange": [ 1000.0, 6000.0 ],
 				"NumberOfCoefficients": 7,
 				"TExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
-				"H_Jmol": 0.0,
+				"hJmol": 0.0,
 				"Coefficients": [ 1034972.096, -2412.698562, 4.64611078, 0.002291998307, -6.83683048E-07, 9.42646893E-11, -4.82238053E-15 ],
 				"IntegrationConstants": [ -13842.86509, -7.97814851 ]
 			}
@@ -390,7 +390,7 @@
 				"TemperatureRange": [ 200.0, 1000.0 ],
 				"NumberOfCoefficients": 7,
 				"TExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
-				"H_Jmol": 0.0,
+				"hJmol": 0.0,
 				"Coefficients": [ -34255.6342, 484.700097, 1.119010961, 0.00429388924, -6.83630052E-07, -2.0233727E-09, 1.039040018E-12 ],
 				"IntegrationConstants": [ -3391.45487, 18.4969947 ]
 			},
@@ -398,7 +398,7 @@
 				"TemperatureRange": [ 1000.0, 6000.0 ],
 				"NumberOfCoefficients": 7,
 				"TExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
-				"H_Jmol": 0.0,
+				"hJmol": 0.0,
 				"Coefficients": [ -1037939.022, 2344.830282, 1.819732036, 0.001267847582, -2.188067988E-07, 2.053719572E-11, -8.19346705E-16 ],
 				"IntegrationConstants": [ -16890.10929, 17.38716506 ]
 			},
@@ -406,7 +406,7 @@
 				"TemperatureRange": [ 6000.0, 20000.0 ],
 				"NumberOfCoefficients": 7,
 				"TExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
-				"H_Jmol": 0.0,
+				"hJmol": 0.0,
 				"Coefficients": [ 497529430.0, -286610.6874, 66.9035225, -0.00616995902, 3.016396027E-07, -7.4214166E-12, 7.27817577E-17 ],
 				"IntegrationConstants": [ 2293554.027, -553.062161 ]
 			}
@@ -432,7 +432,7 @@
 				"TemperatureRange": [ 200.0, 1000.0 ],
 				"NumberOfCoefficients": 7,
 				"TExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
-				"H_Jmol": 0.0,
+				"hJmol": 0.0,
 				"Coefficients": [ -176685.0998, 2786.18102, -12.0257785, 0.0391761929, -3.61905443E-05, 2.026853043E-08, -4.97670549E-12 ],
 				"IntegrationConstants": [ -23313.1436, 89.0432275 ]
 			},
@@ -440,7 +440,7 @@
 				"TemperatureRange": [ 1000.0, 6000.0 ],
 				"NumberOfCoefficients": 7,
 				"TExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
-				"H_Jmol": 0.0,
+				"hJmol": 0.0,
 				"Coefficients": [ 3730042.76, -13835.01485, 20.49107091, -0.001961974759, 4.72731304E-07, -3.72881469E-11, 1.623737207E-15 ],
 				"IntegrationConstants": [ 75320.6691, -121.9124889 ]
 			}
@@ -466,7 +466,7 @@
 				"TemperatureRange": [ 111.643, 0.0 ],
 				"NumberOfCoefficients": 0,
 				"TExponents": null,
-				"H_Jmol": 0.0,
+				"hJmol": 0.0,
 				"Coefficients": null,
 				"IntegrationConstants": null
 			}

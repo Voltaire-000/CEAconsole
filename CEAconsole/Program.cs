@@ -13,18 +13,15 @@ double Gas_Constant_R = 8.31446261815324;
 double[] DummyData = { -999.123, -999.123, -999.123, -999.123, -999.123, -999.123, -999.123, -999.123, -999.123, -999.123 };
 //
 // Services Section
-string ElementsList = InputServices.GetElements("Data/tableOfElements.json");
 
 ICollection<CPHSRef> cPHSRefs = InputServices.GetDefaultCPHS("Data/Ref_Defaults.json");
-ICollection<Reactant> ReactantsList = InputServices.GetJsonData("Data/newShortThermo.json");
+ICollection<Reactant> ReactantsList = InputServices.GetSpecies("Data/newShortThermo.json");
 
 string fuelName = "CH4";
 IEnumerable<CPHSRef> CPHSdefaults = from item in cPHSRefs.Where(r => r.Species_Name == fuelName) select item;
 List<Reactant>? searchedFuel = ReactantsList?.Where(item => item.Name == fuelName).ToList();
 string oxidizerName = "O2";
 Reactant? searchedOxidizer = ReactantsList?.Where(item => item.Name == oxidizerName).FirstOrDefault();
-
-string TransportPropertiesList = InputServices.GetTransportProperties("Data/shortTrans.json");
 
 //string equation = BalanceEquation.HydrocarbonAndOxygen(fuelName, oxidizerName);
 
@@ -57,7 +54,7 @@ if (hasKeyRange_1)
         coefficients = firstTemperatureRangeObject.Coefficients;
         temperatureExponents = firstTemperatureRangeObject.TExponents;
         integrationConstants = firstTemperatureRangeObject.IntegrationConstants;
-        H_Enthalpy = firstTemperatureRangeObject.H_Jmol;
+        H_Enthalpy = firstTemperatureRangeObject.Hjmol;
     }
 }
 
