@@ -89,7 +89,8 @@ heatCapacityList.Add(ThermoDynamics.HeatCapacity(Kelvin, coefficients, temperatu
 enthalpyChangeFromRefList.Add(ThermoDynamics.EnthalpyRefH298(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents));
 entropyList.Add(ThermoDynamics.Entropy(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents));
 gibbsList.Add(ThermoDynamics.GibbsRef(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents));
-enthalpyList.Add(ThermoDynamics.Enthalpy(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents));
+double heatOfFormation = -74600.0;
+enthalpyList.Add(ThermoDynamics.Enthalpy(REFERENCE_TEMPERATURE,heatOfFormation, Kelvin, coefficients, temperatureExponents));
 //temperatureList.Add(Kelvin);
 double startTemp = 398.15;
 double endTemp = 1000;
@@ -104,7 +105,7 @@ for (Kelvin = startTemp; Kelvin <= endTemp; Kelvin += increment)
     double enthalpy_change_from_ref_value = ThermoDynamics.EnthalpyRefH298(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents);
     double entropy_value = ThermoDynamics.Entropy(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents);
     double gibbs_value = ThermoDynamics.GibbsRef(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents);
-    double enthalpy_value = ThermoDynamics.Enthalpy(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents);
+    double enthalpy_value = ThermoDynamics.Enthalpy(REFERENCE_TEMPERATURE,heatOfFormation, Kelvin, coefficients, temperatureExponents);
 
     if (Kelvin >= 998.15)
     {
@@ -132,7 +133,7 @@ for (Kelvin = startTemp; Kelvin <= endTemp; Kelvin += increment)
     enthalpyList.Add(enthalpy_value);
     if (Kelvin >= 998.15)
     {
-        double lastEnthalpy_value = ThermoDynamics.Enthalpy(REFERENCE_TEMPERATURE, endTemp, coefficients, temperatureExponents);
+        double lastEnthalpy_value = ThermoDynamics.Enthalpy(REFERENCE_TEMPERATURE,heatOfFormation, endTemp, coefficients, temperatureExponents);
         enthalpyList.Add(lastEnthalpy_value) ;
     }
 }

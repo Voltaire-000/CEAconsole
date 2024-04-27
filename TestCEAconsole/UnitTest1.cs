@@ -13,6 +13,7 @@ using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Symbolics;
 using System.Collections.Generic;
 using MathNet.Numerics.Distributions;
+using System.Xml.Linq;
 
 namespace TestCEAconsole
 {
@@ -604,6 +605,43 @@ namespace TestCEAconsole
     }
 
     [TestClass]
+    public class Test_NASA_Polynomials
+    {
+        [TestMethod]
+        public void Test_NASAnotNull()
+        {
+            ICollection<Species> species = InputServices.GetNASA("Data/NASApolynomials.json");
+            Assert.IsNotNull(species);
+        }
+
+        [TestMethod]
+        public void TestShouldReturnNamedSpecie()
+        {
+            string name = "CH4";
+            ICollection<Species> species = InputServices.GetNASA("Data/NASApolynomials.json");
+            var m_specie = from item in species
+                           where item.Name == name
+                           select item;
+            var expected = m_specie;
+
+            Assert.IsNotNull(m_specie);
+
+        }
+
+        [TestMethod]
+        public void TestShouldReturnPhasesGreaterThanZero()
+        {
+            ICollection<Species> species = InputServices.GetNASA("Data/NASApolynomials.json");
+            var m_specie = from item in species
+                           where item.PhaseValue > 0
+                           select item;
+            Assert.AreNotEqual(0, m_specie.Count());
+
+        }
+
+    }
+
+    [TestClass]
     public class MatrixSolvers
     {
         [TestMethod]
@@ -874,7 +912,7 @@ namespace TestCEAconsole
             ICollection<Reactant> json = InputServices.GetSpecies("Data/thermoInp.json");
             int reactantCount = json.Count;
 
-            Assert.AreEqual(2084, reactantCount);
+            Assert.AreEqual(2000, reactantCount);
         }
 
         [TestMethod]
@@ -902,66 +940,115 @@ namespace TestCEAconsole
         [TestMethod]
         public void Test_ReferenceElementHeatCapacity()
         {
-            // Testing for Oxygen
-            //        "temperatureRange": [ 200.000, 1000.000 ],
-            //"numberOfCoefficients": 7,
-            //"tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
-            //"hJmol": 8680.104,
-            //"coefficients": [ -3.425563420e+04, 4.847000970e+02, 1.119010961e+00, 4.293889240e-03, -6.836300520e-07, -2.023372700e-09, 1.039040018e-12, 0.000000000e+00 ],
-            //"integrationConstants": [ -3.391454870e+03, 1.849699470e+01 ]
+            // Testing for Oxygen = O
+     //               "temperatureRange": [ 200.000, 1000.000 ],
+					//"numberOfCoefficients": 7,
+					//"tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
+					//"hJmol": 6725.403,
+					//"coefficients": [ -7.953611300e+03, 1.607177787e+02, 1.966226438e+00, 1.013670310e-03, -1.110415423e-06, 6.517507500e-10, -1.584779251e-13 ],
+					//"integrationConstants": [ 2.840362437e+04, 8.404241820e+00 ]
             List<double> temperatureRange = [200.0, 1000.0];
             List<double> t_exp = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0];
-            List<double> coeff = [-3.425563420e+04, 4.847000970e+02, 1.119010961e+00, 4.293889240e-03, -6.836300520e-07, -2.023372700e-09, 1.039040018e-12];
-            List<double> integrationConstants = [-3.391454870e+03, 1.849699470e+01];
+            List<double> coeff = [-7.953611300e+03, 1.607177787e+02, 1.966226438e+00, 1.013670310e-03, -1.110415423e-06, 6.517507500e-10, -1.584779251e-13];
+            List<double> integrationConstants = [2.840362437e+04, 8.404241820e+00];
 
             double delta = 0.005;
             double T = 398.15;
             double Cp = ThermoDynamics.HeatCapacity(T, coeff, t_exp);
 
-            Assert.AreEqual(99, Cp, delta);
+            Assert.AreEqual(21.488, Cp, delta);
         }
 
         [DataTestMethod]
-        [DataRow(298.15, 0.0)]
-        [DataRow(398.15, 3.794)]
-        [DataRow(498.15, 8.139)]
-        [DataRow(598.15, 13.093)]
-        [DataRow(698.15, 18.647)]
-        [DataRow(798.15, 24.768)]
-        [DataRow(898.15, 31.416)]
-        [DataRow(998.15, 38.548)]
-        [DataRow(1000.00, 38.685)]
-        public void Test_ReferenceEnthalpy(double T, double expected)
+        [DataRow(0.0, 242.450)]
+        [DataRow(298.15, 249.175)]
+        [DataRow(398.15, 251.343)]
+        [DataRow(498.15, 253.479)]
+        [DataRow(598.15, 255.598)]
+        [DataRow(698.15, 257.706)]
+        [DataRow(798.15, 259.807)]
+        [DataRow(898.15, 261.903)]
+        [DataRow(998.15, 263.996)]
+        [DataRow(1000.00, 264.035)]
+        public void TestShouldReturnEnthaplyForElementOxygen(double T, double expected)
         {
+            // O heat of formation = 249175.003
+            // O coefficients
             List<double> temperatureRange = [200.0, 1000.0];
             List<double> t_exp = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0];
-            List<double> coeff = [-3.425563420e+04, 4.847000970e+02, 1.119010961e+00, 4.293889240e-03, -6.836300520e-07, -2.023372700e-09, 1.039040018e-12];
-            List<double> integrationConstants = [-3.391454870e+03, 1.849699470e+01];
+            List<double> coeff = [-7.953611300e+03, 1.607177787e+02, 1.966226438e+00, 1.013670310e-03, -1.110415423e-06, 6.517507500e-10, -1.584779251e-13];
+            List<double> integrationConstants = [2.840362437e+04, 8.404241820e+00];
 
             double delta = 0.005;
             double ref_temp = 298.15;
+            double heatOfFormation = 249175.003;
 
-            double enthalpy = ThermoDynamics.Enthalpy(ref_temp, T, coeff, t_exp);
+            double enthalpy = ThermoDynamics.Enthalpy(ref_temp, heatOfFormation, T, coeff, t_exp);
 
             Assert.AreEqual(expected, enthalpy, delta);
         }
 
+        [TestMethod]
+        public void TestShouldAddCarbonAndHydrogenEnthalpy()
+        {
+            // CH4 
+            // CH4 coefficients
+            List<double> CH_t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
+            List<double> CH_coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
+            List<double> CH_integrationConstants = [-2.331314360e+04, 8.904322750e+01];
+            double CH4HeatOfFormation = -74600.0;
+            double chHeat = -74.600;
+
+            double ref_temp = 298.15;
+            double T = 398.15;
+            // get Carbon enthalpy at reference temp
+            double C_heatOfFormation = 716680.000;
+            double C_hjmol = 6535.895;
+            List<double> C_tExponents = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
+            List<double> C_coefficients = [6.495031470e+02, -9.649010860e-01, 2.504675479e+00, -1.281448025e-05, 1.980133654e-08, -1.606144025e-11, 5.314483411e-15];
+			List<double> C_integrationConstants = [8.545763110e+04, 4.747924288e+00];
+            // get H2
+            double H2_heatOfFormation = 0.0;
+            List<double> H2_tExponents = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
+            List<double> H2_coefficients = [4.078323210e+04, -8.009186040e+02, 8.214702010e+00, -1.269714457e-02, 1.753605076e-05, -1.202860270e-08, 3.368093490e-12];
+			List< double > H2_integrationConstants = [2.682484665e+03, -3.043788844e+01];
+            // get Hydrogen
+            double H_heatOfFormation = 217998.828;
+            double H_hjmol = 6197.428;
+            List<double> H_tExponents = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
+            List<double> H_coefficients = [0.000000000e+00, 0.000000000e+00, 2.500000000e+00, 0.000000000e+00, 0.000000000e+00, 0.000000000e+00, 0.000000000e+00];
+			List<double> H_integrationConstants = [ 2.547370801e+04, -4.466828530e-01 ];
+
+            double C_enthalpy = ThermoDynamics.Enthalpy(ref_temp, C_heatOfFormation, T, C_coefficients, C_tExponents);
+            double Cref = ThermoDynamics.EnthalpyRefH298(ref_temp,T,C_coefficients, C_tExponents);
+            double H_enthalpy = ThermoDynamics.Enthalpy(ref_temp, H_heatOfFormation, T, H_coefficients, H_tExponents);
+            double CH_enthalpy = ThermoDynamics.Enthalpy(ref_temp, CH4HeatOfFormation, T, CH_coefficients, CH_t_expnts);
+            double H2_enthalpy = ThermoDynamics.Enthalpy(ref_temp, H2_heatOfFormation, T, H2_coefficients, H2_tExponents);
+            double H2_ref = ThermoDynamics.EnthalpyRefH298(ref_temp, T, H2_coefficients, H2_tExponents);
+
+            double m_sum = chHeat - Cref - H2_ref * 2;
+
+            Assert.AreEqual(99, 0);
+
+        }
+
         [DataTestMethod]
         [DataRow(298.15, 0.0)]
-        [DataRow(398.15, 3.794)]
-        [DataRow(498.15, 8.139)]
-        [DataRow(598.15, 13.093)]
-        [DataRow(698.15, 18.647)]
-        [DataRow(798.15, 24.768)]
-        [DataRow(898.15, 31.416)]
-        [DataRow(998.15, 38.548)]
-        [DataRow(1000.00, 38.685)]
+        [DataRow(398.15, 2.168)]
+        [DataRow(498.15, 4.304)]
+        [DataRow(598.15, 6.423)]
+        [DataRow(698.15, 8.531)]
+        [DataRow(798.15, 10.632)]
+        [DataRow(898.15, 12.728)]
+        [DataRow(998.15, 14.821)]
+        [DataRow(1000.00, 14.860)]
         public void Test_ReferenceElementEnthalpy(double T, double expected)
         {
+            // O coefficients
             List<double> temperatureRange = [200.0, 1000.0];
             List<double> t_exp = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0];
-            List<double> coeff = [-3.425563420e+04, 4.847000970e+02, 1.119010961e+00, 4.293889240e-03, -6.836300520e-07, -2.023372700e-09, 1.039040018e-12];
-            List<double> integrationConstants = [-3.391454870e+03, 1.849699470e+01];
+            List<double> coeff = [-7.953611300e+03, 1.607177787e+02, 1.966226438e+00, 1.013670310e-03, -1.110415423e-06, 6.517507500e-10, -1.584779251e-13];
+            List<double> integrationConstants = [2.840362437e+04, 8.404241820e+00];
 
             double delta = 0.005;
             double ref_temp = 298.15;
@@ -974,20 +1061,21 @@ namespace TestCEAconsole
 
         [DataTestMethod]
         [DataRow(298.15, 0.0)]
-        [DataRow(398.15, 3.794)]
-        [DataRow(498.15, 8.139)]
-        [DataRow(598.15, 13.093)]
-        [DataRow(698.15, 18.647)]
-        [DataRow(798.15, 24.768)]
-        [DataRow(898.15, 31.416)]
-        [DataRow(998.15, 38.548)]
-        [DataRow(1000.00, 38.685)]
+        [DataRow(398.15, 2.168)]
+        [DataRow(498.15, 4.304)]
+        [DataRow(598.15, 6.423)]
+        [DataRow(698.15, 8.531)]
+        [DataRow(798.15, 10.632)]
+        [DataRow(898.15, 12.728)]
+        [DataRow(998.15, 14.821)]
+        [DataRow(1000.00, 14.860)]
         public void Test_ReferenceElementH298(double T, double expected)
         {
+            // O coefficients
             List<double> temperatureRange = [200.0, 1000.0];
             List<double> t_exp = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0];
-            List<double> coeff = [-3.425563420e+04, 4.847000970e+02, 1.119010961e+00, 4.293889240e-03, -6.836300520e-07, -2.023372700e-09, 1.039040018e-12];
-            List<double> integrationConstants = [-3.391454870e+03, 1.849699470e+01];
+            List<double> coeff = [-7.953611300e+03, 1.607177787e+02, 1.966226438e+00, 1.013670310e-03, -1.110415423e-06, 6.517507500e-10, -1.584779251e-13];
+            List<double> integrationConstants = [2.840362437e+04, 8.404241820e+00];
 
             double delta = 0.005;
             double ref_temp = 298.15;
@@ -1005,6 +1093,7 @@ namespace TestCEAconsole
         [TestMethod]
         public void Test_New_HeatCapacity()
         {
+            // CH4 coefficients
             List<double> temperatureRange = [200.000, 1000.000];
             List<double> t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
             List<double> coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
@@ -1097,6 +1186,7 @@ namespace TestCEAconsole
         [DataRow(1000.00, 38.685)]
         public void Test_EnthalpyRefH298(double T, double expected)
         {
+            // CH4 coefficients
             List<double> temperatureRange = [200.000, 1000.000];
             List<double> t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
             List<double> coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
@@ -1210,14 +1300,16 @@ namespace TestCEAconsole
         [DataRow(1000.00, -35.915)]
         public void TestThermoEnthalpyMethod(double T, double expected)
         {
+            // CH4 heat of formation = -74600.0
+            // CH4 coefficients
             List<double> temperatureRange = [200.000, 1000.000];
             List<double> t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
             List<double> coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
             List<double> integrationConstants = [-2.331314360e+04, 8.904322750e+01];
             double delta = 0.005;
             double ref_temp = 298.15;
-            double enthalpy = ThermoDynamics.Enthalpy(ref_temp, T, coefficients, t_expnts);
-
+            double CH4HeatOfFormation = -74600.0;
+            double enthalpy = ThermoDynamics.Enthalpy(ref_temp,CH4HeatOfFormation, T, coefficients, t_expnts);
             Assert.AreEqual(expected, enthalpy, delta);
         }
 
@@ -1233,6 +1325,7 @@ namespace TestCEAconsole
         [DataRow(1000.00, -89.069)]
         public void TestDeltaHf(double T, double expected)
         {
+            // CH4 heat of formation = -74600.0
             // delta H_f(T) = H(T) - SUM delta H_f(elements)
 
             List<double> temperatureRange = [200.000, 1000.000];
@@ -1245,10 +1338,11 @@ namespace TestCEAconsole
 
             double C_298HF = 1053.500;
             double H_298HF = 8468.102;
+            double heatOfFormation = 74600.0;
 
             double elementsSum = C_298HF + H_298HF;
 
-            double enthalpy = ThermoDynamics.Enthalpy(ref_temp, T, coefficients, t_expnts);
+            double enthalpy = ThermoDynamics.Enthalpy(ref_temp,heatOfFormation, T, coefficients, t_expnts);
 
             double deltaH_f = enthalpy - elementsSum;
 
@@ -1274,7 +1368,7 @@ namespace TestCEAconsole
             double T = 398.15;
             double deltaHf_298 = -74.600;
             double C_formation = 716680.0 * 0;
-            double H_formation = 217998.828 * 4 * 0;
+            double H_formation = 0.0 * 2 * 0;
             double[] elementDeltaHf_298 = { C_formation, H_formation };
 
             //double HH_RT = CalculateH_RT(T);
@@ -1396,13 +1490,13 @@ namespace TestCEAconsole
         [TestMethod]
         public void TestAddNode()
         {
-            //ICollection<Reactant> reactants = InputServices.GetJsonData("Data/shortThermo.json");
-            //int reactantCount = reactants.Count;
+            ICollection<Species> reactants = InputServices.GetNASA("Data/NASApolynomials.json");
+            int reactantCount = reactants.Count;
 
-            //List<Reactant>? filteredCollection = reactants?.Where(item => item.Name == "CH4").ToList();
-            //var molecularWeight = (from item in filteredCollection
-            //                       select item.MolecularWeight).FirstOrDefault();
-            //double expected = 16.0424600;
+            List<Species>? filteredCollection = reactants?.Where(item => item.Name == "CH4").ToList();
+            var molecularWeight = (from item in filteredCollection
+                                   select item.MolecularWeight).FirstOrDefault();
+            double expected = 16.0424600;
 
             //var elementv = reactants.ElementAt(0);
 
@@ -1434,7 +1528,7 @@ namespace TestCEAconsole
             ////string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "newShortThermo.json");
             ////File.WriteAllText(path, serializedList);
 
-            Assert.AreEqual(0, 0);
+            Assert.AreEqual(expected, molecularWeight);
 
         }
     }

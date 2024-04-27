@@ -28,6 +28,14 @@ namespace CEAconsole.Services
             return reactantCollection;
         }
 
+        public static ICollection<Species> GetNASA(string path)
+        {
+            string m_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);
+            string json = File.ReadAllText(m_path);
+            ICollection<Species>? speciesCollection = JsonConvert.DeserializeObject<ICollection<Species>>(json);
+            return speciesCollection;
+        }
+
         public static ICollection<CPHSRef> GetDefaultCPHS(string path)
         {
             string m_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);
