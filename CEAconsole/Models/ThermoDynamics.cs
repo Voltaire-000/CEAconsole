@@ -31,16 +31,62 @@ namespace CEAconsole.Models
         /// </summary>
         /// <param name="T">Temperature in Kelvin</param>
         /// <param name="coefficients">List of Temperature Coefficients from the NASA polynomials</param>
-        /// <param name="t_expnts"></param>
-        /// <returns></returns>
-        public static double HeatCapacity(double T, List<double> coefficients, List<double> t_expnts)
+        /// <param name="tExpnts">List of coefficient exponents from the NASA polynomials</param>
+        /// <returns>Heat capacity (Cp) in J/mol-K</returns>
+        public static double HeatCapacity(double Temperature, List<double> coefficients, List<double> tExpnts)
         {
             double Cp = 0;
             for (int i = 0; i < coefficients.Count; i++)
             {
-                Cp += coefficients[i] * Math.Pow(T, t_expnts[i]);
+                Cp += coefficients[i] * Math.Pow(Temperature, tExpnts[i]);
             }
             return Cp * Gas_Constant_R;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="referenceTemperature"></param>
+        /// <param name="T1"></param>
+        /// <param name="coefficients">List of Temperature Coefficients from the NASA polynomials</param>
+        /// <param name="tExpnts">List of coefficient exponents from the NASA polynomials</param>
+        /// <returns>Enthalpy (H) in kJ/mol</returns>
+        public static double EnthalpyRefH298(double referenceTemperature, double T1, List<double> coefficients, List<double> tExpnts)
+        {
+            double integrand(double T) => HeatCapacity(T, coefficients, tExpnts);
+            return GaussKronrodRule.Integrate(integrand, referenceTemperature, T1, out double error, out double L1Norm, 1e-8) / 1000;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="referenceTemperature">298.15 Kelvin</param>
+        /// <param name="T1"></param>
+        /// <param name="coefficients"></param>
+        /// <param name="tExpnts"></param>
+        /// <returns>(enthalpy)H kJ/mol</returns>
+        public static double Enthalpy(double referenceTemperature, double heatOfFormation, double T1, List<double> coefficients, List<double> tExpnts)
+        {
+            double integrand(double T) => HeatCapacity(T, coefficients, tExpnts);
+            double H_H298 = GaussKronrodRule.Integrate(integrand, referenceTemperature, T1, out double error, out double L1Norm, 1e-8) / 1000;
+            double enthalpy = H_H298
+                              + (heatOfFormation / 1000);
+            return enthalpy;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="referenceTemperature"></param>
+        /// <param name="T1"></param>
+        /// <param name="coefficients"></param>
+        /// <param name="tExpnts"></param>
+        /// <returns></returns>
+        public static double Entropy(double referenceTemperature, double referenceEntropy, double T1, List<double> coefficients, List<double> tExpnts)
+        {
+            double integrand(double T) => HeatCapacity(T, coefficients, tExpnts)/T;
+            double integral = GaussKronrodRule.Integrate(integrand, referenceTemperature, T1, out double error, out double L1Norm, 1e-8);
+            return integral + referenceEntropy;
         }
 
         /// <summary>
@@ -51,85 +97,30 @@ namespace CEAconsole.Models
         /// <param name="coefficients"></param>
         /// <param name="t_expnts"></param>
         /// <returns></returns>
-        public static double EnthalpyRefH298(double referenceTemperature, double T_1, List<double> coefficients, List<double> t_expnts)
-        {
-            double integrand(double T) => HeatCapacity(T, coefficients, t_expnts);
-            return GaussKronrodRule.Integrate(integrand, referenceTemperature, T_1, out double error, out double L1Norm, 1e-8) / 1000;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ref_Temp">298.15 Kelvin</param>
-        /// <param name="T_1"></param>
-        /// <param name="coefficients"></param>
-        /// <param name="t_expnts"></param>
-        /// <returns>(enthalpy)H kJ/mol</returns>
-        public static double Enthalpy(double ref_Temp, double heatOfFormation, double T_1, List<double> coefficients, List<double> t_expnts)
-        {
-            double integrand(double T) => HeatCapacity(T, coefficients, t_expnts);
-            double H_H298 = GaussKronrodRule.Integrate(integrand, ref_Temp, T_1, out double error, out double L1Norm, 1e-8) / 1000;
-            double enthalpy = H_H298
-                              + (heatOfFormation / 1000);
-            return enthalpy;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ref_Temp"></param>
-        /// <param name="T_1"></param>
-        /// <param name="coefficients"></param>
-        /// <param name="t_expnts"></param>
-        /// <returns></returns>
-        public static double Entropy(double ref_Temp, double T_1 , List<double> coefficients, List<double> t_expnts)
-        {
-            double integrand(double T) => HeatCapacity(T, coefficients, t_expnts)/T;
-            
-            double error;
-            double L1Norm;
-            
-            // TODO get base entropy at 298.15
-            double integral = GaussKronrodRule.Integrate(integrand, ref_Temp, T_1, out error, out L1Norm, 1e-8);
-            //double delta_T = ref_Temp - T_1;
-            return integral + 186.371;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ref_Temp"></param>
-        /// <param name="T_1"></param>
-        /// <param name="coefficients"></param>
-        /// <param name="t_expnts"></param>
-        /// <returns></returns>
-        public static double GibbsRef(double ref_Temp, double T_1, List<double> coefficients, List<double> t_expnts)
+        public static double GibbsRef(double referenceTemperature, double referenceEntropy, double T_1, List<double> coefficients, List<double> t_expnts)
         {
             double enthalpyIntegrand(double T) => HeatCapacity(T, coefficients, t_expnts);
             double entropyIntegrand(double T) => HeatCapacity(T, coefficients, t_expnts) / T;
-            double error;
-            double L1Norm;
-            double enthalpy = GaussKronrodRule.Integrate(enthalpyIntegrand, ref_Temp, T_1, out error, out L1Norm, 1e-8) / 1000;
-            double entropy = GaussKronrodRule.Integrate(entropyIntegrand, ref_Temp, T_1, out error, out L1Norm, 1e-8);
-            double ref_entropy = 186.371;
-            entropy = entropy + ref_entropy;
+            double enthalpy = GaussKronrodRule.Integrate(enthalpyIntegrand, referenceTemperature, T_1, out double error, out double L1Norm, 1e-8) / 1000;
+            double entropy = GaussKronrodRule.Integrate(entropyIntegrand, referenceTemperature, T_1, out error, out L1Norm, 1e-8);
+            entropy += referenceEntropy;
 
-            double gibbs = -((enthalpy * 1000) - T_1 * entropy) / T_1;
+            double gibbs = -((enthalpy * 1000) - (T_1 * entropy)) / T_1;
             return gibbs;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="ref_Temp">298.15 Kelvin</param>
-        /// <param name="T_1">Temperature in Kelvin</param>
+        /// <param name="refTemp">298.15 Kelvin</param>
+        /// <param name="T1">Temperature in Kelvin</param>
         /// <param name="coefficients">from NASA polynomials</param>
-        /// <param name="t_expnts">Temperature exponents</param>
+        /// <param name="tExpnts">Temperature exponents</param>
         /// <returns>Enthalpy H-H298 kJ/mol</returns>
-        public static double EnthalpyFormation(double ref_Temp, double T_1, List<double> coefficients, List<double> t_expnts)
+        public static double EnthalpyFormation(double refTemp, double T1, List<double> coefficients, List<double> tExpnts)
         {
-            double heatCapacityIntegrand(double T) => HeatCapacity(T, coefficients, t_expnts);
-            return GaussKronrodRule.Integrate(heatCapacityIntegrand, ref_Temp, T_1, out double error, out double L1Norm, 1e-8) / 1000;
+            double heatCapacityIntegrand(double T) => HeatCapacity(T, coefficients, tExpnts);
+            return GaussKronrodRule.Integrate(heatCapacityIntegrand, refTemp, T1, out double error, out double L1Norm, 1e-8) / 1000;
         }
 
         /// <summary>

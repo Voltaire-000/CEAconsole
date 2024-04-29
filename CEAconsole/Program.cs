@@ -87,8 +87,9 @@ temperatureList.Add(298.15);
 double Kelvin = 298.15;
 heatCapacityList.Add(ThermoDynamics.HeatCapacity(Kelvin, coefficients, temperatureExponents));
 enthalpyChangeFromRefList.Add(ThermoDynamics.EnthalpyRefH298(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents));
-entropyList.Add(ThermoDynamics.Entropy(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents));
-gibbsList.Add(ThermoDynamics.GibbsRef(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents));
+// TODO fix entropy
+entropyList.Add(ThermoDynamics.Entropy(REFERENCE_TEMPERATURE, 187.0, Kelvin, coefficients, temperatureExponents));
+gibbsList.Add(ThermoDynamics.GibbsRef(REFERENCE_TEMPERATURE,187.0, Kelvin, coefficients, temperatureExponents));
 double heatOfFormation = -74600.0;
 enthalpyList.Add(ThermoDynamics.Enthalpy(REFERENCE_TEMPERATURE,heatOfFormation, Kelvin, coefficients, temperatureExponents));
 //temperatureList.Add(Kelvin);
@@ -103,8 +104,8 @@ for (Kelvin = startTemp; Kelvin <= endTemp; Kelvin += increment)
     double cp_value = ThermoDynamics.HeatCapacity(Kelvin, coefficients, temperatureExponents);
     heatCapacityList.Add(cp_value);
     double enthalpy_change_from_ref_value = ThermoDynamics.EnthalpyRefH298(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents);
-    double entropy_value = ThermoDynamics.Entropy(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents);
-    double gibbs_value = ThermoDynamics.GibbsRef(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents);
+    double entropy_value = ThermoDynamics.Entropy(REFERENCE_TEMPERATURE,187.0, Kelvin, coefficients, temperatureExponents);
+    double gibbs_value = ThermoDynamics.GibbsRef(REFERENCE_TEMPERATURE,187.0, Kelvin, coefficients, temperatureExponents);
     double enthalpy_value = ThermoDynamics.Enthalpy(REFERENCE_TEMPERATURE,heatOfFormation, Kelvin, coefficients, temperatureExponents);
 
     if (Kelvin >= 998.15)
@@ -121,13 +122,13 @@ for (Kelvin = startTemp; Kelvin <= endTemp; Kelvin += increment)
     entropyList.Add(entropy_value);
     if (Kelvin >= 998.15)
     {
-        double lastEntropy_value = ThermoDynamics.Entropy(REFERENCE_TEMPERATURE, endTemp, coefficients, temperatureExponents);
+        double lastEntropy_value = ThermoDynamics.Entropy(REFERENCE_TEMPERATURE, 187.0, endTemp, coefficients, temperatureExponents);
         entropyList.Add(lastEntropy_value);
     }
     gibbsList.Add(gibbs_value);
     if (Kelvin >= 998.15)
     {
-        double lastGibbs_value = ThermoDynamics.GibbsRef(REFERENCE_TEMPERATURE, endTemp, coefficients, temperatureExponents);
+        double lastGibbs_value = ThermoDynamics.GibbsRef(REFERENCE_TEMPERATURE,187.0, endTemp, coefficients, temperatureExponents);
         gibbsList.Add(lastGibbs_value);
     }
     enthalpyList.Add(enthalpy_value);

@@ -1202,6 +1202,59 @@ namespace TestCEAconsole
         }
 
         [DataTestMethod]
+        [DataRow(298.15, 0.0)]
+        [DataRow(398.15, 0.0)]
+        [DataRow(498.15, 0.0)]
+        [DataRow(598.15, 0.0)]
+        [DataRow(698.15, 0.0)]
+        [DataRow(798.15, 0.0)]
+        [DataRow(898.15, 0.0)]
+        [DataRow(998.15, 0.0)]
+        [DataRow(1000.0, 0.0)]
+        public void Test_MU(double Temperature, double expected)
+        {
+            double NG = 1;
+            double Pp = 1.0;
+            double Enn = 0.1;
+
+            // CH4 coefficients
+            //string searchString = "O";
+            //string searchString = "CH4";
+            string searchString = "H2";
+            var referenceCPHS = InputServices.GetDefaultCPHS("Data/Ref_Defaults.json");
+            IEnumerable<CPHSRef> m_referenceSpecie = (IEnumerable<CPHSRef>)(from m_specie in referenceCPHS
+                                                                             where m_specie.Species_Name == searchString
+                                                                             select m_specie);
+
+            ICollection<Species> m_species = InputServices.GetNASA("Data/NASApolynomials.json");
+
+            IEnumerable<Species> m_reactant = from specie in m_species
+                                 where specie.Name == searchString
+                                 select specie;
+
+            ICollection<ChemicalFormula> chemicalFormula = m_reactant.First().ChemicalFormula;
+            List<double> temperatureRange = m_reactant.First().DataRecords.ElementAt(0).TemperatureRange;
+            List<double> coefficients = m_reactant.First().DataRecords.ElementAt(0).Coefficients;
+            List<double> t_expnts = m_reactant.First().DataRecords.ElementAt(0).TExponents;
+            List<double> integrationConstants = m_reactant.First().DataRecords.ElementAt(0).IntegrationConstants;
+            double delta = 0.005;
+            double refTemp = 298.15;
+            double heatOfFormation = m_reactant.First().HeatOfFormation;
+            double Cp_JmolK = ThermoDynamics.HeatCapacity(Temperature, coefficients, t_expnts);
+            double Enthalpy_kJmol = ThermoDynamics.Enthalpy(refTemp, heatOfFormation, Temperature, coefficients, t_expnts);
+            double ref_entropy = (double)m_referenceSpecie.First().Entropy_Ref;
+            double Entropy_JmolK = ThermoDynamics.Entropy(refTemp, ref_entropy, Temperature, coefficients, t_expnts);
+            double Gibbs_H298JmolK = ThermoDynamics.GibbsRef(refTemp, ref_entropy, Temperature, coefficients, t_expnts);
+
+            double Enln = Math.Log(Enn/NG);
+            double Tm = Math.Log(Pp/Enn);
+            double MU = Enthalpy_kJmol - Entropy_JmolK + Enln + Tm;
+
+            Assert.AreEqual(expected, MU, delta);
+
+        }
+
+        [DataTestMethod]
         [DataRow(298.15, 186.371)]
         [DataRow(398.15, 197.312)]
         [DataRow(498.15, 207.023)]
@@ -1223,7 +1276,7 @@ namespace TestCEAconsole
             //double ref_Entropy = 186.371;
             double ref_temp = 298.15;
 
-            double result = ThermoDynamics.Entropy(ref_temp, T, coefficients, t_expnts);
+            double result = ThermoDynamics.Entropy(ref_temp, 187.0, T, coefficients, t_expnts);
             Assert.AreEqual(expected, result, delta);
         }
 
@@ -1248,11 +1301,11 @@ namespace TestCEAconsole
             double ref_temp = 298.15;
 
             double enthalpy = ThermoDynamics.EnthalpyRefH298(ref_temp, T, coefficients, t_expnts);
-            double entropy = ThermoDynamics.Entropy(ref_temp, T, coefficients, t_expnts);
+            double entropy = ThermoDynamics.Entropy(ref_temp, 187.0, T, coefficients, t_expnts);
 
             double gibbs = -((enthalpy * 1000) - T * entropy) / T;
 
-            double thermoGibbs = ThermoDynamics.GibbsRef(ref_temp, T, coefficients, t_expnts);
+            double thermoGibbs = ThermoDynamics.GibbsRef(ref_temp, 187.0, T, coefficients, t_expnts);
 
             Assert.AreEqual(expected, gibbs, delta);
             Assert.AreEqual(expected, thermoGibbs, delta);
@@ -1433,7 +1486,7 @@ namespace TestCEAconsole
 
             // Arrange T = 298.15 = -50.72 kj/mol, 398.15 = -43.95 kj/mol, 498.15 = -37.75 kj/mol
             // get the Gibbs for CH4
-            double m_Gibbs = ThermoDynamics.GibbsRef(298.15, 298.15, coefficients, t_expnts);
+            double m_Gibbs = ThermoDynamics.GibbsRef(298.15,187.0, 298.15, coefficients, t_expnts);
             double expected_MU = 0.0;
             double temperature = 298.15;
             double pressure = 1.0;
