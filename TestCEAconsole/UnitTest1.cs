@@ -1222,9 +1222,9 @@ namespace TestCEAconsole
             double Enln = Math.Log(Enn / NG);
             double Tm = Math.Log(Pp / Enn);
 
-            //List<string> m_formula = ["C", "O2"];
+            List<string> m_formula = ["C"];
             //List<string> m_formula = ["O2"];
-            List<string> m_formula = ["CH4"];
+            //List<string> m_formula = ["CH4"];
             // CH4 coefficients
             //string searchString = "C";
             //string searchString = "O2";
@@ -1274,8 +1274,20 @@ namespace TestCEAconsole
                 //MU = ThermoDynamics.Calculate_MU(Gibbs_H298JmolK, Temperature, 1);
 
                 MU = MU + Enthalpy_kJmol - Entropy_JmolK + Enln + Tm;
+
+                //        "Species_Name": "CH4",
+                //"Molecular_Weight": 16.04246,
+                //"Enthalpy": -84.616,
+                //"Delta_Enthalpy": -66.626,
+                //"Delta_Enthalpy_Ref": -74.6,
+                //"CP_Ref": 35.691,
+                //"Enthalpy_Ref": 10.016,
+                //"Entropy_Ref": 186.371
+               double zz =  -66.626 - Temperature * 186.371/1000;
+                double deltaG = Enthalpy_kJmol - (Temperature * (Entropy_JmolK / 1000));
+                double mx = (Temperature * (Entropy_JmolK / 1000));
                 //MU = MU + Enthalpy_kJmol;
-                //MU += Gibbs_H298JmolK;
+                MU += Gibbs_H298JmolK;
             }
 
             // CO2 reaction == -394.36
