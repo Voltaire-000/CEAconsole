@@ -35,6 +35,20 @@ namespace CEAconsole.Models
         /// <returns>Heat capacity (Cp) in J/mol-K</returns>
         public static double HeatCapacity(double Temperature, List<double> coefficients, List<double> tExpnts)
         {
+            
+            if (Temperature <=0)
+            {
+                throw new ArgumentException("Temperature must be positive");
+            }
+            // TODO temporary fix for tExpnts
+            if (coefficients.Count != tExpnts.Count - 1)
+            {
+                throw new ArgumentException("Number of coefficients and exponents do not match");
+            }
+            if (coefficients.Count == 0)
+            {
+                throw new ArgumentException("No coefficients provided");
+            }
             double Cp = 0;
             for (int i = 0; i < coefficients.Count; i++)
             {
@@ -220,7 +234,7 @@ namespace CEAconsole.Models
         {
             // MU = G + 
             //double standardChemicalPotential = 0.0;
-            double activity = 0.90710;
+            double activity = 1.0;
             double standardActivity = 1.0;
 
             double chemicalpotential = gibbs + (Gas_Constant_R * temperature  * Math.Log(activity / standardActivity));
