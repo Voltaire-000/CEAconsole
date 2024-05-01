@@ -1,19 +1,19 @@
 ﻿[
 	{
-		"species": "Ag(cr)",
-		"description": "Silver Cubic. Ref-Elm. Cox,1989 p228.",
-		"tIntervals": 1,
-		"idCode": "coda89",
-		"chemicalformula": [
+		"Name": "Ag(cr)",
+		"Description": "Silver Cubic. Ref-Elm. Cox,1989 p228.",
+		"TempIntervals": 1,
+		"IdCode": "coda89",
+		"ChemicalFormula": [
 			{
-				"symbol": "Ag",
-				"numberOfAtoms": 1.00
+				"Symbol": "Ag",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 107.86820,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 107.86820,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 1235.080 ],
 				"numberOfCoefficients": 7,
@@ -25,20 +25,20 @@
 		]
 	},
 	{
-		"species": "Ag(L)",
-		"description": "Silver Liquid. Ref-Elm. Cox,1989 p228.",
-		"tIntervals": 1,
-		"idCode": "coda89",
-		"chemicalformula": [
+		"Name": "Ag(L)",
+		"Description": "Silver Liquid. Ref-Elm. Cox,1989 p228.",
+		"TempIntervals": 1,
+		"IdCode": "coda89",
+		"ChemicalFormula": [
 			{
-				"symbol": "Ag",
-				"numberOfAtoms": 1.00
+				"Symbol": "Ag",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 107.86820,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 107.86820,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 1235.080, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -50,20 +50,20 @@
 		]
 	},
 	{
-		"species": "AL(cr)",
-		"description": "Aluminum Cubic. Ref-Elm. Cox,1989 p217.",
-		"tIntervals": 1,
-		"idCode": "coda89",
-		"chemicalformula": [
+		"Name": "AL(cr)",
+		"Description": "Aluminum Cubic. Ref-Elm. Cox,1989 p217.",
+		"TempIntervals": 1,
+		"IdCode": "coda89",
+		"ChemicalFormula": [
 			{
-				"symbol": "Al",
-				"numberOfAtoms": 1.00
+				"Symbol": "Al",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 26.98154,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 26.98154,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 933.610 ],
 				"numberOfCoefficients": 7,
@@ -75,20 +75,20 @@
 		]
 	},
 	{
-		"species": "AL(L)",
-		"description": "Aluminum. Ref-Elm. Cox,1989 p217.",
-		"tIntervals": 1,
-		"idCode": "coda89",
-		"chemicalformula": [
+		"Name": "AL(L)",
+		"Description": "Aluminum. Ref-Elm. Cox,1989 p217.",
+		"TempIntervals": 1,
+		"IdCode": "coda89",
+		"ChemicalFormula": [
 			{
-				"symbol": "Al",
-				"numberOfAtoms": 1.00
+				"Symbol": "Al",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 26.98154,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 26.98154,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 933.610, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -100,20 +100,20 @@
 		]
 	},
 	{
-		"species": "Ar",
-		"description": "Ref-Elm. Moore,1971.",
-		"tIntervals": 3,
-		"idCode": "g 3/98",
-		"chemicalformula": [
+		"Name": "Ar",
+		"Description": "Ref-Elm. Moore,1971.",
+		"TempIntervals": 3,
+		"IdCode": "g 3/98",
+		"ChemicalFormula": [
 			{
-				"symbol": "Ar",
-				"numberOfAtoms": 1.00
+				"Symbol": "Ar",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 0,
-		"molecularWeight": 39.9480000,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 0,
+		"MolecularWeight": 39.9480000,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 1000.000 ],
 				"numberOfCoefficients": 1,
@@ -141,20 +141,20 @@
 		]
 	},
 	{
-		"species": "B(b)",
-		"description": "Beta. Ref-Elm. Chase,1998 p177. McBride,1993a.",
-		"tIntervals": 2,
-		"idCode": "j 6/83",
-		"chemicalformula": [
+		"Name": "B(b)",
+		"Description": "Beta. Ref-Elm. Chase,1998 p177. McBride,1993a.",
+		"TempIntervals": 2,
+		"IdCode": "j 6/83",
+		"ChemicalFormula": [
 			{
-				"symbol": "B",
-				"numberOfAtoms": 1.00
+				"Symbol": "B",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 10.81100,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 10.81100,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 600.000 ],
 				"numberOfCoefficients": 7,
@@ -174,20 +174,20 @@
 		]
 	},
 	{
-		"species": "B(L)",
-		"description": "Liquid. Ref-Elm. Chase,1998 p177. McBride,1993a.",
-		"tIntervals": 1,
-		"idCode": "j 6/83",
-		"chemicalformula": [
+		"Name": "B(L)",
+		"Description": "Liquid. Ref-Elm. Chase,1998 p177. McBride,1993a.",
+		"TempIntervals": 1,
+		"IdCode": "j 6/83",
+		"ChemicalFormula": [
 			{
-				"symbol": "B",
-				"numberOfAtoms": 1.00
+				"Symbol": "B",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 10.81100,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 10.81100,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 2350.000, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -199,20 +199,20 @@
 		]
 	},
 	{
-		"species": "Ba(cr)",
-		"description": "Crystal. Ref-Elm. Alcock,1993.",
-		"tIntervals": 2,
-		"idCode": "srd 93",
-		"chemicalformula": [
+		"Name": "Ba(cr)",
+		"Description": "Crystal. Ref-Elm. Alcock,1993.",
+		"TempIntervals": 2,
+		"IdCode": "srd 93",
+		"ChemicalFormula": [
 			{
-				"symbol": "Ba",
-				"numberOfAtoms": 1.00
+				"Symbol": "Ba",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 137.32700,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 137.32700,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 80.000, 298.150 ],
 				"numberOfCoefficients": 7,
@@ -232,20 +232,20 @@
 		]
 	},
 	{
-		"species": "Ba(L)",
-		"description": "Liquid. Ref-Elm. Alcock,1993.",
-		"tIntervals": 1,
-		"idCode": "srd 93",
-		"chemicalformula": [
+		"Name": "Ba(L)",
+		"Description": "Liquid. Ref-Elm. Alcock,1993.",
+		"TempIntervals": 1,
+		"IdCode": "srd 93",
+		"ChemicalFormula": [
 			{
-				"symbol": "Ba",
-				"numberOfAtoms": 1.00
+				"Symbol": "Ba",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 137.32700,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 137.32700,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 1000.000, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -257,20 +257,20 @@
 		]
 	},
 	{
-		"species": "Be(a)",
-		"description": "Alpha. Ref-Elm. Alcock,1993.",
-		"tIntervals": 2,
-		"idCode": "srd 93",
-		"chemicalformula": [
+		"Name": "Be(a)",
+		"Description": "Alpha. Ref-Elm. Alcock,1993.",
+		"TempIntervals": 2,
+		"IdCode": "srd 93",
+		"ChemicalFormula": [
 			{
-				"symbol": "Be",
-				"numberOfAtoms": 1.00
+				"Symbol": "Be",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 9.01218,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 9.01218,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 100.000, 298.150 ],
 				"numberOfCoefficients": 7,
@@ -290,20 +290,20 @@
 		]
 	},
 	{
-		"species": "Be(b)",
-		"description": "Beta. Ref-Elm. Alcock,1993.",
-		"tIntervals": 1,
-		"idCode": "srd 93",
-		"chemicalformula": [
+		"Name": "Be(b)",
+		"Description": "Beta. Ref-Elm. Alcock,1993.",
+		"TempIntervals": 1,
+		"IdCode": "srd 93",
+		"ChemicalFormula": [
 			{
-				"symbol": "Be",
-				"numberOfAtoms": 1.00
+				"Symbol": "Be",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 9.01218,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 9.01218,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 1543.000, 1563.000 ],
 				"numberOfCoefficients": 7,
@@ -315,20 +315,20 @@
 		]
 	},
 	{
-		"species": "Be(L)",
-		"description": "Liquid. Ref-Elm. Alcock,1993.",
-		"tIntervals": 1,
-		"idCode": "srd 93",
-		"chemicalformula": [
+		"Name": "Be(L)",
+		"Description": "Liquid. Ref-Elm. Alcock,1993.",
+		"TempIntervals": 1,
+		"IdCode": "srd 93",
+		"ChemicalFormula": [
 			{
-				"symbol": "Be",
-				"numberOfAtoms": 1.00
+				"Symbol": "Be",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 3,
-		"molecularWeight": 9.01218,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 3,
+		"MolecularWeight": 9.01218,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 1563.000, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -340,20 +340,20 @@
 		]
 	},
 	{
-		"species": "Br2(cr)",
-		"description": "Rhombic.Ref-Elm.Gurvich,1989 pt2 p314. Chase,1998 (6/82).",
-		"tIntervals": 1,
-		"idCode": "g 8/01",
-		"chemicalformula": [
+		"Name": "Br2(cr)",
+		"Description": "Rhombic.Ref-Elm.Gurvich,1989 pt2 p314. Chase,1998 (6/82).",
+		"TempIntervals": 1,
+		"IdCode": "g 8/01",
+		"ChemicalFormula": [
 			{
-				"symbol": "Br",
-				"numberOfAtoms": 2.00
+				"Symbol": "Br",
+				"NumberOfAtoms": 2.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 159.80800,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 159.80800,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 265.900 ],
 				"numberOfCoefficients": 7,
@@ -365,20 +365,20 @@
 		]
 	},
 	{
-		"species": "Br2(L)",
-		"description": "Liq. Ref-Elm.Gurvich,1989 pt2p314. Chase,1998p471(6/82).",
-		"tIntervals": 2,
-		"idCode": "g 8/01",
-		"chemicalformula": [
+		"Name": "Br2(L)",
+		"Description": "Liq. Ref-Elm.Gurvich,1989 pt2p314. Chase,1998p471(6/82).",
+		"TempIntervals": 2,
+		"IdCode": "g 8/01",
+		"ChemicalFormula": [
 			{
-				"symbol": "Br",
-				"numberOfAtoms": 2.00
+				"Symbol": "Br",
+				"NumberOfAtoms": 2.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 159.80800,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 159.80800,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 265.900, 332.503 ],
 				"numberOfCoefficients": 7,
@@ -398,20 +398,20 @@
 		]
 	},
 	{
-		"species": "C(gr)",
-		"description": "Graphite. Ref-Elm. TRC(4/83) VC,UC,TC-1000-1002.",
-		"tIntervals": 3,
-		"idCode": "n 4/83",
-		"chemicalformula": [
+		"Name": "C(gr)",
+		"Description": "Graphite. Ref-Elm. TRC(4/83) VC,UC,TC-1000-1002.",
+		"TempIntervals": 3,
+		"IdCode": "n 4/83",
+		"ChemicalFormula": [
 			{
-				"symbol": "C",
-				"numberOfAtoms": 1.00
+				"Symbol": "C",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 12.01070,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 12.01070,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 600.000 ],
 				"numberOfCoefficients": 7,
@@ -439,20 +439,20 @@
 		]
 	},
 	{
-		"species": "Ca(a)",
-		"description": "Alpha. Ref-Elm. Alcock,1993.",
-		"tIntervals": 2,
-		"idCode": "srd 93",
-		"chemicalformula": [
+		"Name": "Ca(a)",
+		"Description": "Alpha. Ref-Elm. Alcock,1993.",
+		"TempIntervals": 2,
+		"IdCode": "srd 93",
+		"ChemicalFormula": [
 			{
-				"symbol": "Ca",
-				"numberOfAtoms": 1.00
+				"Symbol": "Ca",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 40.07800,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 40.07800,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 298.150 ],
 				"numberOfCoefficients": 7,
@@ -472,20 +472,20 @@
 		]
 	},
 	{
-		"species": "Ca(b)",
-		"description": "Beta. Ref-Elm. Alcock,1993.",
-		"tIntervals": 1,
-		"idCode": "srd 93",
-		"chemicalformula": [
+		"Name": "Ca(b)",
+		"Description": "Beta. Ref-Elm. Alcock,1993.",
+		"TempIntervals": 1,
+		"IdCode": "srd 93",
+		"ChemicalFormula": [
 			{
-				"symbol": "Ca",
-				"numberOfAtoms": 1.00
+				"Symbol": "Ca",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 40.07800,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 40.07800,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 716.000, 1115.000 ],
 				"numberOfCoefficients": 7,
@@ -497,20 +497,20 @@
 		]
 	},
 	{
-		"species": "Ca(L)",
-		"description": "Liquid. Ref-Elm. Alcock,1993.",
-		"tIntervals": 1,
-		"idCode": "srd 93",
-		"chemicalformula": [
+		"Name": "Ca(L)",
+		"Description": "Liquid. Ref-Elm. Alcock,1993.",
+		"TempIntervals": 1,
+		"IdCode": "srd 93",
+		"ChemicalFormula": [
 			{
-				"symbol": "Ca",
-				"numberOfAtoms": 1.00
+				"Symbol": "Ca",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 3,
-		"molecularWeight": 40.07800,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 3,
+		"MolecularWeight": 40.07800,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 1115.000, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -522,20 +522,20 @@
 		]
 	},
 	{
-		"species": "Cd(cr)",
-		"description": "Crystal. Ref-Elm. Cox,1989 p223.",
-		"tIntervals": 1,
-		"idCode": "coda89",
-		"chemicalformula": [
+		"Name": "Cd(cr)",
+		"Description": "Crystal. Ref-Elm. Cox,1989 p223.",
+		"TempIntervals": 1,
+		"IdCode": "coda89",
+		"ChemicalFormula": [
 			{
-				"symbol": "Cd",
-				"numberOfAtoms": 1.00
+				"Symbol": "Cd",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 112.41100,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 112.41100,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 100.000, 594.258 ],
 				"numberOfCoefficients": 7,
@@ -547,20 +547,20 @@
 		]
 	},
 	{
-		"species": "Cd(L)",
-		"description": "Liquid. Ref-Elm. Cox,1989 p223.",
-		"tIntervals": 1,
-		"idCode": "coda89",
-		"chemicalformula": [
+		"Name": "Cd(L)",
+		"Description": "Liquid. Ref-Elm. Cox,1989 p223.",
+		"TempIntervals": 1,
+		"IdCode": "coda89",
+		"ChemicalFormula": [
 			{
-				"symbol": "Cd",
-				"numberOfAtoms": 1.00
+				"Symbol": "Cd",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 112.41100,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 112.41100,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 594.258, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -572,20 +572,20 @@
 		]
 	},
 	{
-		"species": "CL2",
-		"description": "Ref-Elm. Gurvich,1989 pt1 p177: pt2 p88.",
-		"tIntervals": 2,
-		"idCode": "tpis89",
-		"chemicalformula": [
+		"Name": "CL2",
+		"Description": "Ref-Elm. Gurvich,1989 pt1 p177: pt2 p88.",
+		"TempIntervals": 2,
+		"IdCode": "tpis89",
+		"ChemicalFormula": [
 			{
-				"symbol": "Cl",
-				"numberOfAtoms": 2.00
+				"Symbol": "Cl",
+				"NumberOfAtoms": 2.00
 			}
 		],
-		"phase_value": 0,
-		"molecularWeight": 70.90540,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 0,
+		"MolecularWeight": 70.90540,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 1000.000 ],
 				"numberOfCoefficients": 7,
@@ -605,20 +605,20 @@
 		]
 	},
 	{
-		"species": "Co(a)",
-		"description": "Alpha. Ref-Elm. Chase,1998 p943.",
-		"tIntervals": 2,
-		"idCode": "j 9/67",
-		"chemicalformula": [
+		"Name": "Co(a)",
+		"Description": "Alpha. Ref-Elm. Chase,1998 p943.",
+		"TempIntervals": 2,
+		"IdCode": "j 9/67",
+		"ChemicalFormula": [
 			{
-				"symbol": "Co",
-				"numberOfAtoms": 1.00
+				"Symbol": "Co",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 58.93320,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 58.93320,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 500.000 ],
 				"numberOfCoefficients": 7,
@@ -638,20 +638,20 @@
 		]
 	},
 	{
-		"species": "Co(b)",
-		"description": "Beta.Ref-Elm.Below Lambda trans. Chase,1998 p943.",
-		"tIntervals": 2,
-		"idCode": "j 9/67",
-		"chemicalformula": [
+		"Name": "Co(b)",
+		"Description": "Beta.Ref-Elm.Below Lambda trans. Chase,1998 p943.",
+		"TempIntervals": 2,
+		"IdCode": "j 9/67",
+		"ChemicalFormula": [
 			{
-				"symbol": "Co",
-				"numberOfAtoms": 1.00
+				"Symbol": "Co",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 58.93320,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 58.93320,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 700.100, 800.000 ],
 				"numberOfCoefficients": 7,
@@ -671,20 +671,20 @@
 		]
 	},
 	{
-		"species": "Co(b)",
-		"description": "Beta. Ref-Elm.Above Lambda trans. Chase,1998 p943.",
-		"tIntervals": 2,
-		"idCode": "j 9/67",
-		"chemicalformula": [
+		"Name": "Co(b)",
+		"Description": "Beta. Ref-Elm.Above Lambda trans. Chase,1998 p943.",
+		"TempIntervals": 2,
+		"IdCode": "j 9/67",
+		"ChemicalFormula": [
 			{
-				"symbol": "Co",
-				"numberOfAtoms": 1.00
+				"Symbol": "Co",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 3,
-		"molecularWeight": 58.93320,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 3,
+		"MolecularWeight": 58.93320,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 1394.000, 1400.000 ],
 				"numberOfCoefficients": 7,
@@ -704,20 +704,20 @@
 		]
 	},
 	{
-		"species": "Co(L)",
-		"description": "Liquid. Ref-Elm. Chase,1998 p943.",
-		"tIntervals": 1,
-		"idCode": "j 9/67",
-		"chemicalformula": [
+		"Name": "Co(L)",
+		"Description": "Liquid. Ref-Elm. Chase,1998 p943.",
+		"TempIntervals": 1,
+		"IdCode": "j 9/67",
+		"ChemicalFormula": [
 			{
-				"symbol": "Co",
-				"numberOfAtoms": 1.00
+				"Symbol": "Co",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 4,
-		"molecularWeight": 58.93320,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 4,
+		"MolecularWeight": 58.93320,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 1768.000, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -729,20 +729,20 @@
 		]
 	},
 	{
-		"species": "Cr(cr)",
-		"description": "Below lambda trans. Ref-Elm. Chase,1998 p959.",
-		"tIntervals": 1,
-		"idCode": "j 6/73",
-		"chemicalformula": [
+		"Name": "Cr(cr)",
+		"Description": "Below lambda trans. Ref-Elm. Chase,1998 p959.",
+		"TempIntervals": 1,
+		"IdCode": "j 6/73",
+		"ChemicalFormula": [
 			{
-				"symbol": "Cr",
-				"numberOfAtoms": 1.00
+				"Symbol": "Cr",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 51.99610,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 51.99610,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 311.500 ],
 				"numberOfCoefficients": 7,
@@ -754,20 +754,20 @@
 		]
 	},
 	{
-		"species": "Cr(cr)",
-		"description": "Above lambda trans. Ref-Elm. Chase,1998 p959.",
-		"tIntervals": 2,
-		"idCode": "j 6/73",
-		"chemicalformula": [
+		"Name": "Cr(cr)",
+		"Description": "Above lambda trans. Ref-Elm. Chase,1998 p959.",
+		"TempIntervals": 2,
+		"IdCode": "j 6/73",
+		"ChemicalFormula": [
 			{
-				"symbol": "Cr",
-				"numberOfAtoms": 1.00
+				"Symbol": "Cr",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 51.99610,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 51.99610,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 311.500, 1000.000 ],
 				"numberOfCoefficients": 7,
@@ -787,20 +787,20 @@
 		]
 	},
 	{
-		"species": "Cr(L)",
-		"description": "Liquid. Ref-Elm. Chase,1998 p959.",
-		"tIntervals": 1,
-		"idCode": "j 6/73",
-		"chemicalformula": [
+		"Name": "Cr(L)",
+		"Description": "Liquid. Ref-Elm. Chase,1998 p959.",
+		"TempIntervals": 1,
+		"IdCode": "j 6/73",
+		"ChemicalFormula": [
 			{
-				"symbol": "Cr",
-				"numberOfAtoms": 1.00
+				"Symbol": "Cr",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 3,
-		"molecularWeight": 51.99610,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 3,
+		"MolecularWeight": 51.99610,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 2130.000, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -812,20 +812,20 @@
 		]
 	},
 	{
-		"species": "Cs(cr)",
-		"description": "Crystal. Ref-Elm. Cox,1989 p263.",
-		"tIntervals": 1,
-		"idCode": "coda89",
-		"chemicalformula": [
+		"Name": "Cs(cr)",
+		"Description": "Crystal. Ref-Elm. Cox,1989 p263.",
+		"TempIntervals": 1,
+		"IdCode": "coda89",
+		"ChemicalFormula": [
 			{
-				"symbol": "Cs",
-				"numberOfAtoms": 1.00
+				"Symbol": "Cs",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 132.90545,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 132.90545,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 100.000, 301.590 ],
 				"numberOfCoefficients": 7,
@@ -837,20 +837,20 @@
 		]
 	},
 	{
-		"species": "Cs(L)",
-		"description": "Liquid. Ref-Elm. Cox,1989 p263.",
-		"tIntervals": 2,
-		"idCode": "coda89",
-		"chemicalformula": [
+		"Name": "Cs(L)",
+		"Description": "Liquid. Ref-Elm. Cox,1989 p263.",
+		"TempIntervals": 2,
+		"IdCode": "coda89",
+		"ChemicalFormula": [
 			{
-				"symbol": "Cs",
-				"numberOfAtoms": 1.00
+				"Symbol": "Cs",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 132.90545,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 132.90545,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 301.590, 1000.000 ],
 				"numberOfCoefficients": 7,
@@ -870,20 +870,20 @@
 		]
 	},
 	{
-		"species": "Cu(cr)",
-		"description": "Cubic. Ref-Elm.Cox,1989 p226.",
-		"tIntervals": 1,
-		"idCode": "coda89",
-		"chemicalformula": [
+		"Name": "Cu(cr)",
+		"Description": "Cubic. Ref-Elm.Cox,1989 p226.",
+		"TempIntervals": 1,
+		"IdCode": "coda89",
+		"ChemicalFormula": [
 			{
-				"symbol": "Cu",
-				"numberOfAtoms": 1.00
+				"Symbol": "Cu",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 63.54600,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 63.54600,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 1358.000 ],
 				"numberOfCoefficients": 7,
@@ -895,20 +895,20 @@
 		]
 	},
 	{
-		"species": "Cu(L)",
-		"description": "Liquid. Ref-Elm.Cox,1989 p226.",
-		"tIntervals": 1,
-		"idCode": "coda89",
-		"chemicalformula": [
+		"Name": "Cu(L)",
+		"Description": "Liquid. Ref-Elm.Cox,1989 p226.",
+		"TempIntervals": 1,
+		"IdCode": "coda89",
+		"ChemicalFormula": [
 			{
-				"symbol": "Cu",
-				"numberOfAtoms": 1.00
+				"Symbol": "Cu",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 63.54600,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 63.54600,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 1358.000, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -920,20 +920,20 @@
 		]
 	},
 	{
-		"species": "D2",
-		"description": "Ref-Species. Gurvich,1989 v1 pt1 p134 pt2 p45.",
-		"tIntervals": 3,
-		"idCode": "tpis89",
-		"chemicalformula": [
+		"Name": "D2",
+		"Description": "Ref-Species. Gurvich,1989 v1 pt1 p134 pt2 p45.",
+		"TempIntervals": 3,
+		"IdCode": "tpis89",
+		"ChemicalFormula": [
 			{
-				"symbol": "D",
-				"numberOfAtoms": 2.00
+				"Symbol": "D",
+				"NumberOfAtoms": 2.00
 			}
 		],
-		"phase_value": 0,
-		"molecularWeight": 4.0282040,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 0,
+		"MolecularWeight": 4.0282040,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 1000.000 ],
 				"numberOfCoefficients": 7,
@@ -961,20 +961,20 @@
 		]
 	},
 	{
-		"species": "e-",
-		"description": "Ref-Species. Chase,1998 3/82.",
-		"tIntervals": 3,
-		"idCode": "g12/98",
-		"chemicalformula": [
+		"Name": "e-",
+		"Description": "Ref-Species. Chase,1998 3/82.",
+		"TempIntervals": 3,
+		"IdCode": "g12/98",
+		"ChemicalFormula": [
 			{
-				"symbol": "E",
-				"numberOfAtoms": 1.00
+				"Symbol": "E",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 0,
-		"molecularWeight": 0.000548579903,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 0,
+		"MolecularWeight": 0.000548579903,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 298.150, 1000.000 ],
 				"numberOfCoefficients": 7,
@@ -1002,20 +1002,20 @@
 		]
 	},
 	{
-		"species": "F2",
-		"description": "Ref-Elm. Gurvich,1989. v1 pt1 p157 pt2 p73.",
-		"tIntervals": 2,
-		"idCode": "tpis89",
-		"chemicalformula": [
+		"Name": "F2",
+		"Description": "Ref-Elm. Gurvich,1989. v1 pt1 p157 pt2 p73.",
+		"TempIntervals": 2,
+		"IdCode": "tpis89",
+		"ChemicalFormula": [
 			{
-				"symbol": "F",
-				"numberOfAtoms": 2.00
+				"Symbol": "F",
+				"NumberOfAtoms": 2.00
 			}
 		],
-		"phase_value": 0,
-		"molecularWeight": 37.99681,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 0,
+		"MolecularWeight": 37.99681,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 1000.000 ],
 				"numberOfCoefficients": 7,
@@ -1035,20 +1035,20 @@
 		]
 	},
 	{
-		"species": "Fe(a)",
-		"description": "Alpha. Ref-Elm.Below Lambda trans. Chase,1998 p1221.",
-		"tIntervals": 3,
-		"idCode": "j 3/78",
-		"chemicalformula": [
+		"Name": "Fe(a)",
+		"Description": "Alpha. Ref-Elm.Below Lambda trans. Chase,1998 p1221.",
+		"TempIntervals": 3,
+		"IdCode": "j 3/78",
+		"ChemicalFormula": [
 			{
-				"symbol": "Fe",
-				"numberOfAtoms": 1.00
+				"Symbol": "Fe",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 55.84500,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 55.84500,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 500.000 ],
 				"numberOfCoefficients": 7,
@@ -1076,20 +1076,20 @@
 		]
 	},
 	{
-		"species": "Fe(a)",
-		"description": "Alpha. Ref-Elm.Above Lambda trans. Chase,1998 p1221.",
-		"tIntervals": 1,
-		"idCode": "j 3/78",
-		"chemicalformula": [
+		"Name": "Fe(a)",
+		"Description": "Alpha. Ref-Elm.Above Lambda trans. Chase,1998 p1221.",
+		"TempIntervals": 1,
+		"IdCode": "j 3/78",
+		"ChemicalFormula": [
 			{
-				"symbol": "Fe",
-				"numberOfAtoms": 1.00
+				"Symbol": "Fe",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 55.84500,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 55.84500,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 1042.000, 1184.000 ],
 				"numberOfCoefficients": 7,
@@ -1101,20 +1101,20 @@
 		]
 	},
 	{
-		"species": "Fe(c)",
-		"description": "Gamma. Ref-Elm. Chase,1998 p1221.",
-		"tIntervals": 1,
-		"idCode": "j 3/78",
-		"chemicalformula": [
+		"Name": "Fe(c)",
+		"Description": "Gamma. Ref-Elm. Chase,1998 p1221.",
+		"TempIntervals": 1,
+		"IdCode": "j 3/78",
+		"ChemicalFormula": [
 			{
-				"symbol": "Fe",
-				"numberOfAtoms": 1.00
+				"Symbol": "Fe",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 3,
-		"molecularWeight": 55.84500,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 3,
+		"MolecularWeight": 55.84500,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 1184.000, 1665.000 ],
 				"numberOfCoefficients": 7,
@@ -1126,20 +1126,20 @@
 		]
 	},
 	{
-		"species": "Fe(d)",
-		"description": "Delta. Ref-Elm. Chase,1998 p1221.",
-		"tIntervals": 1,
-		"idCode": "j 3/78",
-		"chemicalformula": [
+		"Name": "Fe(d)",
+		"Description": "Delta. Ref-Elm. Chase,1998 p1221.",
+		"TempIntervals": 1,
+		"IdCode": "j 3/78",
+		"ChemicalFormula": [
 			{
-				"symbol": "Fe",
-				"numberOfAtoms": 1.00
+				"Symbol": "Fe",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 4,
-		"molecularWeight": 55.84500,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 4,
+		"MolecularWeight": 55.84500,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 1665.000, 1809.000 ],
 				"numberOfCoefficients": 7,
@@ -1151,20 +1151,20 @@
 		]
 	},
 	{
-		"species": "Fe(L)",
-		"description": "Liquid. Ref-Elm. Chase,1998 p1221.",
-		"tIntervals": 1,
-		"idCode": "j 3/78",
-		"chemicalformula": [
+		"Name": "Fe(L)",
+		"Description": "Liquid. Ref-Elm. Chase,1998 p1221.",
+		"TempIntervals": 1,
+		"IdCode": "j 3/78",
+		"ChemicalFormula": [
 			{
-				"symbol": "Fe",
-				"numberOfAtoms": 1.00
+				"Symbol": "Fe",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 5,
-		"molecularWeight": 55.84500,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 5,
+		"MolecularWeight": 55.84500,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 1809.000, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -1176,20 +1176,20 @@
 		]
 	},
 	{
-		"species": "Ga(cr)",
-		"description": "Rhombic. Ref-Elm. Gurvich,1996a pt1 p209 pt2 p169.",
-		"tIntervals": 1,
-		"idCode": "tpis96",
-		"chemicalformula": [
+		"Name": "Ga(cr)",
+		"Description": "Rhombic. Ref-Elm. Gurvich,1996a pt1 p209 pt2 p169.",
+		"TempIntervals": 1,
+		"IdCode": "tpis96",
+		"ChemicalFormula": [
 			{
-				"symbol": "Ga",
-				"numberOfAtoms": 1.00
+				"Symbol": "Ga",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 69.72300,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 69.72300,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 100.000, 302.920 ],
 				"numberOfCoefficients": 7,
@@ -1201,20 +1201,20 @@
 		]
 	},
 	{
-		"species": "Ga(L)",
-		"description": "Liquid. Ref-Elm. Gurvich,1996a pt1 p209 pt2 p169.",
-		"tIntervals": 1,
-		"idCode": "tpis96",
-		"chemicalformula": [
+		"Name": "Ga(L)",
+		"Description": "Liquid. Ref-Elm. Gurvich,1996a pt1 p209 pt2 p169.",
+		"TempIntervals": 1,
+		"IdCode": "tpis96",
+		"ChemicalFormula": [
 			{
-				"symbol": "Ga",
-				"numberOfAtoms": 1.00
+				"Symbol": "Ga",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 69.72300,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 69.72300,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 302.920, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -1226,20 +1226,20 @@
 		]
 	},
 	{
-		"species": "Ge(cr)",
-		"description": "Cubic. Ref-Elm. Gurvich,1991 pt1 p308 pt2 p268.",
-		"tIntervals": 2,
-		"idCode": "tpis91",
-		"chemicalformula": [
+		"Name": "Ge(cr)",
+		"Description": "Cubic. Ref-Elm. Gurvich,1991 pt1 p308 pt2 p268.",
+		"TempIntervals": 2,
+		"IdCode": "tpis91",
+		"ChemicalFormula": [
 			{
-				"symbol": "Ge",
-				"numberOfAtoms": 1.00
+				"Symbol": "Ge",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 72.61000,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 72.61000,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 400.000 ],
 				"numberOfCoefficients": 7,
@@ -1259,20 +1259,20 @@
 		]
 	},
 	{
-		"species": "Ge(L)",
-		"description": "Liquid. Ref-Elm. Gurvich,1991 pt1 p308 pt2 p268.",
-		"tIntervals": 1,
-		"idCode": "tpis91",
-		"chemicalformula": [
+		"Name": "Ge(L)",
+		"Description": "Liquid. Ref-Elm. Gurvich,1991 pt1 p308 pt2 p268.",
+		"TempIntervals": 1,
+		"IdCode": "tpis91",
+		"ChemicalFormula": [
 			{
-				"symbol": "Ge",
-				"numberOfAtoms": 1.00
+				"Symbol": "Ge",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 72.61000,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 72.61000,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 1211.400, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -1284,20 +1284,20 @@
 		]
 	},
 	{
-		"species": "H2",
-		"description": "Ref-Elm. Gurvich,1978 v1 pt2 1978 p31.",
-		"tIntervals": 3,
-		"idCode": "tpis78",
-		"chemicalformula": [
+		"Name": "H2",
+		"Description": "Ref-Elm. Gurvich,1978 v1 pt2 1978 p31.",
+		"TempIntervals": 3,
+		"IdCode": "tpis78",
+		"ChemicalFormula": [
 			{
-				"symbol": "H",
-				"numberOfAtoms": 2.00
+				"Symbol": "H",
+				"NumberOfAtoms": 2.00
 			}
 		],
-		"phase_value": 0,
-		"molecularWeight": 2.01588,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 0,
+		"MolecularWeight": 2.01588,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 1000.000 ],
 				"numberOfCoefficients": 7,
@@ -1325,20 +1325,20 @@
 		]
 	},
 	{
-		"species": "He",
-		"description": "Ref-Elm. Moore,1971; Moore,1970a.",
-		"tIntervals": 3,
-		"idCode": "g 5/97",
-		"chemicalformula": [
+		"Name": "He",
+		"Description": "Ref-Elm. Moore,1971; Moore,1970a.",
+		"TempIntervals": 3,
+		"IdCode": "g 5/97",
+		"ChemicalFormula": [
 			{
-				"symbol": "He",
-				"numberOfAtoms": 1.00
+				"Symbol": "He",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 0,
-		"molecularWeight": 4.00260,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 0,
+		"MolecularWeight": 4.00260,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 1000.000 ],
 				"numberOfCoefficients": 7,
@@ -1366,20 +1366,20 @@
 		]
 	},
 	{
-		"species": "Hg(cr)",
-		"description": "Tetragonal. Ref-Elm. Chase,1998 p1373.",
-		"tIntervals": 1,
-		"idCode": "j12/61",
-		"chemicalformula": [
+		"Name": "Hg(cr)",
+		"Description": "Tetragonal. Ref-Elm. Chase,1998 p1373.",
+		"TempIntervals": 1,
+		"IdCode": "j12/61",
+		"ChemicalFormula": [
 			{
-				"symbol": "Hg",
-				"numberOfAtoms": 1.00
+				"Symbol": "Hg",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 200.59000,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 200.59000,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 100.000, 234.290 ],
 				"numberOfCoefficients": 7,
@@ -1391,20 +1391,20 @@
 		]
 	},
 	{
-		"species": "Hg(L)",
-		"description": "Liquid. Ref-Elm. Chase,1998 p1373.",
-		"tIntervals": 2,
-		"idCode": "j12/61",
-		"chemicalformula": [
+		"Name": "Hg(L)",
+		"Description": "Liquid. Ref-Elm. Chase,1998 p1373.",
+		"TempIntervals": 2,
+		"IdCode": "j12/61",
+		"ChemicalFormula": [
 			{
-				"symbol": "Hg",
-				"numberOfAtoms": 1.00
+				"Symbol": "Hg",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 200.59000,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 200.59000,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 234.290, 600.000 ],
 				"numberOfCoefficients": 7,
@@ -1424,20 +1424,20 @@
 		]
 	},
 	{
-		"species": "I2(cr)",
-		"description": "Rhombic. Ref-Elm. Gurvich,1989 pt1 p219 pt2 p315.",
-		"tIntervals": 1,
-		"idCode": "tpis89",
-		"chemicalformula": [
+		"Name": "I2(cr)",
+		"Description": "Rhombic. Ref-Elm. Gurvich,1989 pt1 p219 pt2 p315.",
+		"TempIntervals": 1,
+		"IdCode": "tpis89",
+		"ChemicalFormula": [
 			{
-				"symbol": "I",
-				"numberOfAtoms": 2.00
+				"Symbol": "I",
+				"NumberOfAtoms": 2.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 253.80894,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 253.80894,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 386.750 ],
 				"numberOfCoefficients": 7,
@@ -1449,20 +1449,20 @@
 		]
 	},
 	{
-		"species": "I2(L)",
-		"description": "Liquid. Ref-Elm. Gurvich,1989 pt1 p219 pt2 p315.",
-		"tIntervals": 1,
-		"idCode": "tpis89",
-		"chemicalformula": [
+		"Name": "I2(L)",
+		"Description": "Liquid. Ref-Elm. Gurvich,1989 pt1 p219 pt2 p315.",
+		"TempIntervals": 1,
+		"IdCode": "tpis89",
+		"ChemicalFormula": [
 			{
-				"symbol": "I",
-				"numberOfAtoms": 2.00
+				"Symbol": "I",
+				"NumberOfAtoms": 2.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 253.80894,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 253.80894,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 386.750, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -1474,20 +1474,20 @@
 		]
 	},
 	{
-		"species": "In(cr)",
-		"description": "Tetragonal. Ref-Elm. Gurvich,1996 v3 pt1 255 pt2 p207.",
-		"tIntervals": 1,
-		"idCode": "tpis96",
-		"chemicalformula": [
+		"Name": "In(cr)",
+		"Description": "Tetragonal. Ref-Elm. Gurvich,1996 v3 pt1 255 pt2 p207.",
+		"TempIntervals": 1,
+		"IdCode": "tpis96",
+		"ChemicalFormula": [
 			{
-				"symbol": "In",
-				"numberOfAtoms": 1.00
+				"Symbol": "In",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 114.81800,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 114.81800,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 100.000, 429.784 ],
 				"numberOfCoefficients": 7,
@@ -1499,20 +1499,20 @@
 		]
 	},
 	{
-		"species": "In(L)",
-		"description": "Liquid. Ref-Elm. Gurvich,1996 v3 pt1 255 pt2 p207.",
-		"tIntervals": 1,
-		"idCode": "tpis96",
-		"chemicalformula": [
+		"Name": "In(L)",
+		"Description": "Liquid. Ref-Elm. Gurvich,1996 v3 pt1 255 pt2 p207.",
+		"TempIntervals": 1,
+		"IdCode": "tpis96",
+		"ChemicalFormula": [
 			{
-				"symbol": "In",
-				"numberOfAtoms": 1.00
+				"Symbol": "In",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 114.81800,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 114.81800,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 429.784, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -1524,20 +1524,20 @@
 		]
 	},
 	{
-		"species": "K(cr)",
-		"description": "Cubic. Ref-Elm. Cox,1989.",
-		"tIntervals": 1,
-		"idCode": "coda89",
-		"chemicalformula": [
+		"Name": "K(cr)",
+		"Description": "Cubic. Ref-Elm. Cox,1989.",
+		"TempIntervals": 1,
+		"IdCode": "coda89",
+		"ChemicalFormula": [
 			{
-				"symbol": "K",
-				"numberOfAtoms": 1.00
+				"Symbol": "K",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 39.09830,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 39.09830,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 336.860 ],
 				"numberOfCoefficients": 7,
@@ -1549,20 +1549,20 @@
 		]
 	},
 	{
-		"species": "K(L)",
-		"description": "Liquid. Ref-Elm. Cox,1989.",
-		"tIntervals": 1,
-		"idCode": "coda89",
-		"chemicalformula": [
+		"Name": "K(L)",
+		"Description": "Liquid. Ref-Elm. Cox,1989.",
+		"TempIntervals": 1,
+		"IdCode": "coda89",
+		"ChemicalFormula": [
 			{
-				"symbol": "K",
-				"numberOfAtoms": 1.00
+				"Symbol": "K",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 39.09830,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 39.09830,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 336.860, 2200.000 ],
 				"numberOfCoefficients": 7,
@@ -1574,20 +1574,20 @@
 		]
 	},
 	{
-		"species": "Kr",
-		"description": "Ref-Elm. Sugar,1991.",
-		"tIntervals": 3,
-		"idCode": "g 8/97",
-		"chemicalformula": [
+		"Name": "Kr",
+		"Description": "Ref-Elm. Sugar,1991.",
+		"TempIntervals": 3,
+		"IdCode": "g 8/97",
+		"ChemicalFormula": [
 			{
-				"symbol": "Kr",
-				"numberOfAtoms": 1.00
+				"Symbol": "Kr",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 0,
-		"molecularWeight": 83.80000,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 0,
+		"MolecularWeight": 83.80000,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 1000.000 ],
 				"numberOfCoefficients": 7,
@@ -1615,20 +1615,20 @@
 		]
 	},
 	{
-		"species": "Li(cr)",
-		"description": "Crystal. Ref-Elm. Gurvich,1982 pt1 p245 pt2 p286.",
-		"tIntervals": 2,
-		"idCode": "tpis82",
-		"chemicalformula": [
+		"Name": "Li(cr)",
+		"Description": "Crystal. Ref-Elm. Gurvich,1982 pt1 p245 pt2 p286.",
+		"TempIntervals": 2,
+		"IdCode": "tpis82",
+		"ChemicalFormula": [
 			{
-				"symbol": "Li",
-				"numberOfAtoms": 1.00
+				"Symbol": "Li",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 6.94100,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 6.94100,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 298.150 ],
 				"numberOfCoefficients": 7,
@@ -1648,20 +1648,20 @@
 		]
 	},
 	{
-		"species": "Li(L)",
-		"description": "Liquid. Ref-Elm. Gurvich,1982 pt1 p245 pt2 p286.",
-		"tIntervals": 1,
-		"idCode": "tpis82",
-		"chemicalformula": [
+		"Name": "Li(L)",
+		"Description": "Liquid. Ref-Elm. Gurvich,1982 pt1 p245 pt2 p286.",
+		"TempIntervals": 1,
+		"IdCode": "tpis82",
+		"ChemicalFormula": [
 			{
-				"symbol": "Li",
-				"numberOfAtoms": 1.00
+				"Symbol": "Li",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 6.94100,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 6.94100,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 453.690, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -1673,20 +1673,20 @@
 		]
 	},
 	{
-		"species": "Mg(cr)",
-		"description": "Hexagonal. Ref-Elm. Alcock,1993.",
-		"tIntervals": 2,
-		"idCode": "srd 93",
-		"chemicalformula": [
+		"Name": "Mg(cr)",
+		"Description": "Hexagonal. Ref-Elm. Alcock,1993.",
+		"TempIntervals": 2,
+		"IdCode": "srd 93",
+		"ChemicalFormula": [
 			{
-				"symbol": "Mg",
-				"numberOfAtoms": 1.00
+				"Symbol": "Mg",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 24.30500,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 24.30500,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 100.000, 298.150 ],
 				"numberOfCoefficients": 7,
@@ -1706,20 +1706,20 @@
 		]
 	},
 	{
-		"species": "Mg(L)",
-		"description": "Liquid. Ref-Elm.  Alcock,1993.",
-		"tIntervals": 1,
-		"idCode": "srd 93",
-		"chemicalformula": [
+		"Name": "Mg(L)",
+		"Description": "Liquid. Ref-Elm.  Alcock,1993.",
+		"TempIntervals": 1,
+		"IdCode": "srd 93",
+		"ChemicalFormula": [
 			{
-				"symbol": "Mg",
-				"numberOfAtoms": 1.00
+				"Symbol": "Mg",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 24.30500,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 24.30500,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 923.000, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -1731,20 +1731,20 @@
 		]
 	},
 	{
-		"species": "Mn(a)",
-		"description": "Alpha. Ref-Elm. Chase,1998 p1571.",
-		"tIntervals": 1,
-		"idCode": "j 9/67",
-		"chemicalformula": [
+		"Name": "Mn(a)",
+		"Description": "Alpha. Ref-Elm. Chase,1998 p1571.",
+		"TempIntervals": 1,
+		"IdCode": "j 9/67",
+		"ChemicalFormula": [
 			{
-				"symbol": "Mn",
-				"numberOfAtoms": 1.00
+				"Symbol": "Mn",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 54.93805,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 54.93805,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 980.000 ],
 				"numberOfCoefficients": 7,
@@ -1756,20 +1756,20 @@
 		]
 	},
 	{
-		"species": "Mn(b)",
-		"description": "Beta. Ref-Elm. Chase,1998 p1571.",
-		"tIntervals": 1,
-		"idCode": "j 9/67",
-		"chemicalformula": [
+		"Name": "Mn(b)",
+		"Description": "Beta. Ref-Elm. Chase,1998 p1571.",
+		"TempIntervals": 1,
+		"IdCode": "j 9/67",
+		"ChemicalFormula": [
 			{
-				"symbol": "Mn",
-				"numberOfAtoms": 1.00
+				"Symbol": "Mn",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 54.93805,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 54.93805,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 980.000, 1361.000 ],
 				"numberOfCoefficients": 7,
@@ -1781,20 +1781,20 @@
 		]
 	},
 	{
-		"species": "Mn(c)",
-		"description": "Gamma. Ref-Elm. Chase,1998 p1571.",
-		"tIntervals": 1,
-		"idCode": "j 9/67",
-		"chemicalformula": [
+		"Name": "Mn(c)",
+		"Description": "Gamma. Ref-Elm. Chase,1998 p1571.",
+		"TempIntervals": 1,
+		"IdCode": "j 9/67",
+		"ChemicalFormula": [
 			{
-				"symbol": "Mn",
-				"numberOfAtoms": 1.00
+				"Symbol": "Mn",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 3,
-		"molecularWeight": 54.93805,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 3,
+		"MolecularWeight": 54.93805,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 1361.000, 1412.000 ],
 				"numberOfCoefficients": 7,
@@ -1806,20 +1806,20 @@
 		]
 	},
 	{
-		"species": "Mn(d)",
-		"description": "Delta. Ref-Elm. Chase,1998 p1571.",
-		"tIntervals": 1,
-		"idCode": "j 9/67",
-		"chemicalformula": [
+		"Name": "Mn(d)",
+		"Description": "Delta. Ref-Elm. Chase,1998 p1571.",
+		"TempIntervals": 1,
+		"IdCode": "j 9/67",
+		"ChemicalFormula": [
 			{
-				"symbol": "Mn",
-				"numberOfAtoms": 1.00
+				"Symbol": "Mn",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 4,
-		"molecularWeight": 54.93805,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 4,
+		"MolecularWeight": 54.93805,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 1412.000, 1519.000 ],
 				"numberOfCoefficients": 7,
@@ -1831,20 +1831,20 @@
 		]
 	},
 	{
-		"species": "Mn(L)",
-		"description": "Liquid. Ref-Elm. Chase,1998 p1571.",
-		"tIntervals": 1,
-		"idCode": "j 9/67",
-		"chemicalformula": [
+		"Name": "Mn(L)",
+		"Description": "Liquid. Ref-Elm. Chase,1998 p1571.",
+		"TempIntervals": 1,
+		"IdCode": "j 9/67",
+		"ChemicalFormula": [
 			{
-				"symbol": "Mn",
-				"numberOfAtoms": 1.00
+				"Symbol": "Mn",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 5,
-		"molecularWeight": 54.93805,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 5,
+		"MolecularWeight": 54.93805,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 1519.000, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -1856,20 +1856,20 @@
 		]
 	},
 	{
-		"species": "Mo(cr)",
-		"description": "Crystal. Ref-Elm. Chase,1998 p1577.",
-		"tIntervals": 3,
-		"idCode": "j 3/78",
-		"chemicalformula": [
+		"Name": "Mo(cr)",
+		"Description": "Crystal. Ref-Elm. Chase,1998 p1577.",
+		"TempIntervals": 3,
+		"IdCode": "j 3/78",
+		"ChemicalFormula": [
 			{
-				"symbol": "Mo",
-				"numberOfAtoms": 1.00
+				"Symbol": "Mo",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 95.94000,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 95.94000,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 1000.000 ],
 				"numberOfCoefficients": 7,
@@ -1897,20 +1897,20 @@
 		]
 	},
 	{
-		"species": "Mo(L)",
-		"description": "Liquid. Ref-Elm. Chase,1998 p1577.",
-		"tIntervals": 1,
-		"idCode": "j 3/78",
-		"chemicalformula": [
+		"Name": "Mo(L)",
+		"Description": "Liquid. Ref-Elm. Chase,1998 p1577.",
+		"TempIntervals": 1,
+		"IdCode": "j 3/78",
+		"ChemicalFormula": [
 			{
-				"symbol": "Mo",
-				"numberOfAtoms": 1.00
+				"Symbol": "Mo",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 95.94000,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 95.94000,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 2896.000, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -1922,20 +1922,20 @@
 		]
 	},
 	{
-		"species": "N2",
-		"description": "Ref-Elm. Gurvich,1978 pt1 p280 pt2 p207.",
-		"tIntervals": 3,
-		"idCode": "tpis78",
-		"chemicalformula": [
+		"Name": "N2",
+		"Description": "Ref-Elm. Gurvich,1978 pt1 p280 pt2 p207.",
+		"TempIntervals": 3,
+		"IdCode": "tpis78",
+		"ChemicalFormula": [
 			{
-				"symbol": "N",
-				"numberOfAtoms": 2.00
+				"Symbol": "N",
+				"NumberOfAtoms": 2.00
 			}
 		],
-		"phase_value": 0,
-		"molecularWeight": 28.01348,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 0,
+		"MolecularWeight": 28.01348,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 1000.000 ],
 				"numberOfCoefficients": 7,
@@ -1963,20 +1963,20 @@
 		]
 	},
 	{
-		"species": "Na(cr)",
-		"description": "Cubic. Ref-Elm. Cox,1989 p254.",
-		"tIntervals": 1,
-		"idCode": "coda89",
-		"chemicalformula": [
+		"Name": "Na(cr)",
+		"Description": "Cubic. Ref-Elm. Cox,1989 p254.",
+		"TempIntervals": 1,
+		"IdCode": "coda89",
+		"ChemicalFormula": [
 			{
-				"symbol": "Na",
-				"numberOfAtoms": 1.00
+				"Symbol": "Na",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 22.98977,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 22.98977,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 371.010 ],
 				"numberOfCoefficients": 7,
@@ -1988,20 +1988,20 @@
 		]
 	},
 	{
-		"species": "Na(L)",
-		"description": "Liquid. Ref-Elm. Cox,1989 p254.",
-		"tIntervals": 1,
-		"idCode": "coda89",
-		"chemicalformula": [
+		"Name": "Na(L)",
+		"Description": "Liquid. Ref-Elm. Cox,1989 p254.",
+		"TempIntervals": 1,
+		"IdCode": "coda89",
+		"ChemicalFormula": [
 			{
-				"symbol": "Na",
-				"numberOfAtoms": 1.00
+				"Symbol": "Na",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 22.98977,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 22.98977,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 371.010, 2300.000 ],
 				"numberOfCoefficients": 7,
@@ -2013,20 +2013,20 @@
 		]
 	},
 	{
-		"species": "Nb(cr)",
-		"description": "Crystal. Ref-Elm. Chase,1998 p1675.",
-		"tIntervals": 3,
-		"idCode": "j12/73",
-		"chemicalformula": [
+		"Name": "Nb(cr)",
+		"Description": "Crystal. Ref-Elm. Chase,1998 p1675.",
+		"TempIntervals": 3,
+		"IdCode": "j12/73",
+		"ChemicalFormula": [
 			{
-				"symbol": "Nb",
-				"numberOfAtoms": 1.00
+				"Symbol": "Nb",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 92.90638,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 92.90638,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 1000.000 ],
 				"numberOfCoefficients": 7,
@@ -2054,20 +2054,20 @@
 		]
 	},
 	{
-		"species": "Nb(L)",
-		"description": "Liquid. Ref-Elm. Chase,1998 p1675.",
-		"tIntervals": 1,
-		"idCode": "j12/73",
-		"chemicalformula": [
+		"Name": "Nb(L)",
+		"Description": "Liquid. Ref-Elm. Chase,1998 p1675.",
+		"TempIntervals": 1,
+		"IdCode": "j12/73",
+		"ChemicalFormula": [
 			{
-				"symbol": "Nb",
-				"numberOfAtoms": 1.00
+				"Symbol": "Nb",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 92.90638,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 92.90638,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 2750.000, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -2079,20 +2079,20 @@
 		]
 	},
 	{
-		"species": "Ne",
-		"description": "Ref-Elm. Moore,1971. Moore,1970a.",
-		"tIntervals": 3,
-		"idCode": "g 5/97",
-		"chemicalformula": [
+		"Name": "Ne",
+		"Description": "Ref-Elm. Moore,1971. Moore,1970a.",
+		"TempIntervals": 3,
+		"IdCode": "g 5/97",
+		"ChemicalFormula": [
 			{
-				"symbol": "Ne",
-				"numberOfAtoms": 1.00
+				"Symbol": "Ne",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 0,
-		"molecularWeight": 20.17970,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 0,
+		"MolecularWeight": 20.17970,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 1000.000 ],
 				"numberOfCoefficients": 7,
@@ -2120,20 +2120,20 @@
 		]
 	},
 	{
-		"species": "Ni(cr)",
-		"description": "Crystal Ref-Elm. <lambda trans 631K. Chase,1998 p1697.",
-		"tIntervals": 2,
-		"idCode": "j12/76",
-		"chemicalformula": [
+		"Name": "Ni(cr)",
+		"Description": "Crystal Ref-Elm. <lambda trans 631K. Chase,1998 p1697.",
+		"TempIntervals": 2,
+		"IdCode": "j12/76",
+		"ChemicalFormula": [
 			{
-				"symbol": "Ni",
-				"numberOfAtoms": 1.00
+				"Symbol": "Ni",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 58.69340,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 58.69340,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 400.000 ],
 				"numberOfCoefficients": 7,
@@ -2153,20 +2153,20 @@
 		]
 	},
 	{
-		"species": "Ni(cr)",
-		"description": "Crystal Ref-Elm. >lambda trans 631K. Chase,1998 p1697.",
-		"tIntervals": 2,
-		"idCode": "j12/76",
-		"chemicalformula": [
+		"Name": "Ni(cr)",
+		"Description": "Crystal Ref-Elm. >lambda trans 631K. Chase,1998 p1697.",
+		"TempIntervals": 2,
+		"IdCode": "j12/76",
+		"ChemicalFormula": [
 			{
-				"symbol": "Ni",
-				"numberOfAtoms": 1.00
+				"Symbol": "Ni",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 58.69340,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 58.69340,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 631.000, 1200.000 ],
 				"numberOfCoefficients": 7,
@@ -2186,20 +2186,20 @@
 		]
 	},
 	{
-		"species": "Ni(L)",
-		"description": "Liquid. Ref-Elm. Chase,1998 p1697.",
-		"tIntervals": 1,
-		"idCode": "j12/76",
-		"chemicalformula": [
+		"Name": "Ni(L)",
+		"Description": "Liquid. Ref-Elm. Chase,1998 p1697.",
+		"TempIntervals": 1,
+		"IdCode": "j12/76",
+		"ChemicalFormula": [
 			{
-				"symbol": "Ni",
-				"numberOfAtoms": 1.00
+				"Symbol": "Ni",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 3,
-		"molecularWeight": 58.69340,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 3,
+		"MolecularWeight": 58.69340,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 1728.000, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -2211,20 +2211,20 @@
 		]
 	},
 	{
-		"species": "O2",
-		"description": "Ref-Elm. Gurvich,1989 pt1 p94 pt2 p9.",
-		"tIntervals": 3,
-		"idCode": "tpis89",
-		"chemicalformula": [
+		"Name": "O2",
+		"Description": "Ref-Elm. Gurvich,1989 pt1 p94 pt2 p9.",
+		"TempIntervals": 3,
+		"IdCode": "tpis89",
+		"ChemicalFormula": [
 			{
-				"symbol": "O",
-				"numberOfAtoms": 2.00
+				"Symbol": "O",
+				"NumberOfAtoms": 2.00
 			}
 		],
-		"phase_value": 0,
-		"molecularWeight": 31.9988000,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 0,
+		"MolecularWeight": 31.9988000,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 1000.000 ],
 				"numberOfCoefficients": 7,
@@ -2252,20 +2252,20 @@
 		]
 	},
 	{
-		"species": "P(cr)",
-		"description": "White. Ref-Elm. Gurvich,1989 pt1 p395 pt2 p326.",
-		"tIntervals": 1,
-		"idCode": "tpis89",
-		"chemicalformula": [
+		"Name": "P(cr)",
+		"Description": "White. Ref-Elm. Gurvich,1989 pt1 p395 pt2 p326.",
+		"TempIntervals": 1,
+		"IdCode": "tpis89",
+		"ChemicalFormula": [
 			{
-				"symbol": "P",
-				"numberOfAtoms": 1.00
+				"Symbol": "P",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 30.97376,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 30.97376,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 195.400, 317.300 ],
 				"numberOfCoefficients": 7,
@@ -2277,20 +2277,20 @@
 		]
 	},
 	{
-		"species": "P(L)",
-		"description": "Liquid. Ref-Elm. Gurvich,1989 pt1 p395 pt2 p326.",
-		"tIntervals": 1,
-		"idCode": "tpis89",
-		"chemicalformula": [
+		"Name": "P(L)",
+		"Description": "Liquid. Ref-Elm. Gurvich,1989 pt1 p395 pt2 p326.",
+		"TempIntervals": 1,
+		"IdCode": "tpis89",
+		"ChemicalFormula": [
 			{
-				"symbol": "P",
-				"numberOfAtoms": 1.00
+				"Symbol": "P",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 30.97376,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 30.97376,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 317.300, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -2302,20 +2302,20 @@
 		]
 	},
 	{
-		"species": "Pb(cr)",
-		"description": "Cubic. Ref-Elm. Gurvich,1991 pt1 p400 pt2 p337.",
-		"tIntervals": 1,
-		"idCode": "tpis91",
-		"chemicalformula": [
+		"Name": "Pb(cr)",
+		"Description": "Cubic. Ref-Elm. Gurvich,1991 pt1 p400 pt2 p337.",
+		"TempIntervals": 1,
+		"IdCode": "tpis91",
+		"ChemicalFormula": [
 			{
-				"symbol": "Pb",
-				"numberOfAtoms": 1.00
+				"Symbol": "Pb",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 207.20000,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 207.20000,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 600.650 ],
 				"numberOfCoefficients": 7,
@@ -2327,20 +2327,20 @@
 		]
 	},
 	{
-		"species": "Pb(L)",
-		"description": "Liquid. Ref-Elm. Gurvich,1991 pt1 p400 pt2 p337.",
-		"tIntervals": 1,
-		"idCode": "tpis91",
-		"chemicalformula": [
+		"Name": "Pb(L)",
+		"Description": "Liquid. Ref-Elm. Gurvich,1991 pt1 p400 pt2 p337.",
+		"TempIntervals": 1,
+		"IdCode": "tpis91",
+		"ChemicalFormula": [
 			{
-				"symbol": "Pb",
-				"numberOfAtoms": 1.00
+				"Symbol": "Pb",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 207.20000,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 207.20000,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 600.650, 3600.000 ],
 				"numberOfCoefficients": 7,
@@ -2352,20 +2352,20 @@
 		]
 	},
 	{
-		"species": "Rb(cr)",
-		"description": "Cubic. Ref-Elm. Cox,1989. Chase,1998 p1849 12/83.",
-		"tIntervals": 1,
-		"idCode": "coda89",
-		"chemicalformula": [
+		"Name": "Rb(cr)",
+		"Description": "Cubic. Ref-Elm. Cox,1989. Chase,1998 p1849 12/83.",
+		"TempIntervals": 1,
+		"IdCode": "coda89",
+		"ChemicalFormula": [
 			{
-				"symbol": "Rb",
-				"numberOfAtoms": 1.00
+				"Symbol": "Rb",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 85.46780,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 85.46780,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 100.000, 312.470 ],
 				"numberOfCoefficients": 7,
@@ -2377,20 +2377,20 @@
 		]
 	},
 	{
-		"species": "Rb(L)",
-		"description": "Liquid. Ref-Elm. Cox,1989.",
-		"tIntervals": 2,
-		"idCode": "coda89",
-		"chemicalformula": [
+		"Name": "Rb(L)",
+		"Description": "Liquid. Ref-Elm. Cox,1989.",
+		"TempIntervals": 2,
+		"IdCode": "coda89",
+		"ChemicalFormula": [
 			{
-				"symbol": "Rb",
-				"numberOfAtoms": 1.00
+				"Symbol": "Rb",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 85.46780,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 85.46780,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 312.470, 1000.000 ],
 				"numberOfCoefficients": 7,
@@ -2410,20 +2410,20 @@
 		]
 	},
 	{
-		"species": "Rn",
-		"description": "Ref-Elm. Moore,1971.",
-		"tIntervals": 3,
-		"idCode": "g 5/97",
-		"chemicalformula": [
+		"Name": "Rn",
+		"Description": "Ref-Elm. Moore,1971.",
+		"TempIntervals": 3,
+		"IdCode": "g 5/97",
+		"ChemicalFormula": [
 			{
-				"symbol": "Rn",
-				"numberOfAtoms": 1.00
+				"Symbol": "Rn",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 0,
-		"molecularWeight": 222.01760,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 0,
+		"MolecularWeight": 222.01760,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 1000.000 ],
 				"numberOfCoefficients": 7,
@@ -2451,20 +2451,20 @@
 		]
 	},
 	{
-		"species": "S(a)",
-		"description": "Alpha. Ref-Elm. Gurvich,1989 pt1 p265 pt2 p160.",
-		"tIntervals": 1,
-		"idCode": "tpis89",
-		"chemicalformula": [
+		"Name": "S(a)",
+		"Description": "Alpha. Ref-Elm. Gurvich,1989 pt1 p265 pt2 p160.",
+		"TempIntervals": 1,
+		"IdCode": "tpis89",
+		"ChemicalFormula": [
 			{
-				"symbol": "S",
-				"numberOfAtoms": 1.00
+				"Symbol": "S",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 32.06600,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 32.06600,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 368.300 ],
 				"numberOfCoefficients": 7,
@@ -2476,20 +2476,20 @@
 		]
 	},
 	{
-		"species": "S(b)",
-		"description": "Beta. Ref-Elm. Gurvich,1989 pt1 p265 pt2 p160.",
-		"tIntervals": 1,
-		"idCode": "tpis89",
-		"chemicalformula": [
+		"Name": "S(b)",
+		"Description": "Beta. Ref-Elm. Gurvich,1989 pt1 p265 pt2 p160.",
+		"TempIntervals": 1,
+		"IdCode": "tpis89",
+		"ChemicalFormula": [
 			{
-				"symbol": "S",
-				"numberOfAtoms": 1.00
+				"Symbol": "S",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 32.06600,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 32.06600,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 368.300, 388.360 ],
 				"numberOfCoefficients": 7,
@@ -2501,20 +2501,20 @@
 		]
 	},
 	{
-		"species": "S(L)",
-		"description": "Liquid. Ref-Elm. Gurvich,1989 pt1 p265 pt2 p160.",
-		"tIntervals": 5,
-		"idCode": "tpis89",
-		"chemicalformula": [
+		"Name": "S(L)",
+		"Description": "Liquid. Ref-Elm. Gurvich,1989 pt1 p265 pt2 p160.",
+		"TempIntervals": 5,
+		"IdCode": "tpis89",
+		"ChemicalFormula": [
 			{
-				"symbol": "S",
-				"numberOfAtoms": 1.00
+				"Symbol": "S",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 3,
-		"molecularWeight": 32.06600,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 3,
+		"MolecularWeight": 32.06600,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 388.360, 428.150 ],
 				"numberOfCoefficients": 7,
@@ -2558,20 +2558,20 @@
 		]
 	},
 	{
-		"species": "Sc(a)",
-		"description": "Alpha.  Ref-Elm. Gurvich,1982 pt1 p137 pt2 p138.",
-		"tIntervals": 2,
-		"idCode": "tpis82",
-		"chemicalformula": [
+		"Name": "Sc(a)",
+		"Description": "Alpha.  Ref-Elm. Gurvich,1982 pt1 p137 pt2 p138.",
+		"TempIntervals": 2,
+		"IdCode": "tpis82",
+		"ChemicalFormula": [
 			{
-				"symbol": "Sc",
-				"numberOfAtoms": 1.00
+				"Symbol": "Sc",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 44.95591,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 44.95591,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 100.000, 400.000 ],
 				"numberOfCoefficients": 7,
@@ -2591,20 +2591,20 @@
 		]
 	},
 	{
-		"species": "Sc(b)",
-		"description": "Beta.  Ref-Elm. Gurvich,1982 pt1 p137 pt2 p138.",
-		"tIntervals": 1,
-		"idCode": "tpis82",
-		"chemicalformula": [
+		"Name": "Sc(b)",
+		"Description": "Beta.  Ref-Elm. Gurvich,1982 pt1 p137 pt2 p138.",
+		"TempIntervals": 1,
+		"IdCode": "tpis82",
+		"ChemicalFormula": [
 			{
-				"symbol": "Sc",
-				"numberOfAtoms": 1.00
+				"Symbol": "Sc",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 44.95591,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 44.95591,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 1609.000, 1814.000 ],
 				"numberOfCoefficients": 7,
@@ -2616,20 +2616,20 @@
 		]
 	},
 	{
-		"species": "Sc(L)",
-		"description": "Liquid.  Ref-Elm. Gurvich,1982 pt1 p137 pt2 p138.",
-		"tIntervals": 1,
-		"idCode": "tpis82",
-		"chemicalformula": [
+		"Name": "Sc(L)",
+		"Description": "Liquid.  Ref-Elm. Gurvich,1982 pt1 p137 pt2 p138.",
+		"TempIntervals": 1,
+		"IdCode": "tpis82",
+		"ChemicalFormula": [
 			{
-				"symbol": "Sc",
-				"numberOfAtoms": 1.00
+				"Symbol": "Sc",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 3,
-		"molecularWeight": 44.95591,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 3,
+		"MolecularWeight": 44.95591,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 1814.000, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -2641,20 +2641,20 @@
 		]
 	},
 	{
-		"species": "Si(cr)",
-		"description": "Cubic. Ref-Elm. Gurvich,1991 pt1 p236 pt2 p220.",
-		"tIntervals": 2,
-		"idCode": "tpis91",
-		"chemicalformula": [
+		"Name": "Si(cr)",
+		"Description": "Cubic. Ref-Elm. Gurvich,1991 pt1 p236 pt2 p220.",
+		"TempIntervals": 2,
+		"IdCode": "tpis91",
+		"ChemicalFormula": [
 			{
-				"symbol": "Si",
-				"numberOfAtoms": 1.00
+				"Symbol": "Si",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 28.08550,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 28.08550,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 298.150 ],
 				"numberOfCoefficients": 7,
@@ -2674,20 +2674,20 @@
 		]
 	},
 	{
-		"species": "Si(L)",
-		"description": "Liquid. Ref-Elm. Gurvich,1991 pt1 p236 pt2 p220.",
-		"tIntervals": 1,
-		"idCode": "tpis91",
-		"chemicalformula": [
+		"Name": "Si(L)",
+		"Description": "Liquid. Ref-Elm. Gurvich,1991 pt1 p236 pt2 p220.",
+		"TempIntervals": 1,
+		"IdCode": "tpis91",
+		"ChemicalFormula": [
 			{
-				"symbol": "Si",
-				"numberOfAtoms": 1.00
+				"Symbol": "Si",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 28.08550,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 28.08550,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 1690.000, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -2699,20 +2699,20 @@
 		]
 	},
 	{
-		"species": "Sn(cr)",
-		"description": "CrI,tetragonal. Ref-Elm. Gurvich,1991 pt1 p350 pt2 p300.",
-		"tIntervals": 1,
-		"idCode": "tpis91",
-		"chemicalformula": [
+		"Name": "Sn(cr)",
+		"Description": "CrI,tetragonal. Ref-Elm. Gurvich,1991 pt1 p350 pt2 p300.",
+		"TempIntervals": 1,
+		"IdCode": "tpis91",
+		"ChemicalFormula": [
 			{
-				"symbol": "Sn",
-				"numberOfAtoms": 1.00
+				"Symbol": "Sn",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 118.71000,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 118.71000,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 505.118 ],
 				"numberOfCoefficients": 7,
@@ -2724,20 +2724,20 @@
 		]
 	},
 	{
-		"species": "Sn(L)",
-		"description": "Liquid. Ref-Elm. Gurvich,1991 pt1 p350 pt2 p300.",
-		"tIntervals": 1,
-		"idCode": "tpis91",
-		"chemicalformula": [
+		"Name": "Sn(L)",
+		"Description": "Liquid. Ref-Elm. Gurvich,1991 pt1 p350 pt2 p300.",
+		"TempIntervals": 1,
+		"IdCode": "tpis91",
+		"ChemicalFormula": [
 			{
-				"symbol": "Sn",
-				"numberOfAtoms": 1.00
+				"Symbol": "Sn",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 118.71000,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 118.71000,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 505.118, 4700.000 ],
 				"numberOfCoefficients": 7,
@@ -2749,20 +2749,20 @@
 		]
 	},
 	{
-		"species": "Sr(a)",
-		"description": "Alpha. Ref-Elm. Alcock,1993.",
-		"tIntervals": 2,
-		"idCode": "srd 93",
-		"chemicalformula": [
+		"Name": "Sr(a)",
+		"Description": "Alpha. Ref-Elm. Alcock,1993.",
+		"TempIntervals": 2,
+		"IdCode": "srd 93",
+		"ChemicalFormula": [
 			{
-				"symbol": "Sr",
-				"numberOfAtoms": 1.00
+				"Symbol": "Sr",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 87.62000,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 87.62000,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 100.000, 298.150 ],
 				"numberOfCoefficients": 7,
@@ -2782,20 +2782,20 @@
 		]
 	},
 	{
-		"species": "Sr(b)",
-		"description": "Beta. Ref-Elm. Alcock,1993.",
-		"tIntervals": 1,
-		"idCode": "srd 93",
-		"chemicalformula": [
+		"Name": "Sr(b)",
+		"Description": "Beta. Ref-Elm. Alcock,1993.",
+		"TempIntervals": 1,
+		"IdCode": "srd 93",
+		"ChemicalFormula": [
 			{
-				"symbol": "Sr",
-				"numberOfAtoms": 1.00
+				"Symbol": "Sr",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 87.62000,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 87.62000,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 820.000, 1041.000 ],
 				"numberOfCoefficients": 7,
@@ -2807,20 +2807,20 @@
 		]
 	},
 	{
-		"species": "Sr(L)",
-		"description": "Liquid. Ref-Elm. Alcock,1993.",
-		"tIntervals": 1,
-		"idCode": "srd 93",
-		"chemicalformula": [
+		"Name": "Sr(L)",
+		"Description": "Liquid. Ref-Elm. Alcock,1993.",
+		"TempIntervals": 1,
+		"IdCode": "srd 93",
+		"ChemicalFormula": [
 			{
-				"symbol": "Sr",
-				"numberOfAtoms": 1.00
+				"Symbol": "Sr",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 3,
-		"molecularWeight": 87.62000,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 3,
+		"MolecularWeight": 87.62000,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 1041.000, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -2832,20 +2832,20 @@
 		]
 	},
 	{
-		"species": "Ta(cr)",
-		"description": "Crystal. Ref-Elm. Chase,1998 p1899.",
-		"tIntervals": 3,
-		"idCode": "j12/72",
-		"chemicalformula": [
+		"Name": "Ta(cr)",
+		"Description": "Crystal. Ref-Elm. Chase,1998 p1899.",
+		"TempIntervals": 3,
+		"IdCode": "j12/72",
+		"ChemicalFormula": [
 			{
-				"symbol": "Ta",
-				"numberOfAtoms": 1.00
+				"Symbol": "Ta",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 180.94790,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 180.94790,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 1000.000 ],
 				"numberOfCoefficients": 7,
@@ -2873,20 +2873,20 @@
 		]
 	},
 	{
-		"species": "Ta(L)",
-		"description": "Liquid. Ref-Elm. Chase,1998 p1899.",
-		"tIntervals": 1,
-		"idCode": "j12/72",
-		"chemicalformula": [
+		"Name": "Ta(L)",
+		"Description": "Liquid. Ref-Elm. Chase,1998 p1899.",
+		"TempIntervals": 1,
+		"IdCode": "j12/72",
+		"ChemicalFormula": [
 			{
-				"symbol": "Ta",
-				"numberOfAtoms": 1.00
+				"Symbol": "Ta",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 180.94790,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 180.94790,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 3258.000, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -2898,20 +2898,20 @@
 		]
 	},
 	{
-		"species": "Th(a)",
-		"description": "Alpha. Ref-Elm. Cox,1989 p239.",
-		"tIntervals": 1,
-		"idCode": "coda89",
-		"chemicalformula": [
+		"Name": "Th(a)",
+		"Description": "Alpha. Ref-Elm. Cox,1989 p239.",
+		"TempIntervals": 1,
+		"IdCode": "coda89",
+		"ChemicalFormula": [
 			{
-				"symbol": "Th",
-				"numberOfAtoms": 1.00
+				"Symbol": "Th",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 232.03810,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 232.03810,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 1650.000 ],
 				"numberOfCoefficients": 7,
@@ -2923,20 +2923,20 @@
 		]
 	},
 	{
-		"species": "Th(b)",
-		"description": "Beta. Ref-Elm. Cox,1989 p239.",
-		"tIntervals": 1,
-		"idCode": "coda89",
-		"chemicalformula": [
+		"Name": "Th(b)",
+		"Description": "Beta. Ref-Elm. Cox,1989 p239.",
+		"TempIntervals": 1,
+		"IdCode": "coda89",
+		"ChemicalFormula": [
 			{
-				"symbol": "Th",
-				"numberOfAtoms": 1.00
+				"Symbol": "Th",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 232.03810,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 232.03810,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 1650.000, 2023.000 ],
 				"numberOfCoefficients": 7,
@@ -2948,20 +2948,20 @@
 		]
 	},
 	{
-		"species": "Th(L)",
-		"description": "Liquid. Ref-Elm. Cox,1989 p239.",
-		"tIntervals": 1,
-		"idCode": "coda89",
-		"chemicalformula": [
+		"Name": "Th(L)",
+		"Description": "Liquid. Ref-Elm. Cox,1989 p239.",
+		"TempIntervals": 1,
+		"IdCode": "coda89",
+		"ChemicalFormula": [
 			{
-				"symbol": "Th",
-				"numberOfAtoms": 1.00
+				"Symbol": "Th",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 3,
-		"molecularWeight": 232.03810,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 3,
+		"MolecularWeight": 232.03810,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 2023.000, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -2973,20 +2973,20 @@
 		]
 	},
 	{
-		"species": "Ti(a)",
-		"description": "Alpha Crystal. Ref-Elm. Cox,1989 p230.",
-		"tIntervals": 2,
-		"idCode": "coda89",
-		"chemicalformula": [
+		"Name": "Ti(a)",
+		"Description": "Alpha Crystal. Ref-Elm. Cox,1989 p230.",
+		"TempIntervals": 2,
+		"IdCode": "coda89",
+		"ChemicalFormula": [
 			{
-				"symbol": "Ti",
-				"numberOfAtoms": 1.00
+				"Symbol": "Ti",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 47.86700,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 47.86700,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 900.000 ],
 				"numberOfCoefficients": 7,
@@ -3006,20 +3006,20 @@
 		]
 	},
 	{
-		"species": "Ti(b)",
-		"description": "Beta Crystal. Ref-Elm. Cox,1989 p230.",
-		"tIntervals": 1,
-		"idCode": "coda89",
-		"chemicalformula": [
+		"Name": "Ti(b)",
+		"Description": "Beta Crystal. Ref-Elm. Cox,1989 p230.",
+		"TempIntervals": 1,
+		"IdCode": "coda89",
+		"ChemicalFormula": [
 			{
-				"symbol": "Ti",
-				"numberOfAtoms": 1.00
+				"Symbol": "Ti",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 47.86700,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 47.86700,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 1156.000, 1944.000 ],
 				"numberOfCoefficients": 7,
@@ -3031,20 +3031,20 @@
 		]
 	},
 	{
-		"species": "Ti(L)",
-		"description": "Liquid. Ref-Elm. Cox,1989 p230.",
-		"tIntervals": 1,
-		"idCode": "coda89",
-		"chemicalformula": [
+		"Name": "Ti(L)",
+		"Description": "Liquid. Ref-Elm. Cox,1989 p230.",
+		"TempIntervals": 1,
+		"IdCode": "coda89",
+		"ChemicalFormula": [
 			{
-				"symbol": "Ti",
-				"numberOfAtoms": 1.00
+				"Symbol": "Ti",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 3,
-		"molecularWeight": 47.86700,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 3,
+		"MolecularWeight": 47.86700,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 1944.000, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -3056,20 +3056,20 @@
 		]
 	},
 	{
-		"species": "U(a)",
-		"description": "Alpha. Ref-Elm. Cox,1989 p234.",
-		"tIntervals": 1,
-		"idCode": "coda89",
-		"chemicalformula": [
+		"Name": "U(a)",
+		"Description": "Alpha. Ref-Elm. Cox,1989 p234.",
+		"TempIntervals": 1,
+		"IdCode": "coda89",
+		"ChemicalFormula": [
 			{
-				"symbol": "U",
-				"numberOfAtoms": 1.00
+				"Symbol": "U",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 238.02890,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 238.02890,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 942.000 ],
 				"numberOfCoefficients": 7,
@@ -3081,20 +3081,20 @@
 		]
 	},
 	{
-		"species": "U(b)",
-		"description": "Beta. Ref-Elm. Cox,1989 p234.",
-		"tIntervals": 1,
-		"idCode": "coda89",
-		"chemicalformula": [
+		"Name": "U(b)",
+		"Description": "Beta. Ref-Elm. Cox,1989 p234.",
+		"TempIntervals": 1,
+		"IdCode": "coda89",
+		"ChemicalFormula": [
 			{
-				"symbol": "U",
-				"numberOfAtoms": 1.00
+				"Symbol": "U",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 238.02890,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 238.02890,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 942.000, 1049.000 ],
 				"numberOfCoefficients": 7,
@@ -3106,20 +3106,20 @@
 		]
 	},
 	{
-		"species": "U(c)",
-		"description": "Gamma. Ref-Elm. Cox,1989 p234.",
-		"tIntervals": 1,
-		"idCode": "coda89",
-		"chemicalformula": [
+		"Name": "U(c)",
+		"Description": "Gamma. Ref-Elm. Cox,1989 p234.",
+		"TempIntervals": 1,
+		"IdCode": "coda89",
+		"ChemicalFormula": [
 			{
-				"symbol": "U",
-				"numberOfAtoms": 1.00
+				"Symbol": "U",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 3,
-		"molecularWeight": 238.02890,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 3,
+		"MolecularWeight": 238.02890,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 1049.000, 1408.000 ],
 				"numberOfCoefficients": 7,
@@ -3131,20 +3131,20 @@
 		]
 	},
 	{
-		"species": "U(L)",
-		"description": "Liquid. Ref-Elm. Cox,1989 p234.",
-		"tIntervals": 1,
-		"idCode": "coda89",
-		"chemicalformula": [
+		"Name": "U(L)",
+		"Description": "Liquid. Ref-Elm. Cox,1989 p234.",
+		"TempIntervals": 1,
+		"IdCode": "coda89",
+		"ChemicalFormula": [
 			{
-				"symbol": "U",
-				"numberOfAtoms": 1.00
+				"Symbol": "U",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 4,
-		"molecularWeight": 238.02890,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 4,
+		"MolecularWeight": 238.02890,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 1408.000, 4000.000 ],
 				"numberOfCoefficients": 7,
@@ -3156,20 +3156,20 @@
 		]
 	},
 	{
-		"species": "V(cr)",
-		"description": "Crystal. Ref-Elm. Chase,1998 p1917.",
-		"tIntervals": 3,
-		"idCode": "j 6/73",
-		"chemicalformula": [
+		"Name": "V(cr)",
+		"Description": "Crystal. Ref-Elm. Chase,1998 p1917.",
+		"TempIntervals": 3,
+		"IdCode": "j 6/73",
+		"ChemicalFormula": [
 			{
-				"symbol": "V",
-				"numberOfAtoms": 1.00
+				"Symbol": "V",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 50.94150,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 50.94150,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 600.000 ],
 				"numberOfCoefficients": 7,
@@ -3197,20 +3197,20 @@
 		]
 	},
 	{
-		"species": "V(L)",
-		"description": "Liquid. Ref-Elm. Chase,1998 p1917.",
-		"tIntervals": 1,
-		"idCode": "j 6/73",
-		"chemicalformula": [
+		"Name": "V(L)",
+		"Description": "Liquid. Ref-Elm. Chase,1998 p1917.",
+		"TempIntervals": 1,
+		"IdCode": "j 6/73",
+		"ChemicalFormula": [
 			{
-				"symbol": "V",
-				"numberOfAtoms": 1.00
+				"Symbol": "V",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 50.94150,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 50.94150,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 2190.000, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -3222,20 +3222,20 @@
 		]
 	},
 	{
-		"species": "W(cr)",
-		"description": "Crystal. Ref-Elm. Chase,1998 p1925.",
-		"tIntervals": 4,
-		"idCode": "j 6/66",
-		"chemicalformula": [
+		"Name": "W(cr)",
+		"Description": "Crystal. Ref-Elm. Chase,1998 p1925.",
+		"TempIntervals": 4,
+		"IdCode": "j 6/66",
+		"ChemicalFormula": [
 			{
-				"symbol": "W",
-				"numberOfAtoms": 1.00
+				"Symbol": "W",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 183.84000,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 183.84000,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 1000.000 ],
 				"numberOfCoefficients": 7,
@@ -3271,20 +3271,20 @@
 		]
 	},
 	{
-		"species": "W(L)",
-		"description": "Liquid. Ref-Elm. Chase,1998 p1925.",
-		"tIntervals": 1,
-		"idCode": "j 6/66",
-		"chemicalformula": [
+		"Name": "W(L)",
+		"Description": "Liquid. Ref-Elm. Chase,1998 p1925.",
+		"TempIntervals": 1,
+		"IdCode": "j 6/66",
+		"ChemicalFormula": [
 			{
-				"symbol": "W",
-				"numberOfAtoms": 1.00
+				"Symbol": "W",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 183.84000,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 183.84000,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 3680.000, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -3296,20 +3296,20 @@
 		]
 	},
 	{
-		"species": "Xe",
-		"description": "Ref-Elm. Moore,1971. Moore,1971a.",
-		"tIntervals": 3,
-		"idCode": "g 1/99",
-		"chemicalformula": [
+		"Name": "Xe",
+		"Description": "Ref-Elm. Moore,1971. Moore,1971a.",
+		"TempIntervals": 3,
+		"IdCode": "g 1/99",
+		"ChemicalFormula": [
 			{
-				"symbol": "Xe",
-				"numberOfAtoms": 1.00
+				"Symbol": "Xe",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 0,
-		"molecularWeight": 131.29000,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 0,
+		"MolecularWeight": 131.29000,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 1000.000 ],
 				"numberOfCoefficients": 7,
@@ -3337,20 +3337,20 @@
 		]
 	},
 	{
-		"species": "Zn(cr)",
-		"description": "Crystal. Ref-Elm. Cox,1989 p221.",
-		"tIntervals": 1,
-		"idCode": "coda89",
-		"chemicalformula": [
+		"Name": "Zn(cr)",
+		"Description": "Crystal. Ref-Elm. Cox,1989 p221.",
+		"TempIntervals": 1,
+		"IdCode": "coda89",
+		"ChemicalFormula": [
 			{
-				"symbol": "Zn",
-				"numberOfAtoms": 1.00
+				"Symbol": "Zn",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 65.39000,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 65.39000,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 692.730 ],
 				"numberOfCoefficients": 7,
@@ -3362,20 +3362,20 @@
 		]
 	},
 	{
-		"species": "Zn(L)",
-		"description": "Liquid. Ref-Elm. Cox,1989 p221.",
-		"tIntervals": 1,
-		"idCode": "coda89",
-		"chemicalformula": [
+		"Name": "Zn(L)",
+		"Description": "Liquid. Ref-Elm. Cox,1989 p221.",
+		"TempIntervals": 1,
+		"IdCode": "coda89",
+		"ChemicalFormula": [
 			{
-				"symbol": "Zn",
-				"numberOfAtoms": 1.00
+				"Symbol": "Zn",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 65.39000,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 65.39000,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 692.730, 6000.000 ],
 				"numberOfCoefficients": 7,
@@ -3387,20 +3387,20 @@
 		]
 	},
 	{
-		"species": "Zr(a)",
-		"description": "Alpha. Ref-Elm. Chase,1998 p1943.",
-		"tIntervals": 1,
-		"idCode": "j 6/79",
-		"chemicalformula": [
+		"Name": "Zr(a)",
+		"Description": "Alpha. Ref-Elm. Chase,1998 p1943.",
+		"TempIntervals": 1,
+		"IdCode": "j 6/79",
+		"ChemicalFormula": [
 			{
-				"symbol": "Zr",
-				"numberOfAtoms": 1.00
+				"Symbol": "Zr",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 1,
-		"molecularWeight": 91.22400,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 1,
+		"MolecularWeight": 91.22400,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 200.000, 1135.000 ],
 				"numberOfCoefficients": 7,
@@ -3412,20 +3412,20 @@
 		]
 	},
 	{
-		"species": "Zr(b)",
-		"description": "Beta. Ref-Elm. Chase,1998 p1943.",
-		"tIntervals": 1,
-		"idCode": "j 6/79",
-		"chemicalformula": [
+		"Name": "Zr(b)",
+		"Description": "Beta. Ref-Elm. Chase,1998 p1943.",
+		"TempIntervals": 1,
+		"IdCode": "j 6/79",
+		"ChemicalFormula": [
 			{
-				"symbol": "Zr",
-				"numberOfAtoms": 1.00
+				"Symbol": "Zr",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 2,
-		"molecularWeight": 91.22400,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 2,
+		"MolecularWeight": 91.22400,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 1135.000, 2125.000 ],
 				"numberOfCoefficients": 7,
@@ -3437,20 +3437,20 @@
 		]
 	},
 	{
-		"species": "Zr(L)",
-		"description": "Liquid. Ref-Elm. Chase,1998 p1943.",
-		"tIntervals": 1,
-		"idCode": "j 6/79",
-		"chemicalformula": [
+		"Name": "Zr(L)",
+		"Description": "Liquid. Ref-Elm. Chase,1998 p1943.",
+		"TempIntervals": 1,
+		"IdCode": "j 6/79",
+		"ChemicalFormula": [
 			{
-				"symbol": "Zr",
-				"numberOfAtoms": 1.00
+				"Symbol": "Zr",
+				"NumberOfAtoms": 1.00
 			}
 		],
-		"phase_value": 3,
-		"molecularWeight": 91.22400,
-		"heatOfFormation": 0.000,
-		"dataRecords": [
+		"PhaseValue": 3,
+		"MolecularWeight": 91.22400,
+		"HeatOfFormation": 0.000,
+		"DataRecords": [
 			{
 				"temperatureRange": [ 2125.000, 6000.000 ],
 				"numberOfCoefficients": 7,

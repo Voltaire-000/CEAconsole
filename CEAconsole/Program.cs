@@ -75,6 +75,7 @@ Console.WriteLine("\n{0, -16} {1, -15} {2, -20} {3, -20} {4, -20} {5, -20} {6, -
 temperatureList.Add(0.0);
 heatCapacityList.Add(0.0);
 double defaultEnthalpyRef = (double)CPHSdefaults.ElementAt(0).Enthalpy_Ref;
+double defaultEntropyRef = (double)CPHSdefaults.ElementAt(0).Entropy_Ref;
 enthalpyChangeFromRefList.Add(-defaultEnthalpyRef); // 10.016 = this is from the CPHSdefaults
 entropyList.Add(0.0);
 gibbsList.Add(0.0); // Should say INFINITE TODO
@@ -86,10 +87,11 @@ logKlist.Add(0.0); // should say INFINITE TODO
 temperatureList.Add(298.15);
 double Kelvin = 298.15;
 heatCapacityList.Add(ThermoDynamics.HeatCapacity(Kelvin, coefficients, temperatureExponents));
-enthalpyChangeFromRefList.Add(ThermoDynamics.EnthalpyRefH298(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents));
+// TODO fix magic number
+enthalpyChangeFromRefList.Add(ThermoDynamics.EnthalpyRefH298(REFERENCE_TEMPERATURE,Kelvin, coefficients, temperatureExponents));
 // TODO fix entropy
-entropyList.Add(ThermoDynamics.Entropy(REFERENCE_TEMPERATURE, 187.0, Kelvin, coefficients, temperatureExponents));
-gibbsList.Add(ThermoDynamics.GibbsRef(REFERENCE_TEMPERATURE,187.0, Kelvin, coefficients, temperatureExponents));
+entropyList.Add(ThermoDynamics.Entropy(REFERENCE_TEMPERATURE, defaultEntropyRef, Kelvin, coefficients, temperatureExponents));
+gibbsList.Add(ThermoDynamics.GibbsRef(REFERENCE_TEMPERATURE, defaultEntropyRef, Kelvin, coefficients, temperatureExponents));
 double heatOfFormation = -74600.0;
 enthalpyList.Add(ThermoDynamics.Enthalpy(REFERENCE_TEMPERATURE,heatOfFormation, Kelvin, coefficients, temperatureExponents));
 //temperatureList.Add(Kelvin);
@@ -104,8 +106,8 @@ for (Kelvin = startTemp; Kelvin <= endTemp; Kelvin += increment)
     double cp_value = ThermoDynamics.HeatCapacity(Kelvin, coefficients, temperatureExponents);
     heatCapacityList.Add(cp_value);
     double enthalpy_change_from_ref_value = ThermoDynamics.EnthalpyRefH298(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents);
-    double entropy_value = ThermoDynamics.Entropy(REFERENCE_TEMPERATURE,187.0, Kelvin, coefficients, temperatureExponents);
-    double gibbs_value = ThermoDynamics.GibbsRef(REFERENCE_TEMPERATURE,187.0, Kelvin, coefficients, temperatureExponents);
+    double entropy_value = ThermoDynamics.Entropy(REFERENCE_TEMPERATURE,defaultEntropyRef, Kelvin, coefficients, temperatureExponents);
+    double gibbs_value = ThermoDynamics.GibbsRef(REFERENCE_TEMPERATURE,defaultEntropyRef, Kelvin, coefficients, temperatureExponents);
     double enthalpy_value = ThermoDynamics.Enthalpy(REFERENCE_TEMPERATURE,heatOfFormation, Kelvin, coefficients, temperatureExponents);
 
     if (Kelvin >= 998.15)
@@ -116,19 +118,19 @@ for (Kelvin = startTemp; Kelvin <= endTemp; Kelvin += increment)
     enthalpyChangeFromRefList.Add(Math.Round(enthalpy_change_from_ref_value, digits));
     if (Kelvin >= 998.15)
     {
-        double lastEnthalpy_value = ThermoDynamics.EnthalpyRefH298(REFERENCE_TEMPERATURE, endTemp, coefficients, temperatureExponents);
+        double lastEnthalpy_value = ThermoDynamics.EnthalpyRefH298(REFERENCE_TEMPERATURE,endTemp, coefficients, temperatureExponents);
         enthalpyChangeFromRefList.Add(lastEnthalpy_value);
     }
     entropyList.Add(entropy_value);
     if (Kelvin >= 998.15)
     {
-        double lastEntropy_value = ThermoDynamics.Entropy(REFERENCE_TEMPERATURE, 187.0, endTemp, coefficients, temperatureExponents);
+        double lastEntropy_value = ThermoDynamics.Entropy(REFERENCE_TEMPERATURE, defaultEntropyRef, endTemp, coefficients, temperatureExponents);
         entropyList.Add(lastEntropy_value);
     }
     gibbsList.Add(gibbs_value);
     if (Kelvin >= 998.15)
     {
-        double lastGibbs_value = ThermoDynamics.GibbsRef(REFERENCE_TEMPERATURE,187.0, endTemp, coefficients, temperatureExponents);
+        double lastGibbs_value = ThermoDynamics.GibbsRef(REFERENCE_TEMPERATURE,defaultEntropyRef, endTemp, coefficients, temperatureExponents);
         gibbsList.Add(lastGibbs_value);
     }
     enthalpyList.Add(enthalpy_value);

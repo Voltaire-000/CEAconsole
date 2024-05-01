@@ -64,11 +64,12 @@ namespace CEAconsole.Models
         /// <param name="T1"></param>
         /// <param name="coefficients">List of Temperature Coefficients from the NASA polynomials</param>
         /// <param name="tExpnts">List of coefficient exponents from the NASA polynomials</param>
-        /// <returns>Enthalpy (H) in kJ/mol</returns>
-        public static double EnthalpyRefH298(double referenceTemperature, double T1, List<double> coefficients, List<double> tExpnts)
+        /// <returns>Enthalpy (H-H298) in kJ/mol</returns>
+        public static double EnthalpyRefH298(double referenceTemperature,double T1, List<double> coefficients, List<double> tExpnts)
         {
             double integrand(double T) => HeatCapacity(T, coefficients, tExpnts);
-            return GaussKronrodRule.Integrate(integrand, referenceTemperature, T1, out double error, out double L1Norm, 1e-8) / 1000;
+            double enthalpy = GaussKronrodRule.Integrate(integrand, referenceTemperature, T1, out double error, out double L1Norm, 1e-8) / 1000;
+            return enthalpy;
         }
 
         /// <summary>
@@ -76,8 +77,8 @@ namespace CEAconsole.Models
         /// </summary>
         /// <param name="referenceTemperature">298.15 Kelvin</param>
         /// <param name="T1"></param>
-        /// <param name="coefficients"></param>
-        /// <param name="tExpnts"></param>
+        /// <param name="coefficients">List of Temperature Coefficients from the NASA polynomials</param>
+        /// <param name="tExpnts">List of coefficient exponents from the NASA polynomials</param>
         /// <returns>(enthalpy)H kJ/mol</returns>
         public static double Enthalpy(double referenceTemperature, double heatOfFormation, double T1, List<double> coefficients, List<double> tExpnts)
         {
@@ -91,11 +92,12 @@ namespace CEAconsole.Models
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="referenceTemperature"></param>
+        /// <param name="referenceTemperature">298.15 Kelvin</param>
+        /// <param name="referenceEntropy">"Entropy_Ref": </param>
         /// <param name="T1"></param>
-        /// <param name="coefficients"></param>
-        /// <param name="tExpnts"></param>
-        /// <returns></returns>
+        /// <param name="coefficients">List of Temperature Coefficients from the NASA polynomials</param>
+        /// <param name="tExpnts">List of coefficient exponents from the NASA polynomials</param>
+        /// <returns>Entropy S J/mol-K</returns>
         public static double Entropy(double referenceTemperature, double referenceEntropy, double T1, List<double> coefficients, List<double> tExpnts)
         {
             double integrand(double T) => HeatCapacity(T, coefficients, tExpnts)/T;
@@ -106,10 +108,10 @@ namespace CEAconsole.Models
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="referenceTemperature"></param>
-        /// <param name="T_1"></param>
-        /// <param name="coefficients"></param>
-        /// <param name="t_expnts"></param>
+        /// <param name="referenceTemperature">298.15 Kelvin</param>
+        /// <param name="T_1">Temperature in Kelvin being tested</param>
+        /// <param name="coefficients">List of Temperature Coefficients from the NASA polynomials</param>
+        /// <param name="t_expnts">List of coefficient exponents from the NASA polynomials</param>
         /// <returns></returns>
         public static double GibbsRef(double referenceTemperature, double referenceEntropy, double T_1, List<double> coefficients, List<double> t_expnts)
         {
@@ -128,8 +130,8 @@ namespace CEAconsole.Models
         /// </summary>
         /// <param name="refTemp">298.15 Kelvin</param>
         /// <param name="T1">Temperature in Kelvin</param>
-        /// <param name="coefficients">from NASA polynomials</param>
-        /// <param name="tExpnts">Temperature exponents</param>
+        /// <param name="coefficients">List of Temperature Coefficients from the NASA polynomials</param>
+        /// <param name="tExpnts">List of coefficient exponents from the NASA polynomials</param>
         /// <returns>Enthalpy H-H298 kJ/mol</returns>
         public static double EnthalpyFormation(double refTemp, double T1, List<double> coefficients, List<double> tExpnts)
         {
