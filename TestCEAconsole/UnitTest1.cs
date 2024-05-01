@@ -588,6 +588,7 @@ namespace TestCEAconsole
         {
             // Arrange
             string molecule = "CH4";
+            // TODO Update to NASApolynomials
             ICollection<Reactant> reactants = InputServices.GetSpecies("Data/newShortThermo.json");
             Assert.IsNotNull(reactants);
             var m_Molecule = from item in reactants
@@ -705,7 +706,8 @@ namespace TestCEAconsole
             // Get the reference data
             ICollection<CPHSRef> cphs_reference = InputServices.GetDefaultCPHS("Data/Ref_Defaults.json");
             Assert.IsNotNull(cphs_reference);
-            // Species data
+            // Species data 
+            // TODO Update to NASApolynomials
             ICollection<Reactant> AllSpecies = InputServices.GetSpecies("Data/newShortThermo.json");
             Assert.IsNotNull(AllSpecies);
 
@@ -941,6 +943,7 @@ namespace TestCEAconsole
         [TestMethod]
         public void Test_ReferenceElementHeatCapacity()
         {
+             // Update with the refElements.json file
             // Testing for Oxygen = O
      //               "temperatureRange": [ 200.000, 1000.000 ],
 					//"numberOfCoefficients": 7,
@@ -995,6 +998,7 @@ namespace TestCEAconsole
         [TestMethod]
         public void TestShouldAddCarbonAndHydrogenEnthalpy()
         {
+             // TODO update with NASApolynomials
             // CH4 
             // CH4 coefficients
             List<double> CH_t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
@@ -1048,6 +1052,7 @@ namespace TestCEAconsole
         [DataRow(1000.00, 14.860)]
         public void Test_ReferenceElementEnthalpy(double T, double expected)
         {
+            // TODO update with refElements.json
             // O coefficients
             List<double> temperatureRange = [200.0, 1000.0];
             List<double> t_exp = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
@@ -1213,6 +1218,7 @@ namespace TestCEAconsole
         [DataRow(1000.0, 0.0)]
         public void Test_MU(double Temperature, double expected)
         {
+            // TODO update with refElements.json
             double NG = 1;
             double Pp = 1.0;
             double Enn = 0.1;
