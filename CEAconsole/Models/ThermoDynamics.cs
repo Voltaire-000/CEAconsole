@@ -35,7 +35,6 @@ namespace CEAconsole.Models
         /// <returns>Heat capacity (Cp) in J/mol-K</returns>
         public static double HeatCapacity(double Temperature, List<double> coefficients, List<double> tExpnts)
         {
-            
             if (Temperature <=0)
             {
                 throw new ArgumentException("Temperature must be positive");

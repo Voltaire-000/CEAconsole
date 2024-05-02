@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using MathNet.Numerics.Distributions;
 using System.Xml.Linq;
 using ScottPlot.Colormaps;
+using System.Text.RegularExpressions;
 
 namespace TestCEAconsole
 {
@@ -588,8 +589,10 @@ namespace TestCEAconsole
         {
             // Arrange
             string molecule = "CH4";
+            string formula = "4C12ClO3";
             // TODO Update to NASApolynomials
             ICollection<Reactant> reactants = InputServices.GetSpecies("Data/newShortThermo.json");
+            ICollection<Species> species = InputServices.GetNASA("Data/NASApolynomials.json");
             Assert.IsNotNull(reactants);
             var m_Molecule = from item in reactants
                              where item.Name == molecule
@@ -597,12 +600,50 @@ namespace TestCEAconsole
 
             var expected = m_Molecule;
 
+            var m_CH4 = from item in species
+                        where item.Name == molecule
+                        select item;
+
+            var msplit = SplitMolecule(formula);
+
+            string symbol = "";
+            double numberAtoms = 0.0;
+            foreach (var item in m_CH4.ElementAt(0).ChemicalFormula)
+            {
+                symbol = item.Symbol;
+                numberAtoms = item.NumberOfAtoms;
+            }
+
+
             // Act
             //var result = MoleculeOperations.SplitMolecule(molecule);
 
             // Assert
             Assert.IsNotNull(m_Molecule);
 
+        }
+
+        private static string SplitMolecule(string formula)
+        {
+            // matches elements and numbers
+            string pattern = @"(\d+)?([A-Z][a-z]?)(\d*)";
+            // find all matches in the molecule string
+            MatchCollection matchCollection = Regex.Matches(formula, pattern);
+            // List to hold the split parts
+            List<string> splitParts = new();
+            foreach (Match match in matchCollection)
+            {
+                // capture the element symbol
+                string coefficient = match.Groups[1].Value;
+                string element = match.Groups[2].Value;
+                string quantity = match.Groups[3].Value;
+                // combine the element and quantity with a space (if quantity exists)
+                //splitParts.Add(element + (string.IsNullOrEmpty(quantity) ? "" : " " + quantity));
+                splitParts.Add((string.IsNullOrEmpty(coefficient) ? "" : coefficient + " ") + element + (string.IsNullOrEmpty(quantity) ? "" : " " + quantity));
+                //join the parts with 2 spaces as per the requirement
+                
+            }
+            return string.Join(" ", splitParts);
         }
     }
 
@@ -952,7 +993,7 @@ namespace TestCEAconsole
 					//"coefficients": [ -7.953611300e+03, 1.607177787e+02, 1.966226438e+00, 1.013670310e-03, -1.110415423e-06, 6.517507500e-10, -1.584779251e-13 ],
 					//"integrationConstants": [ 2.840362437e+04, 8.404241820e+00 ]
             List<double> temperatureRange = [200.0, 1000.0];
-            List<double> t_exp = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0];
+            List<double> t_exp = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
             List<double> coeff = [-7.953611300e+03, 1.607177787e+02, 1.966226438e+00, 1.013670310e-03, -1.110415423e-06, 6.517507500e-10, -1.584779251e-13];
             List<double> integrationConstants = [2.840362437e+04, 8.404241820e+00];
 
@@ -1082,7 +1123,7 @@ namespace TestCEAconsole
         {
             // O coefficients
             List<double> temperatureRange = [200.0, 1000.0];
-            List<double> t_exp = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0];
+            List<double> t_exp = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0,0.0];
             List<double> coeff = [-7.953611300e+03, 1.607177787e+02, 1.966226438e+00, 1.013670310e-03, -1.110415423e-06, 6.517507500e-10, -1.584779251e-13];
             List<double> integrationConstants = [2.840362437e+04, 8.404241820e+00];
 
@@ -1116,6 +1157,66 @@ namespace TestCEAconsole
         private static readonly IEnumerable<CPHSRef> m_referenceSpecie = (IEnumerable<CPHSRef>)(from m_specie in referenceCPHS
                                                                         where m_specie.Species_Name == searchString
                                                                         select m_specie);
+
+        [TestMethod]
+        public void TestEnthalpyOfReaction()
+        {
+            // H2(g) + CL2(g) <--> 2HCL(g)
+
+
+            var reactant_1 = from item in referenceCPHS
+                             where item.Species_Name == "H2"
+                             select (item.Delta_Enthalpy_Ref, item.Entropy_Ref);
+
+            var reactant_2 = from item in referenceCPHS
+                             where item.Species_Name == "CL2"
+                             select (item.Delta_Enthalpy_Ref, item.Entropy_Ref);
+
+            var product_1 = from item in referenceCPHS
+                            where item.Species_Name == "HCL"
+                            select (item.Delta_Enthalpy_Ref, item.Entropy_Ref);
+
+            var queryResult = from item in product_1
+                              select (DeltaEnthalpyRef: item.Delta_Enthalpy_Ref, EntropyRef: item.Entropy_Ref);
+
+            double productDeltaEnthalpyRef = 0.0;
+            double productEntropyRef = 0.0;
+            foreach ((double Delta_Enthalpy_Ref, double Entropy_Ref) in product_1)
+            {
+                productDeltaEnthalpyRef = Delta_Enthalpy_Ref;
+                productEntropyRef = Entropy_Ref;
+            }
+
+            double reactant_1DeltaEnthalpyRef = 0.0;
+            double reactant_1EntropyRef = 0.0;
+            foreach (var item in reactant_1)
+            {
+                reactant_1DeltaEnthalpyRef = item.Delta_Enthalpy_Ref;
+                reactant_1EntropyRef = item.Entropy_Ref;
+            }
+            double reactant_2DeltaEnthalpyRef = 0.0;
+            double reactant_2EntropyRef = 0.0;
+            foreach (var item in reactant_2)
+            {
+                reactant_2DeltaEnthalpyRef = item.Delta_Enthalpy_Ref;
+                reactant_2EntropyRef = item.Entropy_Ref;
+            }
+
+            // delta H_0_reaction = SUM n_p * deltaHf_0(p) - SUM n_r deltaHf_0(r)
+            var delta_H_0reaction = 2 * productDeltaEnthalpyRef - 1 * (reactant_1DeltaEnthalpyRef + reactant_2DeltaEnthalpyRef);
+            double expected_deltaH = -184.62;
+            Assert.AreEqual(expected_deltaH, delta_H_0reaction, delta);
+            // Entropy of reaction
+            // delta_S_0reaction = SUM n_p * S_0(p) - SUM n(r) * S_0(r)
+
+
+            double delta_S_0reaction = (2 * productEntropyRef) - (1 * (reactant_1EntropyRef + (1 * reactant_2EntropyRef)));
+
+            //  delta_G = delta_H - T * delta_S
+            double delta_G = delta_H_0reaction - 298.15 * delta_S_0reaction / 1000;
+            double expected_deltaG = -190.59582045;
+            Assert.AreEqual(expected_deltaG, delta_G,delta);
+        }
 
         [TestMethod]
         public void Test_New_HeatCapacity()

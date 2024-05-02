@@ -23,7 +23,7 @@ namespace CEAconsole.Models
         [JsonConverter(typeof(StringDoubleConverter))]
         public required object Enthalpy_Ref { get; set; }
 
-        public required object Entropy_Ref { get; set; }
+        public required double Entropy_Ref { get; set; }
 
     }
 }
