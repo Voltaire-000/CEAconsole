@@ -25,16 +25,16 @@ namespace TestCEAconsole
         [TestMethod]
         public void TestShouldReturnDeltaHf()
         {
-            ICollection<ReferenceElements> refElements = InputServices.GetReferenceElements("Data/refElements.json");
+            ICollection<ReferenceElement> refElements = InputServices.GetReferenceElements("Data/refElements.json");
             Assert.IsNotNull(refElements);
             // quality check count of Heat of formation <= 0
-            IEnumerable<ReferenceElements> HeatCheck = from element in refElements
+            IEnumerable<ReferenceElement> HeatCheck = from element in refElements
                             where element.HeatOfFormation != 0.0
                             select element;
 
             Assert.AreEqual(0.0, HeatCheck.Count());
-            IEnumerable<ReferenceElements> elementData = from element in refElements
-                         where element.Name == "e-"
+            IEnumerable<ReferenceElement> elementData = from element in refElements
+                         where element.Name == "H2"
                          select element;
 
             double heatOfFormation = elementData.First().HeatOfFormation;
@@ -52,8 +52,8 @@ namespace TestCEAconsole
             double a6 = coefficients[5];
             double a7 = coefficients[6];
 
-            double i8 = integrationConstants[0];
-            double i9 = integrationConstants[1];
+            double integrationConstantZero = integrationConstants[0];
+            double integrationConstantOne = integrationConstants[1];
 
             double S_RR = -a1 * Math.Pow(m_temp, -2) / 2
                           - a2 * Math.Pow(m_temp, -1)
@@ -62,7 +62,7 @@ namespace TestCEAconsole
                           + a5 * Math.Pow(m_temp, 2) / 2
                           + a6 * Math.Pow(m_temp, 3) / 3
                           + a7 * Math.Pow(m_temp, 4) / 4
-                          + i9;
+                          + integrationConstantOne;
 
             double SS = S_RR * gasConstant;
             Assert.AreEqual(1, elementData.Count());
@@ -70,6 +70,7 @@ namespace TestCEAconsole
             //double Enthalpy_Ref = 0.0;
             double v = ThermoDynamics.HeatCapacity(298.15, coefficients, tExpnts);
             double v1 = heatOfFormation - (double)(elementData.First().DataRecords.ElementAt(0).EnthalpyRef / 1000);
+            double m_entropy = ThermoDynamics.Entropy(298.15, tExpnts, coefficients, integrationConstants);
 
             string Species_Name = elementData.First().Name;                  // "H2"
             double Molecular_Weight = elementData.First().MolecularWeight;   // 2.01588
@@ -160,7 +161,7 @@ namespace TestCEAconsole
                                    select item.MolecularWeight).FirstOrDefault();
             double expected = 16.0424600;
 
-            Dictionary<string, CEAconsole.Models.Temperature_Range>.ValueCollection? tempRange = (from item in filteredCollection
+            Dictionary<string, CEAconsole.Models.DataRecord>.ValueCollection? tempRange = (from item in filteredCollection
                                                                                                   select item.TemperatureRange.Values).FirstOrDefault();
 
             Dictionary<string, double>? chemFormula = (from item in filteredCollection
@@ -172,7 +173,7 @@ namespace TestCEAconsole
             double? atoms = chemFormula?.ElementAt(0).Value;
             atoms ??= 0;
 
-            CEAconsole.Models.Temperature_Range? mx = tempRange?.ElementAt(0);
+            CEAconsole.Models.DataRecord? mx = tempRange?.ElementAt(0);
 
             Assert.AreEqual(expected, molecularWeight);
             //Assert.AreEqual(99, tempRange.ElementAt(1));
@@ -656,9 +657,8 @@ namespace TestCEAconsole
             // Arrange
             string molecule = "CH4";
             string formula = "4C12ClO3";
-            // TODO Update to NASApolynomials
-            ICollection<Reactant> reactants = InputServices.GetSpecies("Data/newShortThermo.json");
-            ICollection<Species> species = InputServices.GetNASA("Data/NASApolynomials.json");
+             ICollection<Reactant> reactants = InputServices.GetSpecies("Data/newShortThermo.json");
+            ICollection<Specie> species = InputServices.GetNASA("Data/NASApolynomials.json");
             Assert.IsNotNull(reactants);
             var m_Molecule = from item in reactants
                              where item.Name == molecule
@@ -719,7 +719,7 @@ namespace TestCEAconsole
         [TestMethod]
         public void Test_NASAnotNull()
         {
-            ICollection<Species> species = InputServices.GetNASA("Data/NASApolynomials.json");
+            ICollection<Specie> species = InputServices.GetNASA("Data/NASApolynomials.json");
             Assert.IsNotNull(species);
         }
 
@@ -727,7 +727,7 @@ namespace TestCEAconsole
         public void TestShouldReturnNamedSpecie()
         {
             string name = "CH4";
-            ICollection<Species> species = InputServices.GetNASA("Data/NASApolynomials.json");
+            ICollection<Specie> species = InputServices.GetNASA("Data/NASApolynomials.json");
             var m_specie = from item in species
                            where item.Name == name
                            select item;
@@ -740,7 +740,7 @@ namespace TestCEAconsole
         [TestMethod]
         public void TestShouldReturnPhasesGreaterThanZero()
         {
-            ICollection<Species> species = InputServices.GetNASA("Data/NASApolynomials.json");
+            ICollection<Specie> species = InputServices.GetNASA("Data/NASApolynomials.json");
             var m_specie = from item in species
                            where item.PhaseValue > 0
                            select item;
@@ -1037,7 +1037,7 @@ namespace TestCEAconsole
         [TestMethod]
         public void Test_ShouldReturnReferenceElements()
         {
-            ICollection<ReferenceElements> referenceElements = InputServices.GetReferenceElements("Data/refElements.json");
+            ICollection<ReferenceElement> referenceElements = InputServices.GetReferenceElements("Data/refElements.json");
             int referenceElementsCount = referenceElements.Count;
             Assert.AreEqual(referenceElementsCount, referenceElements.Count);
         }
@@ -1083,9 +1083,9 @@ namespace TestCEAconsole
         public void TestShouldReturnEnthaplyForElementOxygen(double Temperature, double expected)
         {
             string searchString = "O";
-            ICollection<Species> m_species = InputServices.GetNASA("Data/NASApolynomials.json");
+            ICollection<Specie> m_species = InputServices.GetNASA("Data/NASApolynomials.json");
 
-            IEnumerable<Species> m_reactant = from specie in m_species
+            IEnumerable<Specie> m_reactant = from specie in m_species
                                               where specie.Name == searchString
                                               select specie;
 
@@ -1205,24 +1205,35 @@ namespace TestCEAconsole
     [TestClass]
     public class TestThermodynamicMethods
     {
-        private static readonly ICollection<CPHSRef> referenceCPHS = InputServices.GetDefaultCPHS("Data/Ref_Defaults.json");
-        private static readonly ICollection<Species> refElements = InputServices.GetNASA("Data/refElements.json");
-        private static readonly ICollection<Species> species = InputServices.GetNASA("Data/NASApolynomials.json");
+        private static readonly string NASAsearchString = "CH4";
         private static readonly double referenceTemp = 298.15;
         private static readonly double delta = 0.005;
-        private static readonly string searchString = "CH4";
-        private static readonly IEnumerable<Species> m_reactant = from specie in species
-                                          where specie.Name == searchString
-                                          select specie;
-        private static ICollection<ChemicalFormula> chemicalFormula = m_reactant.First().ChemicalFormula;
-        private static readonly List<double> temperatureRange = m_reactant.First().DataRecords.ElementAt(0).TemperatureRange;
-        private static List<double> coefficients = m_reactant.First().DataRecords.ElementAt(0).Coefficients;
-        private static List<double> integrationConstants = m_reactant.First().DataRecords.ElementAt(0).IntegrationConstants;
-        private static readonly List<double> t_expnts = m_reactant.First().DataRecords.ElementAt(0).TExponents;
 
+        private static readonly ICollection<Specie> nasaPolynomials = InputServices.GetNASA("Data/NASApolynomials.json");
+        private static readonly IEnumerable<Specie> NASA_specie = from NASAspecie in nasaPolynomials
+                                                                  where NASAspecie.Name == NASAsearchString
+                                                                  select NASAspecie;
+        private static ICollection<ChemicalFormula> NASAchemicalFormula = NASA_specie.First().ChemicalFormula;
+        private static readonly List<double> NASAtemperatureRange = NASA_specie.First().DataRecords.ElementAt(0).TemperatureRange;
+        private static readonly List<double> NASACoefficients = NASA_specie.First().DataRecords.ElementAt(0).Coefficients;
+        private static readonly List<double> NASAIntegrationConstants = NASA_specie.First().DataRecords.ElementAt(0).IntegrationConstants;
+        private static readonly List<double> NASAExponents = NASA_specie.First().DataRecords.ElementAt(0).TExponents;
+
+        private static readonly string refSearchString = "O2";
+        private static readonly ICollection<Specie> refElementPolynomials = InputServices.GetNASA("Data/refElements.json");
+        private static readonly IEnumerable<Specie> ref_specie = from refSpecie in refElementPolynomials
+                                                                 where refSpecie.Name == refSearchString
+                                                                 select refSpecie;
+        private static ICollection<ChemicalFormula> refChemicalFormula = ref_specie.First().ChemicalFormula;
+        private static readonly List<double> refTemperatureRange = ref_specie.First().DataRecords.ElementAt(0).TemperatureRange;
+        private static readonly List<double> refCoefficients = ref_specie.First().DataRecords.ElementAt(0).Coefficients;
+        private static readonly List<double> refIntegrationConstants = ref_specie.First().DataRecords.ElementAt(0).IntegrationConstants;
+        private static readonly List<double> refExponents = ref_specie.First().DataRecords.ElementAt(0).TExponents;
+
+        private static readonly ICollection<CPHSRef> referenceCPHS = InputServices.GetDefaultCPHS("Data/Ref_Defaults.json");
         private static readonly IEnumerable<CPHSRef> m_referenceSpecie = (IEnumerable<CPHSRef>)(from m_specie in referenceCPHS
-                                                                        where m_specie.Species_Name == searchString
-                                                                        select m_specie);
+                                                                                                where m_specie.Species_Name == NASAsearchString
+                                                                                                select m_specie);
 
         [TestMethod]
         public void TestEnthalpyOfReaction()
@@ -1288,7 +1299,7 @@ namespace TestCEAconsole
         public void Test_New_HeatCapacity()
         {
             double Temperature = 1000;
-            double Cp = ThermoDynamics.HeatCapacity(Temperature, coefficients, t_expnts);
+            double Cp = ThermoDynamics.HeatCapacity(Temperature, NASACoefficients, NASAExponents);
             Assert.AreEqual(73.676, Cp, delta);
         }
 
@@ -1369,7 +1380,7 @@ namespace TestCEAconsole
         [DataRow(1000.00, 38.685)]
         public void Test_EnthalpyRefH298(double T, double expected)
         {
-            double enthalpy = ThermoDynamics.EnthalpyRefH298(referenceTemp, T, coefficients, t_expnts);
+            double enthalpy = ThermoDynamics.EnthalpyRefH298(referenceTemp, T, NASACoefficients, NASAExponents);
             Assert.AreEqual(expected, enthalpy, delta);
         }
 
@@ -1427,11 +1438,11 @@ namespace TestCEAconsole
 
             foreach (string formula in m_formula)
             {
-                var m_refElement = from element in refElements
+                var m_refElement = from element in refElementPolynomials
                                    where element.ChemicalFormula.First().Symbol == formula
                                    select element;
 
-                chemicalFormula = m_refElement.First().ChemicalFormula;
+                NASAchemicalFormula = m_refElement.First().ChemicalFormula;
                 temperatureRange = m_refElement.First().DataRecords.ElementAt(0).TemperatureRange;
                 coefficients = m_refElement.First().DataRecords.ElementAt(0).Coefficients;
                 integrationConstants = m_refElement.First().DataRecords.ElementAt(0).IntegrationConstants;
@@ -1441,7 +1452,7 @@ namespace TestCEAconsole
                 Cp_JmolK = ThermoDynamics.HeatCapacity(Temperature, coefficients, t_expnts);
                 Enthalpy_kJmol = ThermoDynamics.Enthalpy(refTemperature, heatOfFormation, Temperature, coefficients, t_expnts);
                 ref_entropy = 0.0;
-                Entropy_JmolK = ThermoDynamics.Entropy(refTemperature, ref_entropy, Temperature, coefficients, t_expnts);
+                Entropy_JmolK = ThermoDynamics.Entropy(refTemperature, t_expnts, coefficients, integrationConstants);
                 Gibbs_H298JmolK = ThermoDynamics.GibbsRef(refTemperature, ref_entropy, Temperature, coefficients, t_expnts);
                 //MU = ThermoDynamics.Calculate_MU(Gibbs_H298JmolK, Temperature, 1);
 
@@ -1484,8 +1495,16 @@ namespace TestCEAconsole
         [DataRow(1000.00, 248.331)]
         public void TestMultipleEntropyConditions(double T, double expected)
         {
-            double ref_entropy = (double)m_referenceSpecie.First().Entropy_Ref;
-            double result = ThermoDynamics.Entropy(referenceTemp, ref_entropy, T, coefficients, t_expnts);
+            // CH4 NASApolynomials.json
+            double result = ThermoDynamics.Entropy(T, NASAExponents, NASACoefficients, NASAIntegrationConstants);
+            Assert.AreEqual(expected, result, delta);
+        }
+        [DataTestMethod]
+        [DataRow(298.15, 205.1482)]
+        public void TestElementWith8Coefficients(double T, double expected)
+        {
+            //  O2 refElement.json
+            double result = ThermoDynamics.Entropy(T, refExponents, refCoefficients, refIntegrationConstants);
             Assert.AreEqual(expected, result, delta);
         }
 
@@ -1502,7 +1521,7 @@ namespace TestCEAconsole
         public void TestGibbs(double T, double expected)
         {
             double ref_entropy = (double)m_referenceSpecie.First().Entropy_Ref;
-            double thermoGibbs = ThermoDynamics.GibbsRef(referenceTemp, ref_entropy, T, coefficients, t_expnts);
+            double thermoGibbs = ThermoDynamics.GibbsRef(referenceTemp, ref_entropy, T, NASACoefficients, NASAExponents);
             Assert.AreEqual(expected, thermoGibbs, delta);
         }
 
@@ -1518,8 +1537,8 @@ namespace TestCEAconsole
         [DataRow(1000.00, -35.915)]
         public void TestThermoEnthalpyMethod(double T, double expected)
         {
-            double CH4HeatOfFormation = m_reactant.ElementAt(0).HeatOfFormation;
-            double enthalpy = ThermoDynamics.Enthalpy(referenceTemp,CH4HeatOfFormation, T, coefficients, t_expnts);
+            double CH4HeatOfFormation = NASA_specie.ElementAt(0).HeatOfFormation;
+            double enthalpy = ThermoDynamics.Enthalpy(referenceTemp,CH4HeatOfFormation, T, NASACoefficients, NASAExponents);
             Assert.AreEqual(expected, enthalpy, delta);
         }
 
@@ -1700,10 +1719,10 @@ namespace TestCEAconsole
         [TestMethod]
         public void TestAddNode()
         {
-            ICollection<Species> reactants = InputServices.GetNASA("Data/NASApolynomials.json");
+            ICollection<Specie> reactants = InputServices.GetNASA("Data/NASApolynomials.json");
             int reactantCount = reactants.Count;
 
-            List<Species>? filteredCollection = reactants?.Where(item => item.Name == "CH4").ToList();
+            List<Specie>? filteredCollection = reactants?.Where(item => item.Name == "CH4").ToList();
             var molecularWeight = (from item in filteredCollection
                                    select item.MolecularWeight).FirstOrDefault();
             double expected = 16.0424600;

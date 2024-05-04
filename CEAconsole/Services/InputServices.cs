@@ -28,11 +28,11 @@ namespace CEAconsole.Services
             return reactantCollection;
         }
 
-        public static ICollection<Species> GetNASA(string path)
+        public static ICollection<Specie> GetNASA(string path)
         {
             string m_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);
             string json = File.ReadAllText(m_path);
-            ICollection<Species>? speciesCollection = JsonConvert.DeserializeObject<ICollection<Species>>(json);
+            ICollection<Specie>? speciesCollection = JsonConvert.DeserializeObject<ICollection<Specie>>(json);
             return speciesCollection;
         }
 
@@ -53,11 +53,11 @@ namespace CEAconsole.Services
             return elements;
         }
 
-        public static ICollection<ReferenceElements> GetReferenceElements(string path)
+        public static ICollection<ReferenceElement> GetReferenceElements(string path)
         {
             string m_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);
             string json = File.ReadAllText(m_path);
-            ICollection<ReferenceElements>? referenceElementsCollection = JsonConvert.DeserializeObject<ICollection<ReferenceElements>>(json);
+            ICollection<ReferenceElement>? referenceElementsCollection = JsonConvert.DeserializeObject<ICollection<ReferenceElement>>(json);
             return referenceElementsCollection;
         }
 

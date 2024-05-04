@@ -16,7 +16,7 @@ namespace CEAconsole.Models
         public bool Gaseous { get; set; }
         public double MolecularWeight { get; set; }
         public double HeatOfFormation { get; set; }
-        public Dictionary<string, Temperature_Range> TemperatureRange { get; set; }
+        public Dictionary<string, DataRecord> TemperatureRange { get; set; }
     }
 
 }

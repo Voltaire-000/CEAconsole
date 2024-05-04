@@ -10,7 +10,7 @@
         public bool Gaseous { get; set; }
         public double MolecularWeight { get; set; }
         public double HeatOfFormation { get; set; }
-        public required Dictionary<string, Temperature_Range> TemperatureRange { get; set; }
+        public required Dictionary<string, DataRecord> TemperatureRange { get; set; }
     }
 
 }

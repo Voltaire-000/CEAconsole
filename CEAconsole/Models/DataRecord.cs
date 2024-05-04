@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CEAconsole.Models
 {
-    public class Temperature_Range
+    public class DataRecord
     {
         public required List<double> TemperatureRange { get; set; }
         public int NumberOfCoefficients { get; set; }

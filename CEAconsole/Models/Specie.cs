@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CEAconsole.Models
 {
-    public class Species
+    public class Specie
     {
         public required string Name { get; set; }
         public required string Description { get; set; }
@@ -16,6 +16,6 @@ namespace CEAconsole.Models
         public int PhaseValue { get; set; }
         public double MolecularWeight { get; set; }
         public double HeatOfFormation { get; set; }
-        public required ICollection<Temperature_Range> DataRecords { get; set; }
+        public required ICollection<DataRecord> DataRecords { get; set; }
     }
 }

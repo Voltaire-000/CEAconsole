@@ -33,27 +33,19 @@ namespace CEAconsole.Models
         /// <param name="coefficients">List of Temperature Coefficients from the NASA polynomials</param>
         /// <param name="tExpnts">List of coefficient exponents from the NASA polynomials</param>
         /// <returns>Heat capacity (Cp) in J/mol-K</returns>
-        public static double HeatCapacity(double Temperature, List<double> coefficients, List<double> tExpnts)
+        public static double HeatCapacity(double Temperature, List<double> coefficients, List<double> tExpnts, double GASCONSTANT = 8.31446261815324)
         {
             if (Temperature <=0)
             {
                 throw new ArgumentException("Temperature must be positive");
             }
-            // TODO temporary fix for tExpnts
-            if (coefficients.Count != tExpnts.Count - 1)
-            {
-                //throw new ArgumentException("Number of coefficients and exponents do not match");
-            }
-            if (coefficients.Count == 0)
-            {
-                throw new ArgumentException("No coefficients provided");
-            }
+
             double Cp = 0;
             for (int i = 0; i < coefficients.Count; i++)
             {
                 Cp += coefficients[i] * Math.Pow(Temperature, tExpnts[i]);
             }
-            return Cp * Gas_Constant_R;
+            return Cp * GASCONSTANT;
         }
 
         /// <summary>
@@ -91,17 +83,35 @@ namespace CEAconsole.Models
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="referenceTemperature">298.15 Kelvin</param>
-        /// <param name="referenceEntropy">"Entropy_Ref": </param>
-        /// <param name="T1"></param>
+        /// <param name="exponents">List of coefficient exponents from the NASA polynomials</param>
+        /// <param name="Temperature">Temperature in Kelvin</param>
         /// <param name="coefficients">List of Temperature Coefficients from the NASA polynomials</param>
-        /// <param name="tExpnts">List of coefficient exponents from the NASA polynomials</param>
+        /// <param name="exponents">List of integration constants from the NASA polynomials</param>
+        /// <param name="GASCONSTANT">Optional Universal Gas Constant = 8.31446261815324</param>
         /// <returns>Entropy S J/mol-K</returns>
-        public static double Entropy(double referenceTemperature, double referenceEntropy, double T1, List<double> coefficients, List<double> tExpnts)
+        public static double Entropy(double Temperature, List<double> exponents, List<double> coefficients, List<double> integrationConstants , double GASCONSTANT = 8.31446261815324)
         {
-            double integrand(double T) => HeatCapacity(T, coefficients, tExpnts)/T;
-            double integral = GaussKronrodRule.Integrate(integrand, referenceTemperature, T1, out double error, out double L1Norm, 1e-8);
-            return integral + referenceEntropy;
+            double a1 = coefficients[0];
+            double a2 = coefficients[1];
+            double a3 = coefficients[2];
+            double a4 = coefficients[3];
+            double a5 = coefficients[4];
+            double a6 = coefficients[5];
+            double a7 = coefficients[6];
+
+            double integrationConstantZero = integrationConstants[0];
+            double integrationConstantOne = integrationConstants[1];
+
+            double entropy = GASCONSTANT * (-a1 * Math.Pow(Temperature, exponents[0]) / 2
+              - a2 * Math.Pow(Temperature, exponents[1])
+              + a3 * Math.Log(Temperature)
+              + a4 * Temperature
+              + a5 * Math.Pow(Temperature, exponents[4]) / 2
+              + a6 * Math.Pow(Temperature, exponents[5]) / 3
+              + a7 * Math.Pow(Temperature, exponents[6]) / 4
+              + integrationConstantOne);
+            return entropy;
+
         }
 
         /// <summary>
