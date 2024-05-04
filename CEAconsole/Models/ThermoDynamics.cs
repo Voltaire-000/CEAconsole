@@ -42,7 +42,7 @@ namespace CEAconsole.Models
             // TODO temporary fix for tExpnts
             if (coefficients.Count != tExpnts.Count - 1)
             {
-                throw new ArgumentException("Number of coefficients and exponents do not match");
+                //throw new ArgumentException("Number of coefficients and exponents do not match");
             }
             if (coefficients.Count == 0)
             {

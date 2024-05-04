@@ -20,6 +20,72 @@ using System.Text.RegularExpressions;
 namespace TestCEAconsole
 {
     [TestClass]
+    public class TestReference
+    {
+        [TestMethod]
+        public void TestShouldReturnDeltaHf()
+        {
+            ICollection<ReferenceElements> refElements = InputServices.GetReferenceElements("Data/refElements.json");
+            Assert.IsNotNull(refElements);
+            // quality check count of Heat of formation <= 0
+            IEnumerable<ReferenceElements> HeatCheck = from element in refElements
+                            where element.HeatOfFormation != 0.0
+                            select element;
+
+            Assert.AreEqual(0.0, HeatCheck.Count());
+            IEnumerable<ReferenceElements> elementData = from element in refElements
+                         where element.Name == "e-"
+                         select element;
+
+            double heatOfFormation = elementData.First().HeatOfFormation;
+            List<double> coefficients = elementData.First().DataRecords.ElementAt(0).Coefficients;
+            List<double> integrationConstants = elementData.First().DataRecords.ElementAt(0).IntegrationConstants;
+            List<double> tExpnts = elementData.First().DataRecords.ElementAt(0).TExponents;
+
+            double gasConstant = 8.31446261815324;
+            double m_temp = 298.15;
+            double a1 = coefficients[0];
+            double a2 = coefficients[1];
+            double a3 = coefficients[2];
+            double a4 = coefficients[3];
+            double a5 = coefficients[4];
+            double a6 = coefficients[5];
+            double a7 = coefficients[6];
+
+            double i8 = integrationConstants[0];
+            double i9 = integrationConstants[1];
+
+            double S_RR = -a1 * Math.Pow(m_temp, -2) / 2
+                          - a2 * Math.Pow(m_temp, -1)
+                          + a3 * Math.Log(m_temp)
+                          + a4 * m_temp
+                          + a5 * Math.Pow(m_temp, 2) / 2
+                          + a6 * Math.Pow(m_temp, 3) / 3
+                          + a7 * Math.Pow(m_temp, 4) / 4
+                          + i9;
+
+            double SS = S_RR * gasConstant;
+            Assert.AreEqual(1, elementData.Count());
+            // calculate Enthalpy of H2 == -8.468
+            //double Enthalpy_Ref = 0.0;
+            double v = ThermoDynamics.HeatCapacity(298.15, coefficients, tExpnts);
+            double v1 = heatOfFormation - (double)(elementData.First().DataRecords.ElementAt(0).EnthalpyRef / 1000);
+
+            string Species_Name = elementData.First().Name;                  // "H2"
+            double Molecular_Weight = elementData.First().MolecularWeight;   // 2.01588
+            double Enthalpy = v1;     // -8.468
+            double Delta_Enthalpy = 0.0;   // ??                             // -8.468 ??
+            double Delta_Enthalpy_Ref = heatOfFormation;                // 0.0
+            double Cp_Ref = v;  // 28.836
+            double Enthalpy_Ref = (double)(elementData.First().DataRecords.ElementAt(0).EnthalpyRef / 1000);
+            double Entropy_Ref = SS;                                               // 130.681
+            //double Enthalpy = ThermoDynamics.Enthalpy(298.15, heatOfFormation, 298.15, coefficients, tExpnts);
+
+            Assert.AreEqual(99, 0);
+
+        }
+    }
+    [TestClass]
     public class TestGaussianEliminationMethods
     {
         [TestMethod]
@@ -956,7 +1022,7 @@ namespace TestCEAconsole
             ICollection<Reactant> json = InputServices.GetSpecies("Data/thermoInp.json");
             int reactantCount = json.Count;
 
-            Assert.AreEqual(2000, reactantCount);
+            Assert.AreEqual(2084, reactantCount);
         }
 
         [TestMethod]

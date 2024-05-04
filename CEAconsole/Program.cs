@@ -54,7 +54,7 @@ if (hasKeyRange_1)
         coefficients = firstTemperatureRangeObject.Coefficients;
         temperatureExponents = firstTemperatureRangeObject.TExponents;
         integrationConstants = firstTemperatureRangeObject.IntegrationConstants;
-        H_Enthalpy = firstTemperatureRangeObject.Hjmol;
+        H_Enthalpy = firstTemperatureRangeObject.EnthalpyRef;
     }
 }
 
@@ -74,7 +74,7 @@ Console.WriteLine("\n{0, -16} {1, -15} {2, -20} {3, -20} {4, -20} {5, -20} {6, -
 // add defaults and start up numbers
 temperatureList.Add(0.0);
 heatCapacityList.Add(0.0);
-double defaultEnthalpyRef = (double)CPHSdefaults.ElementAt(0).Enthalpy_Ref;
+double defaultEnthalpyRef = (double)CPHSdefaults.ElementAt(0).EnthalpyRef;
 double defaultEntropyRef = (double)CPHSdefaults.ElementAt(0).Entropy_Ref;
 enthalpyChangeFromRefList.Add(-defaultEnthalpyRef); // 10.016 = this is from the CPHSdefaults
 entropyList.Add(0.0);

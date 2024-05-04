@@ -11,7 +11,7 @@ namespace CEAconsole.Models
         public required List<double> TemperatureRange { get; set; }
         public int NumberOfCoefficients { get; set; }
         public required List<double> TExponents { get; set; }
-        public double Hjmol { get; set; }
+        public double EnthalpyRef { get; set; }
         public required List<double> Coefficients { get; set; }
         public required List<double> IntegrationConstants { get; set; }
     }

@@ -8,7 +8,7 @@ namespace CEAconsole.Models
 {
     public class ReferenceElements
     {
-        public required string Species { get; set; }
+        public required string Name { get; set; }
         public required string Description { get; set; }
         public int Tintervals { get; set; }
         public required string IdCode { get; set; }
