@@ -103,11 +103,11 @@ namespace CEAconsole.ThermoChemistry
             double enthalpy = GASCONSTANT * Temperature * (-a1 * Math.Pow(Temperature, temperatureExponents[0])
                                + a2 * Math.Pow(Temperature, temperatureExponents[1]) * Math.Log(Temperature)
                                + a3
-                               + a4 * Temperature / 2
-                               + a5 * Math.Pow(Temperature, 2) / 3
-                               + a6 * Math.Pow(Temperature, 3) / 4
-                               + a7 * Math.Pow(Temperature, 4) / 5
-                               + i8 / Temperature);
+                               + a4 * (Temperature / 2)
+                               + a5 * (Math.Pow(Temperature, temperatureExponents[4]) / 3)
+                               + a6 * (Math.Pow(Temperature, temperatureExponents[5]) / 4)
+                               + a7 * (Math.Pow(Temperature, temperatureExponents[6]) / 5)
+                               + (i8 / Temperature));
             if (double.IsNaN(enthalpy))
             {
                 enthalpy = 0.0;
@@ -296,6 +296,11 @@ namespace CEAconsole.ThermoChemistry
 
             return chemicalpotential;
 
+        }
+
+        public static double DeltaHf(double productEnthalpy, List<double> reactants)
+        {
+            return productEnthalpy - (reactants[0] + reactants[1]);
         }
     }
 }
