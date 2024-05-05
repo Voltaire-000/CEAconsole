@@ -24,69 +24,7 @@ namespace TestCEAconsole
     [TestClass]
     public class TestReference
     {
-        [TestMethod]
-        public void TestShouldReturnDeltaHf()
-        {
-            ICollection<ReferenceElement> refElements = InputServices.GetReferenceElements("Data/refElements.json");
-            Assert.IsNotNull(refElements);
-            // quality check count of Heat of formation <= 0
-            IEnumerable<ReferenceElement> HeatCheck = from element in refElements
-                            where element.HeatOfFormation != 0.0
-                            select element;
-
-            Assert.AreEqual(0.0, HeatCheck.Count());
-            IEnumerable<ReferenceElement> elementData = from element in refElements
-                         where element.Name == "H2"
-                         select element;
-
-            double heatOfFormation = elementData.First().HeatOfFormation;
-            List<double> coefficients = elementData.First().DataRecords.ElementAt(0).Coefficients;
-            List<double> integrationConstants = elementData.First().DataRecords.ElementAt(0).IntegrationConstants;
-            List<double> tExpnts = elementData.First().DataRecords.ElementAt(0).TExponents;
-
-            double gasConstant = 8.31446261815324;
-            double m_temp = 298.15;
-            double a1 = coefficients[0];
-            double a2 = coefficients[1];
-            double a3 = coefficients[2];
-            double a4 = coefficients[3];
-            double a5 = coefficients[4];
-            double a6 = coefficients[5];
-            double a7 = coefficients[6];
-
-            double integrationConstantZero = integrationConstants[0];
-            double integrationConstantOne = integrationConstants[1];
-
-            double S_RR = -a1 * Math.Pow(m_temp, -2) / 2
-                          - a2 * Math.Pow(m_temp, -1)
-                          + a3 * Math.Log(m_temp)
-                          + a4 * m_temp
-                          + a5 * Math.Pow(m_temp, 2) / 2
-                          + a6 * Math.Pow(m_temp, 3) / 3
-                          + a7 * Math.Pow(m_temp, 4) / 4
-                          + integrationConstantOne;
-
-            double SS = S_RR * gasConstant;
-            Assert.AreEqual(1, elementData.Count());
-            // calculate Enthalpy of H2 == -8.468
-            //double Enthalpy_Ref = 0.0;
-            double v = ThermoDynamics.HeatCapacity(298.15, coefficients, tExpnts);
-            double v1 = heatOfFormation - (double)(elementData.First().DataRecords.ElementAt(0).EnthalpyRef / 1000);
-            double m_entropy = ThermoDynamics.Entropy(298.15, tExpnts, coefficients, integrationConstants);
-
-            string Species_Name = elementData.First().Name;                  // "H2"
-            double Molecular_Weight = elementData.First().MolecularWeight;   // 2.01588
-            double Enthalpy = v1;     // -8.468
-            double Delta_Enthalpy = 0.0;   // ??                             // -8.468 ??
-            double Delta_Enthalpy_Ref = heatOfFormation;                // 0.0
-            double Cp_Ref = v;  // 28.836
-            double Enthalpy_Ref = (double)(elementData.First().DataRecords.ElementAt(0).EnthalpyRef / 1000);
-            double Entropy_Ref = SS;                                               // 130.681
-            //double Enthalpy = ThermoDynamics.Enthalpy(298.15, heatOfFormation, 298.15, coefficients, tExpnts);
-
-            Assert.AreEqual(99, 0);
-
-        }
+        
     }
     [TestClass]
     public class TestGaussianEliminationMethods
@@ -1223,27 +1161,79 @@ namespace TestCEAconsole
 
         private static readonly string refSearchString = "O2";
         private static readonly ICollection<Specie> refElementPolynomials = InputServices.GetNASA("Data/refElements.json");
-        private static readonly IEnumerable<Specie> ref_specie = from refSpecie in refElementPolynomials
+        private static readonly IEnumerable<Specie> O2_ref_specie = from refSpecie in refElementPolynomials
                                                                  where refSpecie.Name == refSearchString
                                                                  select refSpecie;
-        private static ICollection<ChemicalFormula> refChemicalFormula = ref_specie.First().ChemicalFormula;
-        private static readonly List<double> refTemperatureRange = ref_specie.First().DataRecords.ElementAt(0).TemperatureRange;
-        private static readonly List<double> refCoefficients = ref_specie.First().DataRecords.ElementAt(0).Coefficients;
-        private static readonly List<double> refIntegrationConstants = ref_specie.First().DataRecords.ElementAt(0).IntegrationConstants;
-        private static readonly List<double> refExponents = ref_specie.First().DataRecords.ElementAt(0).TExponents;
+
+        private static ICollection<ChemicalFormula> refChemicalFormula = O2_ref_specie.First().ChemicalFormula;
+        private static readonly List<double> refTemperatureRange = O2_ref_specie.First().DataRecords.ElementAt(0).TemperatureRange;
+        private static readonly List<double> refCoefficients = O2_ref_specie.First().DataRecords.ElementAt(0).Coefficients;
+        private static readonly List<double> refIntegrationConstants = O2_ref_specie.First().DataRecords.ElementAt(0).IntegrationConstants;
+        private static readonly List<double> refExponents = O2_ref_specie.First().DataRecords.ElementAt(0).TExponents;
 
         private static readonly ICollection<CPHSRef> referenceCPHS = InputServices.GetDefaultCPHS("Data/Ref_Defaults.json");
         private static readonly IEnumerable<CPHSRef> m_referenceSpecie = (IEnumerable<CPHSRef>)(from m_specie in referenceCPHS
                                                                                                 where m_specie.Species_Name == NASAsearchString
                                                                                                 select m_specie);
+        [DataTestMethod]
+        [DataRow(298.15, -74.600)]
+        [DataRow(398.15, -77.635)]
+        [DataRow(498.15, -80.457)]
+        [DataRow(598.15, -82.932)]
+        [DataRow(698.15, -85.023)]
+        [DataRow(798.15, -86.726)]
+        [DataRow(898.15, -88.059)]
+        [DataRow(998.15, -89.053)]
+        [DataRow(1000.00, -89.069)]
+        public void TestShouldReturnDeltaHf(double m_temp, double expected)
+        {
+            //double m_temp = 0.0;
+            ICollection<ReferenceElement> refElements = InputServices.GetReferenceElements("Data/refElements.json");
+            Assert.IsNotNull(refElements);
+            // quality check count of Heat of formation <= 0
+            IEnumerable<ReferenceElement> HeatCheck = from element in refElements
+                                                      where element.HeatOfFormation != 0.0
+                                                      select element;
 
+            Assert.AreEqual(0.0, HeatCheck.Count());
+            IEnumerable<ReferenceElement> H2_elementData = from element in refElements
+                                                           where element.Name == "H2"
+                                                           select element;
+            double H2_heatOfFormation = H2_elementData.First().HeatOfFormation;
+            List<double> H2_coefficients = H2_elementData.First().DataRecords.ElementAt(0).Coefficients;
+            List<double> H2_integrationConstants = H2_elementData.First().DataRecords.ElementAt(0).IntegrationConstants;
+            List<double> H2_tExpnts = H2_elementData.First().DataRecords.ElementAt(0).TExponents;
+
+            double H2_integrationConstantZero = H2_integrationConstants[0];
+            double H2_integrationConstantOne = H2_integrationConstants[1];
+            double H_heatOfFormation = H2_heatOfFormation - (double)(H2_elementData.First().DataRecords.ElementAt(0).EnthalpyRef / 1000);
+            double H2_Cp = ThermoDynamics.HeatCapacity(m_temp, H2_tExpnts, H2_coefficients);
+            double H2_enthalpy = ThermoDynamics.Enthalpy(m_temp, H2_tExpnts, H2_coefficients, H2_integrationConstants);
+            //double m_entropy = ThermoDynamics.Entropy(298.15, H2_tExpnts, H2_coefficients, H2_integrationConstants);
+            Assert.AreEqual(1, H2_elementData.Count());
+
+            IEnumerable<ReferenceElement> Cg_elementData = from element in refElements
+                                                           where element.Name == "C(gr)"
+                                                           select element;
+            double Cg_heatofformation = Cg_elementData.First().HeatOfFormation;
+            List<double> Cg_coeff = Cg_elementData.First().DataRecords.ElementAt(0).Coefficients;
+            List<double> Cg_expnts = Cg_elementData.First().DataRecords.ElementAt(0).TExponents;
+            List<double> Cg_intConstants = Cg_elementData.First().DataRecords.ElementAt(0).IntegrationConstants;
+            double Cg_enthalpy = ThermoDynamics.Enthalpy(m_temp, Cg_expnts, Cg_coeff, Cg_intConstants);
+
+            double enthalpyCH4_product = ThermoDynamics.Enthalpy(m_temp, NASAExponents, NASACoefficients, NASAIntegrationConstants);
+            double deltaCH4Reaction = (1 * enthalpyCH4_product) - (1 * (H2_enthalpy + H2_enthalpy + Cg_enthalpy));
+            Assert.AreEqual(expected, deltaCH4Reaction, delta);
+
+        }
         [TestMethod]
         public void TestEnthalpyOfReaction()
         {
             // H2(g) + CL2(g) <--> 2HCL(g)
+            // C(gr) + 2H2  <--> CH4
 
 
-            var reactant_1 = from item in referenceCPHS
+            var H2_reactant_1 = from item in referenceCPHS
                              where item.Species_Name == "H2"
                              select (item.Delta_Enthalpy_Ref, item.Entropy_Ref);
 
@@ -1268,7 +1258,7 @@ namespace TestCEAconsole
 
             double reactant_1DeltaEnthalpyRef = 0.0;
             double reactant_1EntropyRef = 0.0;
-            foreach (var item in reactant_1)
+            foreach (var item in H2_reactant_1)
             {
                 reactant_1DeltaEnthalpyRef = item.Delta_Enthalpy_Ref;
                 reactant_1EntropyRef = item.Entropy_Ref;
