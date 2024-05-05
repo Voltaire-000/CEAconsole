@@ -16,6 +16,8 @@ using MathNet.Numerics.Distributions;
 using System.Xml.Linq;
 using ScottPlot.Colormaps;
 using System.Text.RegularExpressions;
+using CEAconsole.ThermoChemistry;
+using CEAconsole.ThermoChemistry.Utilities;
 
 namespace TestCEAconsole
 {
@@ -1065,7 +1067,7 @@ namespace TestCEAconsole
 
             double delta = 0.005;
             double T = 398.15;
-            double Cp = ThermoDynamics.HeatCapacity(T, coeff, t_exp);
+            double Cp = ThermoDynamics.HeatCapacity(T, t_exp, coeff);
 
             Assert.AreEqual(21.488, Cp, delta);
         }
@@ -1097,7 +1099,7 @@ namespace TestCEAconsole
             double delta = 0.005;
             double refTemp = 298.15;
             double heatOfFormation = m_reactant.First().HeatOfFormation;
-            double Enthalpy_kJmol = ThermoDynamics.Enthalpy(refTemp, heatOfFormation, Temperature, coefficients, t_expnts);
+            double Enthalpy_kJmol = ThermoDynamics.Enthalpy(Temperature, t_expnts,  coefficients, integrationConstants);
 
             Assert.AreEqual(expected, Enthalpy_kJmol, delta);
         }
@@ -1134,11 +1136,11 @@ namespace TestCEAconsole
             List<double> H_coefficients = [0.000000000e+00, 0.000000000e+00, 2.500000000e+00, 0.000000000e+00, 0.000000000e+00, 0.000000000e+00, 0.000000000e+00];
 			List<double> H_integrationConstants = [ 2.547370801e+04, -4.466828530e-01 ];
 
-            double C_enthalpy = ThermoDynamics.Enthalpy(ref_temp, C_heatOfFormation, T, C_coefficients, C_tExponents);
+            double C_enthalpy = ThermoDynamics.Enthalpy(T, C_tExponents,  C_coefficients, C_integrationConstants);
             double Cref = ThermoDynamics.EnthalpyRefH298(ref_temp,T,C_coefficients, C_tExponents);
-            double H_enthalpy = ThermoDynamics.Enthalpy(ref_temp, H_heatOfFormation, T, H_coefficients, H_tExponents);
-            double CH_enthalpy = ThermoDynamics.Enthalpy(ref_temp, CH4HeatOfFormation, T, CH_coefficients, CH_t_expnts);
-            double H2_enthalpy = ThermoDynamics.Enthalpy(ref_temp, H2_heatOfFormation, T, H2_coefficients, H2_tExponents);
+            double H_enthalpy = ThermoDynamics.Enthalpy( T, H_tExponents, H_coefficients, H_integrationConstants);
+            double CH_enthalpy = ThermoDynamics.Enthalpy( T, CH_t_expnts, CH_coefficients, CH_integrationConstants);
+            double H2_enthalpy = ThermoDynamics.Enthalpy(T, H2_tExponents, H2_coefficients, H2_integrationConstants );
             double H2_ref = ThermoDynamics.EnthalpyRefH298(ref_temp, T, H2_coefficients, H2_tExponents);
 
             double m_sum = C_enthalpy - H_enthalpy * 4;
@@ -1450,7 +1452,7 @@ namespace TestCEAconsole
 
                 heatOfFormation = m_refElement.First().HeatOfFormation;
                 Cp_JmolK = ThermoDynamics.HeatCapacity(Temperature, coefficients, t_expnts);
-                Enthalpy_kJmol = ThermoDynamics.Enthalpy(refTemperature, heatOfFormation, Temperature, coefficients, t_expnts);
+                Enthalpy_kJmol = ThermoDynamics.Enthalpy(Temperature, t_expnts, coefficients, integrationConstants);
                 ref_entropy = 0.0;
                 Entropy_JmolK = ThermoDynamics.Entropy(refTemperature, t_expnts, coefficients, integrationConstants);
                 Gibbs_H298JmolK = ThermoDynamics.GibbsRef(refTemperature, ref_entropy, Temperature, coefficients, t_expnts);
@@ -1538,7 +1540,7 @@ namespace TestCEAconsole
         public void TestThermoEnthalpyMethod(double T, double expected)
         {
             double CH4HeatOfFormation = NASA_specie.ElementAt(0).HeatOfFormation;
-            double enthalpy = ThermoDynamics.Enthalpy(referenceTemp,CH4HeatOfFormation, T, NASACoefficients, NASAExponents);
+            double enthalpy = ThermoDynamics.Enthalpy( T, NASAExponents, NASACoefficients, NASAIntegrationConstants);
             Assert.AreEqual(expected, enthalpy, delta);
         }
 
@@ -1571,7 +1573,7 @@ namespace TestCEAconsole
 
             double elementsSum = C_298HF + H_298HF;
 
-            double enthalpy = ThermoDynamics.Enthalpy(ref_temp,heatOfFormation, T, coefficients, t_expnts);
+            double enthalpy = ThermoDynamics.Enthalpy( T, t_expnts, coefficients,integrationConstants);
 
             double deltaH_f = enthalpy - elementsSum;
 
@@ -1654,7 +1656,6 @@ namespace TestCEAconsole
         [TestMethod]
         public void Test_MU_For_TempRanges()
         {
-
             List<double> temperatureRange = [200.000, 1000.000];
             List<double> t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
             List<double> coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
@@ -1666,10 +1667,9 @@ namespace TestCEAconsole
             double expected_MU = -50.72;
             double temperature = 298.15;
             double pressure = 1.0;
-
             // Act
             double actual_MU = ThermoDynamics.Calculate_MU(m_Gibbs, temperature, pressure);
-
+            
             // Assert
             Assert.AreEqual(expected: expected_MU, actual: actual_MU);
         }

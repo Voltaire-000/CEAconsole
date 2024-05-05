@@ -3,6 +3,7 @@
 // See https://aka.ms/new-console-template for more information
 using CEAconsole.Models;
 using CEAconsole.Services;
+using CEAconsole.ThermoChemistry;
 using MathNet.Numerics;
 
 // Constants
@@ -72,83 +73,44 @@ Console.WriteLine("\n{0, -16} {1, -15} {2, -20} {3, -20} {4, -20} {5, -20} {6, -
     "\tTemp Kelvin", "Cp J/mol-k", "H-H298.15 kJ/mol", "S J/mol-K", "G-H298.15/T J/mol-K", "H kJ/mol", "delta Hf kJ/mol", "log K");
 
 // add defaults and start up numbers
-temperatureList.Add(0.0);
-heatCapacityList.Add(0.0);
-double defaultEnthalpyRef = (double)CPHSdefaults.ElementAt(0).EnthalpyRef;
+//temperatureList.Add(0.0);
+//heatCapacityList.Add(0.0);
+//double defaultEnthalpyRef = (double)CPHSdefaults.ElementAt(0).EnthalpyRef;
 double defaultEntropyRef = (double)CPHSdefaults.ElementAt(0).Entropy_Ref;
-enthalpyChangeFromRefList.Add(-defaultEnthalpyRef); // 10.016 = this is from the CPHSdefaults
-entropyList.Add(0.0);
-gibbsList.Add(0.0); // Should say INFINITE TODO
-double defaultEnthalpy = (double)CPHSdefaults.ElementAt(0).Enthalpy; // -84.616 from CPHSdefaults
-enthalpyList.Add(defaultEnthalpy);
-double defaultDeltaHf = (double)CPHSdefaults.ElementAt(0).Delta_Enthalpy;
-deltaHfList.Add(defaultDeltaHf);
-logKlist.Add(0.0); // should say INFINITE TODO
-temperatureList.Add(298.15);
-double Kelvin = 298.15;
-heatCapacityList.Add(ThermoDynamics.HeatCapacity(Kelvin, coefficients, temperatureExponents));
-enthalpyChangeFromRefList.Add(ThermoDynamics.EnthalpyRefH298(REFERENCE_TEMPERATURE,Kelvin, coefficients, temperatureExponents));
-entropyList.Add(ThermoDynamics.Entropy(REFERENCE_TEMPERATURE, temperatureExponents, coefficients, integrationConstants));
-gibbsList.Add(ThermoDynamics.GibbsRef(REFERENCE_TEMPERATURE, defaultEntropyRef, Kelvin, coefficients, temperatureExponents));
+//enthalpyChangeFromRefList.Add(-defaultEnthalpyRef); // 10.016 = this is from the CPHSdefaults
+//entropyList.Add(0.0);
+//gibbsList.Add(0.0); // Should say INFINITE TODO
+//double defaultEnthalpy = (double)CPHSdefaults.ElementAt(0).Enthalpy; // -84.616 from CPHSdefaults
+//enthalpyList.Add(defaultEnthalpy);
+//double defaultDeltaHf = (double)CPHSdefaults.ElementAt(0).Delta_Enthalpy;
+//deltaHfList.Add(defaultDeltaHf);
+//logKlist.Add(0.0); // should say INFINITE TODO
+////temperatureList.Add(298.15);
+//double Kelvin = 298.15;
+//heatCapacityList.Add(ThermoDynamics.HeatCapacity(Kelvin, temperatureExponents, coefficients));
+//enthalpyChangeFromRefList.Add(ThermoDynamics.EnthalpyRefH298(REFERENCE_TEMPERATURE,Kelvin, coefficients, temperatureExponents));
+//entropyList.Add(ThermoDynamics.Entropy(REFERENCE_TEMPERATURE, temperatureExponents, coefficients, integrationConstants));
+//gibbsList.Add(ThermoDynamics.GibbsRef(REFERENCE_TEMPERATURE, defaultEntropyRef, Kelvin, coefficients, temperatureExponents));
 double heatOfFormation = -74600.0;
-enthalpyList.Add(ThermoDynamics.Enthalpy(REFERENCE_TEMPERATURE,heatOfFormation, Kelvin, coefficients, temperatureExponents));
-//temperatureList.Add(Kelvin);
-double startTemp = 398.15;
-double endTemp = 1000;
-double increment = 100;
-int digits = 3;
+//enthalpyList.Add(ThermoDynamics.Enthalpy(REFERENCE_TEMPERATURE,heatOfFormation, Kelvin, coefficients, temperatureExponents));
 
-for (Kelvin = startTemp; Kelvin <= endTemp; Kelvin += increment)
+List<double> temperatureSchedule = [0.0, 298.15, 398.15, 498.15, 598.15, 698.15, 798.15, 898.15, 998.15, 1000.00];
+
+foreach (double temperature in temperatureSchedule)
 {
-    temperatureList.Add(Kelvin);
-    double cp_value = ThermoDynamics.HeatCapacity(Kelvin, coefficients, temperatureExponents);
+    temperatureList.Add(temperature);
+    double cp_value = ThermoDynamics.HeatCapacity(temperature, temperatureExponents, coefficients);
     heatCapacityList.Add(cp_value);
-    double enthalpy_change_from_ref_value = ThermoDynamics.EnthalpyRefH298(REFERENCE_TEMPERATURE, Kelvin, coefficients, temperatureExponents);
-    double entropy_value = ThermoDynamics.Entropy(REFERENCE_TEMPERATURE, temperatureExponents, coefficients, integrationConstants);
-    double gibbs_value = ThermoDynamics.GibbsRef(REFERENCE_TEMPERATURE,defaultEntropyRef, Kelvin, coefficients, temperatureExponents);
-    double enthalpy_value = ThermoDynamics.Enthalpy(REFERENCE_TEMPERATURE,heatOfFormation, Kelvin, coefficients, temperatureExponents);
-
-    if (Kelvin >= 998.15)
-    {
-        double lastCp_value = ThermoDynamics.HeatCapacity(endTemp, coefficients, temperatureExponents);
-        heatCapacityList.Add(lastCp_value);
-    }
-    enthalpyChangeFromRefList.Add(Math.Round(enthalpy_change_from_ref_value, digits));
-    if (Kelvin >= 998.15)
-    {
-        double lastEnthalpy_value = ThermoDynamics.EnthalpyRefH298(REFERENCE_TEMPERATURE,endTemp, coefficients, temperatureExponents);
-        enthalpyChangeFromRefList.Add(lastEnthalpy_value);
-    }
+    double enthalpy_change_from_ref_value = ThermoDynamics.EnthalpyRefH298(REFERENCE_TEMPERATURE, temperature, coefficients, temperatureExponents);
+    enthalpyChangeFromRefList.Add(enthalpy_change_from_ref_value);
+    double entropy_value = ThermoDynamics.Entropy(temperature, temperatureExponents, coefficients, integrationConstants);
     entropyList.Add(entropy_value);
-    if (Kelvin >= 998.15)
-    {
-        double lastEntropy_value = ThermoDynamics.Entropy(REFERENCE_TEMPERATURE, temperatureExponents, coefficients, integrationConstants);
-        entropyList.Add(lastEntropy_value);
-    }
+    double gibbs_value = ThermoDynamics.GibbsRef(REFERENCE_TEMPERATURE, defaultEntropyRef, temperature, coefficients, temperatureExponents);
     gibbsList.Add(gibbs_value);
-    if (Kelvin >= 998.15)
-    {
-        double lastGibbs_value = ThermoDynamics.GibbsRef(REFERENCE_TEMPERATURE,defaultEntropyRef, endTemp, coefficients, temperatureExponents);
-        gibbsList.Add(lastGibbs_value);
-    }
+    double enthalpy_value = ThermoDynamics.Enthalpy(temperature, temperatureExponents, coefficients, integrationConstants);
     enthalpyList.Add(enthalpy_value);
-    if (Kelvin >= 998.15)
-    {
-        double lastEnthalpy_value = ThermoDynamics.Enthalpy(REFERENCE_TEMPERATURE,heatOfFormation, endTemp, coefficients, temperatureExponents);
-        enthalpyList.Add(lastEnthalpy_value) ;
-    }
 }
 
-temperatureList.Add(endTemp);
-
-
-////-------------- Matrix Gaussian substitution
-//var matrixA = Matrix<double>.Build.DenseOfArray(new[,] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-//var vectorB = Vector<double>.Build.DenseOfArray(new[] { 5.0, 11.0 });
-
-//var resultX = matrixA.Solve(vectorB);
-
-////
 int round = 3;
 for (int i = 0; i < 10; i++)
 {
