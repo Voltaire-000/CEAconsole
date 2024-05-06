@@ -1185,42 +1185,79 @@ namespace TestCEAconsole
         [DataRow(898.15, -88.059)]
         [DataRow(998.15, -89.053)]
         [DataRow(1000.00, -89.069)]
-        public void TestShouldReturnDeltaHf(double mTemp, double expected)
+        public void TestShouldReturnGibbsEnergyAsFunctionOfTemperature(double Temp, double expected)
         {
-            //double m_temp = 0.0;
             ICollection<ReferenceElement> refElements = InputServices.GetReferenceElements("Data/refElements.json");
-            Assert.IsNotNull(refElements);
-            // quality check count of Heat of formation <= 0
-            IEnumerable<ReferenceElement> HeatCheck = from element in refElements
-                                                      where element.HeatOfFormation != 0.0
-                                                      select element;
+            ICollection<Specie> NASAspecies = InputServices.GetNASA("Data/NASApolynomials.json");
+            Assert.IsNotNull(NASAspecies);
 
-            Assert.AreEqual(0.0, HeatCheck.Count());
+            //  Hydrogen
             IEnumerable<ReferenceElement> H2_elementData = from element in refElements
                                                            where element.Name == "H2"
                                                            select element;
-            double H2_heatOfFormation = H2_elementData.First().HeatOfFormation;
+            List<double> H2_tExpnts = H2_elementData.First().DataRecords.ElementAt(0).TExponents;
             List<double> H2_coefficients = H2_elementData.First().DataRecords.ElementAt(0).Coefficients;
             List<double> H2_integrationConstants = H2_elementData.First().DataRecords.ElementAt(0).IntegrationConstants;
-            List<double> H2_tExpnts = H2_elementData.First().DataRecords.ElementAt(0).TExponents;
 
+            double H2_heatOfFormation = H2_elementData.First().HeatOfFormation;
             double H_heatOfFormation = H2_heatOfFormation - (double)(H2_elementData.First().DataRecords.ElementAt(0).EnthalpyRef / 1000);
-            double H2_Cp = ThermoDynamics.HeatCapacity(mTemp, H2_tExpnts, H2_coefficients);
-            double H2_enthalpy = ThermoDynamics.Enthalpy(mTemp, H2_tExpnts, H2_coefficients, H2_integrationConstants);
-            double H2_entropy = ThermoDynamics.Entropy(mTemp, H2_tExpnts, H2_coefficients, H2_integrationConstants);
+            double H2_Cp = ThermoDynamics.HeatCapacity(Temp, H2_tExpnts, H2_coefficients);
+            double H2_enthalpy = ThermoDynamics.Enthalpy(Temp, H2_tExpnts, H2_coefficients, H2_integrationConstants);
+            double H2_entropy = ThermoDynamics.Entropy(Temp, H2_tExpnts, H2_coefficients, H2_integrationConstants);
             Assert.AreEqual(1, H2_elementData.Count());
 
+            //  Carbon
             IEnumerable<ReferenceElement> Cg_elementData = from element in refElements
                                                            where element.Name == "C(gr)"
                                                            select element;
-            Assert.AreEqual(1, Cg_elementData.Count());
-            double Cg_heatofformation = Cg_elementData.First().HeatOfFormation;
-            List<double> Cg_coeff = Cg_elementData.First().DataRecords.ElementAt(0).Coefficients;
             List<double> Cg_expnts = Cg_elementData.First().DataRecords.ElementAt(0).TExponents;
+            List<double> Cg_coeff = Cg_elementData.First().DataRecords.ElementAt(0).Coefficients;
             List<double> Cg_intConstants = Cg_elementData.First().DataRecords.ElementAt(0).IntegrationConstants;
-            double Cg_enthalpy = ThermoDynamics.Enthalpy(mTemp, Cg_expnts, Cg_coeff, Cg_intConstants);
 
-            double enthalpyCH4_product = ThermoDynamics.Enthalpy(mTemp, NASAExponents, NASACoefficients, NASAIntegrationConstants);
+            double Cg_heatofformation = Cg_elementData.First().HeatOfFormation;
+            double Cg_Cp = ThermoDynamics.HeatCapacity(Temp, Cg_expnts, Cg_coeff);
+            double Cg_enthalpy = ThermoDynamics.Enthalpy(Temp, Cg_expnts, Cg_coeff, Cg_intConstants);
+            double Cg_entropy = ThermoDynamics.Entropy(Temp, Cg_expnts, Cg_coeff, Cg_intConstants);
+
+            // Oxygen
+            IEnumerable<ReferenceElement> O2_elementData = from element in refElements
+                                                           where element.Name == "O2"
+                                                           select element;
+            List<double> O2_expnts = O2_elementData.First().DataRecords.ElementAt(0).TExponents;
+            List<double> O2_coeff = O2_elementData.First().DataRecords.ElementAt(0).Coefficients;
+            List<double> O2_intConstants = O2_elementData.First().DataRecords.ElementAt(0).IntegrationConstants;
+
+            double O2_heatOfFormation = O2_elementData.First().HeatOfFormation;
+            double O2_Cp = ThermoDynamics.HeatCapacity(Temp, O2_expnts, O2_coeff);
+            double O2_enthalpy = ThermoDynamics.Enthalpy(Temp, O2_expnts, O2_coeff, O2_intConstants);
+            double O2_entropy = ThermoDynamics.Entropy(Temp, O2_expnts, O2_coeff, O2_intConstants);
+
+            var products = from compound in NASAspecies
+                           where compound.Name == "CO" | compound.Name == "CO2" | compound.Name == "H2" | compound.Name == "H2O"
+                           select compound;
+            var CO2coeff = products.ElementAt(1).DataRecords.ElementAt(0).Coefficients;
+            List<double> deltaGList = new();
+            for (int i = 0; i < 4; i++)
+            {
+                double deltaG = CO2coeff.ElementAt(i) - O2_coeff.ElementAt(i) - Cg_coeff.ElementAt(i);
+                deltaGList.Add(deltaG);
+            }
+
+            Dictionary<string, double> products_Cp = new();
+            Dictionary<string, double> products_entropy = new();
+            Dictionary<string, double> products_gibbs = new();
+            foreach (var item in products)
+            {
+                double Cp = ThermoDynamics.HeatCapacity(Temp, item.DataRecords.ElementAt(0).TExponents, item.DataRecords.ElementAt(0).Coefficients);
+                products_Cp.Add(item.Name, Cp);
+                double Entropy = ThermoDynamics.Entropy(Temp, item.DataRecords.ElementAt(0).TExponents, item.DataRecords.ElementAt(0).Coefficients, item.DataRecords.ElementAt(0).IntegrationConstants);
+                products_entropy.Add(item.Name, Entropy);
+                double GibbsRef = ThermoDynamics.GibbsRef(Temp, Entropy, 298.15, item.DataRecords.ElementAt(0).Coefficients, item.DataRecords.ElementAt(0).TExponents);
+                products_gibbs.Add(item.Name, GibbsRef);
+
+            }
+
+            double enthalpyCH4_product = ThermoDynamics.Enthalpy(Temp, NASAExponents, NASACoefficients, NASAIntegrationConstants);
             double deltaCH4Reaction = enthalpyCH4_product - (H2_enthalpy + H2_enthalpy + Cg_enthalpy);
             List<double> reactants = new();
             H2_enthalpy += H2_enthalpy;
