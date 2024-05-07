@@ -18,13 +18,102 @@ using ScottPlot.Colormaps;
 using System.Text.RegularExpressions;
 using CEAconsole.ThermoChemistry;
 using CEAconsole.ThermoChemistry.Utilities;
+using MathNet.Numerics;
 
 namespace TestCEAconsole
 {
+
     [TestClass]
-    public class TestReference
+    public class TestLearnChemE
     {
-        
+        [TestMethod]
+        public void TestCO2GibbsRef()
+        {
+            //    "Species_Name": "CO2",
+            //"Molecular_Weight": 44.0095,
+            //"Enthalpy": -402.875,
+            //"Delta_Enthalpy": -393.142,
+            //"Delta_Enthalpy_Ref": -393.51,
+            //"CP_Ref": 37.135,
+            //"EnthalpyRef": 9.365,
+            //"Entropy_Ref": 213.787
+
+            // DeltaHf ref, DeltaS ref, Temperature
+            double deltaHfref = -393.15;
+            double deltaSref = 231.787;
+            double deltaGref = deltaHfref - 298.15 / deltaSref;
+            Assert.AreEqual(-394.4363, deltaGref, 0.001);
+        }
+        [TestMethod]
+        public void TestMultipleReactions()
+        {
+
+        }
+
+        [TestMethod]
+        public void TestGibbsAsFunctionOfTemperature()
+        {
+            // delta
+            double delta = 0.015;
+            // Arrange
+            double T = 298.0;       // Kelvin
+            double TR = 298.0;      // Kelvin
+            double Rg = 8.31e-03;   // kJ/mol K
+            // Shomate Coefficients for molecules
+            double A_CO2 = 22.243; double B_CO2 = 5.98e-02; double C_CO2 = -3.50e-05; double D_CO2 = 7.46e-09;
+            double A_CO = 28.142; double B_CO = 1.67e-03; double C_CO = 5.37e-06; double D_CO = -2.22e-09;
+            double A_H2O = 32.218; double B_H2O = 1.92e-03; double C_H2O = 1.06e-05; double D_H2O = 3.56e-09;
+            double A_H2 = 29.088; double B_H2 = -1.92e-03; double C_H2 = 4.00e-06; double D_H2 = -8.70e-10;
+            // Shomate coefficients for elements
+            double A_O2 = 25.46; double B_O2 = 1.52e-02; double C_O2 = -7.15e-06; double D_O2 = 1.31e-09;
+            double A_C = 8.43; double B_C = 0.00e+00; double C_C = 0.00e+00; double D_C = 0.00e+00;
+
+            // Cp for Molecules
+            double Cp_CO2 = A_CO2 + (B_CO2 * T) + (C_CO2 * Math.Pow(T, 2)) + (D_CO2 * Math.Pow(T, 3));
+            Assert.AreEqual(37.14, Cp_CO2, delta); // actual 37.152
+            double Cp_CO = A_CO + (B_CO * T) + (C_CO * Math.Pow(T, 2)) + (D_CO * Math.Pow(T, 3));
+            Assert.AreEqual(29.06, Cp_CO, delta);  // actual 29.0577
+            double Cp_H2O = A_H2O + (B_H2O * T) + (C_H2O * Math.Pow(T, 2)) + (D_H2O * Math.Pow(T, 3));
+            Assert.AreEqual(33.63, Cp_H2O, 0.2);  // actual 33.8256
+            double Cp_H2 = A_H2 + (B_H2 * T) + (C_H2 * Math.Pow(T, 2)) + (D_H2 * Math.Pow(T, 3));
+            Assert.AreEqual(28.85, Cp_H2, delta);   // actual 28.8480
+
+            // Cp for Elements
+            double Cp_O2 = A_O2 + (B_O2 * T) + (C_O2 * Math.Pow(T, 2)) + (D_O2 * Math.Pow(T, 3));
+            Assert.AreEqual(29.39, Cp_O2, delta);   // 29.3893
+            double Cp_C = A_C + (B_C * T) + (C_C * Math.Pow(T, 2)) + (D_C * Math.Pow(T, 3));
+            Assert.AreEqual(8.43, Cp_C, delta); // actual 8.43
+            // calculate Deltas for CO2
+            double deltaA_CO2 = A_CO2 - A_C - A_O2; Assert.AreEqual(-11.647, deltaA_CO2, delta);    // J8
+            double deltaB_CO2 = B_CO2 - B_C - B_O2; Assert.AreEqual(4.46e-02, deltaB_CO2);
+            double deltaC_CO2 = C_CO2 - C_C - C_O2; Assert.AreEqual(-2.78e-05, deltaC_CO2, delta);
+            double deltaD_CO2 = D_CO2 - D_C - D_O2; Assert.AreEqual(6.15e-09, deltaD_CO2, delta);
+            // from Ref_Defaults
+            double Delta_Enthalpy_Ref_CO2 = -393.51;
+            // J = deltaH_R - deltaAT_R - deltaB/2 * T_R^2 - deltaC/3 * T_R^3 - deltaD/4 * T_R^4
+            //  =N8+(-J8*TR-K8*TR^2/2-L8*TR^3/3-M8*TR^4/4)/1000
+            // Important J is calculated at the Reference Temperature TR of 298
+            double J = Delta_Enthalpy_Ref_CO2 + (-deltaA_CO2 * TR - deltaB_CO2 * Math.Pow(TR, 2) / 2 - deltaC_CO2 * Math.Pow(TR, 3) / 3 - deltaD_CO2 * Math.Pow(TR, 4) / 4) / 1000;
+            Assert.AreEqual(-391.8, J, 0.2);
+            // I = 
+            // (1/Rg)*(-O8/TR+(J8*LN(TR)+K8*TR/2+L8*TR^2/6+M8*TR^3/12)/1000)
+            // Important I is calculated at the Reference Temperature TR of 298
+            double I = (1 / Rg) * (-J / TR + (deltaA_CO2 * Math.Log(TR) + deltaB_CO2 * TR / 2 + deltaC_CO2 * Math.Pow(TR, 2) / 6 + deltaD_CO2 * Math.Pow(TR, 3) / 12) / 1000);
+            Assert.AreEqual(150.97, I, delta);
+            // deltaGref can be calculated from Ref_Defaults
+            double deltaGref = -394.4;
+            double deltaGof_RTR = deltaGref / (Rg * TR);
+            Assert.AreEqual(-159.19, deltaGof_RTR, 0.1);
+            //  Q8+P8+(1/Rg)*(O8/T+(-J8*LN(T)-K8*T/2-L8*T^2/6-M8*T^3/12)/1000)
+            double deltaGof_T_RT = deltaGof_RTR + I + (1 / Rg) * (J / T + (-deltaA_CO2 * Math.Log(T) - deltaB_CO2 * T / 2 - deltaC_CO2 * Math.Pow(T, 2) / 6 - deltaD_CO2 * Math.Pow(T, 3) / 12) / 1000);
+            Assert.AreEqual(-159.19, deltaGof_T_RT, 0.1);
+            //  equal to "Delta_Enthalpy_Ref": -393.51 at standard Temperature
+            //  =O8+(J8*T+K8*T^2/2+L8*T^3/3+M8*T^4/4)/1000
+            double deltaHf_T = J + (deltaA_CO2 * T + deltaB_CO2 * Math.Pow(T, 2) / 2 + deltaC_CO2 * Math.Pow(T, 3) / 3 + deltaD_CO2 * Math.Pow(T, 4) / 4) / 1000;
+            Assert.AreEqual(-393.51, deltaHf_T, delta);
+            double deltaGof_T = deltaGof_T_RT * Rg * T;
+            Assert.AreEqual(-394.40, deltaGof_T, delta);
+        }
     }
     [TestClass]
     public class TestGaussianEliminationMethods
@@ -102,7 +191,7 @@ namespace TestCEAconsole
             double expected = 16.0424600;
 
             Dictionary<string, CEAconsole.Models.DataRecord>.ValueCollection? tempRange = (from item in filteredCollection
-                                                                                                  select item.TemperatureRange.Values).FirstOrDefault();
+                                                                                           select item.TemperatureRange.Values).FirstOrDefault();
 
             Dictionary<string, double>? chemFormula = (from item in filteredCollection
                                                        select item.Molecule.ChemicalFormula).FirstOrDefault();
@@ -597,7 +686,7 @@ namespace TestCEAconsole
             // Arrange
             string molecule = "CH4";
             string formula = "4C12ClO3";
-             ICollection<Reactant> reactants = InputServices.GetSpecies("Data/newShortThermo.json");
+            ICollection<Reactant> reactants = InputServices.GetSpecies("Data/newShortThermo.json");
             ICollection<Specie> species = InputServices.GetNASA("Data/NASApolynomials.json");
             Assert.IsNotNull(reactants);
             var m_Molecule = from item in reactants
@@ -647,7 +736,7 @@ namespace TestCEAconsole
                 //splitParts.Add(element + (string.IsNullOrEmpty(quantity) ? "" : " " + quantity));
                 splitParts.Add((string.IsNullOrEmpty(coefficient) ? "" : coefficient + " ") + element + (string.IsNullOrEmpty(quantity) ? "" : " " + quantity));
                 //join the parts with 2 spaces as per the requirement
-                
+
             }
             return string.Join(" ", splitParts);
         }
@@ -990,14 +1079,14 @@ namespace TestCEAconsole
         [TestMethod]
         public void Test_ReferenceElementHeatCapacity()
         {
-             // Update with the refElements.json file
+            // Update with the refElements.json file
             // Testing for Oxygen = O
-     //               "temperatureRange": [ 200.000, 1000.000 ],
-					//"numberOfCoefficients": 7,
-					//"tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
-					//"hJmol": 6725.403,
-					//"coefficients": [ -7.953611300e+03, 1.607177787e+02, 1.966226438e+00, 1.013670310e-03, -1.110415423e-06, 6.517507500e-10, -1.584779251e-13 ],
-					//"integrationConstants": [ 2.840362437e+04, 8.404241820e+00 ]
+            //               "temperatureRange": [ 200.000, 1000.000 ],
+            //"numberOfCoefficients": 7,
+            //"tExponents": [ -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0 ],
+            //"hJmol": 6725.403,
+            //"coefficients": [ -7.953611300e+03, 1.607177787e+02, 1.966226438e+00, 1.013670310e-03, -1.110415423e-06, 6.517507500e-10, -1.584779251e-13 ],
+            //"integrationConstants": [ 2.840362437e+04, 8.404241820e+00 ]
             List<double> temperatureRange = [200.0, 1000.0];
             List<double> t_exp = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
             List<double> coeff = [-7.953611300e+03, 1.607177787e+02, 1.966226438e+00, 1.013670310e-03, -1.110415423e-06, 6.517507500e-10, -1.584779251e-13];
@@ -1026,8 +1115,8 @@ namespace TestCEAconsole
             ICollection<Specie> m_species = InputServices.GetNASA("Data/NASApolynomials.json");
 
             IEnumerable<Specie> m_reactant = from specie in m_species
-                                              where specie.Name == searchString
-                                              select specie;
+                                             where specie.Name == searchString
+                                             select specie;
 
             ICollection<ChemicalFormula> chemicalFormula = m_reactant.First().ChemicalFormula;
             List<double> temperatureRange = m_reactant.First().DataRecords.ElementAt(0).TemperatureRange;
@@ -1037,7 +1126,7 @@ namespace TestCEAconsole
             double delta = 0.005;
             double refTemp = 298.15;
             double heatOfFormation = m_reactant.First().HeatOfFormation;
-            double Enthalpy_kJmol = ThermoDynamics.Enthalpy(Temperature, t_expnts,  coefficients, integrationConstants);
+            double Enthalpy_kJmol = ThermoDynamics.Enthalpy(Temperature, t_expnts, coefficients, integrationConstants);
 
             Assert.AreEqual(expected, Enthalpy_kJmol, delta);
         }
@@ -1045,7 +1134,7 @@ namespace TestCEAconsole
         [TestMethod]
         public void TestShouldAddCarbonAndHydrogenEnthalpy()
         {
-             // TODO update with NASApolynomials
+            // TODO update with NASApolynomials
             // CH4 
             // CH4 coefficients
             List<double> CH_t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
@@ -1061,24 +1150,24 @@ namespace TestCEAconsole
             double C_hjmol = 6535.895;
             List<double> C_tExponents = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
             List<double> C_coefficients = [6.495031470e+02, -9.649010860e-01, 2.504675479e+00, -1.281448025e-05, 1.980133654e-08, -1.606144025e-11, 5.314483411e-15];
-			List<double> C_integrationConstants = [8.545763110e+04, 4.747924288e+00];
+            List<double> C_integrationConstants = [8.545763110e+04, 4.747924288e+00];
             // get H2
             double H2_heatOfFormation = 0.0;
             List<double> H2_tExponents = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
             List<double> H2_coefficients = [4.078323210e+04, -8.009186040e+02, 8.214702010e+00, -1.269714457e-02, 1.753605076e-05, -1.202860270e-08, 3.368093490e-12];
-			List< double > H2_integrationConstants = [2.682484665e+03, -3.043788844e+01];
+            List<double> H2_integrationConstants = [2.682484665e+03, -3.043788844e+01];
             // get Hydrogen
             double H_heatOfFormation = 217998.828;
             double H_hjmol = 6197.428;
             List<double> H_tExponents = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
             List<double> H_coefficients = [0.000000000e+00, 0.000000000e+00, 2.500000000e+00, 0.000000000e+00, 0.000000000e+00, 0.000000000e+00, 0.000000000e+00];
-			List<double> H_integrationConstants = [ 2.547370801e+04, -4.466828530e-01 ];
+            List<double> H_integrationConstants = [2.547370801e+04, -4.466828530e-01];
 
-            double C_enthalpy = ThermoDynamics.Enthalpy(T, C_tExponents,  C_coefficients, C_integrationConstants);
-            double Cref = ThermoDynamics.EnthalpyRefH298(ref_temp,T,C_coefficients, C_tExponents);
-            double H_enthalpy = ThermoDynamics.Enthalpy( T, H_tExponents, H_coefficients, H_integrationConstants);
-            double CH_enthalpy = ThermoDynamics.Enthalpy( T, CH_t_expnts, CH_coefficients, CH_integrationConstants);
-            double H2_enthalpy = ThermoDynamics.Enthalpy(T, H2_tExponents, H2_coefficients, H2_integrationConstants );
+            double C_enthalpy = ThermoDynamics.Enthalpy(T, C_tExponents, C_coefficients, C_integrationConstants);
+            double Cref = ThermoDynamics.EnthalpyRefH298(ref_temp, T, C_coefficients, C_tExponents);
+            double H_enthalpy = ThermoDynamics.Enthalpy(T, H_tExponents, H_coefficients, H_integrationConstants);
+            double CH_enthalpy = ThermoDynamics.Enthalpy(T, CH_t_expnts, CH_coefficients, CH_integrationConstants);
+            double H2_enthalpy = ThermoDynamics.Enthalpy(T, H2_tExponents, H2_coefficients, H2_integrationConstants);
             double H2_ref = ThermoDynamics.EnthalpyRefH298(ref_temp, T, H2_coefficients, H2_tExponents);
 
             double m_sum = C_enthalpy - H_enthalpy * 4;
@@ -1129,7 +1218,7 @@ namespace TestCEAconsole
         {
             // O coefficients
             List<double> temperatureRange = [200.0, 1000.0];
-            List<double> t_exp = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0,0.0];
+            List<double> t_exp = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
             List<double> coeff = [-7.953611300e+03, 1.607177787e+02, 1.966226438e+00, 1.013670310e-03, -1.110415423e-06, 6.517507500e-10, -1.584779251e-13];
             List<double> integrationConstants = [2.840362437e+04, 8.404241820e+00];
 
@@ -1162,8 +1251,8 @@ namespace TestCEAconsole
         private static readonly string refSearchString = "O2";
         private static readonly ICollection<Specie> refElementPolynomials = InputServices.GetNASA("Data/refElements.json");
         private static readonly IEnumerable<Specie> O2_ref_specie = from refSpecie in refElementPolynomials
-                                                                 where refSpecie.Name == refSearchString
-                                                                 select refSpecie;
+                                                                    where refSpecie.Name == refSearchString
+                                                                    select refSpecie;
 
         private static ICollection<ChemicalFormula> refChemicalFormula = O2_ref_specie.First().ChemicalFormula;
         private static readonly List<double> refTemperatureRange = O2_ref_specie.First().DataRecords.ElementAt(0).TemperatureRange;
@@ -1277,8 +1366,8 @@ namespace TestCEAconsole
 
 
             var H2_reactant_1 = from item in referenceCPHS
-                             where item.Species_Name == "H2"
-                             select (item.Delta_Enthalpy_Ref, item.Entropy_Ref);
+                                where item.Species_Name == "H2"
+                                select (item.Delta_Enthalpy_Ref, item.Entropy_Ref);
 
             var reactant_2 = from item in referenceCPHS
                              where item.Species_Name == "CL2"
@@ -1327,7 +1416,7 @@ namespace TestCEAconsole
             //  delta_G = delta_H - T * delta_S
             double delta_G = delta_H_0reaction - 298.15 * delta_S_0reaction / 1000;
             double expected_deltaG = -190.59582045;
-            Assert.AreEqual(expected_deltaG, delta_G,delta);
+            Assert.AreEqual(expected_deltaG, delta_G, delta);
         }
 
         [TestMethod]
@@ -1501,7 +1590,7 @@ namespace TestCEAconsole
                 //"CP_Ref": 35.691,
                 //"Enthalpy_Ref": 10.016,
                 //"Entropy_Ref": 186.371
-               double zz =  -66.626 - Temperature * 186.371/1000;
+                double zz = -66.626 - Temperature * 186.371 / 1000;
                 double deltaG = Enthalpy_kJmol - (Temperature * (Entropy_JmolK / 1000));
                 double mx = (Temperature * (Entropy_JmolK / 1000));
                 //MU = MU + Enthalpy_kJmol;
@@ -1573,7 +1662,7 @@ namespace TestCEAconsole
         public void TestThermoEnthalpyMethod(double T, double expected)
         {
             double CH4HeatOfFormation = NASA_specie.ElementAt(0).HeatOfFormation;
-            double enthalpy = ThermoDynamics.Enthalpy( T, NASAExponents, NASACoefficients, NASAIntegrationConstants);
+            double enthalpy = ThermoDynamics.Enthalpy(T, NASAExponents, NASACoefficients, NASAIntegrationConstants);
             Assert.AreEqual(expected, enthalpy, delta);
         }
 
@@ -1606,7 +1695,7 @@ namespace TestCEAconsole
 
             double elementsSum = C_298HF + H_298HF;
 
-            double enthalpy = ThermoDynamics.Enthalpy( T, t_expnts, coefficients,integrationConstants);
+            double enthalpy = ThermoDynamics.Enthalpy(T, t_expnts, coefficients, integrationConstants);
 
             double deltaH_f = enthalpy - elementsSum;
 
@@ -1696,13 +1785,13 @@ namespace TestCEAconsole
 
             // Arrange T = 298.15 = -50.72 kj/mol, 398.15 = -43.95 kj/mol, 498.15 = -37.75 kj/mol
             // get the Gibbs for CH4
-            double m_Gibbs = ThermoDynamics.GibbsRef(298.15,187.0, 298.15, coefficients, t_expnts);
+            double m_Gibbs = ThermoDynamics.GibbsRef(298.15, 187.0, 298.15, coefficients, t_expnts);
             double expected_MU = -50.72;
             double temperature = 298.15;
             double pressure = 1.0;
             // Act
             double actual_MU = ThermoDynamics.Calculate_MU(m_Gibbs, temperature, pressure);
-            
+
             // Assert
             Assert.AreEqual(expected: expected_MU, actual: actual_MU);
         }
