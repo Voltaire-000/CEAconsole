@@ -93,26 +93,47 @@ namespace TestCEAconsole
             // J = deltaH_R - deltaAT_R - deltaB/2 * T_R^2 - deltaC/3 * T_R^3 - deltaD/4 * T_R^4
             //  =N8+(-J8*TR-K8*TR^2/2-L8*TR^3/3-M8*TR^4/4)/1000
             // Important J is calculated at the Reference Temperature TR of 298
-            double J = Delta_Enthalpy_Ref_CO2 + (-deltaA_CO2 * TR - deltaB_CO2 * Math.Pow(TR, 2) / 2 - deltaC_CO2 * Math.Pow(TR, 3) / 3 - deltaD_CO2 * Math.Pow(TR, 4) / 4) / 1000;
-            Assert.AreEqual(-391.8, J, 0.2);
+            double J_CO2 = Delta_Enthalpy_Ref_CO2 + (((-deltaA_CO2 * TR) - (deltaB_CO2 * Math.Pow(TR, 2) / 2) - (deltaC_CO2 * Math.Pow(TR, 3) / 3) - (deltaD_CO2 * Math.Pow(TR, 4) / 4)) / 1000);
+            Assert.AreEqual(-391.8, J_CO2, 0.2);
             // I = 
             // (1/Rg)*(-O8/TR+(J8*LN(TR)+K8*TR/2+L8*TR^2/6+M8*TR^3/12)/1000)
             // Important I is calculated at the Reference Temperature TR of 298
-            double I = (1 / Rg) * (-J / TR + (deltaA_CO2 * Math.Log(TR) + deltaB_CO2 * TR / 2 + deltaC_CO2 * Math.Pow(TR, 2) / 6 + deltaD_CO2 * Math.Pow(TR, 3) / 12) / 1000);
-            Assert.AreEqual(150.97, I, delta);
+            double I_CO2 = (1 / Rg) * (-J_CO2 / TR + (deltaA_CO2 * Math.Log(TR) + deltaB_CO2 * TR / 2 + deltaC_CO2 * Math.Pow(TR, 2) / 6 + deltaD_CO2 * Math.Pow(TR, 3) / 12) / 1000);
+            Assert.AreEqual(150.97, I_CO2, delta);
             // deltaGref can be calculated from Ref_Defaults
-            double deltaGref = -394.4;
-            double deltaGof_RTR = deltaGref / (Rg * TR);
-            Assert.AreEqual(-159.19, deltaGof_RTR, 0.1);
+            double deltaGref_CO2 = -394.4;
+            double deltaGof_RTR_CO2 = deltaGref_CO2 / (Rg * TR);
+            Assert.AreEqual(-159.19, deltaGof_RTR_CO2, 0.1);
             //  Q8+P8+(1/Rg)*(O8/T+(-J8*LN(T)-K8*T/2-L8*T^2/6-M8*T^3/12)/1000)
-            double deltaGof_T_RT = deltaGof_RTR + I + (1 / Rg) * (J / T + (-deltaA_CO2 * Math.Log(T) - deltaB_CO2 * T / 2 - deltaC_CO2 * Math.Pow(T, 2) / 6 - deltaD_CO2 * Math.Pow(T, 3) / 12) / 1000);
-            Assert.AreEqual(-159.19, deltaGof_T_RT, 0.1);
+            double deltaGof_T_RT_CO2 = deltaGof_RTR_CO2 + I_CO2 + (1 / Rg) * (J_CO2 / T + (-deltaA_CO2 * Math.Log(T) - deltaB_CO2 * T / 2 - deltaC_CO2 * Math.Pow(T, 2) / 6 - deltaD_CO2 * Math.Pow(T, 3) / 12) / 1000);
+            Assert.AreEqual(-159.19, deltaGof_T_RT_CO2, 0.1);
             //  equal to "Delta_Enthalpy_Ref": -393.51 at standard Temperature
             //  =O8+(J8*T+K8*T^2/2+L8*T^3/3+M8*T^4/4)/1000
-            double deltaHf_T = J + (deltaA_CO2 * T + deltaB_CO2 * Math.Pow(T, 2) / 2 + deltaC_CO2 * Math.Pow(T, 3) / 3 + deltaD_CO2 * Math.Pow(T, 4) / 4) / 1000;
-            Assert.AreEqual(-393.51, deltaHf_T, delta);
-            double deltaGof_T = deltaGof_T_RT * Rg * T;
-            Assert.AreEqual(-394.40, deltaGof_T, delta);
+            double deltaHf_T_CO2 = J_CO2 + (deltaA_CO2 * T + deltaB_CO2 * Math.Pow(T, 2) / 2 + deltaC_CO2 * Math.Pow(T, 3) / 3 + deltaD_CO2 * Math.Pow(T, 4) / 4) / 1000;
+            Assert.AreEqual(-393.51, deltaHf_T_CO2, delta);
+            double deltaGof_T_CO2 = deltaGof_T_RT_CO2 * Rg * T;
+            Assert.AreEqual(-394.40, deltaGof_T_CO2, delta);
+            // Calculate deltas for CO, = C + 0.5O_2 -> C) =E9-0.5*E21-E22
+            double deltaA_CO = A_CO - 0.5 * A_O2 - A_C; // expected 6.982
+            Assert.AreEqual(6.982, deltaA_CO, delta);
+            double deltaB_CO = B_CO - 0.5 * B_O2 - B_C; // -5.93e-03
+            Assert.AreEqual(-5.93e-03, deltaB_CO, delta);
+            double deltaC_CO = C_CO - 0.5 * C_O2 - C_C; // 8.95e-06
+            double deltaD_CO = D_CO - 0.5 * D_O2 - D_C;  // -2.88e-09
+            //  Delta_Enthalpy_Ref": -110.535
+            double Delta_Enthalpy_Ref_CO = -110.535;
+            double J_CO = Delta_Enthalpy_Ref_CO + (((-deltaA_CO * TR) - (deltaB_CO * Math.Pow(TR, 2) / 2) - (deltaC_CO * Math.Pow(TR, 3) / 3) - (deltaD_CO * Math.Pow(TR, 4) / 4)) / 1000);     // -112.4
+            double I_CO = (1 / Rg) * (-J_CO / TR + (deltaA_CO * Math.Log(TR) + deltaB_CO * TR / 2 + deltaC_CO * Math.Pow(TR, 2) / 6 + deltaD_CO * Math.Pow(TR, 3) / 12) / 1000);    // 50.1
+            // deltaGref can be calculated from Ref_Defaults
+            double deltaGref_CO = -137.2;
+            double deltaGof_RTR_CO = deltaGref_CO / (Rg * TR);  // -55.38
+            double deltaGof_T_RT_CO = deltaGof_RTR_CO + I_CO + 1 / Rg * (J_CO / T + (-deltaA_CO * Math.Log(T) - deltaB_CO * T / 2 - deltaC_CO * Math.Pow(T, 2) / 6 - deltaD_CO * Math.Pow(T, 3) / 12) / 1000); //  -55.38
+            double deltaHf_T_CO = J_CO + (deltaA_CO * T + deltaB_CO * Math.Pow(T,2)/2 + deltaC_CO * Math.Pow(T, 3)/3 + deltaD_CO * Math.Pow(T, 4)/4) / 1000;    // -110.5
+            double deltaGof_T_CO = deltaGof_T_RT_CO * Rg * T;   // -137.20
+            // calculate Deltas for H2O
+            //  0.5 * A_O2 because only 1 atom of Oxygen per molecule of H2O
+            double deltaA_H2O = A_H2O - A_H2 - (0.5 * A_O2); // -9.6
+            double deltaB_H2O = B_H2O - B_H2 - (0.6 * B_O2);    //  -5.27e-03
         }
     }
     [TestClass]
