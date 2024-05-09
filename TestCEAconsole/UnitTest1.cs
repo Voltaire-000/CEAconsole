@@ -45,11 +45,76 @@ namespace TestCEAconsole
             Assert.AreEqual(-394.4363, deltaGref, 0.001);
         }
         [TestMethod]
-        public void TestMultipleReactions()
+        public void TestNASACoeffVsShomate()
         {
+            string NASAsearchString = "CH4";
+            double TR = 298.15;
+            double T = 298.15;
+            double delta = 0.005;
+
+            ICollection<Specie> nasaPolynomials = InputServices.GetNASA("Data/NASApolynomials.json");
+            IEnumerable<Specie> NASA_specie = from NASAspecie in nasaPolynomials
+                                              where NASAspecie.Name == "CO2" | NASAspecie.Name == "CO" | NASAspecie.Name == "H2O" | NASAspecie.Name == "H2"
+                                              select NASAspecie;
+            Dictionary<string, double> Cp_Specie = new();
+            Dictionary<string, double> Href_Specie = new();
+            Dictionary<string, double> Enthalpy_Specie = new();
+            foreach (var item in NASA_specie)
+            {
+                var exponents = item.DataRecords.ElementAt(0).TExponents;
+                var coeff = item.DataRecords.ElementAt(0).Coefficients;
+                var integration = item.DataRecords.ElementAt(0).IntegrationConstants;
+                double Cp = ThermoDynamics.HeatCapacity(T, exponents, coeff);
+                Cp_Specie.Add(item.Name, Cp);
+                double Href = ThermoDynamics.EnthalpyRefH298(TR, T, coeff, exponents);
+                Href_Specie.Add(item.Name, Href);
+                double enthalpy = ThermoDynamics.Enthalpy(T, exponents, coeff, integration);
+                Enthalpy_Specie.Add(item.Name, enthalpy);
+            }
+            // Get the heat capacity of the Elements : C, H2, O2
+            var NASA_Elements = from NASAelements in nasaPolynomials
+                                where NASAelements.Name == "C(gr)" | NASAelements.Name == "O2" | NASAelements.Name == "H2"
+                                select NASAelements;
+
+            Dictionary<string, double> Cp_elements = new();
+            Dictionary<string, double> Enthalpy_Element = new();
+            foreach (var item in NASA_Elements)
+            {
+                var exponents = item.DataRecords.ElementAt(0).TExponents;
+                var coeff = item.DataRecords.ElementAt(0).Coefficients;
+                var integration = item.DataRecords.ElementAt(0).IntegrationConstants;
+                double Cp = ThermoDynamics.HeatCapacity(T, exponents, coeff);
+                Cp_elements.Add(item.Name, Cp);
+                double enthalpy = ThermoDynamics.Enthalpy(T, exponents, coeff, integration);
+                Enthalpy_Element.Add(item.Name, enthalpy);
+            }
+            // calculate deltaA 
+            Dictionary<string, double> specie_A = new();
+            foreach (var item in NASA_specie)
+            {
+                var coeff = item.DataRecords.ElementAt(0).Coefficients.ElementAt(0);
+                specie_A.Add(item.Name, coeff);
+            }
+            Dictionary<string, double> element_A = new();
+            foreach (var item in NASA_Elements)
+            {
+                var coeff = item.DataRecords.ElementAt(0).Coefficients.ElementAt(0);
+                element_A.Add(item.Name, coeff);
+            }
+            double coefCO2;
+            Enthalpy_Specie.TryGetValue("CO2", out coefCO2);
+            double coefO2;
+            Enthalpy_Element.TryGetValue("O2", out coefO2);
+            double coefH2;
+            Enthalpy_Element.TryGetValue("H2", out coefH2);
+            double coefCgr;
+            Enthalpy_Element.TryGetValue("C(gr)", out coefCgr);
+            double deltaA = coefCO2 - coefO2 - coefCgr;
+            double xx = (coefO2 + coefCgr)  -393.51;
+
+            //Assert.AreEqual(37.152, 99);
 
         }
-
         [DataTestMethod]
         [DataRow(298.0, -28.6)]
         [DataRow(400.0, -24.3747)]
@@ -65,7 +130,7 @@ namespace TestCEAconsole
             //double T = 298.0;       // Kelvin
             double TR = 298.0;      // Kelvin
             //double Rg = 8.31e-03;   // kJ/mol K
-            double Rg = 8.31446261815324/1000;
+            double Rg = 8.31446261815324 / 1000;
             // Shomate Coefficients for molecules
             double A_CO2 = 22.243; double B_CO2 = 5.98e-02; double C_CO2 = -3.50e-05; double D_CO2 = 7.46e-09;
             double A_CO = 28.142; double B_CO = 1.67e-03; double C_CO = 5.37e-06; double D_CO = -2.22e-09;
@@ -84,6 +149,7 @@ namespace TestCEAconsole
             //Assert.AreEqual(33.63, Cp_H2O, 0.2);  // actual 33.8256
             double Cp_H2 = A_H2 + (B_H2 * T) + (C_H2 * Math.Pow(T, 2)) + (D_H2 * Math.Pow(T, 3));
             //Assert.AreEqual(28.85, Cp_H2, delta);   // actual 28.8480
+
             // calculate Deltas for CO2
             double deltaA_CO2 = A_CO2 - A_C - A_O2; //Assert.AreEqual(-11.647, deltaA_CO2, delta);    // J8
             double deltaB_CO2 = B_CO2 - B_C - B_O2; //Assert.AreEqual(4.46e-02, deltaB_CO2);
@@ -114,6 +180,7 @@ namespace TestCEAconsole
             //Assert.AreEqual(-393.51, deltaHf_T_CO2, delta);
             double deltaGof_T_CO2 = deltaGof_T_RT_CO2 * Rg * T;
             //Assert.AreEqual(-394.40, deltaGof_T_CO2, delta);
+
             // Calculate deltas for CO, = C + 0.5O_2 -> C) =E9-0.5*E21-E22
             double deltaA_CO = A_CO - 0.5 * A_O2 - A_C; // expected 6.982
             //Assert.AreEqual(6.982, deltaA_CO, delta);
@@ -129,7 +196,7 @@ namespace TestCEAconsole
             double deltaGref_CO = -137.2;
             double deltaGof_RTR_CO = deltaGref_CO / (Rg * TR);  // -55.38
             double deltaGof_T_RT_CO = deltaGof_RTR_CO + I_CO + 1 / Rg * (J_CO / T + (-deltaA_CO * Math.Log(T) - deltaB_CO * T / 2 - deltaC_CO * Math.Pow(T, 2) / 6 - deltaD_CO * Math.Pow(T, 3) / 12) / 1000); //  -55.38
-            double deltaHf_T_CO = J_CO + (deltaA_CO * T + deltaB_CO * Math.Pow(T,2)/2 + deltaC_CO * Math.Pow(T, 3)/3 + deltaD_CO * Math.Pow(T, 4)/4) / 1000;    // -110.5
+            double deltaHf_T_CO = J_CO + (deltaA_CO * T + deltaB_CO * Math.Pow(T, 2) / 2 + deltaC_CO * Math.Pow(T, 3) / 3 + deltaD_CO * Math.Pow(T, 4) / 4) / 1000;    // -110.5
             double deltaGof_T_CO = deltaGof_T_RT_CO * Rg * T;   // -137.20
             // H2O section start
             // calculate Deltas for H2O
@@ -140,7 +207,7 @@ namespace TestCEAconsole
             double deltaD_H2O = D_H2O - D_H2 - (0.5 * D_O2);    // - 3.35e-09
             //  "Delta_Enthalpy_Ref" H2O : -241.826,
             double Delta_Enthalpy_Ref_H2O = -241.826;
-            double J_H2O = Delta_Enthalpy_Ref_H2O + (((-deltaA_H2O * TR) - (deltaB_H2O * Math.Pow(TR, 2)/2) - (deltaC_H2O * Math.Pow(TR,3)/ 3) - (deltaD_H2O * Math.Pow(TR, 4)/4))/ 1000);  // -238.8
+            double J_H2O = Delta_Enthalpy_Ref_H2O + (((-deltaA_H2O * TR) - (deltaB_H2O * Math.Pow(TR, 2) / 2) - (deltaC_H2O * Math.Pow(TR, 3) / 3) - (deltaD_H2O * Math.Pow(TR, 4) / 4)) / 1000);  // -238.8
             double I_H2O = 1 / Rg * ((-J_H2O / TR) + (((deltaA_H2O * Math.Log(TR)) + (deltaB_H2O * TR / 2) + (deltaC_H2O * Math.Pow(TR, 2) / 6) + (deltaD_H2O * Math.Pow(TR, 3) / 12)) / 1000));  // 89.7
             // deltaGref can be calculated from Ref_Defaults
             double deltaGref_H2O = -228.6;

@@ -14,7 +14,7 @@ double REFERENCE_TEMPERATURE = 298.15;
 double[] DummyData = { -999.123, -999.123, -999.123, -999.123, -999.123, -999.123, -999.123, -999.123, -999.123, -999.123 };
 //
 // Services Section
-string NASAsearchString = "CH4";
+string NASAsearchString = "CO2";
 ICollection<Specie> nasaPolynomials = InputServices.GetNASA("Data/NASApolynomials.json");
 IEnumerable<Specie> NASA_specie = from NASAspecie in nasaPolynomials
                                                           where NASAspecie.Name == NASAsearchString
@@ -23,7 +23,7 @@ IEnumerable<Specie> NASA_specie = from NASAspecie in nasaPolynomials
 ICollection<CPHSRef> cPHSRefs = InputServices.GetDefaultCPHS("Data/Ref_Defaults.json");
 ICollection<Reactant> ReactantsList = InputServices.GetSpecies("Data/newShortThermo.json");
 
-string fuelName = "CH4";
+string fuelName = "CO2";
 IEnumerable<CPHSRef> CPHSdefaults = from item in cPHSRefs.Where(r => r.Species_Name == fuelName) select item;
 
 List<double> temperatureRange = new();
@@ -142,10 +142,10 @@ for (int i = 0; i < 6; i++)
     deltaHfList.Clear();
 }
 
-string oxidizerName = "O";
+string oxidizerName = "O2";
 CPHSdefaults = from item in cPHSRefs.Where(r => r.Species_Name == oxidizerName) select item;
 defaultEntropyRef = (double)CPHSdefaults.ElementAt(0).Entropy_Ref;
-NASAsearchString = "O";
+NASAsearchString = "O2";
 NASA_specie = from NASAspecie in nasaPolynomials
               where NASAspecie.Name == NASAsearchString
               select NASAspecie;
