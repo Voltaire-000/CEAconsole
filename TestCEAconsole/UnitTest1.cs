@@ -64,7 +64,8 @@ namespace TestCEAconsole
             // Arrange
             //double T = 298.0;       // Kelvin
             double TR = 298.0;      // Kelvin
-            double Rg = 8.31e-03;   // kJ/mol K
+            //double Rg = 8.31e-03;   // kJ/mol K
+            double Rg = 8.31446261815324/1000;
             // Shomate Coefficients for molecules
             double A_CO2 = 22.243; double B_CO2 = 5.98e-02; double C_CO2 = -3.50e-05; double D_CO2 = 7.46e-09;
             double A_CO = 28.142; double B_CO = 1.67e-03; double C_CO = 5.37e-06; double D_CO = -2.22e-09;
