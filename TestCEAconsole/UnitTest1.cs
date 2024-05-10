@@ -19,6 +19,7 @@ using System.Text.RegularExpressions;
 using CEAconsole.ThermoChemistry;
 using CEAconsole.ThermoChemistry.Utilities;
 using MathNet.Numerics;
+using System.Globalization;
 
 namespace TestCEAconsole
 {
@@ -295,6 +296,7 @@ namespace TestCEAconsole
 
         }
     }
+
     [TestClass]
     public class TestFilters
     {
@@ -831,6 +833,34 @@ namespace TestCEAconsole
                         select item;
 
             var msplit = SplitMolecule(formula);
+            int ml = msplit.Length;
+            int moles;
+            string[] mParsed = msplit.Split(" ");
+            double mwC = 16;
+            double mwCl = 18;
+            double mwO = 8;
+            Molecule molecule1 = new();
+
+            for (int i = 0; i < mParsed.Length; i++)
+            {
+                string NumberPattern = @"(\d+)";
+                //MatchCollection matchCollection = Regex.Matches(mParsed[i], NumberPattern);
+
+                int result;
+                bool coeffBool = int.TryParse(mParsed[i], out result);
+                if (coeffBool && i == 0)
+                {
+                    moles = int.Parse(mParsed[i]);
+                }
+                else
+                {
+                    int thisCoeff = int.Parse(mParsed[i]);
+                    molecule1.ChemicalFormula.Add(mParsed[i], thisCoeff);
+                }
+
+                //var m_moles = mParsed[i];
+                //moles = int.Parse(m_moles);
+            }
 
             string symbol = "";
             double numberAtoms = 0.0;
@@ -839,14 +869,7 @@ namespace TestCEAconsole
                 symbol = item.Symbol;
                 numberAtoms = item.NumberOfAtoms;
             }
-
-
-            // Act
-            //var result = MoleculeOperations.SplitMolecule(molecule);
-
-            // Assert
             Assert.IsNotNull(m_Molecule);
-
         }
 
         private static string SplitMolecule(string formula)
@@ -871,6 +894,7 @@ namespace TestCEAconsole
             }
             return string.Join(" ", splitParts);
         }
+
     }
 
     [TestClass]
@@ -1751,6 +1775,44 @@ namespace TestCEAconsole
             //var Elements = refElementPolynomials;
             var referenceProperties = ThermoDynamics.ElementsReferenceCPHS(ElementSymbols, refElementPolynomials);
             Assert.IsNotNull(referenceProperties);
+        }
+        [TestMethod]
+        public void TestCH4DeltaHf()
+        {
+            double tolerance = 0.001;
+            const double TR = 298.15;
+            List<string> ElementSymbols = ["C", "H"];
+            var referenceProperties = ThermoDynamics.ElementsReferenceCPHS(ElementSymbols, refElementPolynomials);
+
+            var CH4properties = from item in nasaPolynomials
+                                where item.Name == "CH4"
+                                select item;
+
+            // Get HeatOfFormation of CH4 and Calculate Entropy of CH4
+            double HofCH4 = CH4properties.First().HeatOfFormation / 1000;
+            var expnts = CH4properties.First().DataRecords.ElementAt(0).TExponents;
+            var coeff = CH4properties.First().DataRecords.ElementAt(0).Coefficients;
+            var integrateC = CH4properties.First().DataRecords.ElementAt(0).IntegrationConstants;
+            double Entropy_CH4 = ThermoDynamics.Entropy(TR, expnts, coeff, integrateC);
+
+            //C(gr)
+            referenceProperties.TryGetValue("C(gr)", out var C_gr);
+            double C_gr_Delta_Enthalpy_Ref = C_gr.Delta_Enthalpy_Ref;
+            double C_gr_Entropy_Ref = C_gr.Entropy_Ref;
+
+            // H2
+            referenceProperties.TryGetValue("H2", out var H2);
+            double H2_Delta_Enthalpy_Ref = H2.Delta_Enthalpy_Ref;
+            double H2_Entropy_Ref = H2.Entropy_Ref;
+
+            // Product
+            double CH4delta_Hrxn = HofCH4 - (C_gr_Delta_Enthalpy_Ref + (2 * H2_Delta_Enthalpy_Ref));
+            double CH4delta_Srxn = Entropy_CH4 - (C_gr_Entropy_Ref + ( 2 * H2_Entropy_Ref));
+
+            double deltaG = CH4delta_Hrxn - TR * CH4delta_Srxn / 1000;
+            double expected = -50.53199;
+
+            Assert.AreEqual(expected, deltaG, tolerance);
         }
         [TestMethod]
         public void TestOverLoadedElementsReferenceCPHS()
