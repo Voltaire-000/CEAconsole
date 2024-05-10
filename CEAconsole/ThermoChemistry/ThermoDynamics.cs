@@ -1,4 +1,5 @@
-﻿using MathNet.Numerics;
+﻿using CEAconsole.Models;
+using MathNet.Numerics;
 using MathNet.Numerics.Differentiation;
 using MathNet.Numerics.Integration;
 using MathNet.Numerics.LinearAlgebra;
@@ -190,6 +191,91 @@ namespace CEAconsole.ThermoChemistry
         {
             double heatCapacityIntegrand(double T) => HeatCapacity(T, tExpnts, coefficients);
             return GaussKronrodRule.Integrate(heatCapacityIntegrand, refTemp, T1, out double error, out double L1Norm, 1e-8) / 1000;
+        }
+
+        public static Dictionary<string, CPHSRef> ElementsReferenceCPHS(ICollection<Specie>Elements)
+        {
+            Dictionary<string, CPHSRef> keyValuePairs = new();
+            double TR = 298.15;
+            for (int i = 0; i < Elements.Count; i++)
+            {
+                var NASAchemicalFormula = Elements.ElementAt(i).ChemicalFormula;
+                var temperatureRange = Elements.ElementAt(i).DataRecords.ElementAt(0).TemperatureRange;
+                var coefficients = Elements.ElementAt(i).DataRecords.ElementAt(0).Coefficients;
+                var integrationConstants = Elements.ElementAt(i).DataRecords.ElementAt(0).IntegrationConstants;
+                var t_expnts = Elements.ElementAt(i).DataRecords.ElementAt(0).TExponents;
+
+                string Species_Name = Elements.ElementAt(i).Name;
+                double Molecular_Weight = Elements.ElementAt(i).MolecularWeight;
+                double Enthalpy = Elements.ElementAt(i).HeatOfFormation - (Elements.ElementAt(i).DataRecords.ElementAt(0).EnthalpyRef / 1000);
+                double Delta_Enthalpy = Elements.ElementAt(0).HeatOfFormation - (Elements.ElementAt(0).DataRecords.ElementAt(0).EnthalpyRef / 1000);
+                double Delta_Enthalpy_Ref = Elements.ElementAt(0).HeatOfFormation;
+                double Cp_Ref = ThermoDynamics.HeatCapacity(TR, t_expnts, coefficients);
+                double EnthalpyRef = Elements.ElementAt(i).DataRecords.ElementAt(0).EnthalpyRef / 1000;
+                double Entropy_Ref = ThermoDynamics.Entropy(TR, t_expnts, coefficients, integrationConstants);
+
+                CPHSRef cPHSRef = new()
+                {
+                    Species_Name = Species_Name,
+                    Molecular_Weight = Molecular_Weight,
+                    Enthalpy = Enthalpy,
+                    Delta_Enthalpy = Delta_Enthalpy,
+                    Delta_Enthalpy_Ref = Delta_Enthalpy_Ref,
+                    CP_Ref = Cp_Ref,
+                    EnthalpyRef = EnthalpyRef,
+                    Entropy_Ref = Entropy_Ref
+                };
+
+                keyValuePairs.Add(Elements.ElementAt(i).Name, cPHSRef);
+
+            }
+            return keyValuePairs;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ElementSymbols"></param>
+        /// <param name="Elements"></param>
+        /// <returns></returns>
+        public static Dictionary<string, CPHSRef> ElementsReferenceCPHS(List<string> ElementSymbols, ICollection<Specie> Elements)
+        {
+            Dictionary<string, CPHSRef> keyValuePairs = new();
+            double TR = 298.15;
+            foreach (var elementSymbol in ElementSymbols)
+            {
+                var elementProperties = from element in Elements
+                                        where element != null && element.ChemicalFormula.First().Symbol == elementSymbol
+                                        select element;
+                var NASAchemicalFormula = elementProperties.First().ChemicalFormula;
+                var temperatureRange = elementProperties.First().DataRecords.ElementAt(0).TemperatureRange;
+                var coefficients = elementProperties.First().DataRecords.ElementAt(0).Coefficients;
+                var integrationConstants = elementProperties.First().DataRecords.ElementAt(0).IntegrationConstants;
+                var t_expnts = elementProperties.First().DataRecords.ElementAt(0).TExponents;
+
+                string Species_Name = elementProperties.First().Name;
+                double Molecular_Weight = elementProperties.First().MolecularWeight;
+                double Enthalpy = elementProperties.First().HeatOfFormation - (elementProperties.First().DataRecords.ElementAt(0).EnthalpyRef / 1000);
+                double Delta_Enthalpy = elementProperties.First().HeatOfFormation - (elementProperties.First().DataRecords.ElementAt(0).EnthalpyRef / 1000);
+                double Delta_Enthalpy_Ref = elementProperties.First().HeatOfFormation;
+                double Cp_Ref = ThermoDynamics.HeatCapacity(TR, t_expnts, coefficients);
+                double EnthalpyRef = elementProperties.First().DataRecords.ElementAt(0).EnthalpyRef / 1000;
+                double Entropy_Ref = ThermoDynamics.Entropy(TR, t_expnts, coefficients, integrationConstants);
+
+                CPHSRef cPHSRef = new()
+                {
+                    Species_Name = Species_Name,
+                    Molecular_Weight = Molecular_Weight,
+                    Enthalpy = Enthalpy,
+                    Delta_Enthalpy = Delta_Enthalpy,
+                    Delta_Enthalpy_Ref = Delta_Enthalpy_Ref,
+                    CP_Ref = Cp_Ref,
+                    EnthalpyRef = EnthalpyRef,
+                    Entropy_Ref = Entropy_Ref
+                };
+
+                keyValuePairs.Add(Species_Name, cPHSRef);
+            }
+            return keyValuePairs;
         }
 
         /// <summary>

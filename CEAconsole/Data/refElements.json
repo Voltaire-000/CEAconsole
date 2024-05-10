@@ -638,7 +638,7 @@
 		]
 	},
 	{
-		"Name": "Co(b)",
+		"Name": "Co(bb)",
 		"Description": "Beta.Ref-Elm.Below Lambda trans. Chase,1998 p943.",
 		"TempIntervals": 2,
 		"IdCode": "j 9/67",
@@ -671,7 +671,7 @@
 		]
 	},
 	{
-		"Name": "Co(b)",
+		"Name": "Co(ba)",
 		"Description": "Beta. Ref-Elm.Above Lambda trans. Chase,1998 p943.",
 		"TempIntervals": 2,
 		"IdCode": "j 9/67",
@@ -729,7 +729,7 @@
 		]
 	},
 	{
-		"Name": "Cr(cr)",
+		"Name": "Cr(crb)",
 		"Description": "Below lambda trans. Ref-Elm. Chase,1998 p959.",
 		"TempIntervals": 1,
 		"IdCode": "j 6/73",
@@ -754,7 +754,7 @@
 		]
 	},
 	{
-		"Name": "Cr(cr)",
+		"Name": "Cr(cra)",
 		"Description": "Above lambda trans. Ref-Elm. Chase,1998 p959.",
 		"TempIntervals": 2,
 		"IdCode": "j 6/73",
@@ -1035,7 +1035,7 @@
 		]
 	},
 	{
-		"Name": "Fe(a)",
+		"Name": "Fe(ab)",
 		"Description": "Alpha. Ref-Elm.Below Lambda trans. Chase,1998 p1221.",
 		"TempIntervals": 3,
 		"IdCode": "j 3/78",
@@ -1076,7 +1076,7 @@
 		]
 	},
 	{
-		"Name": "Fe(a)",
+		"Name": "Fe(aa)",
 		"Description": "Alpha. Ref-Elm.Above Lambda trans. Chase,1998 p1221.",
 		"TempIntervals": 1,
 		"IdCode": "j 3/78",
@@ -2120,7 +2120,7 @@
 		]
 	},
 	{
-		"Name": "Ni(cr)",
+		"Name": "Ni(cra)",
 		"Description": "Crystal Ref-Elm. <lambda trans 631K. Chase,1998 p1697.",
 		"TempIntervals": 2,
 		"IdCode": "j12/76",
@@ -2153,7 +2153,7 @@
 		]
 	},
 	{
-		"Name": "Ni(cr)",
+		"Name": "Ni(crb)",
 		"Description": "Crystal Ref-Elm. >lambda trans 631K. Chase,1998 p1697.",
 		"TempIntervals": 2,
 		"IdCode": "j12/76",

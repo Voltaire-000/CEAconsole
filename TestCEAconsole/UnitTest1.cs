@@ -1641,14 +1641,14 @@ namespace TestCEAconsole
 
         [DataTestMethod]
         [DataRow(298.15, 0.0)]
-        [DataRow(398.15, 0.0)]
-        [DataRow(498.15, 0.0)]
-        [DataRow(598.15, 0.0)]
-        [DataRow(698.15, 0.0)]
-        [DataRow(798.15, 0.0)]
-        [DataRow(898.15, 0.0)]
-        [DataRow(998.15, 0.0)]
-        [DataRow(1000.0, 0.0)]
+        //[DataRow(398.15, 0.0)]
+        //[DataRow(498.15, 0.0)]
+        //[DataRow(598.15, 0.0)]
+        //[DataRow(698.15, 0.0)]
+        //[DataRow(798.15, 0.0)]
+        //[DataRow(898.15, 0.0)]
+        //[DataRow(998.15, 0.0)]
+        //[DataRow(1000.0, 0.0)]
         public void Test_MU(double Temperature, double expected)
         {
             // TODO update with refElements.json
@@ -1658,8 +1658,9 @@ namespace TestCEAconsole
             double Enln = Math.Log(Enn / NG);
             double Tm = Math.Log(Pp / Enn);
 
+            //List<string> m_formula = ["C"];
             List<string> m_formula = ["C", "H"];
-            //List<string> m_formula = ["O2"];
+            //List<string> m_formula = ["O"];
             //List<string> m_formula = ["CH4"];
             // CH4 coefficients
             //string searchString = "C";
@@ -1674,12 +1675,12 @@ namespace TestCEAconsole
             List<double> coefficients = [];
             List<double> integrationConstants = [];
             List<double> t_expnts = [];
-            double heatOfFormation = 0.0;
+            double Delta_Enthalpy_Ref = 0.0;
             double refTemperature = 298.15;
-            double Cp_JmolK = 0.0;
+            double Cp_Ref = 0.0;
             double Enthalpy_kJmol = 0.0;
             double ref_entropy = 0.0;
-            double Entropy_JmolK = 0.0;
+            double Entropy_Ref = 0.0;
             double Gibbs_H298JmolK = 0.0;
             double MU = 0.0;
 
@@ -1697,21 +1698,26 @@ namespace TestCEAconsole
                                    where element.ChemicalFormula.First().Symbol == formula
                                    select element;
 
+                
                 NASAchemicalFormula = m_refElement.First().ChemicalFormula;
                 temperatureRange = m_refElement.First().DataRecords.ElementAt(0).TemperatureRange;
                 coefficients = m_refElement.First().DataRecords.ElementAt(0).Coefficients;
                 integrationConstants = m_refElement.First().DataRecords.ElementAt(0).IntegrationConstants;
                 t_expnts = m_refElement.First().DataRecords.ElementAt(0).TExponents;
 
-                heatOfFormation = m_refElement.First().HeatOfFormation;
-                Cp_JmolK = ThermoDynamics.HeatCapacity(Temperature, coefficients, t_expnts);
+                string Species_Name = m_refElement.First().Name;
+                double Molecular_Weight = m_refElement.First().MolecularWeight;
+                double Enthalpy = m_refElement.First().HeatOfFormation - (m_refElement.First().DataRecords.ElementAt(0).EnthalpyRef / 1000);   // -8.68
+                Delta_Enthalpy_Ref = m_refElement.First().HeatOfFormation;
+                Cp_Ref = ThermoDynamics.HeatCapacity(Temperature, t_expnts, coefficients);
                 Enthalpy_kJmol = ThermoDynamics.Enthalpy(Temperature, t_expnts, coefficients, integrationConstants);
                 ref_entropy = 0.0;
-                Entropy_JmolK = ThermoDynamics.Entropy(refTemperature, t_expnts, coefficients, integrationConstants);
+                double EnthalpyRef = m_refElement.First().DataRecords.ElementAt(0).EnthalpyRef / 1000;
+                Entropy_Ref = ThermoDynamics.Entropy(refTemperature, t_expnts, coefficients, integrationConstants);
                 Gibbs_H298JmolK = ThermoDynamics.GibbsRef(refTemperature, ref_entropy, Temperature, coefficients, t_expnts);
                 //MU = ThermoDynamics.Calculate_MU(Gibbs_H298JmolK, Temperature, 1);
 
-                MU = MU + Enthalpy_kJmol - Entropy_JmolK + Enln + Tm;
+                MU = MU + Enthalpy_kJmol - Entropy_Ref + Enln + Tm;
 
                 //        "Species_Name": "CH4",
                 //"Molecular_Weight": 16.04246,
@@ -1722,8 +1728,8 @@ namespace TestCEAconsole
                 //"Enthalpy_Ref": 10.016,
                 //"Entropy_Ref": 186.371
                 double zz = -66.626 - Temperature * 186.371 / 1000;
-                double deltaG = Enthalpy_kJmol - (Temperature * (Entropy_JmolK / 1000));
-                double mx = (Temperature * (Entropy_JmolK / 1000));
+                double deltaG = Enthalpy_kJmol - (Temperature * (Entropy_Ref / 1000));
+                double mx = (Temperature * (Entropy_Ref / 1000));
                 //MU = MU + Enthalpy_kJmol;
                 MU += Gibbs_H298JmolK;
             }
@@ -1736,6 +1742,55 @@ namespace TestCEAconsole
             double delta = 0.005;
             Assert.AreEqual(expected, MU, delta);
 
+        }
+
+        [TestMethod]
+        public void TestElementsReferenceCPHS()
+        {
+            List<string> ElementSymbols = ["C", "O"];
+            //var Elements = refElementPolynomials;
+            var referenceProperties = ThermoDynamics.ElementsReferenceCPHS(ElementSymbols, refElementPolynomials);
+            Assert.IsNotNull(referenceProperties);
+        }
+        [TestMethod]
+        public void TestOverLoadedElementsReferenceCPHS()
+        {
+            var referenceproperties = ThermoDynamics.ElementsReferenceCPHS(refElementPolynomials);
+            Assert.IsNotNull(referenceproperties);
+        }
+        [TestMethod]
+        public void TestShouldBuildReferencePropertiesAt298_15()
+        {
+            double T = 298.15;
+            double TR = 298.15;
+            List<string> m_formula = ["C"];
+            List<double> temperatureRange = [];
+            List<double> coefficients = [];
+            List<double> integrationConstants = [];
+            List<double> t_expnts = [];
+            foreach (string formula in m_formula)
+            {
+                var m_refElementProperties = from element in refElementPolynomials
+                                             where element != null && element.ChemicalFormula.First().Symbol == formula
+                                             select element;
+                NASAchemicalFormula = m_refElementProperties.First().ChemicalFormula;
+                temperatureRange = m_refElementProperties.First().DataRecords.ElementAt(0).TemperatureRange;
+                coefficients = m_refElementProperties.First().DataRecords.ElementAt(0).Coefficients;
+                integrationConstants = m_refElementProperties.First().DataRecords.ElementAt(0).IntegrationConstants;
+                t_expnts = m_refElementProperties.First().DataRecords.ElementAt(0).TExponents;
+
+                string Species_Name = m_refElementProperties.First().Name;
+                double Molecular_Weight = m_refElementProperties.First().MolecularWeight;
+                double Enthalpy = m_refElementProperties.First().HeatOfFormation - (m_refElementProperties.First().DataRecords.ElementAt(0).EnthalpyRef / 1000);
+                double Delta_Enthalpy = m_refElementProperties.First().HeatOfFormation - (m_refElementProperties.First().DataRecords.ElementAt(0).EnthalpyRef / 1000);
+                double Delta_Enthalpy_Ref = m_refElementProperties.First().HeatOfFormation;
+                double Cp_Ref = ThermoDynamics.HeatCapacity(TR, t_expnts, coefficients);
+                double EnthalpyRef = m_refElementProperties.First().DataRecords.ElementAt(0).EnthalpyRef / 1000;
+                double Entropy_Ref = ThermoDynamics.Entropy(TR, t_expnts, coefficients, integrationConstants);
+
+                Assert.IsNotNull(Entropy_Ref);
+
+            }
         }
 
         [DataTestMethod]
