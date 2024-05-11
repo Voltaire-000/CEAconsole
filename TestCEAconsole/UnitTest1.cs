@@ -854,7 +854,7 @@ namespace TestCEAconsole
         public void TestParseChemicalEquationMethod()
         {
             string equation = "3C12H22O11";
-            var parsedEquationDict = ThermoDynamics.ParseChemicalEquation(equation);
+            Dictionary<string, double> parsedEquationDict = ThermoDynamics.ParseChemicalEquation(equation);
             Assert.IsNotNull(parsedEquationDict);
         }
     }
@@ -1336,6 +1336,20 @@ namespace TestCEAconsole
         private static readonly IEnumerable<CPHSRef> m_referenceSpecie = (IEnumerable<CPHSRef>)(from m_specie in referenceCPHS
                                                                                                 where m_specie.Species_Name == NASAsearchString
                                                                                                 select m_specie);
+        [TestMethod]
+        public void TestDeltaHrxnReturnsHrxn()
+        {
+            double Temperature = 298.15;
+            List<string> reactants = new();
+            reactants.Add("Cl2");
+            reactants.Add("H2");
+            string products = "2HCl";
+            double deltaHrxn = ThermoDynamics.DeltaHrxn(Temperature, reactants, products);
+
+            double expected = -184.62;
+            Assert.AreEqual(expected, deltaHrxn);
+        }
+
         [DataTestMethod]
         [DataRow(298.15, -74.600)]
         [DataRow(398.15, -77.635)]

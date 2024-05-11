@@ -1,10 +1,12 @@
 ﻿using CEAconsole.Models;
+using CEAconsole.Services;
 using MathNet.Numerics;
 using MathNet.Numerics.Differentiation;
 using MathNet.Numerics.Integration;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using Newtonsoft.Json.Linq;
+using ScottPlot.Colormaps;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,14 +28,70 @@ namespace CEAconsole.ThermoChemistry
     public static class ThermoDynamics
     {
 
-
         //private static readonly double[]? coefficients;
         static readonly double Gas_Constant_R = 8.31446261815324;
 
-        public static Dictionary<string, int> ParseChemicalEquation(string equation)
+        // TODO need to change to Balanced equation??
+        public static double DeltaHrxn(double Temperature, List<string> reactants, string productChemicalFormula)
+        {
+            ICollection<ReferenceElement> refElements = InputServices.GetReferenceElements("Data/refElements.json");
+            ICollection<Specie> NASAspecies = InputServices.GetNASA("Data/NASApolynomials.json");
+            Dictionary<string, double> reactantsDict = new();
+            foreach (var molecule in reactants)
+            {
+                var result = ParseChemicalEquation(molecule);
+                reactantsDict.Add(result.ElementAt(0).Key, result.ElementAt(0).Value);
+            }
+            Dictionary<string, double> productsDict = ParseChemicalEquation(productChemicalFormula);
+
+            double Rsum_heatOfFormation = 0.0;
+            double Psum_heatOfFormation = 0.0;
+            double P_entropy = 0.0;
+            double R_entropy = 0.0;
+            foreach (var reactant in reactantsDict)
+            {
+                var elementData = from element in refElements
+                                  where element.ChemicalFormula.ElementAt(0).Symbol == reactant.Key
+                                  select element;
+                List<double> tExpnts = elementData.First().DataRecords.ElementAt(0).TExponents;
+                List<double> coefficients = elementData.First().DataRecords.ElementAt(0).Coefficients;
+                List<double> integrationConstants = elementData.First().DataRecords.ElementAt(0).IntegrationConstants;
+
+                Rsum_heatOfFormation += reactant.Value * (elementData.First().HeatOfFormation);
+
+            }
+
+            var productKeys = productsDict.Keys;
+            string productConcant = string.Concat(productKeys);
+            // TODO need to fix Name
+            var productData = from specie in NASAspecies
+                              where specie.Name == "HCL"
+                              select specie;
+            List<double> P_tExpnts = productData.First().DataRecords.ElementAt(0).TExponents;
+            List<double> P_coefficients = productData.First().DataRecords.ElementAt(0).Coefficients;
+            List<double> P_integrationConstants = productData.First().DataRecords.ElementAt(0).IntegrationConstants;
+            Psum_heatOfFormation = productData.First().HeatOfFormation / 1000;
+
+            Regex moleculePattern = new Regex("^(\\d+)([A-Z][a-z]*)");
+            Match moleculeMatch = moleculePattern.Match(productChemicalFormula);
+            int moleculeCoefficient = moleculeMatch.Success ? int.Parse(moleculeMatch.Groups[1].Value) : 1;
+
+
+            double valueRxn = moleculeCoefficient * Psum_heatOfFormation - Rsum_heatOfFormation;
+            return valueRxn;
+        }
+
+        public static double DeltaSrxn(List<string> reactants, string productChemicalFormula, double entropyProduct, double entropyReactant)
+        {
+            Dictionary<string, double> elementsDict = ParseChemicalEquation(productChemicalFormula);
+
+            return entropyProduct - entropyReactant;
+        }
+
+        public static Dictionary<string, double> ParseChemicalEquation(string equation)
         {
             // this Dictionary will hold the element symbols and their coefficients
-            Dictionary<string, int> elements = new();
+            Dictionary<string, double> elements = new();
             // REGEX to match the leading coefficient and elements with their coefficients
             Regex moleculePattern = new Regex("^(\\d+)([A-Z][a-z]*)");
             // Regex element pattern
