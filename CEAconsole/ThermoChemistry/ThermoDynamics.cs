@@ -11,6 +11,7 @@ using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Vector = MathNet.Numerics.LinearAlgebra.Double.Vector;
 
@@ -25,8 +26,40 @@ namespace CEAconsole.ThermoChemistry
     public static class ThermoDynamics
     {
 
+
         //private static readonly double[]? coefficients;
         static readonly double Gas_Constant_R = 8.31446261815324;
+
+        public static Dictionary<string, int> ParseChemicalEquation(string equation)
+        {
+            // this Dictionary will hold the element symbols and their coefficients
+            Dictionary<string, int> elements = new();
+            // REGEX to match the leading coefficient and elements with their coefficients
+            Regex moleculePattern = new Regex("^(\\d+)([A-Z][a-z]*)");
+            // Regex element pattern
+            Regex elementPattern = new Regex("([A-Z][a-z]*)(\\d*)");
+            // match the leading coefficient for the molecule
+            Match moleculeMatch = moleculePattern.Match(equation);
+            int moleculeCoefficient = moleculeMatch.Success ? int.Parse(moleculeMatch.Groups[1].Value) : 1;
+            // remove the leading coeficient from the equation for further parsing
+            equation = moleculePattern.Replace(equation, moleculeMatch.Groups[2].Value);
+            // match all elements and coefficients
+            foreach (Match match in elementPattern.Matches(equation))
+            {
+                string element = match.Groups[1].Value;
+                int coefficient = match.Groups[2].Value == "" ? moleculeCoefficient : moleculeCoefficient * int.Parse(match.Groups[2].Value);
+                // element is already in dictionary, add the coefficient, otherwise add the element to the dictionary
+                if (elements.ContainsKey(element))
+                {
+                    elements[element] += coefficient;
+                }
+                else
+                {
+                    elements.Add(element, coefficient);
+                }
+            }
+            return elements;
+        }
 
         // TODO change T -> the temperature range or adjust the code to process based on temperature input by selecting temperature range
         /// <summary>
@@ -193,7 +226,7 @@ namespace CEAconsole.ThermoChemistry
             return GaussKronrodRule.Integrate(heatCapacityIntegrand, refTemp, T1, out double error, out double L1Norm, 1e-8) / 1000;
         }
 
-        public static Dictionary<string, CPHSRef> ElementsReferenceCPHS(ICollection<Specie>Elements)
+        public static Dictionary<string, CPHSRef> ElementsReferenceCPHS(ICollection<Specie> Elements)
         {
             Dictionary<string, CPHSRef> keyValuePairs = new();
             double TR = 298.15;

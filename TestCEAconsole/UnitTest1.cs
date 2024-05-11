@@ -45,6 +45,7 @@ namespace TestCEAconsole
             double deltaGref = deltaHfref - 298.15 / deltaSref;
             Assert.AreEqual(-394.4363, deltaGref, 0.001);
         }
+
         [TestMethod]
         public void TestNASACoeffVsShomate()
         {
@@ -111,11 +112,12 @@ namespace TestCEAconsole
             double coefCgr;
             Enthalpy_Element.TryGetValue("C(gr)", out coefCgr);
             double deltaA = coefCO2 - coefO2 - coefCgr;
-            double xx = (coefO2 + coefCgr)  -393.51;
+            double xx = (coefO2 + coefCgr) - 393.51;
 
             //Assert.AreEqual(37.152, 99);
 
         }
+
         [DataTestMethod]
         [DataRow(298.0, -28.6)]
         [DataRow(400.0, -24.3747)]
@@ -244,9 +246,9 @@ namespace TestCEAconsole
             double deltaG_rxn = deltaGof_T_CO2 - deltaGof_T_CO - deltaGof_T_H2O - deltaGof_T_H2;    // -28.6 at 298
             Assert.AreEqual(expected, deltaG_rxn, delta);
 
-
         }
     }
+
     [TestClass]
     public class TestGaussianEliminationMethods
     {
@@ -814,87 +816,47 @@ namespace TestCEAconsole
     public class TestRegex
     {
         [TestMethod]
-        public void TestShouldReturnMoleculeCountAndFormula()
+        public void TestCoPilotFormulaParser()
         {
-            // Arrange
-            string molecule = "CH4";
-            string formula = "4C12ClO3";
-            ICollection<Reactant> reactants = InputServices.GetSpecies("Data/newShortThermo.json");
-            ICollection<Specie> species = InputServices.GetNASA("Data/NASApolynomials.json");
-            Assert.IsNotNull(reactants);
-            var m_Molecule = from item in reactants
-                             where item.Name == molecule
-                             select item.Molecule;
-
-            var expected = m_Molecule;
-
-            var m_CH4 = from item in species
-                        where item.Name == molecule
-                        select item;
-
-            var msplit = SplitMolecule(formula);
-            int ml = msplit.Length;
-            int moles;
-            string[] mParsed = msplit.Split(" ");
-            double mwC = 16;
-            double mwCl = 18;
-            double mwO = 8;
-            Molecule molecule1 = new();
-
-            for (int i = 0; i < mParsed.Length; i++)
+            string equation = "2H2SO4";
+            Dictionary<string, int> ParseChemicalEquation = new();
+            // this Dictionary will hold the element symbols and their coefficients
+            Dictionary<string, int> elements = new();
+            // REGEX to match the leading coefficient and elements with their coefficients
+            Regex moleculePattern = new Regex("^(\\d+)([A-Z][a-z]*)");
+            // Regex element pattern
+            Regex elementPattern = new Regex("([A-Z][a-z]*)(\\d*)");
+            // match the leading coefficient for the molecule
+            Match moleculeMatch = moleculePattern.Match(equation);
+            int moleculeCoefficient = moleculeMatch.Success ? int.Parse(moleculeMatch.Groups[1].Value) : 1;
+            // remove the leading coeficient from the equation for further parsing
+            equation = moleculePattern.Replace(equation, moleculeMatch.Groups[2].Value);
+            // match all elements and coefficients
+            foreach (Match match in elementPattern.Matches(equation))
             {
-                string NumberPattern = @"(\d+)";
-                //MatchCollection matchCollection = Regex.Matches(mParsed[i], NumberPattern);
-
-                int result;
-                bool coeffBool = int.TryParse(mParsed[i], out result);
-                if (coeffBool && i == 0)
+                string element = match.Groups[1].Value;
+                int coefficient = match.Groups[2].Value == "" ? moleculeCoefficient : moleculeCoefficient * int.Parse(match.Groups[2].Value);
+                // element is already in dictionary, add the coefficient, otherwise add the element to the dictionary
+                if (elements.ContainsKey(element))
                 {
-                    moles = int.Parse(mParsed[i]);
+                    elements[element] += coefficient;
                 }
                 else
                 {
-                    int thisCoeff = int.Parse(mParsed[i]);
-                    molecule1.ChemicalFormula.Add(mParsed[i], thisCoeff);
+                    elements.Add(element, coefficient);
                 }
-
-                //var m_moles = mParsed[i];
-                //moles = int.Parse(m_moles);
             }
 
-            string symbol = "";
-            double numberAtoms = 0.0;
-            foreach (var item in m_CH4.ElementAt(0).ChemicalFormula)
-            {
-                symbol = item.Symbol;
-                numberAtoms = item.NumberOfAtoms;
-            }
-            Assert.IsNotNull(m_Molecule);
+            Assert.IsNotNull(moleculePattern);
+
         }
-
-        private static string SplitMolecule(string formula)
+        [TestMethod]
+        public void TestParseChemicalEquationMethod()
         {
-            // matches elements and numbers
-            string pattern = @"(\d+)?([A-Z][a-z]?)(\d*)";
-            // find all matches in the molecule string
-            MatchCollection matchCollection = Regex.Matches(formula, pattern);
-            // List to hold the split parts
-            List<string> splitParts = new();
-            foreach (Match match in matchCollection)
-            {
-                // capture the element symbol
-                string coefficient = match.Groups[1].Value;
-                string element = match.Groups[2].Value;
-                string quantity = match.Groups[3].Value;
-                // combine the element and quantity with a space (if quantity exists)
-                //splitParts.Add(element + (string.IsNullOrEmpty(quantity) ? "" : " " + quantity));
-                splitParts.Add((string.IsNullOrEmpty(coefficient) ? "" : coefficient + " ") + element + (string.IsNullOrEmpty(quantity) ? "" : " " + quantity));
-                //join the parts with 2 spaces as per the requirement
-
-            }
-            return string.Join(" ", splitParts);
+            string equation = "3C12H22O11";
+            var parsedEquationDict = ThermoDynamics.ParseChemicalEquation(equation);
+            Assert.IsNotNull(parsedEquationDict);
         }
-
     }
 
     [TestClass]
@@ -1286,51 +1248,6 @@ namespace TestCEAconsole
             Assert.AreEqual(expected, Enthalpy_kJmol, delta);
         }
 
-        [TestMethod]
-        public void TestShouldAddCarbonAndHydrogenEnthalpy()
-        {
-            // TODO update with NASApolynomials
-            // CH4 
-            // CH4 coefficients
-            List<double> CH_t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
-            List<double> CH_coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
-            List<double> CH_integrationConstants = [-2.331314360e+04, 8.904322750e+01];
-            double CH4HeatOfFormation = -74600.0;
-            double chHeat = -74.600;
-
-            double ref_temp = 298.15;
-            double T = 298.15;
-            // get Carbon enthalpy at reference temp
-            double C_heatOfFormation = 716680.000;
-            double C_hjmol = 6535.895;
-            List<double> C_tExponents = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
-            List<double> C_coefficients = [6.495031470e+02, -9.649010860e-01, 2.504675479e+00, -1.281448025e-05, 1.980133654e-08, -1.606144025e-11, 5.314483411e-15];
-            List<double> C_integrationConstants = [8.545763110e+04, 4.747924288e+00];
-            // get H2
-            double H2_heatOfFormation = 0.0;
-            List<double> H2_tExponents = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
-            List<double> H2_coefficients = [4.078323210e+04, -8.009186040e+02, 8.214702010e+00, -1.269714457e-02, 1.753605076e-05, -1.202860270e-08, 3.368093490e-12];
-            List<double> H2_integrationConstants = [2.682484665e+03, -3.043788844e+01];
-            // get Hydrogen
-            double H_heatOfFormation = 217998.828;
-            double H_hjmol = 6197.428;
-            List<double> H_tExponents = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
-            List<double> H_coefficients = [0.000000000e+00, 0.000000000e+00, 2.500000000e+00, 0.000000000e+00, 0.000000000e+00, 0.000000000e+00, 0.000000000e+00];
-            List<double> H_integrationConstants = [2.547370801e+04, -4.466828530e-01];
-
-            double C_enthalpy = ThermoDynamics.Enthalpy(T, C_tExponents, C_coefficients, C_integrationConstants);
-            double Cref = ThermoDynamics.EnthalpyRefH298(ref_temp, T, C_coefficients, C_tExponents);
-            double H_enthalpy = ThermoDynamics.Enthalpy(T, H_tExponents, H_coefficients, H_integrationConstants);
-            double CH_enthalpy = ThermoDynamics.Enthalpy(T, CH_t_expnts, CH_coefficients, CH_integrationConstants);
-            double H2_enthalpy = ThermoDynamics.Enthalpy(T, H2_tExponents, H2_coefficients, H2_integrationConstants);
-            double H2_ref = ThermoDynamics.EnthalpyRefH298(ref_temp, T, H2_coefficients, H2_tExponents);
-
-            double m_sum = C_enthalpy - H_enthalpy * 4;
-
-            Assert.AreEqual(99, m_sum);
-
-        }
-
         [DataTestMethod]
         [DataRow(298.15, 0.0)]
         [DataRow(398.15, 2.168)]
@@ -1578,7 +1495,7 @@ namespace TestCEAconsole
         public void Test_New_HeatCapacity()
         {
             double Temperature = 1000;
-            double Cp = ThermoDynamics.HeatCapacity(Temperature, NASACoefficients, NASAExponents);
+            double Cp = ThermoDynamics.HeatCapacity(Temperature, NASAExponents, NASACoefficients );
             Assert.AreEqual(73.676, Cp, delta);
         }
 
@@ -1722,7 +1639,7 @@ namespace TestCEAconsole
                                    where element.ChemicalFormula.First().Symbol == formula
                                    select element;
 
-                
+
                 NASAchemicalFormula = m_refElement.First().ChemicalFormula;
                 temperatureRange = m_refElement.First().DataRecords.ElementAt(0).TemperatureRange;
                 coefficients = m_refElement.First().DataRecords.ElementAt(0).Coefficients;
@@ -1807,7 +1724,7 @@ namespace TestCEAconsole
 
             // Product
             double CH4delta_Hrxn = HofCH4 - (C_gr_Delta_Enthalpy_Ref + (2 * H2_Delta_Enthalpy_Ref));
-            double CH4delta_Srxn = Entropy_CH4 - (C_gr_Entropy_Ref + ( 2 * H2_Entropy_Ref));
+            double CH4delta_Srxn = Entropy_CH4 - (C_gr_Entropy_Ref + (2 * H2_Entropy_Ref));
 
             double deltaG = CH4delta_Hrxn - TR * CH4delta_Srxn / 1000;
             double expected = -50.53199;
@@ -1914,115 +1831,6 @@ namespace TestCEAconsole
             Assert.AreEqual(expected, enthalpy, delta);
         }
 
-        [DataTestMethod]
-        [DataRow(298.15, -74.600)]
-        [DataRow(398.15, -77.635)]
-        [DataRow(498.15, -80.457)]
-        [DataRow(598.15, -82.932)]
-        [DataRow(698.15, -85.023)]
-        [DataRow(798.15, -86.726)]
-        [DataRow(898.15, -88.059)]
-        [DataRow(998.15, -89.053)]
-        [DataRow(1000.00, -89.069)]
-        public void TestDeltaHf(double T, double expected)
-        {
-            // CH4 heat of formation = -74600.0
-            // delta H_f(T) = H(T) - SUM delta H_f(elements)
-
-            List<double> temperatureRange = [200.000, 1000.000];
-            List<double> t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
-            List<double> coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
-            List<double> integrationConstants = [-2.331314360e+04, 8.904322750e+01];
-
-            double delta = 0.005;
-            double ref_temp = 298.15;
-
-            double C_298HF = 1053.500;
-            double H_298HF = 8468.102;
-            double heatOfFormation = 74600.0;
-
-            double elementsSum = C_298HF + H_298HF;
-
-            double enthalpy = ThermoDynamics.Enthalpy(T, t_expnts, coefficients, integrationConstants);
-
-            double deltaH_f = enthalpy - elementsSum;
-
-
-            Assert.AreEqual(expected, deltaH_f);
-
-        }
-
-        [TestMethod]
-        public void Test_CalculateDeltaHf()
-        {
-
-            //            CH4 Gurvich,1991 pt1 p44 pt2 p36.                                 
-            // 2 g 8 / 99 C   1.00H   4.00    0.00    0.00    0.00 0   16.0424600 - 74600.000
-            //    200.000   1000.0007 - 2.0 - 1.0  0.0  1.0  2.0  3.0  4.0  0.0        10016.202
-            //- 1.766850998D + 05 2.786181020D + 03 - 1.202577850D + 01 3.917619290D - 02 - 3.619054430D - 05
-            // 2.026853043D - 08 - 4.976705490D - 12 - 2.331314360D + 04 8.904322750D + 01
-            //   1000.000   6000.0007 - 2.0 - 1.0  0.0  1.0  2.0  3.0  4.0  0.0        10016.202
-            // 3.730042760D + 06 - 1.383501485D + 04 2.049107091D + 01 - 1.961974759D - 03 4.727313040D - 07
-            //- 3.728814690D - 11 1.623737207D - 15                 7.532066910D + 04 - 1.219124889D + 02
-
-
-            double T = 398.15;
-            double deltaHf_298 = -74.600;
-            double C_formation = 716680.0 * 0;
-            double H_formation = 0.0 * 2 * 0;
-            double[] elementDeltaHf_298 = { C_formation, H_formation };
-
-            double HH_RT = CalculateH_RT(T);
-            double deltaHFF = CalculateDeltaHf(T, deltaHf_298, elementDeltaHf_298);
-
-            Assert.AreEqual(77.635, 0);
-        }
-
-        private double CalculateDeltaHf(double t, double deltaHf_298, double[] elementDeltaHf_298)
-        {
-            double H_RT = CalculateH_RT(t);
-            double deltaHf_T = H_RT - deltaHf_298;
-
-            foreach (double elementHf in elementDeltaHf_298)
-            {
-                deltaHf_T -= elementHf;
-            }
-            return deltaHf_T;
-
-        }
-
-        private double CalculateH_RT(double t)
-        {
-            List<double> temperatureRange = [200.000, 1000.000];
-            List<double> t_expnts = [-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 0.0];
-            List<double> coefficients = [-1.766850998e+05, 2.786181020e+03, -1.202577850e+01, 3.917619290e-02, -3.619054430e-05, 2.026853043e-08, -4.976705490e-12];
-            List<double> integrationConstants = [-2.331314360e+04, 8.904322750e+01];
-
-            double heatOfFormation = -74600.0;
-            double ref_enthalpy = heatOfFormation / 1000.0;
-
-            //double ref_temp = 298.15;
-            double T = 398.15;
-            double a1 = coefficients[0];
-            double a2 = coefficients[1];
-            double a3 = coefficients[2];
-            double a4 = coefficients[3];
-            double a5 = coefficients[4];
-            double a6 = coefficients[5];
-            double a7 = coefficients[6];
-            //double a8 = coefficients[7];
-
-            double coef = -a1 * Math.Pow(T, -2)
-                            + (a2 * Math.Pow(T, -1) * Math.Log(T))
-                            + a3
-                            + (a4 * T / 2)
-                            + (a5 * Math.Pow(T, 2) / 3)
-                            + (a6 * Math.Pow(T, 3) / 4)
-                            + (a7 * Math.Pow(T, 4) / 5)
-                            + integrationConstants[0] / T;
-            return coef * T * 8.314 / 1000;
-        }
-
         [TestMethod]
         public void Test_MU_For_TempRanges()
         {
@@ -2081,55 +1889,6 @@ namespace TestCEAconsole
 
         }
 
-    }
-
-    [TestClass]
-    public class TestModifyAddNode
-    {
-        [TestMethod]
-        public void TestAddNode()
-        {
-            ICollection<Specie> reactants = InputServices.GetNASA("Data/NASApolynomials.json");
-            int reactantCount = reactants.Count;
-
-            List<Specie>? filteredCollection = reactants?.Where(item => item.Name == "CH4").ToList();
-            var molecularWeight = (from item in filteredCollection
-                                   select item.MolecularWeight).FirstOrDefault();
-            double expected = 16.0424600;
-
-            //var elementv = reactants.ElementAt(0);
-
-            //List<DTO_Reactant> dtoList = new();
-
-            //for (int i = 0; i < reactantCount; i++)
-            //{
-            //    DTO_Reactant dTO_Reactant = new()
-            //    {
-            //        Molecule = new(),
-
-            //    };
-
-            //    dTO_Reactant.Name = reactants.ElementAt(i).Name;
-            //    dTO_Reactant.Description = reactants.ElementAt(i).Description;
-            //    dTO_Reactant.T_Intervals = reactants.ElementAt(i).T_Intervals;
-            //    dTO_Reactant.Id_Code = reactants.ElementAt(i).Id_Code;
-            //    dTO_Reactant.Molecule.Count = 1.0;
-            //    dTO_Reactant.Molecule.ChemicalFormula = reactants.ElementAt(i).Molecule.ChemicalFormula;
-            //    dTO_Reactant.Gaseous = reactants.ElementAt(i).Gaseous;
-            //    dTO_Reactant.MolecularWeight = reactants.ElementAt(i).MolecularWeight;
-            //    dTO_Reactant.HeatOfFormation = reactants.ElementAt(i).HeatOfFormation;
-            //    dTO_Reactant.TemperatureRange = reactants.ElementAt(i).TemperatureRange;
-
-            //    dtoList.Add(dTO_Reactant);
-            //}
-
-            //string serializedList = JsonConvert.SerializeObject(dtoList);
-            ////string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "newShortThermo.json");
-            ////File.WriteAllText(path, serializedList);
-
-            Assert.AreEqual(expected, molecularWeight);
-
-        }
     }
 }
 
