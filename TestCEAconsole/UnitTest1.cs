@@ -1336,8 +1336,64 @@ namespace TestCEAconsole
         private static readonly IEnumerable<CPHSRef> m_referenceSpecie = (IEnumerable<CPHSRef>)(from m_specie in referenceCPHS
                                                                                                 where m_specie.Species_Name == NASAsearchString
                                                                                                 select m_specie);
+
+        [DataTestMethod]
+        [DataRow(298.15, -74.6)]
+        [DataRow(398.15, -77.635)]
+        [DataRow(498.15, -80.457)]
+        [DataRow(598.15, -82.932)]
+        [DataRow(698.15, -85.023)]
+        [DataRow(798.15, -86.726)]
+        [DataRow(898.15, -88.059)]
+        [DataRow(998.15, -89.053)]
+        [DataRow(1000.00, -89.069)]
+        public void TestDeltaHf_for_CH4(double Temperature, double expected)
+        {
+            List<double> TemperatureList = new();
+            Dictionary<string, Molecule> Reactants = new();
+            Dictionary<string, Molecule> Products = new();
+            //double Temperature = 298.15;
+            // Product molecule
+            Molecule CH4_Molecule = new()
+            {
+                Count = 1,
+                ChemicalFormula = new()
+                {
+                    {"C", 1.00 },
+                    {"H", 4.00 }
+                }
+            };
+            Products.Add("CH4", CH4_Molecule);
+
+            // Reference element molecules
+            Molecule C_Molecule = new()
+            {
+                Count = 1,
+                ChemicalFormula = new()
+                {
+                    {"C", 1.00 }
+                }
+            };
+            Reactants.Add("C(gr)", C_Molecule);
+            Molecule H2_Molecule = new()
+            {
+                Count = 2,
+                ChemicalFormula = new()
+                {
+                    {"H", 2.0 }
+                }
+            };
+            Reactants.Add("H2", H2_Molecule);
+
+            double tolerance = 0.001;
+            double deltaHrxn = ThermoDynamics.DeltaHrxn(Temperature, Reactants, Products);
+            double deltaSrxn = ThermoDynamics.DeltaSrxn(Temperature, Reactants, Products);
+            double deltaGibbs = ThermoDynamics.DeltaGibbs(Temperature, deltaHrxn, deltaSrxn);
+
+            Assert.AreEqual(expected, deltaHrxn, tolerance);
+        }
         [TestMethod]
-        public void TestDeltaHrxnReturnsHrxn()
+        public void TestDeltaRxn()
         {
             List<double> TemperatureList = new();
             Dictionary<string, Molecule> Reactants = new();
@@ -1348,7 +1404,7 @@ namespace TestCEAconsole
                 Count = 2,
                 ChemicalFormula = new()
                 {
-                    {"H", 1.0},
+                    {"H", 1.00},
                     {"Cl", 1.00 }
                 }
             };
@@ -1380,7 +1436,7 @@ namespace TestCEAconsole
             double deltaSrxn = ThermoDynamics.DeltaSrxn(Temperature, Reactants, Products);
             double deltaGibbs = ThermoDynamics.DeltaGibbs(Temperature, deltaHrxn, deltaSrxn);
 
-            double Hrxn_expected = -184.62;
+            double Hrxn_expected = -184.6189;
             Assert.AreEqual(Hrxn_expected, deltaHrxn, tolerance);
             double Srxn_expected = 20.0438;
             Assert.AreEqual(Srxn_expected, deltaSrxn, tolerance);
@@ -1628,7 +1684,7 @@ namespace TestCEAconsole
         [DataRow(1000.00, 38.685)]
         public void Test_EnthalpyRefH298(double T, double expected)
         {
-            double enthalpy = ThermoDynamics.EnthalpyRefH298(referenceTemp, T, NASACoefficients, NASAExponents);
+            double enthalpy = ThermoDynamics.EnthalpyRefH298(referenceTemp, T, NASAExponents, NASACoefficients);
             Assert.AreEqual(expected, enthalpy, delta);
         }
 

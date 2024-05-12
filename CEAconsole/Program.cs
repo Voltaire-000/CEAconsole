@@ -14,7 +14,7 @@ double REFERENCE_TEMPERATURE = 298.15;
 double[] DummyData = { -999.123, -999.123, -999.123, -999.123, -999.123, -999.123, -999.123, -999.123, -999.123, -999.123 };
 //
 // Services Section
-string NASAsearchString = "CO2";
+string NASAsearchString = "CH4";
 ICollection<Specie> nasaPolynomials = InputServices.GetNASA("Data/NASApolynomials.json");
 IEnumerable<Specie> NASA_specie = from NASAspecie in nasaPolynomials
                                                           where NASAspecie.Name == NASAsearchString
@@ -23,7 +23,7 @@ IEnumerable<Specie> NASA_specie = from NASAspecie in nasaPolynomials
 ICollection<CPHSRef> cPHSRefs = InputServices.GetDefaultCPHS("Data/Ref_Defaults.json");
 ICollection<Reactant> ReactantsList = InputServices.GetSpecies("Data/newShortThermo.json");
 
-string fuelName = "CO2";
+string fuelName = "CH4";
 IEnumerable<CPHSRef> CPHSdefaults = from item in cPHSRefs.Where(r => r.Species_Name == fuelName) select item;
 
 List<double> temperatureRange = new();
@@ -74,8 +74,9 @@ foreach (double temperature in temperatureSchedule)
 
     double enthalpy_change_from_ref_value = ThermoDynamics.EnthalpyRefH298(REFERENCE_TEMPERATURE,
                                                                            temperature,
-                                                                           NASA_specie.First().DataRecords.ElementAt(0).Coefficients, 
-                                                                           NASA_specie.First().DataRecords.ElementAt(0).TExponents);
+                                                                           NASA_specie.First().DataRecords.ElementAt(0).TExponents,
+                                                                           NASA_specie.First().DataRecords.ElementAt(0).Coefficients
+                                                                           );
     enthalpyChangeFromRefList.Add(enthalpy_change_from_ref_value);
 
     double entropy_value = ThermoDynamics.Entropy(temperature,
@@ -160,8 +161,9 @@ foreach (double temperature in temperatureSchedule)
 
     double enthalpy_change_from_ref_value = ThermoDynamics.EnthalpyRefH298(REFERENCE_TEMPERATURE,
                                                                        temperature,
-                                                                       NASA_specie.First().DataRecords.ElementAt(0).Coefficients,
-                                                                       NASA_specie.First().DataRecords.ElementAt(0).TExponents);
+                                                                       NASA_specie.First().DataRecords.ElementAt(0).TExponents,
+                                                                       NASA_specie.First().DataRecords.ElementAt(0).Coefficients
+                                                                       );
     enthalpyChangeFromRefList.Add(enthalpy_change_from_ref_value);
 
     double entropy_value = ThermoDynamics.Entropy(temperature,

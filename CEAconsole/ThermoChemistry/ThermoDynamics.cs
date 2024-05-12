@@ -45,9 +45,13 @@ namespace CEAconsole.ThermoChemistry
                 var elementData = from element in refElements
                                   where element.Name == reactant.Key
                                   select element;
+                List<double> tExpnts = elementData.First().DataRecords.ElementAt(0).TExponents;
+                List<double> coefficients = elementData.First().DataRecords.ElementAt(0).Coefficients;
+                List<double> integrationConstants = elementData.First().DataRecords.ElementAt(0).IntegrationConstants;
+
                 // number of moles
                 double moleculeCoefficient = reactant.Value.Count; 
-                Rsum_heatOfFormation += moleculeCoefficient * elementData.First().HeatOfFormation;
+                Rsum_heatOfFormation += moleculeCoefficient * EnthalpyFormation(Temperature, tExpnts, coefficients);
             }
 
             foreach (var product in productChemicalFormula)
@@ -55,13 +59,16 @@ namespace CEAconsole.ThermoChemistry
                 IEnumerable<Specie> productData = from specie in NASAspecies
                                   where specie.Name == product.Key
                                   select specie;
+                List<double> tExpnts = productData.First().DataRecords.ElementAt(0).TExponents;
+                List<double> coefficients = productData.First().DataRecords.ElementAt(0).Coefficients;
+                List<double> integrationConstants = productData.First().DataRecords.ElementAt(0).IntegrationConstants;
+
                 //  number of moles
                 double moleculeCoefficient = product.Value.Count;
-                Psum_heatOfFormation = moleculeCoefficient * (productData.FirstOrDefault().HeatOfFormation / 1000) ;
+                Psum_heatOfFormation = moleculeCoefficient * Enthalpy(Temperature, tExpnts, coefficients, integrationConstants);
             }
-            double valueRxn = Psum_heatOfFormation - Rsum_heatOfFormation;
-            string NameProduct = productChemicalFormula.First().Key;
-            return valueRxn;
+            double deltaHrxn = Psum_heatOfFormation - Rsum_heatOfFormation;
+            return deltaHrxn;
         }
 
         public static double DeltaSrxn(double Temperature, Dictionary<string, Molecule> reactants, Dictionary<string, Molecule> productChemicalFormula)
@@ -175,7 +182,7 @@ namespace CEAconsole.ThermoChemistry
         /// <param name="coefficients">List of Coefficients from the NASA polynomials</param>
         /// <param name="temperatureExponents">List of Temperature exponents from the NASA polynomials</param>
         /// <returns>Enthalpy (H-H298) in kJ/mol</returns>
-        public static double EnthalpyRefH298(double referenceTemperature, double T1, List<double> coefficients, List<double> tExpnts)
+        public static double EnthalpyRefH298(double referenceTemperature, double T1, List<double> tExpnts, List<double> coefficients)
         {
             double integrand(double T) => HeatCapacity(T, tExpnts, coefficients);
             double enthalpy = GaussKronrodRule.Integrate(integrand, referenceTemperature, T1, out double error, out double L1Norm, 1e-8) / 1000;
@@ -290,14 +297,15 @@ namespace CEAconsole.ThermoChemistry
         /// 
         /// </summary>
         /// <param name="refTemp">298.15 Kelvin</param>
-        /// <param name="T1">Temperature in Kelvin</param>
+        /// <param name="Temperature">Temperature in Kelvin</param>
         /// <param name="coefficients">List of Temperature Coefficients from the NASA polynomials</param>
         /// <param name="tExpnts">List of coefficient exponents from the NASA polynomials</param>
         /// <returns>Enthalpy H-H298 kJ/mol</returns>
-        public static double EnthalpyFormation(double refTemp, double T1, List<double> coefficients, List<double> tExpnts)
+        public static double EnthalpyFormation(double Temperature, List<double> tExpnts, List<double> coefficients)
         {
+            double ReferenceTemperature = 298.15;
             double heatCapacityIntegrand(double T) => HeatCapacity(T, tExpnts, coefficients);
-            return GaussKronrodRule.Integrate(heatCapacityIntegrand, refTemp, T1, out double error, out double L1Norm, 1e-8) / 1000;
+            return GaussKronrodRule.Integrate(heatCapacityIntegrand, ReferenceTemperature, Temperature, out double error, out double L1Norm, 1e-8) / 1000;
         }
 
         public static Dictionary<string, CPHSRef> ElementsReferenceCPHS(ICollection<Specie> Elements)
