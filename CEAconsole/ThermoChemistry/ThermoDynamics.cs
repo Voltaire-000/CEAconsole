@@ -32,60 +32,72 @@ namespace CEAconsole.ThermoChemistry
         static readonly double Gas_Constant_R = 8.31446261815324;
 
         // TODO need to change to Balanced equation??
-        public static double DeltaHrxn(double Temperature, List<string> reactants, string productChemicalFormula)
+        public static double DeltaHrxn(double Temperature, Dictionary<string, Molecule> reactants, Dictionary<string, Molecule> productChemicalFormula)
         {
             ICollection<ReferenceElement> refElements = InputServices.GetReferenceElements("Data/refElements.json");
             ICollection<Specie> NASAspecies = InputServices.GetNASA("Data/NASApolynomials.json");
-            Dictionary<string, double> reactantsDict = new();
-            foreach (var molecule in reactants)
-            {
-                var result = ParseChemicalEquation(molecule);
-                reactantsDict.Add(result.ElementAt(0).Key, result.ElementAt(0).Value);
-            }
-            Dictionary<string, double> productsDict = ParseChemicalEquation(productChemicalFormula);
 
             double Rsum_heatOfFormation = 0.0;
             double Psum_heatOfFormation = 0.0;
-            double P_entropy = 0.0;
-            double R_entropy = 0.0;
-            foreach (var reactant in reactantsDict)
+
+            foreach (var reactant in reactants)
             {
                 var elementData = from element in refElements
-                                  where element.ChemicalFormula.ElementAt(0).Symbol == reactant.Key
+                                  where element.Name == reactant.Key
+                                  select element;
+                // number of moles
+                double moleculeCoefficient = reactant.Value.Count; 
+                Rsum_heatOfFormation += moleculeCoefficient * elementData.First().HeatOfFormation;
+            }
+
+            foreach (var product in productChemicalFormula)
+            {
+                IEnumerable<Specie> productData = from specie in NASAspecies
+                                  where specie.Name == product.Key
+                                  select specie;
+                //  number of moles
+                double moleculeCoefficient = product.Value.Count;
+                Psum_heatOfFormation = moleculeCoefficient * (productData.FirstOrDefault().HeatOfFormation / 1000) ;
+            }
+            double valueRxn = Psum_heatOfFormation - Rsum_heatOfFormation;
+            string NameProduct = productChemicalFormula.First().Key;
+            return valueRxn;
+        }
+
+        public static double DeltaSrxn(double Temperature, Dictionary<string, Molecule> reactants, Dictionary<string, Molecule> productChemicalFormula)
+        {
+            ICollection<ReferenceElement> refElements = InputServices.GetReferenceElements("Data/refElements.json");
+            ICollection<Specie> NASAspecies = InputServices.GetNASA("Data/NASApolynomials.json");
+
+            double Rsum_entropy = 0.0;
+            double PsumEntropy = 0.0;
+
+            foreach (var reactant in reactants)
+            {
+                var elementData = from element in refElements
+                                  where element.Name == reactant.Key
                                   select element;
                 List<double> tExpnts = elementData.First().DataRecords.ElementAt(0).TExponents;
                 List<double> coefficients = elementData.First().DataRecords.ElementAt(0).Coefficients;
                 List<double> integrationConstants = elementData.First().DataRecords.ElementAt(0).IntegrationConstants;
-
-                Rsum_heatOfFormation += reactant.Value * (elementData.First().HeatOfFormation);
-
+                // number of moles
+                double moleculeCoefficient = reactant.Value.Count;
+                Rsum_entropy += moleculeCoefficient * Entropy(Temperature, tExpnts, coefficients, integrationConstants);
             }
 
-            var productKeys = productsDict.Keys;
-            string productConcant = string.Concat(productKeys);
-            // TODO need to fix Name
-            var productData = from specie in NASAspecies
-                              where specie.Name == "HCL"
-                              select specie;
-            List<double> P_tExpnts = productData.First().DataRecords.ElementAt(0).TExponents;
-            List<double> P_coefficients = productData.First().DataRecords.ElementAt(0).Coefficients;
-            List<double> P_integrationConstants = productData.First().DataRecords.ElementAt(0).IntegrationConstants;
-            Psum_heatOfFormation = productData.First().HeatOfFormation / 1000;
-
-            Regex moleculePattern = new Regex("^(\\d+)([A-Z][a-z]*)");
-            Match moleculeMatch = moleculePattern.Match(productChemicalFormula);
-            int moleculeCoefficient = moleculeMatch.Success ? int.Parse(moleculeMatch.Groups[1].Value) : 1;
-
-
-            double valueRxn = moleculeCoefficient * Psum_heatOfFormation - Rsum_heatOfFormation;
-            return valueRxn;
-        }
-
-        public static double DeltaSrxn(List<string> reactants, string productChemicalFormula, double entropyProduct, double entropyReactant)
-        {
-            Dictionary<string, double> elementsDict = ParseChemicalEquation(productChemicalFormula);
-
-            return entropyProduct - entropyReactant;
+            foreach (var product in productChemicalFormula)
+            {
+                IEnumerable<Specie> productData = from specie in NASAspecies
+                                                  where specie.Name == product.Key
+                                                  select specie;
+                List<double> tExpnts = productData.First().DataRecords.ElementAt(0).TExponents;
+                List<double> coefficients = productData.First().DataRecords.ElementAt(0).Coefficients;
+                List<double> integrationConstants = productData.First().DataRecords.ElementAt(0).IntegrationConstants;
+                // number of moles
+                double moleculeCoefficient = product.Value.Count;
+                PsumEntropy += moleculeCoefficient * Entropy(Temperature, tExpnts, coefficients, integrationConstants);
+            }
+            return PsumEntropy - Rsum_entropy;
         }
 
         public static Dictionary<string, double> ParseChemicalEquation(string equation)
@@ -245,6 +257,10 @@ namespace CEAconsole.ThermoChemistry
 
         }
 
+        public static double DeltaGibbs(double Temperature, double DeltaHrxn, double DeltaSrxn)
+        {
+            return DeltaHrxn - (Temperature * (DeltaSrxn / 1000));
+        }
         /// <summary>
         /// 
         /// </summary>

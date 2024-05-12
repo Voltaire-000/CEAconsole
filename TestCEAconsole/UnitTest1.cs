@@ -1339,15 +1339,53 @@ namespace TestCEAconsole
         [TestMethod]
         public void TestDeltaHrxnReturnsHrxn()
         {
+            List<double> TemperatureList = new();
+            Dictionary<string, Molecule> Reactants = new();
+            Dictionary<string, Molecule> Products = new();
             double Temperature = 298.15;
-            List<string> reactants = new();
-            reactants.Add("Cl2");
-            reactants.Add("H2");
-            string products = "2HCl";
-            double deltaHrxn = ThermoDynamics.DeltaHrxn(Temperature, reactants, products);
+            Molecule HCl_molecule = new()
+            {
+                Count = 2,
+                ChemicalFormula = new()
+                {
+                    {"H", 1.0},
+                    {"Cl", 1.00 }
+                }
+            };
+            Products.Add("HCL", HCl_molecule);
 
-            double expected = -184.62;
-            Assert.AreEqual(expected, deltaHrxn);
+            // Reference Element molecules
+            Molecule Cl_Molecule = new()
+            {
+                Count = 1,
+                ChemicalFormula = new()
+                {
+                    { "Cl", 1.0 }
+                }
+                
+            };
+            Reactants.Add("CL2", Cl_Molecule);
+            Molecule H2_molecule = new()
+            {
+                Count = 1,
+                ChemicalFormula = new()
+                {
+                    {"H", 2.0 }
+                }
+            };
+            Reactants.Add("H2", H2_molecule);
+
+            double tolerance = 0.001;
+            double deltaHrxn = ThermoDynamics.DeltaHrxn(Temperature, Reactants, Products);
+            double deltaSrxn = ThermoDynamics.DeltaSrxn(Temperature, Reactants, Products);
+            double deltaGibbs = ThermoDynamics.DeltaGibbs(Temperature, deltaHrxn, deltaSrxn);
+
+            double Hrxn_expected = -184.62;
+            Assert.AreEqual(Hrxn_expected, deltaHrxn, tolerance);
+            double Srxn_expected = 20.0438;
+            Assert.AreEqual(Srxn_expected, deltaSrxn, tolerance);
+            double deltaGibbsExpected = -190.5960;
+            Assert.AreEqual(deltaGibbsExpected, deltaGibbs, tolerance);
         }
 
         [DataTestMethod]
