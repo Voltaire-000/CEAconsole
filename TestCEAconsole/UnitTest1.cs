@@ -20,10 +20,60 @@ using CEAconsole.ThermoChemistry;
 using CEAconsole.ThermoChemistry.Utilities;
 using MathNet.Numerics;
 using System.Globalization;
+using MathNet.Numerics.Optimization;
 
 namespace TestCEAconsole
 {
+    [TestClass]
+    public class MathNetOptimazation
+    {
+        [TestMethod]
+        public void TestNelderMeadSimplex()
+        {
+            double tolerance = 1e-8;
+            // define the objective function
+                       //  f(x) = (x - 1)^2
+            Func<Vector<double>, double> objectiveFunction = v =>
+            {
+                return Math.Pow(v[0] - 1, 2);
+            };
 
+                            // f(x) = x^2 + 3x +        2
+            Func<Vector<double>, double> quadObjectiveFunction = v =>
+            {
+                return Math.Pow(v[0], 2) + (3 * v[0]) + 2;
+            };
+            // function Rosenbrock ie. banana function f(x,y) = (1 - x)^2 + 100 * ( y - x^2)^2
+            Func<Vector<double>, double> bananaObjective = v =>
+            {
+                return Math.Pow(1 - v[0], 2) + (100 * Math.Pow(v[1] - Math.Pow(v[0], 2), 2));
+            };
+
+            // Beales function                          f(x,y) = (1.5 - x + xy)^2 + (2.5 - x + xy^2)^2 + (2.625 - x + xy^3)^2
+            Func<Vector<double>, double> bealesObjective = v => Math.Pow(1.5 - v[0]
+                                                              + (v[0] * v[1]), 2)
+                                                              + Math.Pow(2.5 - v[0]
+                                                              + (v[0] * Math.Pow(v[1], 2)), 2)
+                                                              + Math.Pow(2.625 - v[0]
+                                                              + (v[0] * Math.Pow(v[1], 3)), 2);
+
+            // create instance of the NelderMeadSimplex optimizer
+            var optimizer = new NelderMeadSimplex(convergenceTolerance: 1e-8, maximumIterations: 1000);
+            // define the initial guess
+            var initialGuess = Vector<double>.Build.DenseOfArray(new[] { 0.0 });
+            var bananaGuess = Vector<double>.Build.DenseOfArray(new[] { -1.2, 1.0 });
+            var bealesGuess = Vector<double>.Build.DenseOfArray(new[] { 1.0, 1.0 });
+            // find the minimum of the function
+            var result = optimizer.FindMinimum(ObjectiveFunction.Value(objectiveFunction), initialGuess);
+            Assert.AreEqual(0, result.FunctionInfoAtMinimum.Value, tolerance);
+            var quadradicResult = optimizer.FindMinimum(ObjectiveFunction.Value(quadObjectiveFunction), initialGuess);
+            Assert.AreEqual(-0.25, quadradicResult.FunctionInfoAtMinimum.Value, tolerance);
+            var bananaResult = optimizer.FindMinimum(ObjectiveFunction.Value(bananaObjective), bananaGuess);
+            Assert.AreEqual(0, bananaResult.FunctionInfoAtMinimum.Value, tolerance);
+            var bealesResult = optimizer.FindMinimum(ObjectiveFunction.Value(bealesObjective), bealesGuess);
+            Assert.AreEqual(0.03827997, bealesResult.FunctionInfoAtMinimum.Value, tolerance);
+        }
+    }
     [TestClass]
     public class TestLearnChemE
     {
