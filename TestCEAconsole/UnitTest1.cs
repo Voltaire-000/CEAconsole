@@ -27,6 +27,48 @@ namespace TestCEAconsole
     [TestClass]
     public class MathNetOptimazation
     {
+        private static readonly ICollection<CPHSRef> referenceCPHS = InputServices.GetDefaultCPHS("Data/Ref_Defaults.json");
+        private static readonly ICollection<Specie> NASAspecie = InputServices.GetNASA("Data/Nasapolynomials.json");
+        private static readonly double referenceTemperature = 298.15;
+
+        [TestMethod]
+        public void TestMinimizationGibbs()
+        {
+            double Temperature = 698.15;
+
+            var byproducts = from refSpecie in referenceCPHS
+                             where refSpecie.Species_Name == "CO2" | refSpecie.Species_Name == "O2" | refSpecie.Species_Name == "H2" | refSpecie.Species_Name == "CH4" | refSpecie.Species_Name == "CO" | refSpecie.Species_Name == "H2O"
+                             select refSpecie;
+            var m_specie = from specie in NASAspecie
+                           where specie.Name == "CO2" | specie.Name == "O2" | specie.Name == "H2" | specie.Name == "CH4" | specie.Name == "CO" | specie.Name == "H2O"
+                           select specie;
+            // get the Entropy_Ref for each byproduct and place in Entropy_RefDict
+            Dictionary<string, double> Entropy_RefDict = new();
+            Dictionary<string, double> Gibbs_RefDict = new();
+            foreach (var item in byproducts)
+            {
+                Entropy_RefDict.Add(item.Species_Name, item.Entropy_Ref);
+                // calculate the GibbsRef for each byproduct and add to Gibbs_RefDict
+                var m_data = from xspecie in m_specie
+                              where xspecie.Name == item.Species_Name
+                              select (xspecie.DataRecords.ElementAt(0).Coefficients , xspecie.DataRecords.ElementAt(0).TExponents);
+
+                double GibbsRef = ThermoDynamics.GibbsRef(referenceTemperature, item.Entropy_Ref, Temperature, m_data.ElementAt(0).Coefficients, m_data.ElementAt(0).TExponents);
+                Gibbs_RefDict.Add(item.Species_Name, GibbsRef);
+            }
+            _ = Gibbs_RefDict.TryGetValue("CO", out double co);
+            _ = Gibbs_RefDict.TryGetValue("O2", out double o2);
+            _ = Gibbs_RefDict.TryGetValue("H2", out double h2);
+            _ = Gibbs_RefDict.TryGetValue("CH4", out double ch4);
+            _ = Gibbs_RefDict.TryGetValue("CO2", out double co2);
+            _ = Gibbs_RefDict.TryGetValue("H2O", out double h2o);
+            // CH4 + 2O2 = CO2 + 2H2O
+            double stoic_CH4 = co2 + (2 * h2o);
+            // 2CH4 + 2O2 = 2CO + 2H2O + 2H2
+            double ofRatio_1 = (2 * co) + (2 * h2o) + (2 * h2);
+
+            Assert.AreEqual(5, byproducts.Count());
+        }
         [TestMethod]
         public void TestNelderMeadSimplex()
         {
@@ -480,9 +522,6 @@ namespace TestCEAconsole
             Vector<double> expected_CH4 = Vector<double>.Build.Dense(new double[] { 1, 2, 1, 2 });
             var solution = ThermoDynamics.BalanceHydrocarbonEquation(matrix_CH4);
             Assert.AreEqual(expected_CH4, solution);
-
-
-
         }
         [TestMethod]
         public void TestShouldPutNonZeroValuesInto_ValuesVector()

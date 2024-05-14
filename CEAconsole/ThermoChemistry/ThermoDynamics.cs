@@ -57,8 +57,8 @@ namespace CEAconsole.ThermoChemistry
             foreach (var product in productChemicalFormula)
             {
                 IEnumerable<Specie> productData = from specie in NASAspecies
-                                  where specie.Name == product.Key
-                                  select specie;
+                                                  where specie.Name == product.Key
+                                                  select specie;
                 List<double> tExpnts = productData.First().DataRecords.ElementAt(0).TExponents;
                 List<double> coefficients = productData.First().DataRecords.ElementAt(0).Coefficients;
                 List<double> integrationConstants = productData.First().DataRecords.ElementAt(0).IntegrationConstants;
