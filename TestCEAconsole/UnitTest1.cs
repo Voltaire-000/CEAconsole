@@ -512,11 +512,12 @@ namespace TestCEAconsole
         {
             // CH4 + O2 =  CO2 + H2O
             // CH4 + 2O2 = CO2 + 2H2O
+            // C(gr) + O2 = CO
+
             Matrix<double> matrix_CH4 = Matrix<double>.Build.DenseOfArray(new[,]{
-                {1.0, 0.0,  -1.0,  0.0 }, // C balance
-                {4.0, 0.0,   0.0, -2.0 }, // H balance
-                {0.0, 2.0,  -2.0, -1.0 }, // O balance
-                {1.0, 0.0,   0.0,  0.0 }   // Setting CH4
+                {1.0, 0.0,  -1.0}, // C balance
+                {0.0, 2.0, -1.0}, // O balance
+                {1.0, 0.0, 0.0}   // Setting CH4
             });
 
             Vector<double> expected_CH4 = Vector<double>.Build.Dense(new double[] { 1, 2, 1, 2 });
@@ -1427,6 +1428,18 @@ namespace TestCEAconsole
                                                                                                 select m_specie);
 
         [DataTestMethod]
+        //[DataRow("CH4", -50.5319)]
+        [DataRow("CO2", -394.39)]
+        [DataRow("CO", -137.16)]
+        [DataRow("H2O", -237.14)]
+        public void TestDeltas_Gibbsrxn(string molecule, double expected)
+        {
+            double tolerance = 0.001;
+            double m_deltaGibbsrxn = ThermoDynamics.DeltaGibbsrxn(298.15, molecule);
+            Assert.IsNotNull(m_deltaGibbsrxn);
+            Assert.AreEqual(expected, m_deltaGibbsrxn, tolerance);
+        }
+        [DataTestMethod]
         [DataRow(298.15, -74.6)]
         [DataRow(398.15, -77.635)]
         [DataRow(498.15, -80.457)]
@@ -1903,25 +1916,25 @@ namespace TestCEAconsole
                                 select item;
 
             // Get HeatOfFormation of CH4 and Calculate Entropy of CH4
-            double HofCH4 = CH4properties.First().HeatOfFormation / 1000;
+            double HofCH4 = CH4properties.First().HeatOfFormation / 1000;   // -74.6
             var expnts = CH4properties.First().DataRecords.ElementAt(0).TExponents;
             var coeff = CH4properties.First().DataRecords.ElementAt(0).Coefficients;
             var integrateC = CH4properties.First().DataRecords.ElementAt(0).IntegrationConstants;
-            double Entropy_CH4 = ThermoDynamics.Entropy(TR, expnts, coeff, integrateC);
+            double Entropy_CH4 = ThermoDynamics.Entropy(TR, expnts, coeff, integrateC); // 186.37
 
             //C(gr)
             referenceProperties.TryGetValue("C(gr)", out var C_gr);
             double C_gr_Delta_Enthalpy_Ref = C_gr.Delta_Enthalpy_Ref;
-            double C_gr_Entropy_Ref = C_gr.Entropy_Ref;
+            double C_gr_Entropy_Ref = C_gr.Entropy_Ref; // 5.7339
 
             // H2
             referenceProperties.TryGetValue("H2", out var H2);
             double H2_Delta_Enthalpy_Ref = H2.Delta_Enthalpy_Ref;
-            double H2_Entropy_Ref = H2.Entropy_Ref;
+            double H2_Entropy_Ref = H2.Entropy_Ref; // 130.680
 
             // Product
-            double CH4delta_Hrxn = HofCH4 - (C_gr_Delta_Enthalpy_Ref + (2 * H2_Delta_Enthalpy_Ref));
-            double CH4delta_Srxn = Entropy_CH4 - (C_gr_Entropy_Ref + (2 * H2_Entropy_Ref));
+            double CH4delta_Hrxn = HofCH4 - (C_gr_Delta_Enthalpy_Ref + (2 * H2_Delta_Enthalpy_Ref));    // -74.6
+            double CH4delta_Srxn = Entropy_CH4 - (C_gr_Entropy_Ref + (2 * H2_Entropy_Ref)); // -80.7244
 
             double deltaG = CH4delta_Hrxn - TR * CH4delta_Srxn / 1000;
             double expected = -50.53199;

@@ -31,6 +31,62 @@ namespace CEAconsole.ThermoChemistry
         //private static readonly double[]? coefficients;
         static readonly double Gas_Constant_R = 8.31446261815324;
 
+        public static double DeltaGibbsrxn(double Temperature, string Molecule)
+        {
+            var parsedMolecule = ParseChemicalEquation(Molecule);
+            // TODO need to balance the equation before procedding
+            // C(gr) + H^2 = CH4
+            // C(gr) + 2 * H^2 = CH4
+
+            // C(gr) + O^2 = CO2
+
+            // C(gr) + O^2 = CO
+            // C(gr) + 0.5 * O^2 = CO
+
+            ICollection<ReferenceElement> refElements = InputServices.GetReferenceElements("Data/refElements.json");
+            ICollection<Specie> NASAspecies = InputServices.GetNASA("Data/NASApolynomials.json");
+            double Rsum_heatOfFormation = 0.0;
+            double Psum_heatOfFormation = 0.0;
+            double Rsum_entropy = 0.0;
+            double Psum_Entropy = 0.0;
+            Dictionary<string, double> element_Dict = new();
+
+            for (int i = 0; i < parsedMolecule.Count; i++)
+            {
+                var elementData = from element in refElements
+                                  where element.ChemicalFormula.ElementAt(0).Symbol == parsedMolecule.ElementAt(i).Key
+                                  select element;
+                List<double> tExpnts_ref = elementData.First().DataRecords.ElementAt(0).TExponents;
+                List<double> coefficients_ref = elementData.First().DataRecords.ElementAt(0).Coefficients;
+                List<double> integrationConstants_ref = elementData.First().DataRecords.ElementAt(0).IntegrationConstants;
+
+                Rsum_heatOfFormation += EnthalpyFormation(Temperature, tExpnts_ref, coefficients_ref);
+                Rsum_entropy = Entropy(Temperature, tExpnts_ref, coefficients_ref, integrationConstants_ref);
+                double numberOfAtoms = elementData.First().ChemicalFormula.First().NumberOfAtoms;
+                element_Dict.Add(elementData.First().Name, Rsum_entropy * numberOfAtoms);
+                //Rsum_entropy = Rsum_entropy * elementData.First().ChemicalFormula.ElementAt(0).NumberOfAtoms;
+            }
+            var m_molecule = from specie in NASAspecies
+                             where specie.Name == Molecule
+                             select specie;
+            var tExpnts = m_molecule.First().DataRecords.ElementAt(0).TExponents;
+            var coeff = m_molecule.First().DataRecords.ElementAt(0).Coefficients;
+            var integrationConstants = m_molecule.First().DataRecords.ElementAt(0).IntegrationConstants;
+            var Enthalpy_Molecule = Enthalpy(Temperature, tExpnts, coeff, integrationConstants);
+
+            Psum_heatOfFormation = Enthalpy_Molecule;
+            double deltaHrxn = Psum_heatOfFormation - Rsum_heatOfFormation;
+
+            // calculate deltaSrxn
+            var Entropy_Molecule = Entropy(Temperature, tExpnts, coeff, integrationConstants);
+            Psum_Entropy = Entropy_Molecule;
+            double dictDum = element_Dict.Values.Sum();
+            double deltaSrxn = Psum_Entropy - dictDum;
+
+            double deltaGibbsRxn = deltaHrxn - (Temperature * (deltaSrxn / 1000));
+
+            return deltaGibbsRxn;
+        }
         // TODO need to change to Balanced equation??
         public static double DeltaHrxn(double Temperature, Dictionary<string, Molecule> reactants, Dictionary<string, Molecule> productChemicalFormula)
         {
@@ -480,7 +536,7 @@ namespace CEAconsole.ThermoChemistry
             Matrix<double> A = Matrix.Build.SparseFromCompressedSparseRowFormat(numRows, numColumns, m_values.Length, IA, JA, m_values);
 
             // Define the right hand side
-            MathNet.Numerics.LinearAlgebra.Vector<double> b = Vector.Build.Dense(new double[] { 0, 0, 0, 1.0 });
+            MathNet.Numerics.LinearAlgebra.Vector<double> b = Vector.Build.Dense(new double[] { 0, 0, 1.0 });
             // solution
             MathNet.Numerics.LinearAlgebra.Vector<double> solution = A.Solve(b);
             return solution;
