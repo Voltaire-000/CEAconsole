@@ -8,7 +8,7 @@ namespace CEAconsole.Models
 {
     public class ChemicalFormula
     {
-        public required string Symbol { get; set; }
+        public string? Symbol { get; set; }
         public double NumberOfAtoms { get; set; }
     }
 }

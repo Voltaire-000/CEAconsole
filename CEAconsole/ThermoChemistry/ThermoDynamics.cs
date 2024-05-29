@@ -559,5 +559,20 @@ namespace CEAconsole.ThermoChemistry
         {
             return productEnthalpy - (reactants[0] + reactants[1]);
         }
+
+        //public static double DeltaHf(ICollection<ChemicalFormula> chemFormula)
+        //{
+        //    Dictionary<string, Molecule> Reactants = new();
+        //    Dictionary<string, Molecule> Products = new();
+
+        //    Products.Add(chemFormula);
+
+
+        //    //Molecule productMolecule = new()
+        //    //{
+        //    //    Count = 1,
+        //    //    ChemicalFormula = chemFormula
+        //    //}
+        //}
     }
 }

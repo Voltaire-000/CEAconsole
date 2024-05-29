@@ -6,18 +6,16 @@ using System.Threading.Tasks;
 
 namespace CEAconsole.Models
 {
-    public class DTO_Reactant
+    public class NodeSpecie
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public required string Name { get; set; }
+        public required string Description { get; set; }
         public int TempIntervals { get; set; }
-        public string IdCode { get; set; }
-        public Molecule Molecule { get; set; }
+        public required string IdCode { get; set; }
+        public required ICollection<ChemicalFormula> ChemicalFormula { get; set; }
         public int PhaseValue { get; set; }
         public double MolecularWeight { get; set; }
         public double HeatOfFormation { get; set; }
-        public Dictionary<string, DataRecord> TemperatureRange { get; set; }
+        public required ICollection<DataRecord> DataRecords { get; set; }
     }
-
 }
-

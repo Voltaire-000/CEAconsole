@@ -21,9 +21,85 @@ using CEAconsole.ThermoChemistry.Utilities;
 using MathNet.Numerics;
 using System.Globalization;
 using MathNet.Numerics.Optimization;
+using ScottPlot.Statistics;
+using System.Linq.Expressions;
 
 namespace TestCEAconsole
 {
+    [TestClass]
+    public class TestUtilities
+    {
+        [TestMethod]
+        public void TestAddMoleculeNode()
+        {
+            ICollection<Specie> allSpecies = InputServices.GetNASA("Data/NASApolynomials.json");
+            int allSpeciesCount = allSpecies.Count;
+
+            var chemForm = new ChemicalFormula();
+            var chemFormDict = new Dictionary<string, double>();
+
+            List<DTO_Reactant> dTO_Reactants = new();
+            for (int i = 0; i < allSpecies.Count; i++)
+            {
+
+
+                DTO_Reactant dTO_Reactant = new()
+                {
+                    Molecule = new(),
+                    Name = allSpecies.ElementAt(i).Name,
+
+
+                };
+
+                dTO_Reactant.Name = allSpecies.ElementAt(i).Name;
+                dTO_Reactant.Description = allSpecies.ElementAt(i).Description;
+                dTO_Reactant.TempIntervals = allSpecies.ElementAt(i).TempIntervals;
+                dTO_Reactant.IdCode = allSpecies.ElementAt(i).IdCode;
+
+                chemFormDict.Clear();
+                for (int j = 0; j < allSpecies.ElementAt(i).ChemicalFormula.Count; j++)
+                {
+                    chemForm.Symbol = allSpecies.ElementAt(i).ChemicalFormula.ElementAt(j).Symbol;
+                    chemForm.NumberOfAtoms = allSpecies.ElementAt(i).ChemicalFormula.ElementAt(j).NumberOfAtoms;
+                    chemFormDict.Add(chemForm.Symbol, chemForm.NumberOfAtoms);
+                }
+                //var chemForm = new ChemicalFormula
+                //{
+
+                //    Symbol = allSpecies.ElementAt(i).ChemicalFormula.ElementAt(0).Symbol,
+                //    NumberOfAtoms = allSpecies.ElementAt(i).ChemicalFormula.ElementAt(0).NumberOfAtoms
+
+                //};
+
+                var molecule = new Molecule
+                {
+                    Count = 1,
+                    ChemicalFormula = new Dictionary<string, double>
+                    {
+                        { chemForm.Symbol, chemForm.NumberOfAtoms }
+                    }
+                };
+
+
+
+
+                dTO_Reactant.Molecule.Count = molecule.Count;
+                dTO_Reactant.Molecule = molecule;
+
+                dTO_Reactant.PhaseValue = allSpecies.ElementAt(i).PhaseValue;
+                dTO_Reactants.Add(dTO_Reactant);
+
+
+            }
+
+
+
+
+
+
+            Assert.IsNotNull(allSpeciesCount);
+        }
+    }
     [TestClass]
     public class MathNetOptimazation
     {
@@ -50,8 +126,8 @@ namespace TestCEAconsole
                 Entropy_RefDict.Add(item.Species_Name, item.Entropy_Ref);
                 // calculate the GibbsRef for each byproduct and add to Gibbs_RefDict
                 var m_data = from xspecie in m_specie
-                              where xspecie.Name == item.Species_Name
-                              select (xspecie.DataRecords.ElementAt(0).Coefficients , xspecie.DataRecords.ElementAt(0).TExponents);
+                             where xspecie.Name == item.Species_Name
+                             select (xspecie.DataRecords.ElementAt(0).Coefficients, xspecie.DataRecords.ElementAt(0).TExponents);
 
                 double GibbsRef = ThermoDynamics.GibbsRef(referenceTemperature, item.Entropy_Ref, Temperature, m_data.ElementAt(0).Coefficients, m_data.ElementAt(0).TExponents);
                 Gibbs_RefDict.Add(item.Species_Name, GibbsRef);
@@ -74,13 +150,13 @@ namespace TestCEAconsole
         {
             double tolerance = 1e-8;
             // define the objective function
-                       //  f(x) = (x - 1)^2
+            //  f(x) = (x - 1)^2
             Func<Vector<double>, double> objectiveFunction = v =>
             {
                 return Math.Pow(v[0] - 1, 2);
             };
 
-                            // f(x) = x^2 + 3x +        2
+            // f(x) = x^2 + 3x +        2
             Func<Vector<double>, double> quadObjectiveFunction = v =>
             {
                 return Math.Pow(v[0], 2) + (3 * v[0]) + 2;
@@ -1494,6 +1570,20 @@ namespace TestCEAconsole
 
             Assert.AreEqual(expected, deltaHrxn, tolerance);
         }
+        //[TestMethod]
+        //public void TestDeltaHfWithChemicalEquationInput()
+        //{
+        //    var chemFormula = NASAchemicalFormula;
+        //    foreach (var product in chemFormula)
+        //    {
+        //        IEnumerable<Specie> productData = from specie in NASAspecies
+        //                                          where specie.Name == product.Key
+        //                                          select specie;
+        //    }
+        //    //var result = ThermoDynamics.DeltaHf(chemFormula);
+
+        //    Assert.IsNotNull(chemFormula);
+        //}
         [TestMethod]
         public void TestDeltaRxn()
         {
@@ -1520,7 +1610,7 @@ namespace TestCEAconsole
                 {
                     { "Cl", 1.0 }
                 }
-                
+
             };
             Reactants.Add("CL2", Cl_Molecule);
             Molecule H2_molecule = new()
@@ -1705,7 +1795,7 @@ namespace TestCEAconsole
         public void Test_New_HeatCapacity()
         {
             double Temperature = 1000;
-            double Cp = ThermoDynamics.HeatCapacity(Temperature, NASAExponents, NASACoefficients );
+            double Cp = ThermoDynamics.HeatCapacity(Temperature, NASAExponents, NASACoefficients);
             Assert.AreEqual(73.676, Cp, delta);
         }
 
