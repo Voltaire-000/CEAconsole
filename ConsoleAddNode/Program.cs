@@ -18,6 +18,7 @@ List<DTO_Specie> dTO_Species = new();
 
 List<Specie> newList = new List<Specie>();
 var newMolecule = new Molecule();
+
 foreach (var specie in species)
 {
     dTO_Specie.Name = specie.Name;
@@ -25,32 +26,21 @@ foreach (var specie in species)
     dTO_Specie.TempIntervals = specie.TempIntervals;
     dTO_Specie.IdCode = specie.IdCode;
 
+
+    newMolecule.ChemicalFormula = new Dictionary<string, double>();
     newMolecule.Count = 1.0;
     var chemDict = new Dictionary<string, double>();
     int count = specie.ChemicalFormula.Count;
     for (int i = 0; i < count; i++)
     {
-        newMolecule.ChemicalFormula = new Dictionary<string, double>
-        {
-            {specie.ChemicalFormula.ElementAt(i).Symbol,
-                specie.ChemicalFormula.ElementAt(i).NumberOfAtoms }
-        };
-        //chemDict.Add(newMolecule.ChemicalFormula.ElementAt(0).Key, newMolecule.ChemicalFormula.ElementAt(0).Value);
-        newMolecule.ChemicalFormula.Add(newMolecule.ChemicalFormula.ElementAt(0).Key, newMolecule.ChemicalFormula.ElementAt(0).Value);
+        var mkey = specie.ChemicalFormula.ElementAt(i).Symbol;
+        var mvalue = specie.ChemicalFormula.ElementAt(i).NumberOfAtoms;
+        newMolecule.ChemicalFormula.Add(mkey, mvalue);
 
+        //chemDict.Add(newMolecule.ChemicalFormula.ElementAt(0).Key, newMolecule.ChemicalFormula.ElementAt(0).Value);
     }
 
-    // fix here
-    //for (int i = 0; i < chemDict.Count; i++)
-    //{
-    //    var m_symbol = chemDict.ElementAt(i).Key;
-    //    var m_value = chemDict.ElementAt(i).Value;
-
-    //    newMolecule.ChemicalFormula.Add(m_symbol, m_value);
-
-    //}
-
-    //dTO_Specie.Molecule.ChemicalFormula = null;
+        dTO_Specie.Molecule = newMolecule;
         dTO_Specie.PhaseValue = specie.PhaseValue;
         dTO_Specie.MolecularWeight = specie.MolecularWeight;
         dTO_Specie.HeatOfFormation = specie.HeatOfFormation;
