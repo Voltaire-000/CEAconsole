@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace ConsoleAddNode
 {
-    public static class InputService
+    public class MoleculeDTO
     {
-
+        public double Count { get; set; }
+        public Dictionary<string, double> ChemicalFormula { get; set; }
     }
-
-    
 }
-
