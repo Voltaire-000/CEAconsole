@@ -71,6 +71,12 @@ namespace TestCEAconsole
 
                 //};
 
+                foreach (var item in chemFormDict)
+                {
+                    var m_key = item.Key;
+                    var m_value = item.Value;
+                }
+
                 var molecule = new Molecule
                 {
                     Count = 1,
