@@ -13,19 +13,20 @@ string json = File.ReadAllText("NASApolynomials.json");
 List<Specie>? NASAspecies = System.Text.Json.JsonSerializer.Deserialize<List<Specie>>(json);
 
 //DTO_Specie dTO_Specie = new();
-List<DTO_Specie> dTO_Species = new();
+List<DTO_Specie> NASA_DTO = new();
 
 List<Specie> newList = new List<Specie>();
-var newMolecule = new Molecule();
+
 foreach (var specie in NASAspecies)
 {
-    var dTO_Specie = new DTO_Specie();
+    DTO_Specie dTO_Specie = new DTO_Specie();
+
     dTO_Specie.Name = specie.Name;
     dTO_Specie.Description = specie.Description;
     dTO_Specie.TempIntervals = specie.TempIntervals;
     dTO_Specie.IdCode = specie.IdCode;
 
-
+    Molecule newMolecule = new Molecule();
     newMolecule.ChemicalFormula = new Dictionary<string, double>();
     newMolecule.Count = 1.0;
     var chemDict = new Dictionary<string, double>();
@@ -50,7 +51,7 @@ foreach (var specie in NASAspecies)
 
     dTO_Specie.DataRecords = specie.DataRecords;
 
-    dTO_Species.Add(dTO_Specie);
+    NASA_DTO.Add(dTO_Specie);
 
 }
 
@@ -61,7 +62,7 @@ foreach (var specie in NASAspecies)
 //};
 //string updatedNASApolynomials = JsonSerializer.Serialize(dTO_Species, options);
 
-var m_json = JsonConvert.SerializeObject(dTO_Species, Formatting.Indented);
+var m_json = JsonConvert.SerializeObject(NASA_DTO, Formatting.Indented);
 
-File.WriteAllText("species.json", m_json);
+File.WriteAllText("NASAspecies.json", m_json);
 Console.WriteLine("Hello, World!");
