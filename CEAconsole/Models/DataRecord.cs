@@ -8,12 +8,12 @@ namespace CEAconsole.Models
 {
     public class DataRecord
     {
-        public required List<double> TemperatureRange { get; set; }
+        public List<double>? TemperatureRange { get; set; }
         public int NumberOfCoefficients { get; set; }
-        public required List<double> TExponents { get; set; }
+        public List<double>? TExponents { get; set; }
         public double EnthalpyRef { get; set; }
-        public required List<double> Coefficients { get; set; }
-        public required List<double> IntegrationConstants { get; set; }
+        public List<double>? Coefficients { get; set; }
+        public List<double>? IntegrationConstants { get; set; }
     }
 }
 

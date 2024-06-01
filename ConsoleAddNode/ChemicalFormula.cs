@@ -8,7 +8,7 @@ namespace ConsoleAddNode
 {
     public class ChemicalFormula
     {
-        public string Symbol { get; set; }
+        public string? Symbol { get; set; }
         public double NumberOfAtoms { get; set; }
     }
 }

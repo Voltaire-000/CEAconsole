@@ -9,6 +9,6 @@ namespace ConsoleAddNode
     public class MoleculeDTO
     {
         public double Count { get; set; }
-        public Dictionary<string, double> ChemicalFormula { get; set; }
+        public Dictionary<string, double>? ChemicalFormula { get; set; }
     }
 }
