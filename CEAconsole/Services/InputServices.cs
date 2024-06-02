@@ -28,6 +28,13 @@ namespace CEAconsole.Services
             return reactantCollection;
         }
 
+        public static ICollection<DTO_Specie> GetModNASA(string path)
+        {
+            string m_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);
+            string json = File.ReadAllText(m_path);
+            ICollection<DTO_Specie>? speciesCollection = JsonConvert.DeserializeObject<ICollection<DTO_Specie>>(json);
+            return speciesCollection;
+        }
         public static ICollection<Specie> GetNASA(string path)
         {
             string m_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);

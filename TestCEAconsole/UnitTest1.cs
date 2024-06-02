@@ -1069,6 +1069,23 @@ namespace TestCEAconsole
     }
 
     [TestClass]
+    public class TestModNASA_Polynomials
+    {
+        [TestMethod]
+        public void TestShouldReturnNamedSpecies()
+        {
+            var json = InputServices.GetModNASA("Data/ModNASAspecies.json");
+            string name = "CH4";
+            var m_specie = from item in json
+                           where item.Name == name
+                           select item;
+
+            Assert.AreEqual("CH4", m_specie.First().Name);
+        }
+    }
+
+
+    [TestClass]
     public class MatrixSolvers
     {
         [TestMethod]
@@ -1324,6 +1341,14 @@ namespace TestCEAconsole
     [TestClass]
     public class TestServices
     {
+        [TestMethod]
+        public void TestModNASAspecies()
+        {
+            var json = InputServices.GetModNASA("Data/ModNASAspecies.json");
+
+            Assert.IsNotNull(json);
+
+        }
 
         [TestMethod]
         public void Test_ElementsService()
