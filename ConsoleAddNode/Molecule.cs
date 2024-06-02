@@ -10,7 +10,7 @@ namespace ConsoleAddNode
     public class Molecule
     {
         public double Count { get; set; }
-        public  Dictionary<string, double>? ChemicalFormula { get; set; }
+        public  ICollection<ChemicalFormula>? ChemicalFormula { get; set; }
     }
 
 }

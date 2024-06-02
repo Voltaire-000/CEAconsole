@@ -27,20 +27,33 @@ foreach (var specie in NASAspecies)
     dTO_Specie.IdCode = specie.IdCode;
 
     Molecule newMolecule = new Molecule();
-    newMolecule.ChemicalFormula = new Dictionary<string, double>();
+    newMolecule.ChemicalFormula = specie.ChemicalFormula;
+    
+
+    //dTO_Specie.Molecule.ChemicalFormula.Add(new ChemicalFormula
+    //{
+    //    Symbol = specie.ChemicalFormula.First().Symbol
+
+    //})
+
+    
+    //newMolecule.ChemicalFormula = new Dictionary<string, double>();
     newMolecule.Count = 1.0;
     var chemDict = new Dictionary<string, double>();
+    //int count = specie.ChemicalFormula.Count;
     int count = specie.ChemicalFormula.Count;
-        for (int i = 0; i < count; i++)
-        {
-            var mkey = specie.ChemicalFormula.ElementAt(i).Symbol;
-            var mvalue = specie.ChemicalFormula.ElementAt(i).NumberOfAtoms;
-            newMolecule.ChemicalFormula.Add(mkey, mvalue);
+    //for (int i = 0; i < count; i++)
+    //{
+        
 
-            //chemDict.Add(newMolecule.ChemicalFormula.ElementAt(0).Key, newMolecule.ChemicalFormula.ElementAt(0).Value);
-        }
+    //    //var mkey = specie.ChemicalFormula.ElementAt(i).Symbol;
+    //    //var mvalue = specie.ChemicalFormula.ElementAt(i).NumberOfAtoms;
+    //    //newMolecule.ChemicalFormula.Add(mkey, mvalue);
 
-        dTO_Specie.Molecule = newMolecule;
+    //    //chemDict.Add(newMolecule.ChemicalFormula.ElementAt(0).Key, newMolecule.ChemicalFormula.ElementAt(0).Value);
+    //}
+
+    dTO_Specie.Molecule = newMolecule;
         dTO_Specie.PhaseValue = specie.PhaseValue;
         dTO_Specie.MolecularWeight = specie.MolecularWeight;
         dTO_Specie.HeatOfFormation = specie.HeatOfFormation;
@@ -64,5 +77,5 @@ foreach (var specie in NASAspecies)
 
 var m_json = JsonConvert.SerializeObject(NASA_DTO, Formatting.Indented);
 
-File.WriteAllText("NASAspecies.json", m_json);
+File.WriteAllText("ModNASAspecies.json", m_json);
 Console.WriteLine("Hello, World!");
