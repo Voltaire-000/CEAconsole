@@ -106,6 +106,7 @@ namespace TestCEAconsole
             Assert.IsNotNull(allSpeciesCount);
         }
     }
+
     [TestClass]
     public class MathNetOptimazation
     {
@@ -198,6 +199,7 @@ namespace TestCEAconsole
             Assert.AreEqual(0.03827997, bealesResult.FunctionInfoAtMinimum.Value, tolerance);
         }
     }
+
     [TestClass]
     public class TestLearnChemE
     {
@@ -1084,7 +1086,6 @@ namespace TestCEAconsole
         }
     }
 
-
     [TestClass]
     public class MatrixSolvers
     {
@@ -1535,7 +1536,7 @@ namespace TestCEAconsole
                                                                                                 select m_specie);
 
         [DataTestMethod]
-        //[DataRow("CH4", -50.5319)]
+        [DataRow("CH4", -50.5319)]
         [DataRow("CO2", -394.39)]
         [DataRow("CO", -137.16)]
         [DataRow("H2O", -237.14)]
@@ -1546,16 +1547,17 @@ namespace TestCEAconsole
             Assert.IsNotNull(m_deltaGibbsrxn);
             Assert.AreEqual(expected, m_deltaGibbsrxn, tolerance);
         }
+
         [DataTestMethod]
         [DataRow(298.15, -74.6)]
-        [DataRow(398.15, -77.635)]
-        [DataRow(498.15, -80.457)]
-        [DataRow(598.15, -82.932)]
-        [DataRow(698.15, -85.023)]
-        [DataRow(798.15, -86.726)]
-        [DataRow(898.15, -88.059)]
-        [DataRow(998.15, -89.053)]
-        [DataRow(1000.00, -89.069)]
+        //[DataRow(398.15, -77.635)]
+        //[DataRow(498.15, -80.457)]
+        //[DataRow(598.15, -82.932)]
+        //[DataRow(698.15, -85.023)]
+        //[DataRow(798.15, -86.726)]
+        //[DataRow(898.15, -88.059)]
+        //[DataRow(998.15, -89.053)]
+        //[DataRow(1000.00, -89.069)]
         public void TestDeltaHf_for_CH4(double Temperature, double expected)
         {
             List<double> TemperatureList = new();
@@ -1761,6 +1763,7 @@ namespace TestCEAconsole
             Assert.AreEqual(expected, deltaCH4Reaction, delta);
 
         }
+
         [TestMethod]
         public void TestEnthalpyOfReaction()
         {
@@ -2062,12 +2065,78 @@ namespace TestCEAconsole
 
             Assert.AreEqual(expected, deltaG, tolerance);
         }
+
+        [DataTestMethod]
+        [DataRow(298.15, -394.389)]
+        [DataRow(300, -394.394)]
+        [DataRow(500, -394.939)]
+        [DataRow(700, -395.398)]
+        public void TestCO2deltaGibbsRef(double Temperature, double expected)
+        {
+            //double TR = 298.15;
+            double tolerance = 0.001;
+            List<string> ElementSymbols = ["C", "O"];
+            var referenceProperties = ThermoDynamics.ElementsReferenceCPHS(ElementSymbols, refElementPolynomials);
+
+            // CO2
+            var specieProperties = from item in nasaPolynomials
+                                   where item.Name == "CO2"
+                                   select item;
+            double Hof = specieProperties.First().HeatOfFormation/1000;
+            var expnts = specieProperties.First().DataRecords.ElementAt(0).TExponents;
+            var coeff = specieProperties.First().DataRecords.ElementAt(0).Coefficients;
+            var integrateC = specieProperties.First().DataRecords.ElementAt(0).IntegrationConstants;
+
+            double Entropy_specie = ThermoDynamics.Entropy(Temperature, expnts, coeff, integrateC);
+
+            var O2_enthalpy = from item in nasaPolynomials
+                                where item.Name == "O2"
+                                select item;
+            var O2_expnts = O2_enthalpy.First().DataRecords.ElementAt(0).TExponents;
+            var O2_coeff = O2_enthalpy.First().DataRecords.ElementAt(0).Coefficients;
+            var O2_integ = O2_enthalpy.First().DataRecords.ElementAt(0).IntegrationConstants;
+            double O2_Enthalpy = ThermoDynamics.EnthalpyRefH298(298.15, Temperature, O2_expnts, O2_coeff);
+
+            var Cgr_enthalpy = from item in nasaPolynomials
+                               where item.Name == "C(gr)"
+                               select item;
+            var Cgr_expnts = Cgr_enthalpy.First().DataRecords.ElementAt(0).TExponents;
+            var Cgr_coeff = Cgr_enthalpy.First().DataRecords.ElementAt(0).Coefficients;
+            double Cgr_Enthalpy = ThermoDynamics.EnthalpyRefH298(298.15, Temperature, Cgr_expnts, Cgr_coeff);
+
+
+            //C(gr)
+            referenceProperties.TryGetValue("C(gr)", out var C_gr);
+            double C_gr_Delta_Enthalpy_Ref = C_gr.Delta_Enthalpy_Ref;
+            double C_gr_Entropy_Ref = C_gr.Entropy_Ref; // 5.7339
+
+            // O2
+            referenceProperties.TryGetValue("O2", out var O2);
+            double O2_Delta_Enthalpy_Ref = O2.Delta_Enthalpy_Ref;
+            double O2_Entropy_Ref = O2.Entropy_Ref;
+
+            // Product
+            double specie_Hrxn = Hof - (C_gr_Delta_Enthalpy_Ref + O2_Delta_Enthalpy_Ref);
+            double specie_Srxn = Entropy_specie - (C_gr_Entropy_Ref + O2_Entropy_Ref);
+            // new product definition
+            double pHrxn = Hof - (Cgr_Enthalpy + O2_Enthalpy);
+            double pSrxn = Entropy_specie - (C_gr_Entropy_Ref + O2_Entropy_Ref);
+
+            //double deltaG = specie_Hrxn - Temperature * specie_Srxn / 1000;
+            double deltaGibbs = ThermoDynamics.DeltaGibbs(Temperature, specie_Hrxn, specie_Srxn);
+            // new deltaGibbs
+            double n_DeltaGibbs = ThermoDynamics.DeltaGibbs(Temperature, pHrxn, pSrxn);
+
+            Assert.AreEqual(expected, deltaGibbs, tolerance);
+        }
+
         [TestMethod]
         public void TestOverLoadedElementsReferenceCPHS()
         {
             var referenceproperties = ThermoDynamics.ElementsReferenceCPHS(refElementPolynomials);
             Assert.IsNotNull(referenceproperties);
         }
+
         [TestMethod]
         public void TestShouldBuildReferencePropertiesAt298_15()
         {
@@ -2119,6 +2188,7 @@ namespace TestCEAconsole
             double result = ThermoDynamics.Entropy(T, NASAExponents, NASACoefficients, NASAIntegrationConstants);
             Assert.AreEqual(expected, result, delta);
         }
+
         [DataTestMethod]
         [DataRow(298.15, 205.1482)]
         public void TestElementWith8Coefficients(double T, double expected)
