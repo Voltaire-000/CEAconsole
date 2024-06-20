@@ -2071,9 +2071,10 @@ namespace TestCEAconsole
         [DataRow(300, -394.394)]
         [DataRow(500, -394.939)]
         [DataRow(700, -395.398)]
+        [DataRow(1000, -395.886)]
         public void TestCO2deltaGibbsRef(double Temperature, double expected)
         {
-            //double TR = 298.15;
+            double TR = 298.15;
             double tolerance = 0.001;
             List<string> ElementSymbols = ["C", "O"];
             var referenceProperties = ThermoDynamics.ElementsReferenceCPHS(ElementSymbols, refElementPolynomials);
@@ -2088,46 +2089,53 @@ namespace TestCEAconsole
             var integrateC = specieProperties.First().DataRecords.ElementAt(0).IntegrationConstants;
 
             double Entropy_specie = ThermoDynamics.Entropy(Temperature, expnts, coeff, integrateC);
+            double Enthalpy_specie = ThermoDynamics.EnthalpyRefH298(TR, Temperature, expnts, coeff);
 
-            var O2_enthalpy = from item in nasaPolynomials
-                                where item.Name == "O2"
-                                select item;
-            var O2_expnts = O2_enthalpy.First().DataRecords.ElementAt(0).TExponents;
-            var O2_coeff = O2_enthalpy.First().DataRecords.ElementAt(0).Coefficients;
-            var O2_integ = O2_enthalpy.First().DataRecords.ElementAt(0).IntegrationConstants;
-            double O2_Enthalpy = ThermoDynamics.EnthalpyRefH298(298.15, Temperature, O2_expnts, O2_coeff);
-
-            var Cgr_enthalpy = from item in nasaPolynomials
+            // TODO fix ElementAt(0) to account for tempRange
+            // calculate Enthalpy Section CO2
+            var Cgr_properties = from item in nasaPolynomials
                                where item.Name == "C(gr)"
                                select item;
-            var Cgr_expnts = Cgr_enthalpy.First().DataRecords.ElementAt(0).TExponents;
-            var Cgr_coeff = Cgr_enthalpy.First().DataRecords.ElementAt(0).Coefficients;
-            double Cgr_Enthalpy = ThermoDynamics.EnthalpyRefH298(298.15, Temperature, Cgr_expnts, Cgr_coeff);
+            var Cgr_expnts = Cgr_properties.First().DataRecords.ElementAt(0).TExponents;
+            var Cgr_coeff = Cgr_properties.First().DataRecords.ElementAt(0).Coefficients;
+            var Cgr_integ = Cgr_properties.First().DataRecords.ElementAt(0).IntegrationConstants;
+            double Cgr_Enthalpy = ThermoDynamics.EnthalpyRefH298(TR, Temperature, Cgr_expnts, Cgr_coeff);
 
+            var O2_properties = from item in nasaPolynomials
+                                where item.Name == "O2"
+                                select item;
+            var O2_expnts = O2_properties.First().DataRecords.ElementAt(0).TExponents;
+            var O2_coeff = O2_properties.First().DataRecords.ElementAt(0).Coefficients;
+            var O2_integ = O2_properties.First().DataRecords.ElementAt(0).IntegrationConstants;
+            double O2_Enthalpy = ThermoDynamics.EnthalpyRefH298(TR, Temperature, O2_expnts, O2_coeff);
+
+            // calculate Entropy Section CO2
+            double Cgr_Entropy = ThermoDynamics.Entropy(Temperature, Cgr_expnts, Cgr_coeff, Cgr_integ);
+            double O2_Entropy = ThermoDynamics.Entropy(Temperature, O2_expnts, O2_coeff, O2_integ);
 
             //C(gr)
-            referenceProperties.TryGetValue("C(gr)", out var C_gr);
-            double C_gr_Delta_Enthalpy_Ref = C_gr.Delta_Enthalpy_Ref;
-            double C_gr_Entropy_Ref = C_gr.Entropy_Ref; // 5.7339
+            //referenceProperties.TryGetValue("C(gr)", out var C_gr);
+            //double C_gr_Delta_Enthalpy_Ref = C_gr.Delta_Enthalpy_Ref;
+            //double C_gr_Entropy_Ref = C_gr.Entropy_Ref; // 5.7339
 
             // O2
-            referenceProperties.TryGetValue("O2", out var O2);
-            double O2_Delta_Enthalpy_Ref = O2.Delta_Enthalpy_Ref;
-            double O2_Entropy_Ref = O2.Entropy_Ref;
+            //referenceProperties.TryGetValue("O2", out var O2);
+            //double O2_Delta_Enthalpy_Ref = O2.Delta_Enthalpy_Ref;
+            //double O2_Entropy_Ref = O2.Entropy_Ref;
 
             // Product
-            double specie_Hrxn = Hof - (C_gr_Delta_Enthalpy_Ref + O2_Delta_Enthalpy_Ref);
-            double specie_Srxn = Entropy_specie - (C_gr_Entropy_Ref + O2_Entropy_Ref);
+            //double specie_Hrxn = Hof - (C_gr_Delta_Enthalpy_Ref + O2_Delta_Enthalpy_Ref);
+            //double specie_Srxn = Entropy_specie - (C_gr_Entropy_Ref + O2_Entropy_Ref);
             // new product definition
-            double pHrxn = Hof - (Cgr_Enthalpy + O2_Enthalpy);
-            double pSrxn = Entropy_specie - (C_gr_Entropy_Ref + O2_Entropy_Ref);
+            double pHrxn = Hof - (Cgr_Enthalpy + O2_Enthalpy) + Enthalpy_specie;
+            double pSrxn = Entropy_specie - (Cgr_Entropy + O2_Entropy);
 
             //double deltaG = specie_Hrxn - Temperature * specie_Srxn / 1000;
-            double deltaGibbs = ThermoDynamics.DeltaGibbs(Temperature, specie_Hrxn, specie_Srxn);
+            //double deltaGibbs = ThermoDynamics.DeltaGibbs(Temperature, specie_Hrxn, specie_Srxn);
             // new deltaGibbs
             double n_DeltaGibbs = ThermoDynamics.DeltaGibbs(Temperature, pHrxn, pSrxn);
 
-            Assert.AreEqual(expected, deltaGibbs, tolerance);
+            Assert.AreEqual(expected, n_DeltaGibbs, tolerance);
         }
 
         [TestMethod]
