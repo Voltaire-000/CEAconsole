@@ -31,10 +31,23 @@ namespace CEAconsole.ThermoChemistry
         //private static readonly double[]? coefficients;
         static readonly double Gas_Constant_R = 8.31446261815324;
 
-        public static double DeltaGibbsRxn(double Temperature, Molecule molecule)
+        /// <summary>
+        /// Returns the Log(Kf)
+        /// </summary>
+        /// <param name="deltaGibbsrxn"></param>
+        /// <param name="Temperature"></param>
+        /// <param name="GASCONSTANT"></param>
+        /// <returns></returns>
+        public static double Log_K(double deltaGibbsrxn, double Temperature, double GASCONSTANT = 8.31446261815324)
         {
+            double result = -(deltaGibbsrxn * 1000) / (GASCONSTANT * Temperature);
+            
+            double x_ln = Math.Pow(Math.E, result);
+            double ln = Math.Log10(x_ln);
 
+            return ln;
         }
+
         public static double DeltaGibbsrxn(double Temperature, string Molecule)
         {
             var parsedMolecule = ParseChemicalEquation(Molecule);

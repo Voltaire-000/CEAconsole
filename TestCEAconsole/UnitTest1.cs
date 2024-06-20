@@ -2120,6 +2120,8 @@ namespace TestCEAconsole
 
             double n_DeltaGibbs = ThermoDynamics.DeltaGibbs(Temperature, pHrxn, pSrxn);
 
+            double log_K = ThermoDynamics.Log_K(n_DeltaGibbs, Temperature).Round(3);
+
             Assert.AreEqual(expected, n_DeltaGibbs, tolerance);
         }
 
