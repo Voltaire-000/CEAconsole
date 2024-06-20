@@ -1543,6 +1543,7 @@ namespace TestCEAconsole
         public void TestDeltas_Gibbsrxn(string molecule, double expected)
         {
             double tolerance = 0.001;
+            // TODO fix failed test, add Molecule type
             double m_deltaGibbsrxn = ThermoDynamics.DeltaGibbsrxn(298.15, molecule);
             Assert.IsNotNull(m_deltaGibbsrxn);
             Assert.AreEqual(expected, m_deltaGibbsrxn, tolerance);
@@ -2113,26 +2114,10 @@ namespace TestCEAconsole
             double Cgr_Entropy = ThermoDynamics.Entropy(Temperature, Cgr_expnts, Cgr_coeff, Cgr_integ);
             double O2_Entropy = ThermoDynamics.Entropy(Temperature, O2_expnts, O2_coeff, O2_integ);
 
-            //C(gr)
-            //referenceProperties.TryGetValue("C(gr)", out var C_gr);
-            //double C_gr_Delta_Enthalpy_Ref = C_gr.Delta_Enthalpy_Ref;
-            //double C_gr_Entropy_Ref = C_gr.Entropy_Ref; // 5.7339
-
-            // O2
-            //referenceProperties.TryGetValue("O2", out var O2);
-            //double O2_Delta_Enthalpy_Ref = O2.Delta_Enthalpy_Ref;
-            //double O2_Entropy_Ref = O2.Entropy_Ref;
-
             // Product
-            //double specie_Hrxn = Hof - (C_gr_Delta_Enthalpy_Ref + O2_Delta_Enthalpy_Ref);
-            //double specie_Srxn = Entropy_specie - (C_gr_Entropy_Ref + O2_Entropy_Ref);
-            // new product definition
             double pHrxn = Hof - (Cgr_Enthalpy + O2_Enthalpy) + Enthalpy_specie;
             double pSrxn = Entropy_specie - (Cgr_Entropy + O2_Entropy);
 
-            //double deltaG = specie_Hrxn - Temperature * specie_Srxn / 1000;
-            //double deltaGibbs = ThermoDynamics.DeltaGibbs(Temperature, specie_Hrxn, specie_Srxn);
-            // new deltaGibbs
             double n_DeltaGibbs = ThermoDynamics.DeltaGibbs(Temperature, pHrxn, pSrxn);
 
             Assert.AreEqual(expected, n_DeltaGibbs, tolerance);

@@ -31,6 +31,10 @@ namespace CEAconsole.ThermoChemistry
         //private static readonly double[]? coefficients;
         static readonly double Gas_Constant_R = 8.31446261815324;
 
+        public static double DeltaGibbsRxn(double Temperature, Molecule molecule)
+        {
+
+        }
         public static double DeltaGibbsrxn(double Temperature, string Molecule)
         {
             var parsedMolecule = ParseChemicalEquation(Molecule);
