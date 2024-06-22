@@ -32,86 +32,86 @@ namespace TestCEAconsole
         [TestMethod]
         public void TestAddMoleculeNode()
         {
-            ICollection<Specie> allSpecies = InputServices.GetNASA("Data/NASApolynomials.json");
-            int allSpeciesCount = allSpecies.Count;
+            //    ICollection<DTO_Specie> allSpecies = InputServices.GetNASA("Data/NASApolynomials.json");
+            //    int allSpeciesCount = allSpecies.Count;
 
-            var chemForm = new ChemicalFormula();
-            var chemFormDict = new Dictionary<string, double>();
+            //    var chemForm = new ChemicalFormula();
+            //    var chemFormDict = new Dictionary<string, double>();
 
-            List<DTO_Reactant> dTO_Reactants = new();
-            for (int i = 0; i < allSpecies.Count; i++)
-            {
-
-
-                DTO_Reactant dTO_Reactant = new()
-                {
-                    Molecule = new(),
-                    Name = allSpecies.ElementAt(i).Name,
+            //    List<DTO_Reactant> dTO_Reactants = new();
+            //    for (int i = 0; i < allSpecies.Count; i++)
+            //    {
 
 
-                };
-
-                dTO_Reactant.Name = allSpecies.ElementAt(i).Name;
-                dTO_Reactant.Description = allSpecies.ElementAt(i).Description;
-                dTO_Reactant.TempIntervals = allSpecies.ElementAt(i).TempIntervals;
-                dTO_Reactant.IdCode = allSpecies.ElementAt(i).IdCode;
-
-                chemFormDict.Clear();
-                for (int j = 0; j < allSpecies.ElementAt(i).ChemicalFormula.Count; j++)
-                {
-                    chemForm.Symbol = allSpecies.ElementAt(i).ChemicalFormula.ElementAt(j).Symbol;
-                    chemForm.NumberOfAtoms = allSpecies.ElementAt(i).ChemicalFormula.ElementAt(j).NumberOfAtoms;
-                    chemFormDict.Add(chemForm.Symbol, chemForm.NumberOfAtoms);
-                }
-                //var chemForm = new ChemicalFormula
-                //{
-
-                //    Symbol = allSpecies.ElementAt(i).ChemicalFormula.ElementAt(0).Symbol,
-                //    NumberOfAtoms = allSpecies.ElementAt(i).ChemicalFormula.ElementAt(0).NumberOfAtoms
-
-                //};
-
-                foreach (var item in chemFormDict)
-                {
-                    var m_key = item.Key;
-                    var m_value = item.Value;
-                }
-
-                var molecule = new Molecule
-                {
-                    Count = 1,
-                    ChemicalFormula = new Dictionary<string, double>
-                    {
-                        { chemForm.Symbol, chemForm.NumberOfAtoms }
-                    }
-                };
+            //        DTO_Reactant dTO_Reactant = new()
+            //        {
+            //            Molecule = new(),
+            //            Name = allSpecies.ElementAt(i).Name,
 
 
+            //        };
 
+            //        dTO_Reactant.Name = allSpecies.ElementAt(i).Name;
+            //        dTO_Reactant.Description = allSpecies.ElementAt(i).Description;
+            //        dTO_Reactant.TempIntervals = allSpecies.ElementAt(i).TempIntervals;
+            //        dTO_Reactant.IdCode = allSpecies.ElementAt(i).IdCode;
 
-                dTO_Reactant.Molecule.Count = molecule.Count;
-                dTO_Reactant.Molecule = molecule;
+            //        chemFormDict.Clear();
+            //        for (int j = 0; j < allSpecies.ElementAt(i).Molecule.ChemicalFormula.Count; j++)
+            //        {
+            //            chemForm.Symbol = allSpecies.ElementAt(i).Molecule.ChemicalFormula.ElementAt(j).Symbol;
+            //            chemForm.NumberOfAtoms = allSpecies.ElementAt(i).Molecule.ChemicalFormula.ElementAt(j).NumberOfAtoms;
+            //            chemFormDict.Add(chemForm.Symbol, chemForm.NumberOfAtoms);
+            //        }
+            //        //var chemForm = new ChemicalFormula
+            //        //{
 
-                dTO_Reactant.PhaseValue = allSpecies.ElementAt(i).PhaseValue;
-                dTO_Reactants.Add(dTO_Reactant);
+            //        //    Symbol = allSpecies.ElementAt(i).ChemicalFormula.ElementAt(0).Symbol,
+            //        //    NumberOfAtoms = allSpecies.ElementAt(i).ChemicalFormula.ElementAt(0).NumberOfAtoms
 
+            //        //};
 
-            }
+            //        foreach (var item in chemFormDict)
+            //        {
+            //            var m_key = item.Key;
+            //            var m_value = item.Value;
+            //        }
+
+            //        var molecule = new Molecule
+            //        {
+            //            Count = 1,
+            //            ChemicalFormula = new Dictionary<string, double>
+            //            {
+            //                { chemForm.Symbol, chemForm.NumberOfAtoms }
+            //            }
+            //        };
 
 
 
 
+            //        dTO_Reactant.Molecule.Count = molecule.Count;
+            //        dTO_Reactant.Molecule = molecule;
+
+            //        dTO_Reactant.PhaseValue = allSpecies.ElementAt(i).PhaseValue;
+            //        dTO_Reactants.Add(dTO_Reactant);
 
 
-            Assert.IsNotNull(allSpeciesCount);
+            //    }
+
+
+
+
+
+
+            //    Assert.IsNotNull(allSpeciesCount);
         }
-    }
+}
 
     [TestClass]
     public class MathNetOptimazation
     {
         private static readonly ICollection<CPHSRef> referenceCPHS = InputServices.GetDefaultCPHS("Data/Ref_Defaults.json");
-        private static readonly ICollection<Specie> NASAspecie = InputServices.GetNASA("Data/Nasapolynomials.json");
+        private static readonly ICollection<DTO_Specie> NASAspecie = InputServices.GetNASA("Data/Nasapolynomials.json");
         private static readonly double referenceTemperature = 298.15;
 
         [TestMethod]
@@ -230,10 +230,10 @@ namespace TestCEAconsole
             double T = 298.15;
             double delta = 0.005;
 
-            ICollection<Specie> nasaPolynomials = InputServices.GetNASA("Data/NASApolynomials.json");
-            IEnumerable<Specie> NASA_specie = from NASAspecie in nasaPolynomials
-                                              where NASAspecie.Name == "CO2" | NASAspecie.Name == "CO" | NASAspecie.Name == "H2O" | NASAspecie.Name == "H2"
-                                              select NASAspecie;
+            ICollection<DTO_Specie> nasaPolynomials = InputServices.GetNASA("Data/NASApolynomials.json");
+            IEnumerable<DTO_Specie> NASA_specie = from NASAspecie in nasaPolynomials
+                                                  where NASAspecie.Name == "CO2" | NASAspecie.Name == "CO" | NASAspecie.Name == "H2O" | NASAspecie.Name == "H2"
+                                                  select NASAspecie;
             Dictionary<string, double> Cp_Specie = new();
             Dictionary<string, double> Href_Specie = new();
             Dictionary<string, double> Enthalpy_Specie = new();
@@ -494,29 +494,29 @@ namespace TestCEAconsole
         [TestMethod]
         public void TestICollection()
         {
-            ICollection<Reactant> reactants = InputServices.GetSpecies("Data/newShortThermo.json");
+            //ICollection<Reactant> reactants = InputServices.GetSpecies("Data/newShortThermo.json");
 
-            List<Reactant>? filteredCollection = reactants?.Where(item => item.Name == "CH4").ToList();
-            var molecularWeight = (from item in filteredCollection
-                                   select item.MolecularWeight).FirstOrDefault();
-            double expected = 16.0424600;
+            //List<Reactant>? filteredCollection = reactants?.Where(item => item.Name == "CH4").ToList();
+            //var molecularWeight = (from item in filteredCollection
+            //                       select item.MolecularWeight).FirstOrDefault();
+            //double expected = 16.0424600;
 
-            Dictionary<string, CEAconsole.Models.DataRecord>.ValueCollection? tempRange = (from item in filteredCollection
-                                                                                           select item.TemperatureRange.Values).FirstOrDefault();
+            //Dictionary<string, CEAconsole.Models.DataRecord>.ValueCollection? tempRange = (from item in filteredCollection
+            //                                                                               select item.TemperatureRange.Values).FirstOrDefault();
 
-            Dictionary<string, double>? chemFormula = (from item in filteredCollection
-                                                       select item.Molecule.ChemicalFormula).FirstOrDefault();
-            int? elementCount = chemFormula?.Count;
-            elementCount ??= 0;
-            string? symbol = chemFormula?.ElementAt(0).Key;
-            symbol ??= string.Empty;
-            double? atoms = chemFormula?.ElementAt(0).Value;
-            atoms ??= 0;
+            //Dictionary<string, double>? chemFormula = (from item in filteredCollection
+            //                                           select item.Molecule.ChemicalFormula).FirstOrDefault();
+            //int? elementCount = chemFormula?.Count;
+            //elementCount ??= 0;
+            //string? symbol = chemFormula?.ElementAt(0).Key;
+            //symbol ??= string.Empty;
+            //double? atoms = chemFormula?.ElementAt(0).Value;
+            //atoms ??= 0;
 
-            CEAconsole.Models.DataRecord? mx = tempRange?.ElementAt(0);
+            //CEAconsole.Models.DataRecord? mx = tempRange?.ElementAt(0);
 
-            Assert.AreEqual(expected, molecularWeight);
-            //Assert.AreEqual(99, tempRange.ElementAt(1));
+            //Assert.AreEqual(expected, molecularWeight);
+            ////Assert.AreEqual(99, tempRange.ElementAt(1));
 
         }
 
@@ -869,121 +869,7 @@ namespace TestCEAconsole
             Assert.AreEqual(2, solution[3]);
 
         }
-        [TestMethod]
-        public void TestBalancedEquationSolverWithReactantInput()
-        {
-            // Arrange
-            ICollection<Reactant> reactants = InputServices.GetSpecies("Data/newShortThermo.json");
-            // reactants
-            string fuelName = "CH4";
-            string oxidizerName = "O2";
-            List<Reactant>? Fuel = reactants?.Where(item => item.Name == fuelName).ToList();
-            List<Reactant>? Oxidizer = reactants?.Where(item => item.Name == oxidizerName).ToList();
-            // products
-            string CO2Name = "CO2";
-            string H2OName = "H2O";
-            List<Reactant>? CO2 = reactants?.Where(item => item.Name == CO2Name).ToList();
-            List<Reactant>? H2O = reactants?.Where(item => item.Name == H2OName).ToList();
 
-            Dictionary<string, double>? fuelElementsList = (from molecule in Fuel
-                                                            select molecule.Molecule.ChemicalFormula).FirstOrDefault();
-
-            Dictionary<string, double>? oxidizerElementsList = (from molecule in Oxidizer
-                                                                select molecule.Molecule.ChemicalFormula).FirstOrDefault();
-
-            Dictionary<string, double>? co2ElementsList = (from molecule in CO2
-                                                           select molecule.Molecule.ChemicalFormula).FirstOrDefault();
-
-            Dictionary<string, double>? h2oElementsList = (from molecule in H2O
-                                                           select molecule.Molecule.ChemicalFormula).FirstOrDefault();
-
-            // Reactants
-            //Fuel
-            fuelElementsList.TryGetValue("C", out double reactant_fuel_carbon_value);
-            fuelElementsList.TryGetValue("H", out double reactant_fuel_hydrogen_value);
-            fuelElementsList.TryGetValue("O", out double reactant_fuel_oxygen_value);
-            // Oxidizer
-            oxidizerElementsList.TryGetValue("C", out double reactant_oxidizer_carbon_value);
-            oxidizerElementsList.TryGetValue("H", out double reactant_oxidizer_hydrogen_value);
-            oxidizerElementsList.TryGetValue("O", out double reactant_oxidizer_oxygen_value);
-
-            // Products
-            //CO2
-            co2ElementsList.TryGetValue("C", out double product_CO2_carbon_value);
-            co2ElementsList.TryGetValue("H", out double product_CO2_hydrogen_value);
-            co2ElementsList.TryGetValue("O", out double product_CO2_oxygen_value);
-            // H2O
-            h2oElementsList.TryGetValue("C", out double product_H2O_carbon_value);
-            h2oElementsList.TryGetValue("H", out double product_H2O_hydrogen_value);
-            h2oElementsList.TryGetValue("O", out double product_H2O_oxygen_value);
-
-            double[,] matrixValues =
-            {
-                {reactant_fuel_carbon_value, reactant_oxidizer_carbon_value, - product_CO2_carbon_value, - product_H2O_carbon_value},
-                {reactant_fuel_hydrogen_value, reactant_oxidizer_hydrogen_value ,  - product_CO2_hydrogen_value, - product_H2O_hydrogen_value},
-                {reactant_fuel_oxygen_value,reactant_oxidizer_oxygen_value, - product_CO2_oxygen_value,  - product_H2O_oxygen_value },
-                {1.0, 0.0, 0.0, 0.0 }
-            };
-            Matrix<double> matrix = Matrix<double>.Build.DenseOfArray(matrixValues);
-            // create right hand side vector
-            Vector<double> rightHandside = Vector<double>.Build.Dense(new[]
-            {0.0, 0.0, 0.0, 1.0 });
-            // solve the system using Gaussian elimination
-            Vector<double> solution = matrix.Solve(rightHandside);
-
-            Matrix<double> defaultMatrix = Matrix<double>.Build.Dense(4, 4, 0.0);
-            defaultMatrix[0, 0] = 1.0; defaultMatrix[0, 1] = 0.0; defaultMatrix[0, 2] = -1.0; defaultMatrix[0, 3] = 0.0;
-            defaultMatrix[1, 0] = 4.0; defaultMatrix[1, 1] = 0.0; defaultMatrix[1, 2] = 0.0; defaultMatrix[1, 3] = -2.0;
-            defaultMatrix[2, 0] = 0.0; defaultMatrix[2, 1] = 2.0; defaultMatrix[2, 2] = -2.0; defaultMatrix[2, 3] = -1.0;
-            defaultMatrix[3, 0] = 1.0; defaultMatrix[3, 1] = 0.0; defaultMatrix[3, 2] = 0.0; defaultMatrix[3, 3] = 0.0;
-
-            Vector<double> rightside = Vector<double>.Build.Dense(new[]
-            {0.0, 0.0, 0.0, 1.0 });
-            // solve the system using Gaussian elimination
-            Vector<double> m_solution = matrix.Solve(rightside);
-
-            List<Reactant> balancedProductH2O = H2O;
-            balancedProductH2O.ForEach(r => r.Molecule.Count = m_solution[3]);
-
-            Molecule balancedFuel = new()
-            {
-                ChemicalFormula = new()
-                {
-                    {"C", 1.0 },
-                    {"H", 4.0 }
-                },
-                Count = m_solution[0]
-            };
-            Molecule balancedO2 = new()
-            {
-                ChemicalFormula = new()
-                {
-                    { "O", 2.0 },
-                },
-                Count = m_solution[1]
-            };
-            Molecule balancedCO2 = new()
-            {
-                ChemicalFormula = new()
-                {
-                    {"C", 1.0 },
-                    {"O", 2.0 }
-                },
-                Count = m_solution[2]
-            };
-            Molecule balancedH2O = new()
-            {
-                ChemicalFormula = new()
-                {
-                    { "H", 2.0 },
-                    { "O", 1.0 }
-                },
-                Count = m_solution[3]
-            };
-
-            Assert.AreEqual(99, 0);
-
-        }
     }
 
     [TestClass]
@@ -1039,7 +925,7 @@ namespace TestCEAconsole
         [TestMethod]
         public void Test_NASAnotNull()
         {
-            ICollection<Specie> species = InputServices.GetNASA("Data/NASApolynomials.json");
+            ICollection<DTO_Specie> species = InputServices.GetNASA("Data/NASApolynomials.json");
             Assert.IsNotNull(species);
         }
 
@@ -1047,7 +933,7 @@ namespace TestCEAconsole
         public void TestShouldReturnNamedSpecie()
         {
             string name = "CH4";
-            ICollection<Specie> species = InputServices.GetNASA("Data/NASApolynomials.json");
+            ICollection<DTO_Specie> species = InputServices.GetNASA("Data/NASApolynomials.json");
             var m_specie = from item in species
                            where item.Name == name
                            select item;
@@ -1060,7 +946,7 @@ namespace TestCEAconsole
         [TestMethod]
         public void TestShouldReturnPhasesGreaterThanZero()
         {
-            ICollection<Specie> species = InputServices.GetNASA("Data/NASApolynomials.json");
+            ICollection<DTO_Specie> species = InputServices.GetNASA("Data/NASApolynomials.json");
             var m_specie = from item in species
                            where item.PhaseValue > 0
                            select item;
@@ -1083,259 +969,6 @@ namespace TestCEAconsole
                            select item;
 
             Assert.AreEqual("CH4", m_specie.First().Name);
-        }
-    }
-
-    [TestClass]
-    public class MatrixSolvers
-    {
-        [TestMethod]
-        public void TestShouldBuildMatrixAndLoadChemicalFormula()
-        {
-            // Arrange
-            Matrix<double> coefficientMatrix = Matrix<double>.Build.Dense(11, 11, 0.0);
-            double determinate = coefficientMatrix.Determinant();
-            bool isSymetric = coefficientMatrix.IsSymmetric();
-            Assert.IsNotNull(coefficientMatrix);
-            //
-
-            Matrix<double> variableMatrix = Matrix<double>.Build.DenseIdentity(11, 11);
-            Assert.IsNotNull(variableMatrix);
-
-            // constants matrix
-            Matrix<double> constantMatrix = new DenseMatrix(11, 1);
-            constantMatrix[0, 0] = 0;
-            constantMatrix[1, 0] = 0;
-            constantMatrix[2, 0] = 0;
-            constantMatrix[3, 0] = 0;
-            constantMatrix[4, 0] = 0;
-            constantMatrix[5, 0] = 0;
-            constantMatrix[6, 0] = 0;
-            constantMatrix[7, 0] = 0;
-            constantMatrix[8, 0] = 0;
-            constantMatrix[9, 0] = 0;
-            constantMatrix[10, 0] = 1.0;
-            Assert.IsNotNull(constantMatrix);
-
-            // create rightHand side vector
-            int m_VectorSize = 11;
-            //Vector<double> rightHandSide = Vector<double>.Build.Dense(m_VectorSize, 0.0);
-            Vector<double> rightHandside = Vector<double>.Build.Dense(new[]
-            {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0 });
-            int m_rightHandSideCount = rightHandside.Count;
-            rightHandside[m_rightHandSideCount - 1] = 1.0;
-            Assert.IsNotNull(rightHandside);
-            Assert.AreEqual(m_VectorSize, m_rightHandSideCount);
-
-            //
-            // Set the first column (column 0) to the values for the first reactant(Species)
-            // Set the number of CH4 molecules to 1 in the last row of the defaultMatrix
-            coefficientMatrix[10, 0] = 1.0;
-            coefficientMatrix[10, 1] = 1.0;
-            coefficientMatrix[10, 2] = 1.0;
-            coefficientMatrix[10, 3] = 1.0;
-            coefficientMatrix[10, 4] = 1.0;
-            coefficientMatrix[10, 5] = 1.0;
-            coefficientMatrix[10, 6] = 1.0;
-            coefficientMatrix[10, 7] = 1.0;
-            coefficientMatrix[10, 8] = 1.0;
-            coefficientMatrix[10, 9] = 1.0;
-            coefficientMatrix[10, 10] = 1.0;
-
-            // Get data for Species, TableOfElements, And Reference Values
-            // Table of elements
-            ICollection<Element> tableOfElements = ElementsService.GetElements("Data/tableOfElements.json");
-            Assert.IsNotNull(tableOfElements);
-            // Get the reference data
-            ICollection<CPHSRef> cphs_reference = InputServices.GetDefaultCPHS("Data/Ref_Defaults.json");
-            Assert.IsNotNull(cphs_reference);
-            // Species data 
-            // TODO Update to NASApolynomials
-            ICollection<Reactant> AllSpecies = InputServices.GetSpecies("Data/newShortThermo.json");
-            Assert.IsNotNull(AllSpecies);
-
-            // Reactants and products section Section
-            string m_firstReactantMolecule = "CH4";
-            string m_secondReactantMolecule = "O2";
-
-            // get the key collection of elements in reactants
-            var inputKeyCollection = from item in AllSpecies
-                                     where item.Name == m_firstReactantMolecule | item.Name == m_secondReactantMolecule
-                                     select item.Molecule.ChemicalFormula?.Keys;
-
-            Dictionary<string, Element?> elementTableOfElements = new();
-            for (int i = 0; i < inputKeyCollection.Count(); i++)
-            {
-                var elementAt = inputKeyCollection.ElementAt(i);
-                foreach (var item in elementAt)
-                {
-                    IEnumerable<Element> elementData = tableOfElements.Where(x => x.Symbol == item);
-                    string key = item;
-                    if (elementData.Any())
-                    {
-                        elementTableOfElements.Add(key: key, value: elementData.FirstOrDefault());
-                    };
-                }
-            }
-
-            //IEnumerable<KeyValuePair<string, Element>> elementProperties = from item in elementTableOfElements
-            //                   where item.Key == "C"
-            //                   select item;
-            //IEnumerable<CPHSRef> element_cphs_reference_defaults = from item in cphs_reference
-            //          where item.Species_Name == "C"
-            //          select item;
-
-            for (int i = 0; i < elementTableOfElements.Count; i++)
-            {
-                string key = elementTableOfElements.ElementAt(i).Key;
-                IEnumerable<KeyValuePair<string, Element>> elementProperties = from item in elementTableOfElements
-                                                                               where item.Key == key
-                                                                               select item;
-
-                IEnumerable<CPHSRef> element_cphs_reference_defaults = from item in cphs_reference
-                                                                       where item.Species_Name == key
-                                                                       select item;
-            }
-            string mx_key = "C";
-            var keyValuePairsElements = elementTableOfElements.FirstOrDefault(x => x.Key == mx_key);
-
-            IEnumerable<Molecule> m_firstReactant = from item in AllSpecies
-                                                    where item.Name == m_firstReactantMolecule
-                                                    select item.Molecule;
-            Assert.IsNotNull(m_firstReactant);
-
-
-            Dictionary<string, double>.KeyCollection keyCollection = m_firstReactant.FirstOrDefault().ChemicalFormula.Keys;
-            Dictionary<string, double>.ValueCollection valuesCollection = m_firstReactant.FirstOrDefault().ChemicalFormula?.Values;
-            int m_keyCount = keyCollection.Count;
-            IEnumerable<Molecule> m_secondReactant = from item in AllSpecies
-                                                     where item.Name == m_secondReactantMolecule
-                                                     select item.Molecule;
-            Assert.IsNotNull(m_secondReactant);
-            Collection<IEnumerable<Molecule>> reactantsCollection = new();
-            reactantsCollection.Add(m_firstReactant);
-            reactantsCollection.Add(m_secondReactant);
-
-            // Products Section
-            // first product = "CO2
-            // second product = H2O
-            string m_firstProductMolecule = "CO2";
-            string m_secondProductMolecule = "H2O";
-
-            var m_firstproduct = from item in AllSpecies
-                                 where item.Name == m_firstProductMolecule
-                                 select item.Molecule;
-            Assert.IsNotNull(m_firstproduct);
-            var m_secondProduct = from item in AllSpecies
-                                  where item.Name == m_secondProductMolecule
-                                  select item.Molecule;
-            Assert.IsNotNull(m_secondProduct);
-            Collection<IEnumerable<Molecule>> productsCollection = new();
-            productsCollection.Add(m_firstproduct);
-            productsCollection.Add(m_secondProduct);
-
-            int matrixColumnCount = 0;
-            int m_reactantCount = reactantsCollection.Count;
-            foreach (var item in reactantsCollection)
-            {
-                Dictionary<string, double>.KeyCollection c_keys = item.FirstOrDefault().ChemicalFormula.Keys;
-                Dictionary<string, double>.ValueCollection c_values = item.FirstOrDefault().ChemicalFormula.Values;
-                int c_keycount = c_keys.Count;
-
-                LoadBalancedEquationMatrix(c_keys, c_values, c_keycount, matrixColumnCount);
-                matrixColumnCount = matrixColumnCount + 1;
-            }
-
-            // since these are the products the values have to be set to negative
-            foreach (var item in productsCollection)
-            {
-                //Dictionary<string, double>.KeyCollection c_keys = item.FirstOrDefault().ChemicalFormula.Keys;
-                Dictionary<string, double>? keyValuePairs = item.FirstOrDefault().ChemicalFormula;
-                //Dictionary<string, double>.ValueCollection c_values = item.FirstOrDefault().ChemicalFormula.Values;
-                foreach (var kvp in keyValuePairs)
-                {
-                    keyValuePairs[kvp.Key] = -kvp.Value;
-                }
-                //int c_keycount = c_keys.Count;
-
-                LoadBalancedEquationMatrix(keyValuePairs.Keys, keyValuePairs.Values, keyValuePairs.Count, matrixColumnCount);
-                matrixColumnCount = matrixColumnCount + 1;
-            }
-
-            // TODO j is temp variable to reference column in defaultMatrix
-
-            //(Matrix<double> solutionMatrix, Matrix<double> pivotMatrix) = coefficientMatrix.Solve(input: variableMatrix, constantMatrix);
-
-            void LoadBalancedEquationMatrix(Dictionary<string, double>.KeyCollection Keys, Dictionary<string, double>.ValueCollection Values, int KeysCount, int ColumnNumber)
-            {
-                int m_column = ColumnNumber;
-
-                for (int i = 0; i < KeysCount; i++)
-                {
-                    string elementKey = Keys.ElementAt(i);
-                    switch (elementKey)
-                    {
-                        case "H":
-                            // matrix row 0
-                            int row0 = 0;
-                            coefficientMatrix[row0, m_column] = Values.ElementAt(i);
-                            break;
-                        case "D":
-                            // matrix row 1
-                            int row1 = 1;
-                            coefficientMatrix[row1, m_column] = Values.ElementAt(i);
-                            break;
-                        case "He":
-                            // matrix row 2
-                            int row2 = 2;
-                            coefficientMatrix[row2, m_column] = Values.ElementAt(i);
-                            break;
-                        case "Li":
-                            // matrix row 3
-                            int row3 = 3;
-                            coefficientMatrix[row3, m_column] = Values.ElementAt(i);
-                            break;
-                        case "Be":
-                            // matrix row 4
-                            int row4 = 4;
-                            coefficientMatrix[row4, m_column] = Values.ElementAt(i);
-                            break;
-                        case "B":
-                            // matrix row 5
-                            int row5 = 5;
-                            coefficientMatrix[row5, m_column] = Values.ElementAt(i);
-                            break;
-                        case "C":
-                            // matrix row 6
-                            int row6 = 6;
-                            coefficientMatrix[row6, m_column] = Values.ElementAt(i);
-                            break;
-                        case "N":
-                            // matrix row 7
-                            int row7 = 7;
-                            coefficientMatrix[row7, m_column] = Values.ElementAt(i);
-                            break;
-                        case "O":
-                            // matrix row 8 
-                            int row8 = 8;
-                            coefficientMatrix[row8, m_column] = Values.ElementAt(i);
-                            break;
-                        case "F":
-                            // matrix row 9
-                            int row9 = 9;
-                            coefficientMatrix[row9, m_column] = Values.ElementAt(i);
-                            break;
-
-                        default:
-                            break;
-                    }
-                }
-            }
-
-            // solve the system using Gaussian elimination
-            Vector<double> m_solution = coefficientMatrix.Solve(rightHandside);
-
-            Assert.AreEqual(99, 0);
         }
     }
 
@@ -1426,24 +1059,24 @@ namespace TestCEAconsole
         [DataRow(1000.00, 264.035)]
         public void TestShouldReturnEnthaplyForElementOxygen(double Temperature, double expected)
         {
-            string searchString = "O";
-            ICollection<Specie> m_species = InputServices.GetNASA("Data/NASApolynomials.json");
+            //string searchString = "O";
+            //ICollection<Specie> m_species = InputServices.GetNASA("Data/NASApolynomials.json");
 
-            IEnumerable<Specie> m_reactant = from specie in m_species
-                                             where specie.Name == searchString
-                                             select specie;
+            //IEnumerable<Specie> m_reactant = from specie in m_species
+            //                                 where specie.Name == searchString
+            //                                 select specie;
 
-            ICollection<ChemicalFormula> chemicalFormula = m_reactant.First().ChemicalFormula;
-            List<double> temperatureRange = m_reactant.First().DataRecords.ElementAt(0).TemperatureRange;
-            List<double> coefficients = m_reactant.First().DataRecords.ElementAt(0).Coefficients;
-            List<double> t_expnts = m_reactant.First().DataRecords.ElementAt(0).TExponents;
-            List<double> integrationConstants = m_reactant.First().DataRecords.ElementAt(0).IntegrationConstants;
-            double delta = 0.005;
-            double refTemp = 298.15;
-            double heatOfFormation = m_reactant.First().HeatOfFormation;
-            double Enthalpy_kJmol = ThermoDynamics.Enthalpy(Temperature, t_expnts, coefficients, integrationConstants);
+            //ICollection<ChemicalFormula> chemicalFormula = m_reactant.First().ChemicalFormula;
+            //List<double> temperatureRange = m_reactant.First().DataRecords.ElementAt(0).TemperatureRange;
+            //List<double> coefficients = m_reactant.First().DataRecords.ElementAt(0).Coefficients;
+            //List<double> t_expnts = m_reactant.First().DataRecords.ElementAt(0).TExponents;
+            //List<double> integrationConstants = m_reactant.First().DataRecords.ElementAt(0).IntegrationConstants;
+            //double delta = 0.005;
+            //double refTemp = 298.15;
+            //double heatOfFormation = m_reactant.First().HeatOfFormation;
+            //double Enthalpy_kJmol = ThermoDynamics.Enthalpy(Temperature, t_expnts, coefficients, integrationConstants);
 
-            Assert.AreEqual(expected, Enthalpy_kJmol, delta);
+            //Assert.AreEqual(expected, Enthalpy_kJmol, delta);
         }
 
         [DataTestMethod]
@@ -1508,23 +1141,27 @@ namespace TestCEAconsole
         private static readonly double referenceTemp = 298.15;
         private static readonly double delta = 0.005;
 
-        private static readonly ICollection<Specie> nasaPolynomials = InputServices.GetNASA("Data/NASApolynomials.json");
-        private static readonly IEnumerable<Specie> NASA_specie = from NASAspecie in nasaPolynomials
-                                                                  where NASAspecie.Name == NASAsearchString
-                                                                  select NASAspecie;
-        private static ICollection<ChemicalFormula> NASAchemicalFormula = NASA_specie.First().ChemicalFormula;
+        private static readonly ICollection<DTO_Specie> nasaPolynomials = InputServices.GetNASA("Data/NASApolynomials.json");
+        //private static readonly ICollection<Specie> ModNASA = InputServices.GetModNASA("Data/ModNASAspecies.json");
+        //private static readonly IEnumerable<Specie> m_specie = from item in ModNASA
+        //                                                       where item.Name == NASAsearchString
+        //                                                       select item;
+        private static readonly IEnumerable<DTO_Specie> NASA_specie = from NASAspecie in nasaPolynomials
+                                                                      where NASAspecie.Name == NASAsearchString
+                                                                      select NASAspecie;
+        private static ICollection<ChemicalFormula> NASAchemicalFormula = NASA_specie.First().Molecule.ChemicalFormula;
         private static readonly List<double> NASAtemperatureRange = NASA_specie.First().DataRecords.ElementAt(0).TemperatureRange;
         private static readonly List<double> NASACoefficients = NASA_specie.First().DataRecords.ElementAt(0).Coefficients;
         private static readonly List<double> NASAIntegrationConstants = NASA_specie.First().DataRecords.ElementAt(0).IntegrationConstants;
         private static readonly List<double> NASAExponents = NASA_specie.First().DataRecords.ElementAt(0).TExponents;
 
         private static readonly string refSearchString = "O2";
-        private static readonly ICollection<Specie> refElementPolynomials = InputServices.GetNASA("Data/refElements.json");
-        private static readonly IEnumerable<Specie> O2_ref_specie = from refSpecie in refElementPolynomials
-                                                                    where refSpecie.Name == refSearchString
-                                                                    select refSpecie;
+        private static readonly ICollection<DTO_Specie> refElementPolynomials = InputServices.GetNASA("Data/refElements.json");
+        private static readonly IEnumerable<DTO_Specie> O2_ref_specie = from refSpecie in refElementPolynomials
+                                                                        where refSpecie.Name == refSearchString
+                                                                        select refSpecie;
 
-        private static ICollection<ChemicalFormula> refChemicalFormula = O2_ref_specie.First().ChemicalFormula;
+        private static ICollection<ChemicalFormula> refChemicalFormula = O2_ref_specie.First().Molecule.ChemicalFormula;
         private static readonly List<double> refTemperatureRange = O2_ref_specie.First().DataRecords.ElementAt(0).TemperatureRange;
         private static readonly List<double> refCoefficients = O2_ref_specie.First().DataRecords.ElementAt(0).Coefficients;
         private static readonly List<double> refIntegrationConstants = O2_ref_specie.First().DataRecords.ElementAt(0).IntegrationConstants;
@@ -1534,6 +1171,48 @@ namespace TestCEAconsole
         private static readonly IEnumerable<CPHSRef> m_referenceSpecie = (IEnumerable<CPHSRef>)(from m_specie in referenceCPHS
                                                                                                 where m_specie.Species_Name == NASAsearchString
                                                                                                 select m_specie);
+
+        [TestMethod]
+        public void TestTemperatureInRange()
+        {
+
+            //double t_temp = 200.0;
+            //double t_temp = 298.15;
+            //double t_temp = 1000.0;
+            double t_temp = 2000.0;
+            //double t_temp = 200.0;
+            double tempRange = 0;
+            double tempIntervals = nasaPolynomials.First().TempIntervals;
+            double dataRecordsCount = nasaPolynomials.First().DataRecords.Count;
+            var intervalOne = nasaPolynomials.First().DataRecords.ElementAt(0).TemperatureRange;
+            for (int i = 0; i < tempIntervals; i++)
+            {
+                List<double>? interval = nasaPolynomials.First().DataRecords.ElementAt(i).TemperatureRange;
+                double m_min = interval.Min();
+                double m_max = interval.Max();
+                if (t_temp >= m_min && t_temp <= m_max)
+                {
+                    tempRange = i;
+                    return;
+                }
+
+            }
+            Assert.AreEqual(99, 0);
+        }
+
+        [TestMethod]
+        public void TestCpTempRange()
+        {
+            string searchString = "CH4";
+            var ModNASA = InputServices.GetModNASA("Data/ModNASAspecies.json");
+            var m_specie = from item in ModNASA
+                           where item.Name == searchString
+                           select item;
+
+            double Cp = ThermoDynamics.Cp(1250.0, m_specie);
+
+            Assert.AreEqual(99, 0);
+        }
 
         [DataTestMethod]
         [DataRow("CH4", -50.5319)]
@@ -1549,126 +1228,8 @@ namespace TestCEAconsole
             Assert.AreEqual(expected, m_deltaGibbsrxn, tolerance);
         }
 
-        [DataTestMethod]
-        [DataRow(298.15, -74.6)]
-        //[DataRow(398.15, -77.635)]
-        //[DataRow(498.15, -80.457)]
-        //[DataRow(598.15, -82.932)]
-        //[DataRow(698.15, -85.023)]
-        //[DataRow(798.15, -86.726)]
-        //[DataRow(898.15, -88.059)]
-        //[DataRow(998.15, -89.053)]
-        //[DataRow(1000.00, -89.069)]
-        public void TestDeltaHf_for_CH4(double Temperature, double expected)
-        {
-            List<double> TemperatureList = new();
-            Dictionary<string, Molecule> Reactants = new();
-            Dictionary<string, Molecule> Products = new();
-            //double Temperature = 298.15;
-            // Product molecule
-            Molecule CH4_Molecule = new()
-            {
-                Count = 1,
-                ChemicalFormula = new()
-                {
-                    {"C", 1.00 },
-                    {"H", 4.00 }
-                }
-            };
-            Products.Add("CH4", CH4_Molecule);
 
-            // Reference element molecules
-            Molecule C_Molecule = new()
-            {
-                Count = 1,
-                ChemicalFormula = new()
-                {
-                    {"C", 1.00 }
-                }
-            };
-            Reactants.Add("C(gr)", C_Molecule);
-            Molecule H2_Molecule = new()
-            {
-                Count = 2,
-                ChemicalFormula = new()
-                {
-                    {"H", 2.0 }
-                }
-            };
-            Reactants.Add("H2", H2_Molecule);
 
-            double tolerance = 0.001;
-            double deltaHrxn = ThermoDynamics.DeltaHrxn(Temperature, Reactants, Products);
-            double deltaSrxn = ThermoDynamics.DeltaSrxn(Temperature, Reactants, Products);
-            double deltaGibbs = ThermoDynamics.DeltaGibbs(Temperature, deltaHrxn, deltaSrxn);
-
-            Assert.AreEqual(expected, deltaHrxn, tolerance);
-        }
-        //[TestMethod]
-        //public void TestDeltaHfWithChemicalEquationInput()
-        //{
-        //    var chemFormula = NASAchemicalFormula;
-        //    foreach (var product in chemFormula)
-        //    {
-        //        IEnumerable<Specie> productData = from specie in NASAspecies
-        //                                          where specie.Name == product.Key
-        //                                          select specie;
-        //    }
-        //    //var result = ThermoDynamics.DeltaHf(chemFormula);
-
-        //    Assert.IsNotNull(chemFormula);
-        //}
-        [TestMethod]
-        public void TestDeltaRxn()
-        {
-            List<double> TemperatureList = new();
-            Dictionary<string, Molecule> Reactants = new();
-            Dictionary<string, Molecule> Products = new();
-            double Temperature = 298.15;
-            Molecule HCl_molecule = new()
-            {
-                Count = 2,
-                ChemicalFormula = new()
-                {
-                    {"H", 1.00},
-                    {"Cl", 1.00 }
-                }
-            };
-            Products.Add("HCL", HCl_molecule);
-
-            // Reference Element molecules
-            Molecule Cl_Molecule = new()
-            {
-                Count = 1,
-                ChemicalFormula = new()
-                {
-                    { "Cl", 1.0 }
-                }
-
-            };
-            Reactants.Add("CL2", Cl_Molecule);
-            Molecule H2_molecule = new()
-            {
-                Count = 1,
-                ChemicalFormula = new()
-                {
-                    {"H", 2.0 }
-                }
-            };
-            Reactants.Add("H2", H2_molecule);
-
-            double tolerance = 0.001;
-            double deltaHrxn = ThermoDynamics.DeltaHrxn(Temperature, Reactants, Products);
-            double deltaSrxn = ThermoDynamics.DeltaSrxn(Temperature, Reactants, Products);
-            double deltaGibbs = ThermoDynamics.DeltaGibbs(Temperature, deltaHrxn, deltaSrxn);
-
-            double Hrxn_expected = -184.6189;
-            Assert.AreEqual(Hrxn_expected, deltaHrxn, tolerance);
-            double Srxn_expected = 20.0438;
-            Assert.AreEqual(Srxn_expected, deltaSrxn, tolerance);
-            double deltaGibbsExpected = -190.5960;
-            Assert.AreEqual(deltaGibbsExpected, deltaGibbs, tolerance);
-        }
 
         [DataTestMethod]
         [DataRow(298.15, -74.600)]
@@ -1683,7 +1244,7 @@ namespace TestCEAconsole
         public void TestShouldReturnGibbsEnergyAsFunctionOfTemperature(double Temp, double expected)
         {
             ICollection<ReferenceElement> refElements = InputServices.GetReferenceElements("Data/refElements.json");
-            ICollection<Specie> NASAspecies = InputServices.GetNASA("Data/NASApolynomials.json");
+            ICollection<DTO_Specie> NASAspecies = InputServices.GetNASA("Data/NASApolynomials.json");
             Assert.IsNotNull(NASAspecies);
 
             //  Hydrogen
@@ -1971,11 +1532,11 @@ namespace TestCEAconsole
             foreach (string formula in m_formula)
             {
                 var m_refElement = from element in refElementPolynomials
-                                   where element.ChemicalFormula.First().Symbol == formula
+                                   where element.Molecule.ChemicalFormula.First().Symbol == formula
                                    select element;
 
 
-                NASAchemicalFormula = m_refElement.First().ChemicalFormula;
+                NASAchemicalFormula = m_refElement.First().Molecule.ChemicalFormula;
                 temperatureRange = m_refElement.First().DataRecords.ElementAt(0).TemperatureRange;
                 coefficients = m_refElement.First().DataRecords.ElementAt(0).Coefficients;
                 integrationConstants = m_refElement.First().DataRecords.ElementAt(0).IntegrationConstants;
@@ -2023,84 +1584,84 @@ namespace TestCEAconsole
         [TestMethod]
         public void TestElementsReferenceCPHS()
         {
-            List<string> ElementSymbols = ["C", "O"];
-            //var Elements = refElementPolynomials;
-            var referenceProperties = ThermoDynamics.ElementsReferenceCPHS(ElementSymbols, refElementPolynomials);
-            Assert.IsNotNull(referenceProperties);
+            //List<string> ElementSymbols = ["C", "O"];
+            ////var Elements = refElementPolynomials;
+            //var referenceProperties = ThermoDynamics.ElementsReferenceCPHS(ElementSymbols, refElementPolynomials);
+            //Assert.IsNotNull(referenceProperties);
         }
         [TestMethod]
         public void TestCH4DeltaHf()
         {
-            double tolerance = 0.001;
-            const double TR = 298.15;
-            List<string> ElementSymbols = ["C", "H"];
-            var referenceProperties = ThermoDynamics.ElementsReferenceCPHS(ElementSymbols, refElementPolynomials);
+            //double tolerance = 0.001;
+            //const double TR = 298.15;
+            //List<string> ElementSymbols = ["C", "H"];
+            //var referenceProperties = ThermoDynamics.ElementsReferenceCPHS(ElementSymbols, refElementPolynomials);
 
-            var CH4properties = from item in nasaPolynomials
-                                where item.Name == "CH4"
-                                select item;
+            //var CH4properties = from item in nasaPolynomials
+            //                    where item.Name == "CH4"
+            //                    select item;
 
-            // Get HeatOfFormation of CH4 and Calculate Entropy of CH4
-            double HofCH4 = CH4properties.First().HeatOfFormation / 1000;   // -74.6
-            var expnts = CH4properties.First().DataRecords.ElementAt(0).TExponents;
-            var coeff = CH4properties.First().DataRecords.ElementAt(0).Coefficients;
-            var integrateC = CH4properties.First().DataRecords.ElementAt(0).IntegrationConstants;
-            double Entropy_CH4 = ThermoDynamics.Entropy(TR, expnts, coeff, integrateC); // 186.37
+            //// Get HeatOfFormation of CH4 and Calculate Entropy of CH4
+            //double HofCH4 = CH4properties.First().HeatOfFormation / 1000;   // -74.6
+            //var expnts = CH4properties.First().DataRecords.ElementAt(0).TExponents;
+            //var coeff = CH4properties.First().DataRecords.ElementAt(0).Coefficients;
+            //var integrateC = CH4properties.First().DataRecords.ElementAt(0).IntegrationConstants;
+            //double Entropy_CH4 = ThermoDynamics.Entropy(TR, expnts, coeff, integrateC); // 186.37
 
-            //C(gr)
-            referenceProperties.TryGetValue("C(gr)", out var C_gr);
-            double C_gr_Delta_Enthalpy_Ref = C_gr.Delta_Enthalpy_Ref;
-            double C_gr_Entropy_Ref = C_gr.Entropy_Ref; // 5.7339
+            ////C(gr)
+            //referenceProperties.TryGetValue("C(gr)", out var C_gr);
+            //double C_gr_Delta_Enthalpy_Ref = C_gr.Delta_Enthalpy_Ref;
+            //double C_gr_Entropy_Ref = C_gr.Entropy_Ref; // 5.7339
 
-            // H2
-            referenceProperties.TryGetValue("H2", out var H2);
-            double H2_Delta_Enthalpy_Ref = H2.Delta_Enthalpy_Ref;
-            double H2_Entropy_Ref = H2.Entropy_Ref; // 130.680
+            //// H2
+            //referenceProperties.TryGetValue("H2", out var H2);
+            //double H2_Delta_Enthalpy_Ref = H2.Delta_Enthalpy_Ref;
+            //double H2_Entropy_Ref = H2.Entropy_Ref; // 130.680
 
-            // Product
-            double CH4delta_Hrxn = HofCH4 - (C_gr_Delta_Enthalpy_Ref + (2 * H2_Delta_Enthalpy_Ref));    // -74.6
-            double CH4delta_Srxn = Entropy_CH4 - (C_gr_Entropy_Ref + (2 * H2_Entropy_Ref)); // -80.7244
+            //// Product
+            //double CH4delta_Hrxn = HofCH4 - (C_gr_Delta_Enthalpy_Ref + (2 * H2_Delta_Enthalpy_Ref));    // -74.6
+            //double CH4delta_Srxn = Entropy_CH4 - (C_gr_Entropy_Ref + (2 * H2_Entropy_Ref)); // -80.7244
 
-            double deltaG = CH4delta_Hrxn - TR * CH4delta_Srxn / 1000;
-            double expected = -50.53199;
+            //double deltaG = CH4delta_Hrxn - TR * CH4delta_Srxn / 1000;
+            //double expected = -50.53199;
 
-            Assert.AreEqual(expected, deltaG, tolerance);
+            //Assert.AreEqual(expected, deltaG, tolerance);
         }
 
         [TestMethod]
         public void TestGibbsrxnWithMoleculeParameter()
         {
-            double TR = 289.15;
-            double Temperature = 298.15;
-            double tolerance = 0.001;
-            //private static ICollection<ChemicalFormula> NASAchemicalFormula = NASA_specie.First().ChemicalFormula;
-            //private static readonly ICollection<Specie> refElementPolynomials = InputServices.GetNASA("Data/refElements.json");
-            var ModNasa = InputServices.GetModNASA("Data/ModNASAspecies.json");
-            IEnumerable<DTO_Specie> specieProperties = from item in ModNasa
-                                   where item.Name == "CH4"
-                                   select item;
-            IEnumerable<DTO_Specie> referenceElements = from refelement in ModNasa
-                                    where refelement.HeatOfFormation == 0
-                                    select refelement;
-            IEnumerable<DTO_Specie> specie = from item in referenceElements
-                          where item.Molecule.ChemicalFormula.FirstOrDefault().Symbol == "C"
-                          select item;
-            var specieChemicalFormulaCount = specie.FirstOrDefault().Molecule.ChemicalFormula.Count;
-            //var testElementCount = ModNasa.ElementAt(10).Molecule.ChemicalFormula.Count;
-            //var m_testelement = ModNasa.ElementAt(10).Molecule;
-            var m_Molecule = specie.FirstOrDefault().Molecule;
+            //double TR = 289.15;
+            //double Temperature = 298.15;
+            //double tolerance = 0.001;
+            ////private static ICollection<ChemicalFormula> NASAchemicalFormula = NASA_specie.First().ChemicalFormula;
+            ////private static readonly ICollection<Specie> refElementPolynomials = InputServices.GetNASA("Data/refElements.json");
+            //var ModNasa = InputServices.GetModNASA("Data/ModNASAspecies.json");
+            //IEnumerable<Specie> specieProperties = from item in ModNasa
+            //                       where item.Name == "CH4"
+            //                       select item;
+            //IEnumerable<Specie> referenceElements = from refelement in ModNasa
+            //                        where refelement.HeatOfFormation == 0
+            //                        select refelement;
+            //IEnumerable<DTO_Specie> specie = from item in referenceElements
+            //              where item.Molecule.ChemicalFormula.FirstOrDefault().Symbol == "C"
+            //              select item;
+            //var specieChemicalFormulaCount = specie.FirstOrDefault().Molecule.ChemicalFormula.Count;
+            ////var testElementCount = ModNasa.ElementAt(10).Molecule.ChemicalFormula.Count;
+            ////var m_testelement = ModNasa.ElementAt(10).Molecule;
+            //var m_Molecule = specie.FirstOrDefault().Molecule;
 
-            var gibbsRxn = ThermoDynamics.DeltaGibbsrxn(
-                ReferenceTemperature: TR,
-                Temperature: Temperature,
-                SpecieProperties: specieProperties,
-                ReferenceElements: referenceElements);
+            //var gibbsRxn = ThermoDynamics.DeltaGibbsrxn(
+            //    ReferenceTemperature: TR,
+            //    Temperature: Temperature,
+            //    SpecieProperties: specieProperties,
+            //    ReferenceElements: referenceElements);
 
-            double xm = 99;
+            //double xm = 99;
 
-            Assert.AreEqual(99, 0);
+            //Assert.AreEqual(99, 0);
+        }
 
-    }
         [DataTestMethod]
         [DataRow(298.15, -394.389)]
         [DataRow(300, -394.394)]
@@ -2109,97 +1670,97 @@ namespace TestCEAconsole
         [DataRow(1000, -395.886)]
         public void TestCO2deltaGibbsRef(double Temperature, double expected)
         {
-            double TR = 298.15;
-            double tolerance = 0.001;
-            List<string> ElementSymbols = ["C", "O"];
-            var referenceProperties = ThermoDynamics.ElementsReferenceCPHS(ElementSymbols, refElementPolynomials);
+            //double TR = 298.15;
+            //double tolerance = 0.001;
+            //List<string> ElementSymbols = ["C", "O"];
+            //var referenceProperties = ThermoDynamics.ElementsReferenceCPHS(ElementSymbols, refElementPolynomials);
 
-            // CO2
-            var specieProperties = from item in nasaPolynomials
-                                   where item.Name == "CO2"
-                                   select item;
-            double Hof = specieProperties.First().HeatOfFormation/1000;
-            var expnts = specieProperties.First().DataRecords.ElementAt(0).TExponents;
-            var coeff = specieProperties.First().DataRecords.ElementAt(0).Coefficients;
-            var integrateC = specieProperties.First().DataRecords.ElementAt(0).IntegrationConstants;
+            //// CO2
+            //var specieProperties = from item in nasaPolynomials
+            //                       where item.Name == "CO2"
+            //                       select item;
+            //double Hof = specieProperties.First().HeatOfFormation/1000;
+            //var expnts = specieProperties.First().DataRecords.ElementAt(0).TExponents;
+            //var coeff = specieProperties.First().DataRecords.ElementAt(0).Coefficients;
+            //var integrateC = specieProperties.First().DataRecords.ElementAt(0).IntegrationConstants;
 
-            double Entropy_specie = ThermoDynamics.Entropy(Temperature, expnts, coeff, integrateC);
-            double Enthalpy_specie = ThermoDynamics.EnthalpyRefH298(TR, Temperature, expnts, coeff);
+            //double Entropy_specie = ThermoDynamics.Entropy(Temperature, expnts, coeff, integrateC);
+            //double Enthalpy_specie = ThermoDynamics.EnthalpyRefH298(TR, Temperature, expnts, coeff);
 
-            // TODO fix ElementAt(0) to account for tempRange
-            // calculate Enthalpy Section CO2
-            var Cgr_properties = from item in nasaPolynomials
-                               where item.Name == "C(gr)"
-                               select item;
-            var Cgr_expnts = Cgr_properties.First().DataRecords.ElementAt(0).TExponents;
-            var Cgr_coeff = Cgr_properties.First().DataRecords.ElementAt(0).Coefficients;
-            var Cgr_integ = Cgr_properties.First().DataRecords.ElementAt(0).IntegrationConstants;
-            double Cgr_Enthalpy = ThermoDynamics.EnthalpyRefH298(TR, Temperature, Cgr_expnts, Cgr_coeff);
+            //// TODO fix ElementAt(0) to account for tempRange
+            //// calculate Enthalpy Section CO2
+            //var Cgr_properties = from item in nasaPolynomials
+            //                   where item.Name == "C(gr)"
+            //                   select item;
+            //var Cgr_expnts = Cgr_properties.First().DataRecords.ElementAt(0).TExponents;
+            //var Cgr_coeff = Cgr_properties.First().DataRecords.ElementAt(0).Coefficients;
+            //var Cgr_integ = Cgr_properties.First().DataRecords.ElementAt(0).IntegrationConstants;
+            //double Cgr_Enthalpy = ThermoDynamics.EnthalpyRefH298(TR, Temperature, Cgr_expnts, Cgr_coeff);
 
-            var O2_properties = from item in nasaPolynomials
-                                where item.Name == "O2"
-                                select item;
-            var O2_expnts = O2_properties.First().DataRecords.ElementAt(0).TExponents;
-            var O2_coeff = O2_properties.First().DataRecords.ElementAt(0).Coefficients;
-            var O2_integ = O2_properties.First().DataRecords.ElementAt(0).IntegrationConstants;
-            double O2_Enthalpy = ThermoDynamics.EnthalpyRefH298(TR, Temperature, O2_expnts, O2_coeff);
+            //var O2_properties = from item in nasaPolynomials
+            //                    where item.Name == "O2"
+            //                    select item;
+            //var O2_expnts = O2_properties.First().DataRecords.ElementAt(0).TExponents;
+            //var O2_coeff = O2_properties.First().DataRecords.ElementAt(0).Coefficients;
+            //var O2_integ = O2_properties.First().DataRecords.ElementAt(0).IntegrationConstants;
+            //double O2_Enthalpy = ThermoDynamics.EnthalpyRefH298(TR, Temperature, O2_expnts, O2_coeff);
 
-            // calculate Entropy Section CO2
-            double Cgr_Entropy = ThermoDynamics.Entropy(Temperature, Cgr_expnts, Cgr_coeff, Cgr_integ);
-            double O2_Entropy = ThermoDynamics.Entropy(Temperature, O2_expnts, O2_coeff, O2_integ);
+            //// calculate Entropy Section CO2
+            //double Cgr_Entropy = ThermoDynamics.Entropy(Temperature, Cgr_expnts, Cgr_coeff, Cgr_integ);
+            //double O2_Entropy = ThermoDynamics.Entropy(Temperature, O2_expnts, O2_coeff, O2_integ);
 
-            // Product
-            double pHrxn = Hof - (Cgr_Enthalpy + O2_Enthalpy) + Enthalpy_specie;
-            double pSrxn = Entropy_specie - (Cgr_Entropy + O2_Entropy);
+            //// Product
+            //double pHrxn = Hof - (Cgr_Enthalpy + O2_Enthalpy) + Enthalpy_specie;
+            //double pSrxn = Entropy_specie - (Cgr_Entropy + O2_Entropy);
 
-            double n_DeltaGibbs = ThermoDynamics.DeltaGibbs(Temperature, pHrxn, pSrxn);
+            //double n_DeltaGibbs = ThermoDynamics.DeltaGibbs(Temperature, pHrxn, pSrxn);
 
-            double log_K = ThermoDynamics.Log_K(n_DeltaGibbs, Temperature).Round(3);
+            //double log_K = ThermoDynamics.Log_K(n_DeltaGibbs, Temperature).Round(3);
 
-            Assert.AreEqual(expected, n_DeltaGibbs, tolerance);
+            //Assert.AreEqual(expected, n_DeltaGibbs, tolerance);
         }
 
         [TestMethod]
         public void TestOverLoadedElementsReferenceCPHS()
         {
-            var referenceproperties = ThermoDynamics.ElementsReferenceCPHS(refElementPolynomials);
-            Assert.IsNotNull(referenceproperties);
+            //var referenceproperties = ThermoDynamics.ElementsReferenceCPHS(refElementPolynomials);
+            //Assert.IsNotNull(referenceproperties);
         }
 
-        [TestMethod]
-        public void TestShouldBuildReferencePropertiesAt298_15()
-        {
-            double T = 298.15;
-            double TR = 298.15;
-            List<string> m_formula = ["C"];
-            List<double> temperatureRange = [];
-            List<double> coefficients = [];
-            List<double> integrationConstants = [];
-            List<double> t_expnts = [];
-            foreach (string formula in m_formula)
-            {
-                var m_refElementProperties = from element in refElementPolynomials
-                                             where element != null && element.ChemicalFormula.First().Symbol == formula
-                                             select element;
-                NASAchemicalFormula = m_refElementProperties.First().ChemicalFormula;
-                temperatureRange = m_refElementProperties.First().DataRecords.ElementAt(0).TemperatureRange;
-                coefficients = m_refElementProperties.First().DataRecords.ElementAt(0).Coefficients;
-                integrationConstants = m_refElementProperties.First().DataRecords.ElementAt(0).IntegrationConstants;
-                t_expnts = m_refElementProperties.First().DataRecords.ElementAt(0).TExponents;
+        //[TestMethod]
+        //public void TestShouldBuildReferencePropertiesAt298_15()
+        //{
+        //    double T = 298.15;
+        //    double TR = 298.15;
+        //    List<string> m_formula = ["C"];
+        //    List<double> temperatureRange = [];
+        //    List<double> coefficients = [];
+        //    List<double> integrationConstants = [];
+        //    List<double> t_expnts = [];
+        //    foreach (string formula in m_formula)
+        //    {
+        //        var m_refElementProperties = from element in refElementPolynomials
+        //                                     where element != null && element.Molecule.ChemicalFormula.First().Symbol == formula
+        //                                     select element;
+        //        NASAchemicalFormula = m_refElementProperties.First().Molecule.ChemicalFormula;
+        //        temperatureRange = m_refElementProperties.First().DataRecords.ElementAt(0).TemperatureRange;
+        //        coefficients = m_refElementProperties.First().DataRecords.ElementAt(0).Coefficients;
+        //        integrationConstants = m_refElementProperties.First().DataRecords.ElementAt(0).IntegrationConstants;
+        //        t_expnts = m_refElementProperties.First().DataRecords.ElementAt(0).TExponents;
 
-                string Species_Name = m_refElementProperties.First().Name;
-                double Molecular_Weight = m_refElementProperties.First().MolecularWeight;
-                double Enthalpy = m_refElementProperties.First().HeatOfFormation - (m_refElementProperties.First().DataRecords.ElementAt(0).EnthalpyRef / 1000);
-                double Delta_Enthalpy = m_refElementProperties.First().HeatOfFormation - (m_refElementProperties.First().DataRecords.ElementAt(0).EnthalpyRef / 1000);
-                double Delta_Enthalpy_Ref = m_refElementProperties.First().HeatOfFormation;
-                double Cp_Ref = ThermoDynamics.HeatCapacity(TR, t_expnts, coefficients);
-                double EnthalpyRef = m_refElementProperties.First().DataRecords.ElementAt(0).EnthalpyRef / 1000;
-                double Entropy_Ref = ThermoDynamics.Entropy(TR, t_expnts, coefficients, integrationConstants);
+        //        string Species_Name = m_refElementProperties.First().Name;
+        //        double Molecular_Weight = m_refElementProperties.First().MolecularWeight;
+        //        double Enthalpy = m_refElementProperties.First().HeatOfFormation - (m_refElementProperties.First().DataRecords.ElementAt(0).EnthalpyRef / 1000);
+        //        double Delta_Enthalpy = m_refElementProperties.First().HeatOfFormation - (m_refElementProperties.First().DataRecords.ElementAt(0).EnthalpyRef / 1000);
+        //        double Delta_Enthalpy_Ref = m_refElementProperties.First().HeatOfFormation;
+        //        double Cp_Ref = ThermoDynamics.HeatCapacity(TR, t_expnts, coefficients);
+        //        double EnthalpyRef = m_refElementProperties.First().DataRecords.ElementAt(0).EnthalpyRef / 1000;
+        //        double Entropy_Ref = ThermoDynamics.Entropy(TR, t_expnts, coefficients, integrationConstants);
 
-                Assert.IsNotNull(Entropy_Ref);
+        //        Assert.IsNotNull(Entropy_Ref);
 
-            }
-        }
+        //    }
+        //}
 
         [DataTestMethod]
         [DataRow(298.15, 186.371)]

@@ -15,8 +15,8 @@ double[] DummyData = { -999.123, -999.123, -999.123, -999.123, -999.123, -999.12
 //
 // Services Section
 string NASAsearchString = "CH4";
-ICollection<Specie> nasaPolynomials = InputServices.GetNASA("Data/NASApolynomials.json");
-IEnumerable<Specie> NASA_specie = from NASAspecie in nasaPolynomials
+ICollection<DTO_Specie> nasaPolynomials = InputServices.GetNASA("Data/NASApolynomials.json");
+IEnumerable<DTO_Specie> NASA_specie = from NASAspecie in nasaPolynomials
                                                           where NASAspecie.Name == NASAsearchString
                                                           select NASAspecie;
 

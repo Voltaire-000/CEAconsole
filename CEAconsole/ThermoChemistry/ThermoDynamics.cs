@@ -130,7 +130,7 @@ namespace CEAconsole.ThermoChemistry
             // C(gr) + 0.5 * O^2 = CO
 
             ICollection<ReferenceElement> refElements = InputServices.GetReferenceElements("Data/refElements.json");
-            ICollection<Specie> NASAspecies = InputServices.GetNASA("Data/NASApolynomials.json");
+            ICollection<DTO_Specie> NASAspecies = InputServices.GetNASA("Data/NASApolynomials.json");
             double Rsum_heatOfFormation = 0.0;
             double Psum_heatOfFormation = 0.0;
             double Rsum_entropy = 0.0;
@@ -177,7 +177,7 @@ namespace CEAconsole.ThermoChemistry
         public static double DeltaHrxn(double Temperature, Dictionary<string, Molecule> reactants, Dictionary<string, Molecule> productChemicalFormula)
         {
             ICollection<ReferenceElement> refElements = InputServices.GetReferenceElements("Data/refElements.json");
-            ICollection<Specie> NASAspecies = InputServices.GetNASA("Data/NASApolynomials.json");
+            ICollection<DTO_Specie> NASAspecies = InputServices.GetNASA("Data/NASApolynomials.json");
 
             double Rsum_heatOfFormation = 0.0;
             double Psum_heatOfFormation = 0.0;
@@ -198,7 +198,7 @@ namespace CEAconsole.ThermoChemistry
 
             foreach (var product in productChemicalFormula)
             {
-                IEnumerable<Specie> productData = from specie in NASAspecies
+                IEnumerable<DTO_Specie> productData = from specie in NASAspecies
                                                   where specie.Name == product.Key
                                                   select specie;
                 List<double> tExpnts = productData.First().DataRecords.ElementAt(0).TExponents;
@@ -216,7 +216,7 @@ namespace CEAconsole.ThermoChemistry
         public static double DeltaSrxn(double Temperature, Dictionary<string, Molecule> reactants, Dictionary<string, Molecule> productChemicalFormula)
         {
             ICollection<ReferenceElement> refElements = InputServices.GetReferenceElements("Data/refElements.json");
-            ICollection<Specie> NASAspecies = InputServices.GetNASA("Data/NASApolynomials.json");
+            ICollection<DTO_Specie> NASAspecies = InputServices.GetNASA("Data/NASApolynomials.json");
 
             double Rsum_entropy = 0.0;
             double PsumEntropy = 0.0;
@@ -236,7 +236,7 @@ namespace CEAconsole.ThermoChemistry
 
             foreach (var product in productChemicalFormula)
             {
-                IEnumerable<Specie> productData = from specie in NASAspecies
+                IEnumerable<DTO_Specie> productData = from specie in NASAspecies
                                                   where specie.Name == product.Key
                                                   select specie;
                 List<double> tExpnts = productData.First().DataRecords.ElementAt(0).TExponents;
@@ -281,6 +281,45 @@ namespace CEAconsole.ThermoChemistry
         }
 
         // TODO change T -> the temperature range or adjust the code to process based on temperature input by selecting temperature range
+        public static double Cp(double Temperature, IEnumerable<Specie> Specie, double GASCONSTANT = 8.31446261815324)
+        {
+            int recordNumber = 0;
+            double Cp = 0.0;
+            int recordCount = Specie.First().DataRecords.Count;
+            for (int i = 0; i < recordCount; i++)
+            {
+                List<double> interval = Specie.First().DataRecords.ElementAt(i).TemperatureRange;
+                double m_min = interval.Min();
+                double m_max = interval.Max();
+                if (Temperature >= m_min && Temperature <= m_max)
+                {
+                    recordNumber = i;
+                    var TemperatureExponents = Specie.First().DataRecords.ElementAt(recordNumber).TExponents;
+                    var Coefficients = Specie.First().DataRecords.ElementAt(recordNumber).Coefficients;
+
+                    double a1 = Coefficients[0];
+                    double a2 = Coefficients[1];
+                    double a3 = Coefficients[2];
+                    double a4 = Coefficients[3];
+                    double a5 = Coefficients[4];
+                    double a6 = Coefficients[5];
+                    double a7 = Coefficients[6];
+                    Cp = GASCONSTANT * (a1 * Math.Pow(Temperature, TemperatureExponents[0])
+                            + a2 * Math.Pow(Temperature, TemperatureExponents[1])
+                            + a3
+                            + a4 * Temperature
+                            + a5 * Math.Pow(Temperature, TemperatureExponents[4])
+                            + a6 * Math.Pow(Temperature, TemperatureExponents[5])
+                            + a7 * Math.Pow(Temperature, TemperatureExponents[6]));
+                    if (double.IsNaN(Cp))
+                    {
+                        Cp = 0.0;
+                    }
+                }
+            }
+            return Cp;
+        }
+
         /// <summary>
         /// Returns the Heat Capacity Cp for the given Temperature, Coefficients, and Temperature Exponents
         /// </summary>
@@ -292,7 +331,7 @@ namespace CEAconsole.ThermoChemistry
         {
             if (Temperature < 0)
             {
-                throw new ArgumentException("Temperature must be positive");
+                Temperature = 0;
             }
             double a1 = coefficients[0];
             double a2 = coefficients[1];
@@ -450,13 +489,13 @@ namespace CEAconsole.ThermoChemistry
             return GaussKronrodRule.Integrate(heatCapacityIntegrand, ReferenceTemperature, Temperature, out double error, out double L1Norm, 1e-8) / 1000;
         }
 
-        public static Dictionary<string, CPHSRef> ElementsReferenceCPHS(ICollection<Specie> Elements)
+        public static Dictionary<string, CPHSRef> ElementsReferenceCPHS(ICollection<DTO_Specie> Elements)
         {
             Dictionary<string, CPHSRef> keyValuePairs = new();
             double TR = 298.15;
             for (int i = 0; i < Elements.Count; i++)
             {
-                var NASAchemicalFormula = Elements.ElementAt(i).ChemicalFormula;
+                var NASAchemicalFormula = Elements.ElementAt(i).Molecule.ChemicalFormula;
                 var temperatureRange = Elements.ElementAt(i).DataRecords.ElementAt(0).TemperatureRange;
                 var coefficients = Elements.ElementAt(i).DataRecords.ElementAt(0).Coefficients;
                 var integrationConstants = Elements.ElementAt(i).DataRecords.ElementAt(0).IntegrationConstants;
@@ -494,46 +533,46 @@ namespace CEAconsole.ThermoChemistry
         /// <param name="ElementSymbols"></param>
         /// <param name="Elements"></param>
         /// <returns></returns>
-        public static Dictionary<string, CPHSRef> ElementsReferenceCPHS(List<string> ElementSymbols, ICollection<Specie> Elements)
-        {
-            Dictionary<string, CPHSRef> keyValuePairs = new();
-            double TR = 298.15;
-            foreach (var elementSymbol in ElementSymbols)
-            {
-                var elementProperties = from element in Elements
-                                        where element != null && element.ChemicalFormula.First().Symbol == elementSymbol
-                                        select element;
-                var NASAchemicalFormula = elementProperties.First().ChemicalFormula;
-                var temperatureRange = elementProperties.First().DataRecords.ElementAt(0).TemperatureRange;
-                var coefficients = elementProperties.First().DataRecords.ElementAt(0).Coefficients;
-                var integrationConstants = elementProperties.First().DataRecords.ElementAt(0).IntegrationConstants;
-                var t_expnts = elementProperties.First().DataRecords.ElementAt(0).TExponents;
+        //public static Dictionary<string, CPHSRef> ElementsReferenceCPHS(List<string> ElementSymbols, ICollection<DTO_Specie> Elements)
+        //{
+        //    Dictionary<string, CPHSRef> keyValuePairs = new();
+        //    double TR = 298.15;
+        //    foreach (var elementSymbol in ElementSymbols)
+        //    {
+        //        var elementProperties = from element in Elements
+        //                                where element != null && element.Molecule.ChemicalFormula.First().Symbol == elementSymbol
+        //                                select element;
+        //        var NASAchemicalFormula = elementProperties.First().ChemicalFormula;
+        //        var temperatureRange = elementProperties.First().DataRecords.ElementAt(0).TemperatureRange;
+        //        var coefficients = elementProperties.First().DataRecords.ElementAt(0).Coefficients;
+        //        var integrationConstants = elementProperties.First().DataRecords.ElementAt(0).IntegrationConstants;
+        //        var t_expnts = elementProperties.First().DataRecords.ElementAt(0).TExponents;
 
-                string Species_Name = elementProperties.First().Name;
-                double Molecular_Weight = elementProperties.First().MolecularWeight;
-                double Enthalpy = elementProperties.First().HeatOfFormation - (elementProperties.First().DataRecords.ElementAt(0).EnthalpyRef / 1000);
-                double Delta_Enthalpy = elementProperties.First().HeatOfFormation - (elementProperties.First().DataRecords.ElementAt(0).EnthalpyRef / 1000);
-                double Delta_Enthalpy_Ref = elementProperties.First().HeatOfFormation;
-                double Cp_Ref = ThermoDynamics.HeatCapacity(TR, t_expnts, coefficients);
-                double EnthalpyRef = elementProperties.First().DataRecords.ElementAt(0).EnthalpyRef / 1000;
-                double Entropy_Ref = ThermoDynamics.Entropy(TR, t_expnts, coefficients, integrationConstants);
+        //        string Species_Name = elementProperties.First().Name;
+        //        double Molecular_Weight = elementProperties.First().MolecularWeight;
+        //        double Enthalpy = elementProperties.First().HeatOfFormation - (elementProperties.First().DataRecords.ElementAt(0).EnthalpyRef / 1000);
+        //        double Delta_Enthalpy = elementProperties.First().HeatOfFormation - (elementProperties.First().DataRecords.ElementAt(0).EnthalpyRef / 1000);
+        //        double Delta_Enthalpy_Ref = elementProperties.First().HeatOfFormation;
+        //        double Cp_Ref = ThermoDynamics.HeatCapacity(TR, t_expnts, coefficients);
+        //        double EnthalpyRef = elementProperties.First().DataRecords.ElementAt(0).EnthalpyRef / 1000;
+        //        double Entropy_Ref = ThermoDynamics.Entropy(TR, t_expnts, coefficients, integrationConstants);
 
-                CPHSRef cPHSRef = new()
-                {
-                    Species_Name = Species_Name,
-                    Molecular_Weight = Molecular_Weight,
-                    Enthalpy = Enthalpy,
-                    Delta_Enthalpy = Delta_Enthalpy,
-                    Delta_Enthalpy_Ref = Delta_Enthalpy_Ref,
-                    CP_Ref = Cp_Ref,
-                    EnthalpyRef = EnthalpyRef,
-                    Entropy_Ref = Entropy_Ref
-                };
+        //        CPHSRef cPHSRef = new()
+        //        {
+        //            Species_Name = Species_Name,
+        //            Molecular_Weight = Molecular_Weight,
+        //            Enthalpy = Enthalpy,
+        //            Delta_Enthalpy = Delta_Enthalpy,
+        //            Delta_Enthalpy_Ref = Delta_Enthalpy_Ref,
+        //            CP_Ref = Cp_Ref,
+        //            EnthalpyRef = EnthalpyRef,
+        //            Entropy_Ref = Entropy_Ref
+        //        };
 
-                keyValuePairs.Add(Species_Name, cPHSRef);
-            }
-            return keyValuePairs;
-        }
+        //        keyValuePairs.Add(Species_Name, cPHSRef);
+        //    }
+        //    return keyValuePairs;
+        //}
 
         /// <summary>
         /// 

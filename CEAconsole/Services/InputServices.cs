@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,18 +29,18 @@ namespace CEAconsole.Services
             return reactantCollection;
         }
 
-        public static ICollection<DTO_Specie> GetModNASA(string path)
+        public static ICollection<Specie> GetModNASA(string path)
+        {
+            string m_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);
+            string json = File.ReadAllText(m_path);
+            var speciesCollection = JsonConvert.DeserializeObject<ICollection<Specie>>(json);
+            return speciesCollection;
+        }
+        public static ICollection<DTO_Specie> GetNASA(string path)
         {
             string m_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);
             string json = File.ReadAllText(m_path);
             ICollection<DTO_Specie>? speciesCollection = JsonConvert.DeserializeObject<ICollection<DTO_Specie>>(json);
-            return speciesCollection;
-        }
-        public static ICollection<Specie> GetNASA(string path)
-        {
-            string m_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);
-            string json = File.ReadAllText(m_path);
-            ICollection<Specie>? speciesCollection = JsonConvert.DeserializeObject<ICollection<Specie>>(json);
             return speciesCollection;
         }
 
