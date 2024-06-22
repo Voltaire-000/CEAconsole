@@ -112,6 +112,8 @@ foreach (double temperature in temperatureSchedule)
     double deltaH_value = ThermoDynamics.DeltaHf(enthalpy_value, reactants);
     reactants.Clear();
     deltaHfList.Add(deltaH_value);
+    double log_k_value = ThermoDynamics.Log_K(gibbs_value, temperature);
+    logKlist.Add(log_k_value);
 }
 
 int round = 3;
@@ -125,7 +127,7 @@ for (int i = 0; i < 10; i++)
             gibbsList.ElementAt(i).Round(round),
             enthalpyList.ElementAt(i).Round(round),
             deltaHfList.ElementAt(i).Round(round),
-            DummyData[i]);
+            logKlist.ElementAt(i).Round(round));
 }
 
 Console.WriteLine("\nThermoDynamic Functions Calculated from Coefficients for Oxygen");
@@ -141,6 +143,7 @@ for (int i = 0; i < 6; i++)
     gibbsList.Clear();
     enthalpyList.Clear();
     deltaHfList.Clear();
+    logKlist.Clear();
 }
 
 string oxidizerName = "O2";
@@ -187,6 +190,9 @@ foreach (double temperature in temperatureSchedule)
 
     double deltaHf_value = 249.175 + (enthalpy_value * 2);
     deltaHfList.Add(deltaHf_value);
+    // TODO need to calculate the reaction numbers first
+    double log_k_value = ThermoDynamics.Log_K(gibbs_value, temperature);
+    logKlist.Add(log_k_value);
 
 }
 
@@ -200,7 +206,7 @@ for (int i = 0; i < 10; i++)
             gibbsList.ElementAt(i).Round(round),
             enthalpyList.ElementAt(i).Round(round),
             deltaHfList.ElementAt(i).Round(round),
-            DummyData[i]); ;
+            logKlist.ElementAt(i).Round(round)); ;
 }
 
 

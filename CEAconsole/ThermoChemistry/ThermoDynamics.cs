@@ -41,11 +41,80 @@ namespace CEAconsole.ThermoChemistry
         public static double Log_K(double deltaGibbsrxn, double Temperature, double GASCONSTANT = 8.31446261815324)
         {
             double result = -(deltaGibbsrxn * 1000) / (GASCONSTANT * Temperature);
-            
+
             double x_ln = Math.Pow(Math.E, result);
             double ln = Math.Log10(x_ln);
 
             return ln;
+        }
+
+        public static double DeltaGibbsrxn(double ReferenceTemperature, double Temperature, IEnumerable<DTO_Specie> SpecieProperties, IEnumerable<DTO_Specie> ReferenceElements)
+        {
+            // TODO balance Equation
+            var coeffMultipliers = ThermoDynamics.BalanceChemicalEquation(SpecieProperties, ReferenceElements);
+            // fix elementAt(0) for temperature range
+            double Hof = SpecieProperties.First().HeatOfFormation / 1000;
+            var expnts = SpecieProperties.First().DataRecords.ElementAt(0).TExponents;
+            var coeff = SpecieProperties.First().DataRecords.ElementAt(0).Coefficients;
+            var integrateC = SpecieProperties.First().DataRecords.ElementAt(0).IntegrationConstants;
+
+            double Entropy_specie = ThermoDynamics.Entropy(Temperature, expnts, coeff, integrateC);
+            double Enthalpy_specie = ThermoDynamics.EnthalpyRefH298(ReferenceTemperature, Temperature, expnts, coeff);
+
+            var chemicalFormulaCount = SpecieProperties.First().Molecule.ChemicalFormula.Count;
+            for (int i = 0; i < chemicalFormulaCount; i++)
+            {
+                var reactantProperties = from item in ReferenceElements
+                                         where item.Molecule.ChemicalFormula.ElementAt(0).Symbol
+                                         == SpecieProperties.First().Molecule.ChemicalFormula.ElementAt(0).Symbol
+                                         select item;
+                var m_expnts = reactantProperties.First().DataRecords.ElementAt(0).TExponents;
+                var m_coeff = reactantProperties.First().DataRecords.ElementAt(0).Coefficients;
+                var m_integC = reactantProperties.First().DataRecords.ElementAt(0).IntegrationConstants;
+
+                double m_enthalpy = EnthalpyRefH298(ReferenceTemperature, Temperature, m_expnts, m_coeff);
+
+            }
+
+            return 99.0;
+
+        }
+
+        public static MathNet.Numerics.LinearAlgebra.Vector<double> BalanceChemicalEquation(IEnumerable<DTO_Specie> specieProperties, IEnumerable<DTO_Specie> ReferenceElements)
+        {
+            List<double> e_S = new List<double>();
+            List<double> e_Div = new List<double>();
+            int elementCount = specieProperties.First().Molecule.ChemicalFormula.Count;
+            // put the element into the list
+            for (int i = 0; i < elementCount; i++)
+            {
+                double numAtoms = specieProperties.First().Molecule.ChemicalFormula.ElementAt(i).NumberOfAtoms;
+                e_S.Add(numAtoms);
+            }
+            for (int i = 0; i < elementCount; i++)
+            {
+                var getDivisor = from reference in ReferenceElements
+                                 where reference.Molecule.ChemicalFormula.ElementAt(0).Symbol
+                                 == specieProperties.First().Molecule.ChemicalFormula.ElementAt(i).Symbol
+                                 select reference;
+                e_Div.Add(getDivisor.ElementAt(0).Molecule.ChemicalFormula.ElementAt(0).NumberOfAtoms);
+            }
+
+            Matrix<double> e_M = Matrix<double>.Build.Dense(elementCount + 1, elementCount + 1, 0.0);
+            e_M[0, 0] = e_S[0] / e_Div[0]; e_M[0, 2] = -e_S[0]; // first atom
+            e_M[1, 1] = e_S[1] / e_Div[1]; e_M[1, 2] = -e_S[1]; // second atom
+            e_M[2, 2] = 1.0;
+            // define the right hand side
+            MathNet.Numerics.LinearAlgebra.Vector<double> b = MathNet.Numerics.LinearAlgebra.Vector<double>.Build.Dense(new double[] { 0.0, 0.0, 1.0 });
+            var solution = e_M.Solve(b);
+            double min = solution.AbsoluteMinimum();
+            if (min < 1.0)
+            {
+                double multiplier = 1.0 / min;
+                solution.Multiply(multiplier, solution);
+            }
+            return solution;
+
         }
 
         public static double DeltaGibbsrxn(double Temperature, string Molecule)
@@ -123,7 +192,7 @@ namespace CEAconsole.ThermoChemistry
                 List<double> integrationConstants = elementData.First().DataRecords.ElementAt(0).IntegrationConstants;
 
                 // number of moles
-                double moleculeCoefficient = reactant.Value.Count; 
+                double moleculeCoefficient = reactant.Value.Count;
                 Rsum_heatOfFormation += moleculeCoefficient * EnthalpyFormation(Temperature, tExpnts, coefficients);
             }
 

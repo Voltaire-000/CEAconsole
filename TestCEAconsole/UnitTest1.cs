@@ -2067,6 +2067,40 @@ namespace TestCEAconsole
             Assert.AreEqual(expected, deltaG, tolerance);
         }
 
+        [TestMethod]
+        public void TestGibbsrxnWithMoleculeParameter()
+        {
+            double TR = 289.15;
+            double Temperature = 298.15;
+            double tolerance = 0.001;
+            //private static ICollection<ChemicalFormula> NASAchemicalFormula = NASA_specie.First().ChemicalFormula;
+            //private static readonly ICollection<Specie> refElementPolynomials = InputServices.GetNASA("Data/refElements.json");
+            var ModNasa = InputServices.GetModNASA("Data/ModNASAspecies.json");
+            IEnumerable<DTO_Specie> specieProperties = from item in ModNasa
+                                   where item.Name == "CH4"
+                                   select item;
+            IEnumerable<DTO_Specie> referenceElements = from refelement in ModNasa
+                                    where refelement.HeatOfFormation == 0
+                                    select refelement;
+            IEnumerable<DTO_Specie> specie = from item in referenceElements
+                          where item.Molecule.ChemicalFormula.FirstOrDefault().Symbol == "C"
+                          select item;
+            var specieChemicalFormulaCount = specie.FirstOrDefault().Molecule.ChemicalFormula.Count;
+            //var testElementCount = ModNasa.ElementAt(10).Molecule.ChemicalFormula.Count;
+            //var m_testelement = ModNasa.ElementAt(10).Molecule;
+            var m_Molecule = specie.FirstOrDefault().Molecule;
+
+            var gibbsRxn = ThermoDynamics.DeltaGibbsrxn(
+                ReferenceTemperature: TR,
+                Temperature: Temperature,
+                SpecieProperties: specieProperties,
+                ReferenceElements: referenceElements);
+
+            double xm = 99;
+
+            Assert.AreEqual(99, 0);
+
+    }
         [DataTestMethod]
         [DataRow(298.15, -394.389)]
         [DataRow(300, -394.394)]
