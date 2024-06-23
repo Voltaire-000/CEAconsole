@@ -105,7 +105,7 @@ namespace TestCEAconsole
 
             //    Assert.IsNotNull(allSpeciesCount);
         }
-}
+    }
 
     [TestClass]
     public class MathNetOptimazation
@@ -1212,6 +1212,28 @@ namespace TestCEAconsole
             double Cp = ThermoDynamics.Cp(1250.0, m_specie);
 
             Assert.AreEqual(99, 0);
+        }
+
+        [TestMethod]
+        public void TestAlternateTempRangeMethod()
+        {
+            double Temperature = 400.0;
+            int recordCount = NASA_specie.First().DataRecords.Count;
+            for (int i = 0; i < recordCount; i++)
+            {
+                List<double> interval = NASA_specie.First().DataRecords.ElementAt(i).TemperatureRange;
+                double m_min = interval.Min();
+                double m_max = interval.Max();
+                if (Temperature >= m_min && Temperature <= m_max)
+                {
+                    int recordNumber = i;
+                    var texp = NASA_specie.First().DataRecords.ElementAt(i).TExponents;
+                    var coeff = NASACoefficients = NASA_specie.First().DataRecords.ElementAt(i).Coefficients;
+                    var integC = NASA_specie.First().DataRecords.ElementAt(i).IntegrationConstants;
+                }
+
+            }
+
         }
 
         [DataTestMethod]

@@ -279,11 +279,9 @@ namespace CEAconsole.ThermoChemistry
             }
             return elements;
         }
-
-        // TODO change T -> the temperature range or adjust the code to process based on temperature input by selecting temperature range
+                
         public static double Cp(double Temperature, IEnumerable<Specie> Specie, double GASCONSTANT = 8.31446261815324)
         {
-            int recordNumber = 0;
             double Cp = 0.0;
             int recordCount = Specie.First().DataRecords.Count;
             for (int i = 0; i < recordCount; i++)
@@ -293,7 +291,7 @@ namespace CEAconsole.ThermoChemistry
                 double m_max = interval.Max();
                 if (Temperature >= m_min && Temperature <= m_max)
                 {
-                    recordNumber = i;
+                    int recordNumber = i;
                     var TemperatureExponents = Specie.First().DataRecords.ElementAt(recordNumber).TExponents;
                     var Coefficients = Specie.First().DataRecords.ElementAt(recordNumber).Coefficients;
 
