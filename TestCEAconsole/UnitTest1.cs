@@ -27,6 +27,50 @@ using System.Linq.Expressions;
 namespace TestCEAconsole
 {
     [TestClass]
+    public class TestClassDataRecord
+    {
+        private static readonly string NASAsearchString = "CH4";
+        private static readonly double referenceTemp = 298.15;
+        private static readonly double delta = 0.005;
+        private static readonly ICollection<Specie> nasaP = InputServices.GetModNASA("Data/NASA.json");
+        private static readonly IEnumerable<Specie> Specie = from specie in nasaP
+                                                                      where specie.Name == NASAsearchString
+                                                                      select specie;
+        private static readonly TemperatureList TemperatureList = InputServices.GetTempSchedule("Data/TempSchedule.json");
+        private Collection<double> TemperatureDoubles = new(); 
+
+
+        [TestMethod]
+        public void TestDataRecordByTemperatureInput()
+        {
+            //TemperatureList TempList = InputServices.GetTempSchedule("Data/TempSchedule.json");
+            string pickerItem0 = TemperatureList.Temperatures[0];
+            List<string> fullList = TemperatureList.Temperatures;
+
+            MakeDoublesList(pickerItem0);
+            //var test = from item in TemperatureList
+            //           select item;
+            var index0 = TemperatureDoubles[0];
+            var TempRange = DataRecords.GetDataByTemperature(index0, Specie);
+
+            var xt = 99;
+
+            Assert.AreEqual(99, 0);
+        }
+
+        private void MakeDoublesList(string selectedRange)
+        {
+            string[] numberStrings = selectedRange.Split(',');
+            foreach (var numberString in numberStrings)
+            {
+                if (double.TryParse(numberString, out double value))
+                {
+                    TemperatureDoubles.Add(value);
+                }
+            }
+        }
+    }
+    [TestClass]
     public class TestUtilities
     {
         [TestMethod]
@@ -1228,7 +1272,7 @@ namespace TestCEAconsole
                 {
                     int recordNumber = i;
                     var texp = NASA_specie.First().DataRecords.ElementAt(i).TExponents;
-                    var coeff = NASACoefficients = NASA_specie.First().DataRecords.ElementAt(i).Coefficients;
+                    var coeff = NASA_specie.First().DataRecords.ElementAt(i).Coefficients;
                     var integC = NASA_specie.First().DataRecords.ElementAt(i).IntegrationConstants;
                 }
 

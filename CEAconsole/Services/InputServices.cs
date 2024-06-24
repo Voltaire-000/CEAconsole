@@ -69,6 +69,15 @@ namespace CEAconsole.Services
             return referenceElementsCollection;
         }
 
+        public static TemperatureList GetTempSchedule(string path)
+        {
+            string m_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);
+            var json = File.ReadAllText(m_path);
+            var temperatureLists = JsonConvert.DeserializeObject<TemperatureList>(json);
+
+            return temperatureLists;
+        }
+
         //public static string GetInputCard(string caseInp)
         //{
         //    string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, caseInp);
