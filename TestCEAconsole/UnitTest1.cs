@@ -53,8 +53,6 @@ namespace TestCEAconsole
             var index0 = TemperatureDoubles[0];
             var TempRange = DataRecords.GetDataByTemperature(index0, Specie);
 
-            var xt = 99;
-
             Assert.AreEqual(99, 0);
         }
 
@@ -70,6 +68,7 @@ namespace TestCEAconsole
             }
         }
     }
+
     [TestClass]
     public class TestUtilities
     {
@@ -586,6 +585,82 @@ namespace TestCEAconsole
     [TestClass]
     public class Test_Matrix_Methods
     {
+        private static readonly ICollection<Element> json = InputServices.GetTableOfElements("Data/tableOfElements.json");
+        private static readonly IEnumerable<Element> elements = from item in json
+                                                                select item;
+        private static readonly string NASAsearchString = "CH4";
+        private static readonly ICollection<Specie> nasaP = InputServices.GetModNASA("Data/NASA.json");
+        private static readonly IEnumerable<Specie> Specie = from specie in nasaP
+                                                             where specie.Name == NASAsearchString
+                                                             select specie;
+        //private static readonly ICollection<DTO_Specie> refElementPolynomials = InputServices.GetNASA("Data/refElements.json");
+
+        [TestMethod]
+        public void TestListExtensionMethods()
+        {
+            var refElements = from item in nasaP
+                              where item.HeatOfFormation == 0
+                              select item;
+
+            List<string> te = [];
+            foreach (var item in elements)
+            {
+                te.Add(item.Symbol);
+            }
+
+            int numRows = te.Count;
+            // this is equal to the number of elements * 2 + the CH4 set row
+            double[] nonZeroValues = new double[5];
+            // create the sparse row matrix
+            // create the IA vector, it stores the cumulative number of non-zero elements up to ( but not including) the i-th row
+            int[] IA_rowPointers = new int[numRows];
+
+            // Create the JA vector ( this is the column that holds the value for the number of atoms in the molecule = number of reactants + number of products
+            // this is set manully here but will get count from input. TODO
+            int[] JA_columnIndex = new int[8];
+            
+            // need to get reference elements for the reactants and then use chemEq for the product
+            var chemEq = Specie.First().Molecule.ChemicalFormula;
+            int formulaCount = Specie.First().Molecule.ChemicalFormula.Count;
+            for (int i = 0; i < formulaCount; i++)
+            {
+                // get the symbol for the element in the formula
+                var elementsymbol = Specie.First().Molecule.ChemicalFormula.ElementAt(i).Symbol;
+                // use the elementsymbol to get reference atoms
+                var atomCount = from item in refElements
+                                where item.Molecule.ChemicalFormula.ElementAt(0).Symbol == elementsymbol
+                                select item.Molecule.ChemicalFormula.ElementAt(0).NumberOfAtoms;
+                // add the elements to the left hand side
+                nonZeroValues[i] = atomCount.FirstOrDefault();
+
+            }
+            int productCount = formulaCount;
+            //double firstZero = nonZeroValues[formulaCount + 1];
+
+            int JAcolumnCount = 0;
+            int NonZeroIndex = 0;
+            // get the element symbol and find its index # in te
+            foreach (var item in chemEq)
+            {
+                // row where element found
+                //int rowIndex = te.IndexOf(item.Symbol);
+                // column index this will increment for each element
+                //int columnIndex = JAcolumnCount;
+                nonZeroValues[productCount] = item.NumberOfAtoms;
+                productCount++;
+                IA_rowPointers[0] = 0;
+
+                //JAcolumnCount++;
+            }
+            nonZeroValues[4] = 1.0;
+            // nonZeroValues is dine here
+
+
+            //int m_index = te.IndexOf("Zn");
+            int mx = 99;
+
+            Assert.AreEqual(99, 0);
+        }
         [TestMethod]
         public void TestPerplexity_Compressed_SparseColumn_Method()
         {
@@ -615,6 +690,7 @@ namespace TestCEAconsole
             Assert.AreEqual(2, solution[2]);
 
         }
+
         [TestMethod]
         public void TestSparseMatrix_Compressed_Sparse_Row_Method()
         {
@@ -624,7 +700,6 @@ namespace TestCEAconsole
             // IA[0] = 0, IA[i] = IA[i-1] + number of non-zero elements in the (i-1)-th row in the matrix
             int[] IA_rowPointers = new int[] { 0, 2, 3, 5 };
             int[] JA_columnIndices = new int[] { 0, 2, 1, 0, 2 }; // the column that holds value
-
 
             Matrix<double> A = Matrix.Build.SparseFromCompressedSparseRowFormat(3, 3, nonZeroValues.Length, IA_rowPointers, JA_columnIndices, nonZeroValues);
             // define the right hand side
@@ -652,6 +727,7 @@ namespace TestCEAconsole
             var solution = ThermoDynamics.BalanceHydrocarbonEquation(matrix_CH4);
             Assert.AreEqual(expected_CH4, solution);
         }
+
         [TestMethod]
         public void TestShouldPutNonZeroValuesInto_ValuesVector()
         {
@@ -709,6 +785,7 @@ namespace TestCEAconsole
             Assert.AreEqual(8, values.Length);
 
         }
+
         [TestMethod]
         public void TestGetNumberOfNonZeroValuesInMatrix()
         {
@@ -744,6 +821,7 @@ namespace TestCEAconsole
             Assert.AreEqual(8, nonZeroValues);
 
         }
+
         [TestMethod]
         public void Test_Should_ProperlySize_IA_JA_vectors()
         {
@@ -864,15 +942,13 @@ namespace TestCEAconsole
                 {1.0, 0.0,   0.0,  0.0 }   // Setting CH4
             });
 
-            var spm = SparseMatrix.Create(6, 6, 0.0);
+            var spm = SparseMatrix.Create(4, 4, 0.0);
 
-            // empty row
-            spm[1, 0] = 1.0; /*spm[1, 1] = 0.0;*/              spm[1, 3] = -1.0; /*spm[1, 4] =  0.0;*/
-            spm[2, 0] = 4.0; /*spm[2, 1] = 0.0;*/              /*spm[2, 3] =  0.0;*/ spm[2, 4] = -2.0;
-            /*spm[3, 0] = 0.0;*/
-            spm[3, 1] = 2.0; spm[3, 3] = -2.0; spm[3, 4] = -1.0;
-            //*/// empty row
-            spm[5, 0] = 1.0; /*spm[5, 1] = 0.0;                  spm[5, 3] = 0.0;  spm[5, 4] = 0.0;*/ // set compound counts
+            spm[0, 0] = 1.0; /*spm[0, 1] = 0.0;*/              spm[0, 2] = -1.0; /*spm[1, 3] =  0.0;*/
+            spm[1, 0] = 4.0; /*spm[1, 1] = 0.0;*/              /*spm[1, 2] =  0.0;*/ spm[1, 3] = -2.0;
+            /*spm[2, 0] = 0.0;*/ spm[2, 1] = 2.0; spm[2, 2] = -2.0; spm[2, 3] = -1.0;
+            spm[3, 0] = 1.0;
+            /*spm[5, 0] = 1.0;*/ /*spm[5, 1] = 0.0;                  spm[5, 3] = 0.0;  spm[5, 4] = 0.0;*/ // set compound counts
                                                                                                       // empty column
 
             int non_zero = spm.NonZerosCount;
@@ -899,8 +975,8 @@ namespace TestCEAconsole
             {0.0, 0.0, 0.0, 1.0 });
 
             // number of columns
-            var spmSparceVector = SparseVector.Create(6, 0.0);
-            spmSparceVector[5] = 1.0;
+            var spmSparceVector = SparseVector.Create(4, 0.0);
+            spmSparceVector[3] = 1.0;
             // solve the system using Gaussian elimination
             Vector<double> solution = matrix.Solve(rightHandside); // 1,2,1,2
             Vector<double> m_result = spm.Solve(spmSparceVector);

@@ -6,12 +6,12 @@
         public required double AtomicWeight { get; set; }
         public required int Valence { get; set; }
 
-        public Element(string symbol, double atomicWeight, int valence)
-        {
-            // initialize properties
-            Symbol = symbol;
-            AtomicWeight = atomicWeight;
-            Valence = valence;
-        }
+        //public Element(string symbol, double atomicWeight, int valence)
+        //{
+        //    // initialize properties
+        //    Symbol = symbol;
+        //    AtomicWeight = atomicWeight;
+        //    Valence = valence;
+        //}
     }
 }
