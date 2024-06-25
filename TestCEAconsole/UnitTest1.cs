@@ -609,19 +609,26 @@ namespace TestCEAconsole
             }
 
             int numRows = te.Count;
+            // the number of Species in the system
+            int NS = 8;
             // this is equal to the number of elements * 2 + the CH4 set row
             double[] nonZeroValues = new double[5];
             // create the sparse row matrix
             // create the IA vector, it stores the cumulative number of non-zero elements up to ( but not including) the i-th row
             int[] IA_rowPointers = new int[numRows];
+            Vector<double> IA = Vector.Build.Dense(numRows + 2);
+            Vector<double> JA = Vector.Build.Dense(NS);
 
             // Create the JA vector ( this is the column that holds the value for the number of atoms in the molecule = number of reactants + number of products
             // this is set manully here but will get count from input. TODO
-            int[] JA_columnIndex = new int[8];
-            
+            int[] JA_columnIndex = new int[NS];
+
+            var spm = SparseMatrix.Create(numRows + 2, NS, 0.0);
+            int JAcolumnCount = 0;
             // need to get reference elements for the reactants and then use chemEq for the product
             var chemEq = Specie.First().Molecule.ChemicalFormula;
             int formulaCount = Specie.First().Molecule.ChemicalFormula.Count;
+            // Elements
             for (int i = 0; i < formulaCount; i++)
             {
                 // get the symbol for the element in the formula
@@ -630,6 +637,13 @@ namespace TestCEAconsole
                 var atomCount = from item in refElements
                                 where item.Molecule.ChemicalFormula.ElementAt(0).Symbol == elementsymbol
                                 select item.Molecule.ChemicalFormula.ElementAt(0).NumberOfAtoms;
+                // row in elements table where element was found
+                int rowWhereFound = te.IndexOf(elementsymbol);
+                // column index this will increment for each element
+                int columnIndex = JAcolumnCount;
+                // add the element to the spm matrix
+                spm[rowWhereFound, columnIndex] = atomCount.First();
+                JAcolumnCount++;
                 // add the elements to the left hand side
                 nonZeroValues[i] = atomCount.FirstOrDefault();
 
@@ -637,26 +651,66 @@ namespace TestCEAconsole
             int productCount = formulaCount;
             //double firstZero = nonZeroValues[formulaCount + 1];
 
-            int JAcolumnCount = 0;
             int NonZeroIndex = 0;
+            // Products
             // get the element symbol and find its index # in te
             foreach (var item in chemEq)
             {
                 // row where element found
-                //int rowIndex = te.IndexOf(item.Symbol);
+                int rowWhereFound = te.IndexOf(item.Symbol);
                 // column index this will increment for each element
-                //int columnIndex = JAcolumnCount;
+                int columnIndex = JAcolumnCount;
                 nonZeroValues[productCount] = item.NumberOfAtoms;
+                // add the product element to the spm matrix, column # = last column in spm, = NS
+                spm[rowWhereFound, NS-1] = item.NumberOfAtoms * -1;
+
                 productCount++;
                 IA_rowPointers[0] = 0;
 
                 //JAcolumnCount++;
             }
+
             nonZeroValues[4] = 1.0;
-            // nonZeroValues is dine here
+            // Set the last row in the spm, column 0 = 1.0
+            spm[100,7] = 1.0;
+            // nonZeroValues is done here
 
+            IEnumerable<(int, Vector<double>)> m_enumeratedRows = spm.EnumerateRowsIndexed();
+            IEnumerable<(int, Vector<double>)> m_enumeratedColumns = spm.EnumerateColumnsIndexed();
+            int totalNonZeroValues = 0;
+            int jj = 0;
+            for (int i = 0; i < numRows + 1; i++)
+            {
+                var m_elementAtRow = m_enumeratedRows.ElementAt(i);
+                int m_rowNumber = m_elementAtRow.Item1;
+                Vector<double> m_rowVector = m_elementAtRow.Item2;
+                int Row_non_zero_values = 0;
+                int column_where_found = 0;
+                foreach (var item in m_rowVector)
+                {
+                    var m_compare = item.CompareTo(0.0);
+                    if (m_compare !=0)
+                    {
+                        // increment Row_non_zero_values
+                        Row_non_zero_values++;
+                        // what colummn was element found in
+                        JA[jj] = column_where_found;
+                        jj++;
 
-            //int m_index = te.IndexOf("Zn");
+                    }
+                    column_where_found++;
+                }
+                IA[i + 1] = IA[i] + Row_non_zero_values;
+                totalNonZeroValues += Row_non_zero_values;
+            }
+
+            // define the right hand side
+            //Vector<double> b = Vector.Build.Dense(new double[] { 0, 0, 0, 0, 0, 0, 0, 1.0 });
+            var sparceVector = SparseVector.Create(NS, 0.0);
+            sparceVector[7] = 1.0;
+            // solution
+            Vector<double> solution = spm.Solve(sparceVector);
+
             int mx = 99;
 
             Assert.AreEqual(99, 0);
@@ -942,44 +996,46 @@ namespace TestCEAconsole
                 {1.0, 0.0,   0.0,  0.0 }   // Setting CH4
             });
 
-            var spm = SparseMatrix.Create(4, 4, 0.0);
+            Matrix<double> test = Matrix<double>.Build.DenseOfArray(new[,]
+            {
+                {1.0, 0.0, 0.0, 0.0,  0.0, 0.0, -1.0,  0.0 }, // C balance
+                {4.0, 0.0, 0.0, 0.0,  0.0, 0.0,  0.0, -2.0 }, // H balance
+                {0.0, 2.0, 0.0, 0.0,  0.0, 0.0, -2.0, -1.0 },// O balance
+                {0.0, 0.0, 0.0, 0.0,  0.0, 0.0,  0.0,  0.0 },
+                {0.0, 0.0, 0.0, 0.0,  0.0, 0.0,  0.0,  0.0 },
+                {0.0, 0.0, 0.0, 0.0,  0.0, 0.0,  0.0,  0.0 },
+                {0.0, 0.0, 0.0, 0.0,  0.0, 0.0,  0.0,  0.0 },
+                {1.0, 0.0, 0.0, 0.0,  0.0, 0.0,  0.0,  0.0 } // Setting CH4
 
-            spm[0, 0] = 1.0; /*spm[0, 1] = 0.0;*/              spm[0, 2] = -1.0; /*spm[1, 3] =  0.0;*/
-            spm[1, 0] = 4.0; /*spm[1, 1] = 0.0;*/              /*spm[1, 2] =  0.0;*/ spm[1, 3] = -2.0;
-            /*spm[2, 0] = 0.0;*/ spm[2, 1] = 2.0; spm[2, 2] = -2.0; spm[2, 3] = -1.0;
-            spm[3, 0] = 1.0;
+            });
+
+            var spm = SparseMatrix.Create(40, 8, 0.0);
+
+            spm[0, 0] = 1.0; /*spm[0, 1] = 0.0;*/              spm[0, 6] = -1.0; /*spm[1, 3] =  0.0;*/
+            spm[1, 0] = 4.0; /*spm[1, 1] = 0.0;*/              /*spm[1, 2] =  0.0;*/ spm[1, 7] = -2.0;
+            /*spm[2, 0] = 0.0;*/ spm[2, 1] = 2.0; spm[2, 6] = -2.0; spm[2, 7] = -1.0;
+            spm[39, 7] = 1.0;
             /*spm[5, 0] = 1.0;*/ /*spm[5, 1] = 0.0;                  spm[5, 3] = 0.0;  spm[5, 4] = 0.0;*/ // set compound counts
                                                                                                       // empty column
-
             int non_zero = spm.NonZerosCount;
-            Vector<double> rowAbsSums = spm.RowAbsoluteSums();
-            Vector<double> rowSums = spm.RowSums();
-            Vector<double> columnAbsSums = spm.ColumnAbsoluteSums();
-            Vector<double> columnSums = spm.ColumnSums();
-            double[] columnMajor = spm.ToColumnMajorArray();
-            double[] rowMajor = spm.ToRowMajorArray();
-            Matrix<double> lowerTri = spm.LowerTriangle();
-            Matrix<double> lowerTriStrict = spm.StrictlyLowerTriangle();
-            Matrix<double> upperTri = spm.UpperTriangle();
-            Matrix<double> upperTriStrict = spm.StrictlyUpperTriangle();
-            var transMul = lowerTriStrict.TransposeAndMultiply(lowerTri);
-            // set values of matrix
-            //matrix[0, 0] = 1; matrix[0, 1] = 0; matrix[0, 2] = -1; matrix[0, 3] = 0;
-            //matrix[1, 0] = 4; matrix[1, 1] = 0; matrix[1, 2] = 0;  matrix[1, 3] = -2;
-            //matrix[2, 0] = 0; matrix[2, 1] = 2; matrix[2, 2] = -2; matrix[2, 3] = -1;
-            // count matrix columns should equal 4
             int columnCount = matrix.ColumnCount;
 
             // create right hand side vector
             Vector<double> rightHandside = Vector<double>.Build.Dense(new[]
             {0.0, 0.0, 0.0, 1.0 });
+            // test right hand side
+            Vector<double> testRight = Vector<double>.Build.Dense(new[]
+            {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0});
+            var sparseVec = Vector<double>.Build.SparseOfVector(testRight);
 
             // number of columns
-            var spmSparceVector = SparseVector.Create(4, 0.0);
-            spmSparceVector[3] = 1.0;
+            var spmSparceVector = SparseVector.Create(8, 0.0);
+            spmSparceVector[0] = 1.0;
             // solve the system using Gaussian elimination
             Vector<double> solution = matrix.Solve(rightHandside); // 1,2,1,2
-            Vector<double> m_result = spm.Solve(spmSparceVector);
+            //Vector<double> testSolution = test.Solve(sparseVec);
+
+            //Vector<double> m_result = spm.Solve(spmSparceVector);
 
             Assert.AreEqual(4, columnCount);
             Assert.AreEqual(4, solution.Count);
