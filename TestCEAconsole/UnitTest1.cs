@@ -596,6 +596,29 @@ namespace TestCEAconsole
         //private static readonly ICollection<DTO_Specie> refElementPolynomials = InputServices.GetNASA("Data/refElements.json");
 
         [TestMethod]
+        public void TestCalculatedMatrixSizeFromElements()
+        {
+            int elementCount = Specie.First().Molecule.ChemicalFormula.Count;
+            int matrixDim = elementCount + 1;
+            // Matrix size = element count plus productCount
+            // ie. C(gr) + H2 <--> CH4 , Matrix size 
+            Matrix<double> matrix = Matrix<double>.Build.Dense(matrixDim, matrixDim);
+            // add the values to the matrix
+            matrix[0, 0] = 1.0; matrix[0, 1] = 0.0; matrix[0, 2] = -1.0;
+            matrix[1, 0] = 0.0; matrix[1, 1] = 2.0; matrix[1, 2] = -4.0;
+            matrix[2, 0] = 1.0; matrix[2,1] = 0.0; matrix[2, 2] = 0.0;
+            // create the rightHand side
+            // auto size this
+            //Vector<double> rightHandside = Vector<double>.Build.Dense(new[]
+            //{0.0, 0.0, 1.0 });
+            Vector<double> rightHandside = Vector<double>.Build.Dense(matrixDim);
+            rightHandside[matrixDim - 1] = 1.0;
+            // solution
+            Vector<double> solution = matrix.Solve(rightHandside);
+
+            Assert.AreEqual(2, solution[1]);
+        }
+        [TestMethod]
         public void TestListExtensionMethods()
         {
             var refElements = from item in nasaP
@@ -612,12 +635,14 @@ namespace TestCEAconsole
             // the number of Species in the system
             int NS = 8;
             // this is equal to the number of elements * 2 + the CH4 set row
-            double[] nonZeroValues = new double[5];
+            int elementCount = Specie.First().Molecule.ChemicalFormula.Count;
+            double[] nonZeroValues = new double[(elementCount * 2) + 1];
             // create the sparse row matrix
             // create the IA vector, it stores the cumulative number of non-zero elements up to ( but not including) the i-th row
             int[] IA_rowPointers = new int[numRows];
             Vector<double> IA = Vector.Build.Dense(numRows + 2);
             Vector<double> JA = Vector.Build.Dense(NS);
+            
 
             // Create the JA vector ( this is the column that holds the value for the number of atoms in the molecule = number of reactants + number of products
             // this is set manully here but will get count from input. TODO
@@ -660,7 +685,7 @@ namespace TestCEAconsole
                 int rowWhereFound = te.IndexOf(item.Symbol);
                 // column index this will increment for each element
                 int columnIndex = JAcolumnCount;
-                nonZeroValues[productCount] = item.NumberOfAtoms;
+                nonZeroValues[productCount] = item.NumberOfAtoms * -1;
                 // add the product element to the spm matrix, column # = last column in spm, = NS
                 spm[rowWhereFound, NS-1] = item.NumberOfAtoms * -1;
 
@@ -703,18 +728,26 @@ namespace TestCEAconsole
                 IA[i + 1] = IA[i] + Row_non_zero_values;
                 totalNonZeroValues += Row_non_zero_values;
             }
+            double[] IA_rowpointers = IA.ToArray<double>();
+            int[] JA_columnIndices = new int[JA.Count];
+             //= JA.ToArray<double>();
+            for (int i = 0; i < JA.Count; i++)
+            {
+                int e = ((int)JA[i]);
+                JA_columnIndices[i] = e;
+            }
 
+            Matrix<double> A = Matrix.Build.SparseFromCompressedSparseRowFormat(101, 8, nonZeroValues.Length, IA_rowPointers, JA_columnIndices, nonZeroValues);
             // define the right hand side
-            //Vector<double> b = Vector.Build.Dense(new double[] { 0, 0, 0, 0, 0, 0, 0, 1.0 });
-            var sparceVector = SparseVector.Create(NS, 0.0);
-            sparceVector[7] = 1.0;
+            //Vector<double> b = Vector.Build.Dense(new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0 });
+            //Vector<double> b = Vector.Build.Dense(102, 0.0);
+            //b[101] = 1.0;
             // solution
-            Vector<double> solution = spm.Solve(sparceVector);
-
-            int mx = 99;
+            //Vector<double> solution = spm.Solve(b);
 
             Assert.AreEqual(99, 0);
         }
+
         [TestMethod]
         public void TestPerplexity_Compressed_SparseColumn_Method()
         {
@@ -746,8 +779,61 @@ namespace TestCEAconsole
         }
 
         [TestMethod]
+        public void TestCreateSparseRowByHand()
+        {
+            //{ 1.0, 0.0, -1.0},
+            //{ 0.0, 2.0, -4.0}
+            //{ 1.0, 0.0, 0.0}
+
+            // 100x4 matrix
+            double[] nonZeroValues = new double[] { 1.0, -1.0, 2.0, -4.0, 1.0 };
+            // starts with Zero always.
+            int[] IA_rowPointers = new int[] { 0, 2, 4, 5 };
+            int[] JA_columnIndex = new int[] { 0, 2, 1, 2, 0 };
+            Matrix<double> A = Matrix.Build.SparseFromCompressedSparseRowFormat(3,3, nonZeroValues.Length, IA_rowPointers, JA_columnIndex, nonZeroValues);
+            // define the right hand side = 
+            Vector<double> b = Vector.Build.Dense(new double[] {0.0, 0.0, 1.0 });
+            // solution
+            Vector<double> solution = A.Solve(b);
+            Assert.AreEqual(2, solution[1]);
+
+        }
+
+        [TestMethod]
+        public void TestSparseCompressedRow()
+        {
+            // TODO this does not work
+            //{ 1.0, 0.0, -1.0},
+            //{ 0.0, 2.0, -4.0}
+            //{ 1.0, 0.0, 0.0}
+
+            //{ 1.0, 0.0, 0.0, -1.0},
+            //{ 0.0, 2.0, 0.0, -4.0}
+            //{ 0.0, 0.0, 0.0,  0.0}
+            //{ 1.0, 0.0, 0.0,  0.0}
+            double[] nonZeroValues = new double[] { 1.0, -1.0, 2.0, -4.0, 1.0 };
+            // always starts with zero then add the number of values in the row to the previous value
+            int[] IA_rowpointers = new int[] { 0, 2, 4, 4, 5 };
+            // column where value found
+            int[] JA_columnIndex = new int[] {0, 3, 1, 3, 0 };
+            Matrix<double> A = Matrix.Build.SparseFromCompressedSparseRowFormat(4, 4, nonZeroValues.Length, IA_rowpointers, JA_columnIndex, nonZeroValues);
+            // define the right hand side
+            Vector<double> b = Vector.Build.Dense(new double[] { 0.0, 0.0, 0.0, 1.0 });
+            // solution
+            Vector<double> solution = A.Solve(b);
+            Assert.AreEqual(99, 0);
+        }
+
+        [TestMethod]
         public void TestSparseMatrix_Compressed_Sparse_Row_Method()
         {
+            // create a sparse matrix
+            //double[,] xvalues = new double[,]
+            //{
+            //    {1, 0, 3 },
+            //    {0, 2, 0},
+            //    {4, 0, 5 }
+            //};
             double[] nonZeroValues = new double[] { 1, 3, 2, 4, 5 };
             // IA vector has a size of m + 1, where m is the number of rows in the matrix
             // it stores the cumulative number of non-zero elements up to ( but not including) the i-th row
@@ -984,6 +1070,7 @@ namespace TestCEAconsole
             Assert.AreEqual(expected, solution);
 
         }
+
         [TestMethod]
         public void TestMathNetMatrix()
         {
@@ -996,7 +1083,7 @@ namespace TestCEAconsole
                 {1.0, 0.0,   0.0,  0.0 }   // Setting CH4
             });
 
-            Matrix<double> test = Matrix<double>.Build.DenseOfArray(new[,]
+            Matrix<double> testMatrix = Matrix<double>.Build.DenseOfArray(new[,]
             {
                 {1.0, 0.0, 0.0, 0.0,  0.0, 0.0, -1.0,  0.0 }, // C balance
                 {4.0, 0.0, 0.0, 0.0,  0.0, 0.0,  0.0, -2.0 }, // H balance
@@ -1026,16 +1113,11 @@ namespace TestCEAconsole
             // test right hand side
             Vector<double> testRight = Vector<double>.Build.Dense(new[]
             {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0});
-            var sparseVec = Vector<double>.Build.SparseOfVector(testRight);
 
-            // number of columns
-            var spmSparceVector = SparseVector.Create(8, 0.0);
-            spmSparceVector[0] = 1.0;
             // solve the system using Gaussian elimination
             Vector<double> solution = matrix.Solve(rightHandside); // 1,2,1,2
-            //Vector<double> testSolution = test.Solve(sparseVec);
+            Vector<double> testSolution = testMatrix.Solve(testRight);
 
-            //Vector<double> m_result = spm.Solve(spmSparceVector);
 
             Assert.AreEqual(4, columnCount);
             Assert.AreEqual(4, solution.Count);
