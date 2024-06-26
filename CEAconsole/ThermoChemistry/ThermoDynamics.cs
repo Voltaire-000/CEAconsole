@@ -15,7 +15,6 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Vector = MathNet.Numerics.LinearAlgebra.Double.Vector;
 
 namespace CEAconsole.ThermoChemistry
 {
@@ -659,7 +658,7 @@ namespace CEAconsole.ThermoChemistry
             Matrix<double> A = Matrix.Build.SparseFromCompressedSparseRowFormat(numRows, numColumns, m_values.Length, IA, JA, m_values);
 
             // Define the right hand side
-            MathNet.Numerics.LinearAlgebra.Vector<double> b = Vector.Build.Dense(new double[] { 0, 0, 1.0 });
+            MathNet.Numerics.LinearAlgebra.Vector<double> b = MathNet.Numerics.LinearAlgebra.Vector<double>.Build.Dense(new double[] { 0, 0, 1.0 });
             // solution
             MathNet.Numerics.LinearAlgebra.Vector<double> solution = A.Solve(b);
             return solution;
@@ -681,6 +680,46 @@ namespace CEAconsole.ThermoChemistry
         public static double DeltaHf(double productEnthalpy, List<double> reactants)
         {
             return productEnthalpy - (reactants[0] + reactants[1]);
+        }
+
+        public static MathNet.Numerics.LinearAlgebra.Vector<double> BalanceMatrix(ICollection<Specie> NasaPolynomials, IEnumerable<Specie> specie)
+        {
+            List<double> reactants = new();
+            List<double> product = new();
+            var refElements = from item in NasaPolynomials
+                              where item.HeatOfFormation == 0
+                              select item;
+
+            int elementCount = specie.First().Molecule.ChemicalFormula.Count;
+            var elementsVector = MathNet.Numerics.LinearAlgebra.Vector<double>.Build.Dense((elementCount + 1) * (elementCount + 1), 0.0);
+            // get the reference elements by using the element symbol in specie
+            for (int i = 0; i < elementCount; i++)
+            {
+                string referenceElementSymbol = specie.First().Molecule.ChemicalFormula.ElementAt(i).Symbol;
+                // search refElements using referenceElementSymbol and return the referenceElement
+                var ref_atoms = from item in refElements
+                                where item.Molecule.ChemicalFormula.First().Symbol == referenceElementSymbol
+                                select item.Molecule.ChemicalFormula.First().NumberOfAtoms;
+                // add the ref_element to the reactants List
+                elementsVector[i] = ref_atoms.First();
+                //product.Add(specie.First().Molecule.ChemicalFormula.ElementAt(i).NumberOfAtoms);
+                var mn = 99;
+            }
+            var vectorMatrix = Matrix<double>.Build.
+            int matrixDimension = elementCount + 1;
+            // Matrix size = element count plus productCount
+            // ie. C(gr) + H2 <--> CH4 , Matrix size 
+            Matrix<double> matrix = Matrix<double>.Build.Dense(matrixDimension, matrixDimension, 0.0);
+            // add the values to the matrix
+            for (int i = 0; i < reactants.Count; i++)
+            {
+                for (int j = 0; j < reactants.Count; j++)
+                {
+                    // add the element atom value to the matrix[i,j]
+                    matrix[i, j] = reactants[i]; 
+                }
+            }
+            return elementsVector;
         }
 
         //public static double DeltaHf(ICollection<ChemicalFormula> chemFormula)

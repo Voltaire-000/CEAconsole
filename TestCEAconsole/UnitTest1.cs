@@ -3,13 +3,13 @@ using CEAconsole.Services;
 using CEAconsole.ViewModels;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
+using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.LinearAlgebra.Double.Solvers;
 using Microsoft.VisualStudio.TestPlatform.CrossPlatEngine;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.ObjectModel;
 using MathNet.Numerics.Providers.SparseSolver;
-using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Symbolics;
 using System.Collections.Generic;
 using MathNet.Numerics.Distributions;
@@ -23,6 +23,7 @@ using System.Globalization;
 using MathNet.Numerics.Optimization;
 using ScottPlot.Statistics;
 using System.Linq.Expressions;
+using MathNet.Numerics.LinearAlgebra.Storage;
 
 namespace TestCEAconsole
 {
@@ -482,9 +483,9 @@ namespace TestCEAconsole
             Assert.IsNotNull(matrix);
 
             Matrix<double> matrix2 = Matrix<double>.Build.DenseOfArray(new[,]{
-                { 2.0, 1.0, -1.0},
-                { 4.0, -3.0, 2.0},
-                { 1.0, 2.0, 3.0}
+                { 1.0, 0.0, -1.0},
+                { 0.0, 2.0, -4.0},
+                { 1.0, 0.0, 0.0}
                });
 
             var Row1 = matrix.Row(0);
@@ -510,7 +511,7 @@ namespace TestCEAconsole
             double m_y = matrix.At(1, 3) + Math.Abs(matrix.At(1, 2)) * m_z;
             double m_x = (5 - (m_y - m_z)) / 2;
             Vector<double> result = Vector<double>.Build.Dense(3, 0.0);
-            Vector<double> input = Vector<double>.Build.Dense([5.0, 3.0, 10.0]);
+            Vector<double> input = Vector<double>.Build.Dense([0.0, 0.0, 1.0]);
             var m_test = matrix2.Solve(input);
 
             Assert.IsNotNull(result);
@@ -596,8 +597,16 @@ namespace TestCEAconsole
         //private static readonly ICollection<DTO_Specie> refElementPolynomials = InputServices.GetNASA("Data/refElements.json");
 
         [TestMethod]
+        public void TestBalanceClassWithMatrix()
+        {
+            Vector<double> solution = ThermoDynamics.BalanceMatrix(nasaP, Specie);
+
+            Assert.AreEqual(99, 0);
+        }
+        [TestMethod]
         public void TestCalculatedMatrixSizeFromElements()
         {
+            // Working TODO update class
             int elementCount = Specie.First().Molecule.ChemicalFormula.Count;
             int matrixDim = elementCount + 1;
             // Matrix size = element count plus productCount
@@ -618,6 +627,7 @@ namespace TestCEAconsole
 
             Assert.AreEqual(2, solution[1]);
         }
+
         [TestMethod]
         public void TestListExtensionMethods()
         {
@@ -781,6 +791,7 @@ namespace TestCEAconsole
         [TestMethod]
         public void TestCreateSparseRowByHand()
         {
+            // Working
             //{ 1.0, 0.0, -1.0},
             //{ 0.0, 2.0, -4.0}
             //{ 1.0, 0.0, 0.0}
@@ -816,11 +827,20 @@ namespace TestCEAconsole
             int[] IA_rowpointers = new int[] { 0, 2, 4, 4, 5 };
             // column where value found
             int[] JA_columnIndex = new int[] {0, 3, 1, 3, 0 };
-            Matrix<double> A = Matrix.Build.SparseFromCompressedSparseRowFormat(4, 4, nonZeroValues.Length, IA_rowpointers, JA_columnIndex, nonZeroValues);
+
+            Matrix<double> A_x = Matrix.Build.SparseFromCompressedSparseRowFormat(4, 4, nonZeroValues.Length, IA_rowpointers, JA_columnIndex, nonZeroValues);
+
+            var A = SparseMatrix.Build.SparseFromCompressedSparseRowFormat(4, 4, nonZeroValues.Length, IA_rowpointers, JA_columnIndex, nonZeroValues);
             // define the right hand side
             Vector<double> b = Vector.Build.Dense(new double[] { 0.0, 0.0, 0.0, 1.0 });
             // solution
+            var determinate = A.Determinant();
+            Vector<double> solution_x = A_x.Solve(b);
             Vector<double> solution = A.Solve(b);
+            Vector<double> LUsolution = A_x.QR().Solve(b);
+
+            int jk = 99;
+
             Assert.AreEqual(99, 0);
         }
 
@@ -1507,9 +1527,6 @@ namespace TestCEAconsole
             Assert.IsNotNull(m_deltaGibbsrxn);
             Assert.AreEqual(expected, m_deltaGibbsrxn, tolerance);
         }
-
-
-
 
         [DataTestMethod]
         [DataRow(298.15, -74.600)]
