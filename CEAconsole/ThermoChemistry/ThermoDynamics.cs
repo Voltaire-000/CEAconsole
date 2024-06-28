@@ -685,27 +685,28 @@ namespace CEAconsole.ThermoChemistry
         public static MathNet.Numerics.LinearAlgebra.Vector<double> BalanceMatrix(ICollection<Specie> NasaPolynomials, IEnumerable<Specie> specie)
         {
             List<double> reactants = new();
-            List<double> product = new();
+            List<double> products = new();
             var refElements = from item in NasaPolynomials
                               where item.HeatOfFormation == 0
                               select item;
 
             int elementCount = specie.First().Molecule.ChemicalFormula.Count;
-            var elementsVector = MathNet.Numerics.LinearAlgebra.Vector<double>.Build.Dense((elementCount + 1) * (elementCount + 1), 0.0);
+            //var elementsVector = MathNet.Numerics.LinearAlgebra.Vector<double>.Build.Dense((elementCount + 1) * (elementCount + 1), 0.0);
             // get the reference elements by using the element symbol in specie
             for (int i = 0; i < elementCount; i++)
             {
+                // get the reference element symbol
                 string referenceElementSymbol = specie.First().Molecule.ChemicalFormula.ElementAt(i).Symbol;
                 // search refElements using referenceElementSymbol and return the referenceElement
                 var ref_atoms = from item in refElements
                                 where item.Molecule.ChemicalFormula.First().Symbol == referenceElementSymbol
                                 select item.Molecule.ChemicalFormula.First().NumberOfAtoms;
                 // add the ref_element to the reactants List
-                elementsVector[i] = ref_atoms.First();
-                //product.Add(specie.First().Molecule.ChemicalFormula.ElementAt(i).NumberOfAtoms);
-                var mn = 99;
+                reactants.Add(ref_atoms.First());
+                products.Add(specie.First().Molecule.ChemicalFormula.ElementAt(i).NumberOfAtoms);
             }
-            var vectorMatrix = Matrix<double>.Build.
+
+            //var vectorMatrix = Matrix<double>.Build.
             int matrixDimension = elementCount + 1;
             // Matrix size = element count plus productCount
             // ie. C(gr) + H2 <--> CH4 , Matrix size 
@@ -713,13 +714,25 @@ namespace CEAconsole.ThermoChemistry
             // add the values to the matrix
             for (int i = 0; i < reactants.Count; i++)
             {
-                for (int j = 0; j < reactants.Count; j++)
-                {
-                    // add the element atom value to the matrix[i,j]
-                    matrix[i, j] = reactants[i]; 
-                }
+                // add the element count to the matrix
+                matrix[i,i] = reactants[i];
             }
-            return elementsVector;
+            int productCount = products.Count;
+            for (int i = 0; i < productCount; i++)
+            {
+                // add the product elements to the negative side of the matrix
+                matrix[i, productCount] = products[i] * -1;
+            }
+            // add the setter row to the matrix at the last row == matrixDimension
+            matrix[matrixDimension - 1, 0] = 1.0;
+            // done building the matrix, begin equation solution
+            // define the right hand side of the equation
+            MathNet.Numerics.LinearAlgebra.Vector<double> rightHandSide
+                = MathNet.Numerics.LinearAlgebra.Vector<double>.Build.Dense(matrixDimension);
+            rightHandSide[matrixDimension - 1] = 1.0;
+            // solution
+            MathNet.Numerics.LinearAlgebra.Vector<double> solution = matrix.Solve(rightHandSide);
+            return solution;
         }
 
         //public static double DeltaHf(ICollection<ChemicalFormula> chemFormula)

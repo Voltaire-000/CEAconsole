@@ -28,6 +28,56 @@ using MathNet.Numerics.LinearAlgebra.Storage;
 namespace TestCEAconsole
 {
     [TestClass]
+    public class GeneAlgo
+    {
+        [TestMethod]
+        public void TestSimpleGeneAlgo()
+        {
+            List<double> gibbsList = new();
+            List<double> coeffA = new();
+            List<double> coeffB = new();
+            List<GibbsMin> gibbsMinList = new();
+            double A = 18.0;
+            double B = 12.0;
+
+            // ax + bx must equal 1.2
+            double ax = 0.1;
+            double bx = 0.1;
+            double minGibbs = 0.0;
+            Random rnd = new Random();
+
+            for (int i = 0; i < 1000; i++)
+            {
+                ax = rnd.NextDouble();
+                bx = rnd.NextDouble();
+                ax = ax.Round(1);
+                bx = bx.Round(1);
+
+                double elementSum = ax + bx;
+                if (elementSum == 1.2)
+                {
+                    minGibbs = (ax * A) + (bx * B);
+                    gibbsList.Add(minGibbs);
+                    coeffA.Add(ax);
+                    coeffB.Add(bx);
+                    gibbsMinList.Add(new GibbsMin
+                    {
+                        Gibbs = minGibbs,
+                        CoeffA = ax,
+                        CoeffB = bx
+                    });
+
+                    
+                }
+
+            }
+            var sortedList = gibbsMinList.OrderBy(x => x.Gibbs);
+
+            Assert.AreEqual(99, 0);
+        }
+    }
+
+    [TestClass]
     public class TestClassDataRecord
     {
         private static readonly string NASAsearchString = "CH4";
@@ -35,10 +85,10 @@ namespace TestCEAconsole
         private static readonly double delta = 0.005;
         private static readonly ICollection<Specie> nasaP = InputServices.GetModNASA("Data/NASA.json");
         private static readonly IEnumerable<Specie> Specie = from specie in nasaP
-                                                                      where specie.Name == NASAsearchString
-                                                                      select specie;
+                                                             where specie.Name == NASAsearchString
+                                                             select specie;
         private static readonly TemperatureList TemperatureList = InputServices.GetTempSchedule("Data/TempSchedule.json");
-        private Collection<double> TemperatureDoubles = new(); 
+        private Collection<double> TemperatureDoubles = new();
 
 
         [TestMethod]
@@ -615,7 +665,7 @@ namespace TestCEAconsole
             // add the values to the matrix
             matrix[0, 0] = 1.0; matrix[0, 1] = 0.0; matrix[0, 2] = -1.0;
             matrix[1, 0] = 0.0; matrix[1, 1] = 2.0; matrix[1, 2] = -4.0;
-            matrix[2, 0] = 1.0; matrix[2,1] = 0.0; matrix[2, 2] = 0.0;
+            matrix[2, 0] = 1.0; matrix[2, 1] = 0.0; matrix[2, 2] = 0.0;
             // create the rightHand side
             // auto size this
             //Vector<double> rightHandside = Vector<double>.Build.Dense(new[]
@@ -652,7 +702,7 @@ namespace TestCEAconsole
             int[] IA_rowPointers = new int[numRows];
             Vector<double> IA = Vector.Build.Dense(numRows + 2);
             Vector<double> JA = Vector.Build.Dense(NS);
-            
+
 
             // Create the JA vector ( this is the column that holds the value for the number of atoms in the molecule = number of reactants + number of products
             // this is set manully here but will get count from input. TODO
@@ -697,7 +747,7 @@ namespace TestCEAconsole
                 int columnIndex = JAcolumnCount;
                 nonZeroValues[productCount] = item.NumberOfAtoms * -1;
                 // add the product element to the spm matrix, column # = last column in spm, = NS
-                spm[rowWhereFound, NS-1] = item.NumberOfAtoms * -1;
+                spm[rowWhereFound, NS - 1] = item.NumberOfAtoms * -1;
 
                 productCount++;
                 IA_rowPointers[0] = 0;
@@ -707,7 +757,7 @@ namespace TestCEAconsole
 
             nonZeroValues[4] = 1.0;
             // Set the last row in the spm, column 0 = 1.0
-            spm[100,7] = 1.0;
+            spm[100, 7] = 1.0;
             // nonZeroValues is done here
 
             IEnumerable<(int, Vector<double>)> m_enumeratedRows = spm.EnumerateRowsIndexed();
@@ -724,7 +774,7 @@ namespace TestCEAconsole
                 foreach (var item in m_rowVector)
                 {
                     var m_compare = item.CompareTo(0.0);
-                    if (m_compare !=0)
+                    if (m_compare != 0)
                     {
                         // increment Row_non_zero_values
                         Row_non_zero_values++;
@@ -740,7 +790,7 @@ namespace TestCEAconsole
             }
             double[] IA_rowpointers = IA.ToArray<double>();
             int[] JA_columnIndices = new int[JA.Count];
-             //= JA.ToArray<double>();
+            //= JA.ToArray<double>();
             for (int i = 0; i < JA.Count; i++)
             {
                 int e = ((int)JA[i]);
@@ -801,9 +851,9 @@ namespace TestCEAconsole
             // starts with Zero always.
             int[] IA_rowPointers = new int[] { 0, 2, 4, 5 };
             int[] JA_columnIndex = new int[] { 0, 2, 1, 2, 0 };
-            Matrix<double> A = Matrix.Build.SparseFromCompressedSparseRowFormat(3,3, nonZeroValues.Length, IA_rowPointers, JA_columnIndex, nonZeroValues);
+            Matrix<double> A = Matrix.Build.SparseFromCompressedSparseRowFormat(3, 3, nonZeroValues.Length, IA_rowPointers, JA_columnIndex, nonZeroValues);
             // define the right hand side = 
-            Vector<double> b = Vector.Build.Dense(new double[] {0.0, 0.0, 1.0 });
+            Vector<double> b = Vector.Build.Dense(new double[] { 0.0, 0.0, 1.0 });
             // solution
             Vector<double> solution = A.Solve(b);
             Assert.AreEqual(2, solution[1]);
@@ -826,7 +876,7 @@ namespace TestCEAconsole
             // always starts with zero then add the number of values in the row to the previous value
             int[] IA_rowpointers = new int[] { 0, 2, 4, 4, 5 };
             // column where value found
-            int[] JA_columnIndex = new int[] {0, 3, 1, 3, 0 };
+            int[] JA_columnIndex = new int[] { 0, 3, 1, 3, 0 };
 
             Matrix<double> A_x = Matrix.Build.SparseFromCompressedSparseRowFormat(4, 4, nonZeroValues.Length, IA_rowpointers, JA_columnIndex, nonZeroValues);
 
@@ -1120,10 +1170,11 @@ namespace TestCEAconsole
 
             spm[0, 0] = 1.0; /*spm[0, 1] = 0.0;*/              spm[0, 6] = -1.0; /*spm[1, 3] =  0.0;*/
             spm[1, 0] = 4.0; /*spm[1, 1] = 0.0;*/              /*spm[1, 2] =  0.0;*/ spm[1, 7] = -2.0;
-            /*spm[2, 0] = 0.0;*/ spm[2, 1] = 2.0; spm[2, 6] = -2.0; spm[2, 7] = -1.0;
+            /*spm[2, 0] = 0.0;*/
+            spm[2, 1] = 2.0; spm[2, 6] = -2.0; spm[2, 7] = -1.0;
             spm[39, 7] = 1.0;
             /*spm[5, 0] = 1.0;*/ /*spm[5, 1] = 0.0;                  spm[5, 3] = 0.0;  spm[5, 4] = 0.0;*/ // set compound counts
-                                                                                                      // empty column
+                                                                                                          // empty column
             int non_zero = spm.NonZerosCount;
             int columnCount = matrix.ColumnCount;
 
