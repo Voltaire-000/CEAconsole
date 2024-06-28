@@ -34,37 +34,49 @@ namespace TestCEAconsole
         public void TestSimpleGeneAlgo()
         {
             List<double> gibbsList = new();
-            List<double> coeffA = new();
-            List<double> coeffB = new();
+            //List<double> coeffA = new();
+            //List<double> coeffB = new();
+            //List<double>
             List<GibbsMin> gibbsMinList = new();
-            double A = 18.0;
-            double B = 12.0;
+            double A = 8.0;
+            double B = 16.0;
+            double C = 9.0;
+            double D = 27.0;
 
             // ax + bx must equal 1.2
             double ax = 0.1;
             double bx = 0.1;
+            double cx = 0.1;
+            double dx = 0.1;
             double minGibbs = 0.0;
             Random rnd = new Random();
 
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 3000; i++)
             {
                 ax = rnd.NextDouble();
                 bx = rnd.NextDouble();
+                cx = rnd.NextDouble();
+                dx = rnd.NextDouble();
+
                 ax = ax.Round(1);
                 bx = bx.Round(1);
+                cx = cx.Round(1);
+                dx = dx.Round(1);
 
-                double elementSum = ax + bx;
+                double elementSum = ax + bx + cx + dx;
                 if (elementSum == 1.2)
                 {
-                    minGibbs = (ax * A) + (bx * B);
+                    minGibbs = (ax * A) + (bx * B) + (cx * C) + (dx * D);
                     gibbsList.Add(minGibbs);
-                    coeffA.Add(ax);
-                    coeffB.Add(bx);
+                    //coeffA.Add(ax);
+                    //coeffB.Add(bx);
                     gibbsMinList.Add(new GibbsMin
                     {
                         Gibbs = minGibbs,
                         CoeffA = ax,
-                        CoeffB = bx
+                        CoeffB = bx,
+                        CoeffC = cx,
+                        CoeffD = dx
                     });
 
                     
