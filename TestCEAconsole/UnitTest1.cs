@@ -33,6 +33,7 @@ namespace TestCEAconsole
         [TestMethod]
         public void TestSimpleGeneAlgo()
         {
+            // TODO set element count for each specie
             List<double> gibbsList = new();
             //List<double> coeffA = new();
             //List<double> coeffB = new();
@@ -51,7 +52,7 @@ namespace TestCEAconsole
             double minGibbs = 0.0;
             Random rnd = new Random();
 
-            for (int i = 0; i < 3000; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 ax = rnd.NextDouble();
                 bx = rnd.NextDouble();
