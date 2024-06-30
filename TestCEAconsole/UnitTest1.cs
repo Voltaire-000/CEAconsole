@@ -28,6 +28,47 @@ using MathNet.Numerics.LinearAlgebra.Storage;
 namespace TestCEAconsole
 {
     [TestClass]
+    public class TestTestEquations
+    {
+        [TestMethod]
+        public void TestLambda()
+        {
+            double[] test = new double[3];
+            test[0] = 1;
+            test[1] = 2;
+            test[2] = 3;
+
+            double T = 298.15;
+            double T2 = 398.15;
+
+            double lower = 200.0;
+            double upper = 300.0;
+
+            // n = pg 4 (2.2)
+            double n = 2;
+            double nj = 3;
+
+            double[] lambda = new double[3];
+            double lx0 = 5 * Math.Abs(Math.Log(T - T2));
+            lambda[0] = lx0;
+            double lx1 = 5 * Math.Abs(Math.Log(n));
+            lambda[1] = lx1;
+            double lx2 = Math.Abs(Math.Log(3));
+            lambda[2] = lx2;
+
+            double lambda_1Denom = lambda.Max();
+            double lambda_1 = 2 / lambda_1Denom;
+            double max = test.Max();
+
+
+            int mx = 99;
+
+            Assert.AreEqual(99, 0);
+
+        }
+    }
+
+    [TestClass]
     public class GeneAlgo
     {
         [TestMethod]

@@ -72,4 +72,8 @@
     <PackageReference Include="ScottPlot" Version="5.0.21" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ThermoChemistry\Optimizers\" />
+  </ItemGroup>
+
 </Project>
