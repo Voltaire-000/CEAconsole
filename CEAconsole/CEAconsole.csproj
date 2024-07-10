@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\GibbsMin.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Data\H2AirInp.json" />
     <None Remove="Data\moleculeJson.json" />
     <None Remove="Data\NASA.json" />
@@ -66,6 +70,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Accord" Version="3.8.2-alpha" />
+    <PackageReference Include="Accord.Math" Version="3.8.2-alpha" />
     <PackageReference Include="MathNet.Numerics" Version="6.0.0-beta1" />
     <PackageReference Include="MathNet.Symbolics" Version="0.25.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

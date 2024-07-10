@@ -1,32 +1,130 @@
+using Accord.Math;
+using Accord.Math.Optimization;
 using CEAconsole.Models;
 using CEAconsole.Services;
+using CEAconsole.ThermoChemistry;
 using CEAconsole.ViewModels;
+using GibbsMin;
+using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
-using MathNet.Numerics.LinearAlgebra.Factorization;
-using MathNet.Numerics.LinearAlgebra.Solvers;
-using MathNet.Numerics.LinearAlgebra.Double.Solvers;
-using Microsoft.VisualStudio.TestPlatform.CrossPlatEngine;
+using MathNet.Numerics.Optimization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.ObjectModel;
-using MathNet.Numerics.Providers.SparseSolver;
-using MathNet.Symbolics;
-using System.Collections.Generic;
-using MathNet.Numerics.Distributions;
-using System.Xml.Linq;
-using ScottPlot.Colormaps;
 using System.Text.RegularExpressions;
-using CEAconsole.ThermoChemistry;
-using CEAconsole.ThermoChemistry.Utilities;
-using MathNet.Numerics;
-using System.Globalization;
-using MathNet.Numerics.Optimization;
-using ScottPlot.Statistics;
-using System.Linq.Expressions;
-using MathNet.Numerics.LinearAlgebra.Storage;
+using Matrix = MathNet.Numerics.LinearAlgebra.Double.Matrix;
+using Vector = MathNet.Numerics.LinearAlgebra.Double.Vector;
 
 namespace TestCEAconsole
 {
+    [TestClass]
+    public class TestAccord
+    {
+        private static readonly string NASAsearchString = "CH4";
+        private static readonly double referenceTemp = 298.15;
+        private static readonly double delta = 0.005;
+
+        private static readonly ICollection<DTO_Specie> nasaPolynomials = InputServices.GetNASA("Data/NASApolynomials.json");
+        //private static readonly ICollection<Specie> ModNASA = InputServices.GetModNASA("Data/ModNASAspecies.json");
+        //private static readonly IEnumerable<Specie> m_specie = from item in ModNASA
+        //                                                       where item.Name == NASAsearchString
+        //                                                       select item;
+        private static readonly IEnumerable<DTO_Specie> NASA_specie = from NASAspecie in nasaPolynomials
+                                                                      where NASAspecie.Name == NASAsearchString
+                                                                      select NASAspecie;
+        private static ICollection<ChemicalFormula> NASAchemicalFormula = NASA_specie.First().Molecule.ChemicalFormula;
+        private static readonly List<double> NASAtemperatureRange = NASA_specie.First().DataRecords.ElementAt(0).TemperatureRange;
+        private static readonly List<double> NASACoefficients = NASA_specie.First().DataRecords.ElementAt(0).Coefficients;
+        private static readonly List<double> NASAIntegrationConstants = NASA_specie.First().DataRecords.ElementAt(0).IntegrationConstants;
+        private static readonly List<double> NASAExponents = NASA_specie.First().DataRecords.ElementAt(0).TExponents;
+
+        private static readonly string refSearchString = "O2";
+        private static readonly ICollection<DTO_Specie> refElementPolynomials = InputServices.GetNASA("Data/refElements.json");
+        private static readonly IEnumerable<DTO_Specie> O2_ref_specie = from refSpecie in refElementPolynomials
+                                                                        where refSpecie.Name == refSearchString
+                                                                        select refSpecie;
+
+        private static ICollection<ChemicalFormula> refChemicalFormula = O2_ref_specie.First().Molecule.ChemicalFormula;
+        private static readonly List<double> refTemperatureRange = O2_ref_specie.First().DataRecords.ElementAt(0).TemperatureRange;
+        private static readonly List<double> refCoefficients = O2_ref_specie.First().DataRecords.ElementAt(0).Coefficients;
+        private static readonly List<double> refIntegrationConstants = O2_ref_specie.First().DataRecords.ElementAt(0).IntegrationConstants;
+        private static readonly List<double> refExponents = O2_ref_specie.First().DataRecords.ElementAt(0).TExponents;
+
+        private static readonly ICollection<CPHSRef> referenceCPHS = InputServices.GetDefaultCPHS("Data/Ref_Defaults.json");
+        private static readonly IEnumerable<CPHSRef> m_referenceSpecie = (IEnumerable<CPHSRef>)(from m_specie in referenceCPHS
+                                                                                                where m_specie.Species_Name == NASAsearchString
+                                                                                                select m_specie);
+
+        [TestMethod]
+        public void TestAccordBasicGibbsMin()
+        {
+            GibbsMinimizer gibbs = new GibbsMinimizer();
+            NonlinearObjectiveFunction objFunc = gibbs.CreateObjFunc();
+            List<NonlinearConstraint> constraints = gibbs.CreateConstraints();
+            AugmentedLagrangian solver = new AugmentedLagrangian(objFunc, constraints);
+            // set initial guess
+            double[] initialGuess = [0.05, 0.05];
+            solver.Solution = initialGuess;
+            // solve the problem
+            bool success = solver.Minimize();
+            var solution = solver.Solution;
+            var expectedOne = 1.000;
+            var expectedTwo = 2.000;
+            var tolerance = 0.001;
+            double[] m_expected = [1.000, 2.000];
+
+            Assert.AreEqual(expected: expectedOne, solution[0], tolerance);
+            Assert.AreEqual(expected: expectedTwo, solution[1], tolerance);
+            Assert.AreEqual(expected: m_expected[0], solution[0], tolerance);
+        }
+    }
+
+    [TestClass]
+    public class TestLinq
+    {
+        private static readonly string NASAsearchString = "CH4";
+        private static readonly double referenceTemp = 298.15;
+        private static readonly double delta = 0.005;
+
+        private static readonly ICollection<Specie> nasaP = InputServices.GetModNASA("Data/NASA.json");
+
+        private static readonly IEnumerable<Specie> refElements = from item in nasaP
+                                          where item.HeatOfFormation == 0.0
+                                          select item;
+
+        private static readonly IEnumerable<Specie> Specie = from specie in nasaP
+                                                             where specie.Name == NASAsearchString
+                                                             select specie;
+        private static readonly TemperatureList TemperatureList = InputServices.GetTempSchedule("Data/TempSchedule.json");
+        private Collection<double> TemperatureDoubles = new();
+
+        [TestMethod]
+        public void TestNewLinQforDeltaHrxn()
+        {
+
+            // changed to a list
+            //double elementCount = Specie.ElementAt(0).Molecule.ChemicalFormula.Count;
+            List<int> formulaElements = Specie.Select(selector: m => m.Molecule.ChemicalFormula.Count).ToList();
+            for (int i = 0; i < formulaElements.Count; i++)
+            {
+                var mx_element = refElements.Where(x => x.Molecule.ChemicalFormula.ElementAt(0).Symbol == Specie.ElementAt(0).Molecule.ChemicalFormula.ElementAt(i).Symbol);
+                var m_formulaList = refElements.Where(x => x.Molecule.ChemicalFormula.ElementAt(0).Symbol == "C");
+
+
+
+                //string element_symbol = m_element.First().Molecule.ChemicalFormula.ElementAt(0).Symbol;
+                var kl = 99;
+                //Reactants.Add(element_symbol, m_element.First().Molecule.ChemicalFormula.ElementAt(0));
+            }
+
+
+            var mx = 99;
+
+            Assert.AreEqual(99, 0);
+
+        }
+    }
+
     [TestClass]
     public class TestTestEquations
     {
@@ -65,69 +163,6 @@ namespace TestCEAconsole
 
             Assert.AreEqual(99, 0);
 
-        }
-    }
-
-    [TestClass]
-    public class GeneAlgo
-    {
-        [TestMethod]
-        public void TestSimpleGeneAlgo()
-        {
-            // TODO set element count for each specie
-            List<double> gibbsList = new();
-            //List<double> coeffA = new();
-            //List<double> coeffB = new();
-            //List<double>
-            List<GibbsMin> gibbsMinList = new();
-            double A = 8.0;
-            double B = 16.0;
-            double C = 9.0;
-            double D = 27.0;
-
-            // ax + bx must equal 1.2
-            double ax = 0.1;
-            double bx = 0.1;
-            double cx = 0.1;
-            double dx = 0.1;
-            double minGibbs = 0.0;
-            Random rnd = new Random();
-
-            for (int i = 0; i < 1000; i++)
-            {
-                ax = rnd.NextDouble();
-                bx = rnd.NextDouble();
-                cx = rnd.NextDouble();
-                dx = rnd.NextDouble();
-
-                ax = ax.Round(1);
-                bx = bx.Round(1);
-                cx = cx.Round(1);
-                dx = dx.Round(1);
-
-                double elementSum = ax + bx + cx + dx;
-                if (elementSum == 1.2)
-                {
-                    minGibbs = (ax * A) + (bx * B) + (cx * C) + (dx * D);
-                    gibbsList.Add(minGibbs);
-                    //coeffA.Add(ax);
-                    //coeffB.Add(bx);
-                    gibbsMinList.Add(new GibbsMin
-                    {
-                        Gibbs = minGibbs,
-                        CoeffA = ax,
-                        CoeffB = bx,
-                        CoeffC = cx,
-                        CoeffD = dx
-                    });
-
-                    
-                }
-
-            }
-            var sortedList = gibbsMinList.OrderBy(x => x.Gibbs);
-
-            Assert.AreEqual(99, 0);
         }
     }
 
