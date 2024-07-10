@@ -58,11 +58,18 @@ namespace TestCEAconsole
         public void TestGibbsWithParams()
         {
             double[] gibbsProducts = [-394.374, -255.333];
-            var gibbsRatios = GibbsMinimizer.GibbsMin(gibbsProducts);
-            var expectedOne = 1.000;
-            var expectedTwo = 2.000;
+            double[] gibbsRatios = GibbsMinimizer.GibbsMin(gibbsProducts);
+            double m_sum = gibbsRatios.Sum();
+            double[] m_fractions = new double[gibbsRatios.Length];
+            for (int i = 0; i < gibbsRatios.Length; i++)
+            {
+                m_fractions[i] = gibbsRatios[i] / m_sum;
+            }
+
+            var expectedOne = 0.333;
+            var expectedTwo = 0.666;
             var tolerance = 0.001;
-            double[] m_expected = [1.000, 2.000];
+            double[] m_expected = [0.333, 0.666];
 
             Assert.AreEqual(expected: expectedOne, gibbsRatios[0], tolerance);
             Assert.AreEqual(expected: expectedTwo, gibbsRatios[1], tolerance);

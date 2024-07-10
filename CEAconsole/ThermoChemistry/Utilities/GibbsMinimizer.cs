@@ -99,34 +99,52 @@ namespace CEAconsole.ThermoChemistry.Utilities
 
         public static double[] GibbsMin(double[] ProductsDeltaGibbsRxn)
         {
-            int numberOfVariables = 2;
-            double G_CO2 = ProductsDeltaGibbsRxn[0];
-            double G_H2O = ProductsDeltaGibbsRxn[1];
+            int numberOfVariables = ProductsDeltaGibbsRxn.Length;
 
             NonlinearObjectiveFunction objFunction = CreateObjFunction(numberOfVariables, ObjectiveFunction, Gradient);
 
             double[] Gradient(double[] x)
             {
-                return new double[]
+                if (x.Length != ProductsDeltaGibbsRxn.Length)
                 {
-                    // @G/@x, @G/@y
-                    G_CO2,
-                    G_H2O
-                };
+                    throw new ArgumentException("Gradiest function : Input array lengths do not match");
+                }
+                double[] gradient = new double[x.Length];
+                for (int i = 0; i < x.Length; i++)
+                {
+                    gradient[i] = ProductsDeltaGibbsRxn[i];
+                }
+                return gradient;
             }
 
             double ObjectiveFunction(double[] x)
             {
-                double xCO2 = x[0];
-                double xH2O = x[1];
-                return xCO2 * G_CO2 + xH2O * G_H2O;
+                try
+                {
+                    if (x.Length != ProductsDeltaGibbsRxn.Length)
+                    {
+                        throw new ArgumentException("ObjectiveFunction : Input array lengths do not match");
+                    }
+                    double sum = 0;
+                    for (int i = 0; i < x.Length; i++)
+                    {
+                        sum += x[i] * (i == 0 ? ProductsDeltaGibbsRxn[i] : ProductsDeltaGibbsRxn[i]);
+                    }
+
+                    return sum;
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                    return double.NaN;
+                }
             }
 
-            var constraints = CreateConstraints();
+            List<NonlinearConstraint> constraints = CreateConstraints();
 
             List<NonlinearConstraint> CreateConstraints()
             {
-                var constraints = new List<NonlinearConstraint>();
+                List<NonlinearConstraint> constraints = new List<NonlinearConstraint>();
                 // Carbon Balance
                 constraints.Add(new NonlinearConstraint
                     (
@@ -175,8 +193,14 @@ namespace CEAconsole.ThermoChemistry.Utilities
             solver.Solution = initialGuess;
             // solve the problem
             bool success = solver.Minimize();
-            var solution = solver.Solution;
-            return solution;
+            double[] solution = solver.Solution;
+            double m_sum = solution.Sum();
+            double[] m_fractions = new double[solution.Length];
+            for (int i = 0; i < solution.Length; i++)
+            {
+                m_fractions[i] = solution[i]/ m_sum;
+            }
+            return m_fractions;
         }
     }
 }
