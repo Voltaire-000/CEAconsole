@@ -3,9 +3,8 @@ using Accord.Math.Optimization;
 using CEAconsole.Models;
 using CEAconsole.Services;
 using CEAconsole.ThermoChemistry;
+using CEAconsole.ThermoChemistry.Utilities;
 using CEAconsole.ViewModels;
-using GibbsMin;
-using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.Optimization;
@@ -56,26 +55,45 @@ namespace TestCEAconsole
                                                                                                 select m_specie);
 
         [TestMethod]
-        public void TestAccordBasicGibbsMin()
+        public void TestGibbsWithParams()
         {
-            GibbsMinimizer gibbs = new GibbsMinimizer();
-            NonlinearObjectiveFunction objFunc = gibbs.CreateObjFunc();
-            List<NonlinearConstraint> constraints = gibbs.CreateConstraints();
-            AugmentedLagrangian solver = new AugmentedLagrangian(objFunc, constraints);
-            // set initial guess
-            double[] initialGuess = [0.05, 0.05];
-            solver.Solution = initialGuess;
-            // solve the problem
-            bool success = solver.Minimize();
-            var solution = solver.Solution;
+            double[] gibbsProducts = [-394.374, -255.333];
+            var gibbsRatios = GibbsMinimizer.GibbsMin(gibbsProducts);
             var expectedOne = 1.000;
             var expectedTwo = 2.000;
             var tolerance = 0.001;
             double[] m_expected = [1.000, 2.000];
 
-            Assert.AreEqual(expected: expectedOne, solution[0], tolerance);
-            Assert.AreEqual(expected: expectedTwo, solution[1], tolerance);
-            Assert.AreEqual(expected: m_expected[0], solution[0], tolerance);
+            Assert.AreEqual(expected: expectedOne, gibbsRatios[0], tolerance);
+            Assert.AreEqual(expected: expectedTwo, gibbsRatios[1], tolerance);
+            Assert.AreEqual(expected: m_expected[0], gibbsRatios[0], tolerance);
+        }
+        [TestMethod]
+        public void TestGibbsMinimizerCleanUp()
+        {
+            var gibbsRatios = GibbsMinimizer.GibbsMinimizerInitial();
+
+            var expectedOne = 1.000;
+            var expectedTwo = 2.000;
+            var tolerance = 0.001;
+            double[] m_expected = [1.000, 2.000];
+
+            Assert.AreEqual(expected: expectedOne, gibbsRatios[0], tolerance);
+            Assert.AreEqual(expected: expectedTwo, gibbsRatios[1], tolerance);
+            Assert.AreEqual(expected: m_expected[0], gibbsRatios[0], tolerance);
+        }
+        [TestMethod]
+        public void TestAccordBasicGibbsMin()
+        {
+            var gibbsRatios = GibbsMinimizer.GibbsMinimizerInitial();
+            var expectedOne = 1.000;
+            var expectedTwo = 2.000;
+            var tolerance = 0.001;
+            double[] m_expected = [1.000, 2.000];
+
+            Assert.AreEqual(expected: expectedOne, gibbsRatios[0], tolerance);
+            Assert.AreEqual(expected: expectedTwo, gibbsRatios[1], tolerance);
+            Assert.AreEqual(expected: m_expected[0], gibbsRatios[0], tolerance);
         }
     }
 
