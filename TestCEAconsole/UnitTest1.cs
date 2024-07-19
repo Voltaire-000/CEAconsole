@@ -19,11 +19,55 @@ namespace TestCEAconsole
     [TestClass]
     public class TestTransportProperties
     {
+        private static readonly string TransportSearchString = "CO2";
+        private static readonly double temperature = 300.0;
+        private static readonly double delta = 0.005;
 
+        private static readonly ICollection<TransportProperty> transportProperties = InputServices.GetTransportProperties("Data/shortTrans.json");
+        private static readonly ICollection<TransportProperty> bigTransport = InputServices.GetTransportProperties("Data/transINP.json");
+        private static readonly IEnumerable<TransportProperty> transSpecie = from item in transportProperties
+                                                                             where item.Name.Any(n => n.Equals(TransportSearchString, StringComparison.OrdinalIgnoreCase))
+                                                                             select item;
+
+        [TestMethod]
+        public void TestTransportservice()
+        {
+            ICollection<TransportProperty> transportProperties = InputServices.GetTransportProperties("Data/shortTrans.json");
+            Assert.IsNotNull(transportProperties);
+        }
         [TestMethod]
         public void TestViscosity()
         {
+            IEnumerable<int> cnt = transSpecie.Select(c => c.DataRecords.Count);
+            // get by temperature again
+            for (int i = 0; i < cnt.ElementAt(0); i++)
+            {
+                // get the element at i count
+                int Icnt = transSpecie.ElementAt(i).DataRecords.Count;
+                if (transSpecie.ElementAt(i).DataRecords.ElementAt(i).ViscosityTemperatureRange != null)
+                {
+                    List<double> interval = transSpecie.First().DataRecords.ElementAt(i).ViscosityTemperatureRange;
+                    double min = interval.Min();
+                    double max = interval.Max();
+                    if (temperature >= min && temperature <= max)
+                    {
+                        var record = transSpecie.First().DataRecords.ElementAt(i);
+                        var v_coeff = record.ViscosityCoefficients;
+                        var t_coeff = record.ThermalConductivityCoefficients;
+                    }
+                }
+            }
 
+            var prop200 = transportProperties.First().DataRecords.ElementAt(0).ViscosityCoefficients;
+
+            var tranItem = transSpecie.First().DataRecords.ElementAt(0).ViscosityCoefficients;
+
+            //var records200 = tranItem.DataRecords.Contains(n => n.ViscosityTemperatureRange >= 200.0 && n.ViscosityTemperatureRange <= 1000.0 && n.ConductivityTemperatureRange >= 200.0 && n.ConductivityTemperatureRange <= 1000.0);
+
+
+            int mx = 99;
+
+            Assert.AreEqual(99, 0);
         }
     }
     [TestClass]
@@ -154,8 +198,8 @@ namespace TestCEAconsole
         private static readonly ICollection<Specie> nasaP = InputServices.GetModNASA("Data/NASA.json");
 
         private static readonly IEnumerable<Specie> refElements = from item in nasaP
-                                          where item.HeatOfFormation == 0.0
-                                          select item;
+                                                                  where item.HeatOfFormation == 0.0
+                                                                  select item;
 
         private static readonly IEnumerable<Specie> Specie = from specie in nasaP
                                                              where specie.Name == NASAsearchString

@@ -98,11 +98,12 @@ namespace CEAconsole.Services
         //    return reactantCollection;
         //}
 
-        //public static string GetTransportProperties(string transportPropertiesJson)
-        //{
-        //    string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, transportPropertiesJson);
-        //    string json = File.ReadAllText(path);
-        //    return json;
-        //}
+        public static ICollection<TransportProperty> GetTransportProperties(string path)
+        {
+            string m_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);
+            string json = File.ReadAllText(m_path);
+            var transportsCollection = JsonConvert.DeserializeObject<ICollection<TransportProperty>>(json);
+            return transportsCollection;
+        }
     }
 }
