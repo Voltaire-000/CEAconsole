@@ -17,6 +17,25 @@ using Vector = MathNet.Numerics.LinearAlgebra.Double.Vector;
 namespace TestCEAconsole
 {
     [TestClass]
+    public class TestTransportProperties
+    {
+
+        [TestMethod]
+        public void TestViscosity()
+        {
+
+        }
+    }
+    [TestClass]
+    public class TestThermoServiceClass
+    {
+        [TestMethod]
+        public void TestThermoInterface()
+        {
+
+        }
+    }
+    [TestClass]
     public class TestAccord
     {
         private static readonly string NASAsearchString = "CH4";
@@ -53,7 +72,27 @@ namespace TestCEAconsole
         private static readonly IEnumerable<CPHSRef> m_referenceSpecie = (IEnumerable<CPHSRef>)(from m_specie in referenceCPHS
                                                                                                 where m_specie.Species_Name == NASAsearchString
                                                                                                 select m_specie);
+        [TestMethod]
+        public void TestElementConstraintsMod()
+        {
+            double[] gibbsProducts = [-394.374, -255.333];
+            double[] gibbsRatios = GibbsMinimizer.GibbsMin(gibbsProducts);
+            double m_sum = gibbsRatios.Sum();
+            double[] m_fractions = new double[gibbsRatios.Length];
+            for (int i = 0; i < gibbsRatios.Length; i++)
+            {
+                m_fractions[i] = gibbsRatios[i] / m_sum;
+            }
 
+            var expectedOne = 0.333;
+            var expectedTwo = 0.666;
+            var tolerance = 0.001;
+            double[] m_expected = [0.333, 0.666];
+
+            Assert.AreEqual(expected: expectedOne, gibbsRatios[0], tolerance);
+            Assert.AreEqual(expected: expectedTwo, gibbsRatios[1], tolerance);
+            Assert.AreEqual(expected: m_expected[0], gibbsRatios[0], tolerance);
+        }
         [TestMethod]
         public void TestGibbsWithParams()
         {
@@ -89,6 +128,7 @@ namespace TestCEAconsole
             Assert.AreEqual(expected: expectedTwo, gibbsRatios[1], tolerance);
             Assert.AreEqual(expected: m_expected[0], gibbsRatios[0], tolerance);
         }
+
         [TestMethod]
         public void TestAccordBasicGibbsMin()
         {
@@ -767,6 +807,7 @@ namespace TestCEAconsole
 
             Assert.AreEqual(99, 0);
         }
+
         [TestMethod]
         public void TestCalculatedMatrixSizeFromElements()
         {

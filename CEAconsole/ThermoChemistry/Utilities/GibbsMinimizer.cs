@@ -97,6 +97,38 @@ namespace CEAconsole.ThermoChemistry.Utilities
             return solution;
         }
 
+        public static double[] GibbsMin(IEnumerable<Specie> Fuels, IEnumerable<Specie> Oxidizers, IEnumerable<Specie> Products)
+        {
+            int numberOfVariables = Products.Count();
+            // Calculate the deltaGibbsRxn foreach product
+            ThermoChemistry.ThermoDynamics.DeltaGibbsrxn(298.15, molecule)
+            NonlinearObjectiveFunction objFunction = CreateObjFunction(numberOfVariables, ObjectiveFunction, Gradient);
+
+            double ObjectiveFunction(double[] x)
+            {
+                try
+                {
+                    if (x.Length != ProductsDeltaGibbsRxn.Length)
+                    {
+                        throw new ArgumentException("ObjectiveFunction : Input array lengths do not match");
+                    }
+                    double sum = 0;
+                    for (int i = 0; i < x.Length; i++)
+                    {
+                        sum += x[i] * (i == 0 ? ProductsDeltaGibbsRxn[i] : ProductsDeltaGibbsRxn[i]);
+                    }
+
+                    return sum;
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                    return double.NaN;
+                }
+            }
+            return new double[1];
+;        }
+
         public static double[] GibbsMin(double[] ProductsDeltaGibbsRxn)
         {
             int numberOfVariables = ProductsDeltaGibbsRxn.Length;

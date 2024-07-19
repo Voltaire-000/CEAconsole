@@ -47,6 +47,20 @@ namespace CEAconsole.ThermoChemistry
             return ln;
         }
 
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Temperature"></param>
+        /// <param name="DeltaHrxn"></param>
+        /// <param name="DeltaSrxn"></param>
+        /// <returns></returns>
+        public static double DeltaGibbsRxn(double Temperature, double DeltaHrxn, double DeltaSrxn)
+        {
+            return DeltaHrxn - (Temperature * (DeltaSrxn / 1000));
+        }
+
         public static double DeltaGibbsrxn(double ReferenceTemperature, double Temperature, IEnumerable<DTO_Specie> SpecieProperties, IEnumerable<DTO_Specie> ReferenceElements)
         {
             // TODO balance Equation
