@@ -10,8 +10,9 @@ namespace CEAconsole.Models
 {
     public class TransportProperty
     {
-        public required ICollection<string> Name { get; set; }
-        public required string Description { get; set; }
+        public string SpeciesName { get; set; }
+        public string SecondSpeciesName { get; set; }
+        public required string Comments { get; set; }
         public required ICollection<TransportDataRecord> DataRecords { get; set; }
     }
 }

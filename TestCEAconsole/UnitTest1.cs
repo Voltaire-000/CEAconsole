@@ -23,8 +23,8 @@ namespace TestCEAconsole
         private static readonly double temperature = 300.0;
         private static readonly double delta = 0.005;
 
-        private static readonly ICollection<TransportProperty> transportProperties = InputServices.GetTransportProperties("Data/shortTrans.json");
-        private static readonly ICollection<TransportProperty> bigTransport = InputServices.GetTransportProperties("Data/transINP.json");
+        private static readonly ICollection<TransportProperty> transportProperties = InputServices.GetTransportProperties("Data/MaxTransport.json");
+        //private static readonly ICollection<TransportProperty> bigTransport = InputServices.GetTransportProperties("Data/transINP.json");
         private static readonly IEnumerable<TransportProperty> transSpecie = from item in transportProperties
                                                                              where item.Name.Any(n => n.Equals(TransportSearchString, StringComparison.OrdinalIgnoreCase))
                                                                              select item;
